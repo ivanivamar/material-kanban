@@ -5,7 +5,7 @@ export interface Task {
     description: string;
     checkboxes: string[];
     urgency: Urgency;
-    creationDate: Date;
+    creationDate: any;
 }
 
 export interface Column {

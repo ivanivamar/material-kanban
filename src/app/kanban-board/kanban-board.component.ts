@@ -1,4 +1,5 @@
-import { ProjectWithId } from '../interfaces/Kanban.interfaces';
+import { Urgency } from './../interfaces/Kanban.interfaces';
+import { ProjectWithId, Task } from '../interfaces/Kanban.interfaces';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -28,6 +29,19 @@ export class KanbanBoardComponent implements OnInit {
   showAddColumnModal: boolean = false;
   columnTitle: string = '';
 
+  showEditColumnModal: boolean = false;
+  columnEditId: string = '';
+  columnEditTitle: string = '';
+
+  showAddTaskModal: boolean = false;
+  taskColumnId: string = '';
+  taskId: string = '';
+  taskTitle: string = '';
+  taskDescription: string = '';
+  taskUrgency: Urgency = {} as Urgency;
+  taskLabels: string[] = [];
+  taskCheckboxes: string[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -49,6 +63,28 @@ export class KanbanBoardComponent implements OnInit {
         });
       }
     });
+  }
+
+  editColumnSetup(columnId: string, columnTitle: string) {
+    this.columnEditId = columnId;
+    this.columnEditTitle = columnTitle;
+    this.showEditColumnModal = true;
+  }
+
+  addTaskSetup(columnId: string) {
+    this.taskColumnId = columnId;
+    this.showAddTaskModal = true;
+  }
+
+  editTaskSetup(columnId: string, task: Task) {
+    this.taskColumnId = columnId;
+    this.taskId = task.id;
+    this.taskTitle = task.title;
+    this.taskDescription = task.description;
+    this.taskUrgency = task.urgency;
+    this.taskLabels = task.labels;
+    this.taskCheckboxes = task.checkboxes;
+    this.showAddTaskModal = true;
   }
 
   //#region Getters
@@ -77,6 +113,69 @@ export class KanbanBoardComponent implements OnInit {
     this.loading = false;
     this.showAddColumnModal = false;
   }
+
+  async editColumn() {
+    this.loading = true;
+    const projectRef = doc(this.firestore, 'projects', this.projectId);
+    await updateDoc(projectRef, {
+      columns: this.project.columns.map((column: any) => {
+        if (column.id === this.columnEditId) {
+          column.title = this.columnEditTitle;
+        }
+        return column;
+      }),
+    });
+    this.loading = false;
+    this.showEditColumnModal = false;
+  }
+
+  async addTask() {
+    this.loading = true;
+    const projectRef = doc(this.firestore, 'projects', this.projectId);
+    if (this.taskId === '') {
+      await updateDoc(projectRef, {
+        columns: this.project.columns.map((column: any) => {
+          if (column.id === this.taskColumnId) {
+            column.tasks = [
+              ...column.tasks,
+              {
+                id: this.idGenerator(),
+                title: this.taskTitle,
+                description: this.taskDescription,
+                urgency: this.taskUrgency,
+                labels: this.taskLabels,
+                checkboxes: this.taskCheckboxes,
+                creationDate: new Date(),
+              },
+            ];
+          }
+          return column;
+        }),
+      });
+    } else {
+      await updateDoc(projectRef, {
+        columns: this.project.columns.map((column: any) => {
+          if (column.id === this.taskColumnId) {
+            column.tasks = column.tasks.map((task: any) => {
+              if (task.id === this.taskId) {
+                task.title = this.taskTitle;
+                task.description = this.taskDescription;
+                task.urgency = this.taskUrgency;
+                task.labels = this.taskLabels;
+                task.checkboxes = this.taskCheckboxes;
+              }
+              return task;
+            });
+          }
+          return column;
+        }),
+      });
+    }
+    this.loading = false;
+    this.clearTask();
+    this.showAddTaskModal = false;
+  }
+
   //#endregion
 
   //#region Deleters
@@ -88,10 +187,34 @@ export class KanbanBoardComponent implements OnInit {
     });
     this.loading = false;
   }
+
+  async deleteTask(projectId: string, columnId: string, taskId: string) {
+    this.loading = true;
+    const projectRef = doc(this.firestore, 'projects', projectId);
+    await updateDoc(projectRef, {
+      columns: this.project.columns.map((column: any) => {
+        if (column.id === columnId) {
+          column.tasks = column.tasks.filter((task: any) => task.id !== taskId);
+        }
+        return column;
+      })
+    });
+    this.loading = false;
+  }
   //#endregion
 
 
   //#region Helpers
+  clearTask() {
+    this.taskColumnId = '';
+    this.taskId = '';
+    this.taskTitle = '';
+    this.taskDescription = '';
+    this.taskUrgency = {} as Urgency;
+    this.taskLabels = [];
+    this.taskCheckboxes = [];
+  }
+
   private idGenerator(): string {
     // letters + numbers
     const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
