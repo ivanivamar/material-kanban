@@ -1,0 +1,53 @@
+<div class="panel" *ngIf="!loading">
+  <div class="flex align-items-center justify-content-between">
+    <div>
+      <span class="text-lg font-bold mr-2">Kanban Board <span class="ml-1">·</span></span>
+      <span class="text-lg">{{ project.title }}</span>
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="showAddColumnModal = true">
+        <span class="material-icons">add</span>
+        Column
+      </button>
+    </div>
+  </div>
+
+  <div class="grid mt-3">
+    <div *ngFor="let column of project.columns">
+      <h2>
+        {{ column.title }}
+        <button (click)="showAddColumnModal = true">Add Column</button>
+        <button (click)="deleteColumn(project.id, column.id)">Delete Column</button>
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-container" *ngIf="showAddColumnModal">
+  <div class="dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Add Project</span>
+      <button class="dialog-close" (click)="showAddColumnModal = false">
+        <span class="material-icons">
+          close
+        </span>
+      </button>
+    </div>
+    <div class="dialog-content">
+      <div class="flex flex-column gap-2">
+        <label for="title">Project Title</label>
+        <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnTitle">
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button type="button" class="btn btn-secondary" (click)="showAddColumnModal = false">
+        <span class="material-icons">close</span>
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="addColumn()">
+        <span class="material-icons">add</span>
+        Column
+      </button>
+    </div>
+  </div>
+</div>

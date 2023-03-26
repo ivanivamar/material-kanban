@@ -1,4 +1,5 @@
 export interface Task {
+    id: string;
     title: string;
     labels: string[];
     description: string;
@@ -8,6 +9,7 @@ export interface Task {
 }
 
 export interface Column {
+    id: string;
     title: string;
     tasks: Task[];
 }

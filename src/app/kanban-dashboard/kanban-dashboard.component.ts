@@ -138,7 +138,7 @@ export class KanbanDashboardComponent implements OnInit {
 
     navigateToProject(project: ProjectWithId) {
         this.router.navigate(['/dashboard/kanban'], {
-            queryParams: { project: JSON.stringify(project) },
+            queryParams: { projectId: project.id },
         });
     }
 
