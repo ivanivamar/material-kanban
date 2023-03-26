@@ -1,0 +1,44 @@
+
+$primary-color: #1A73E8
+
+nav
+  background-color: #ffffff
+  border-right: 2px solid #F7F7F7
+  height: 100%
+  position: fixed
+  top: 0
+  left: 0
+  width: 250px
+  z-index: 1
+
+  header
+    padding: 24px
+    margin-bottom: 24px
+
+    h1
+      margin: 0
+      font-size: 24px
+      font-weight: 600
+      font-family: 'Roboto', sans-serif
+
+  a
+    text-decoration: none
+    background-color: transparent
+    color: #000000
+    padding: 12px 24px
+    margin-left: 4px
+    display: flex
+    align-items: center
+    transition: background-color 0.2s ease
+    border-left: 4px solid #F7F7F7
+    border-bottom: 1px solid #F7F7F7
+
+    &:hover
+      background-color: #F7F8F8
+
+    &.active
+      border-left: 4px solid $primary-color
+      border-bottom: 1px solid #F7F7F7
+
+    &.sublink
+      margin-left: 28px
