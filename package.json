@@ -24,6 +24,7 @@
     "firebase": "^9.18.0",
     "ngx-spinner": "^15.0.1",
     "primeflex": "^3.3.0",
+    "primeicons": "^6.0.1",
     "primeng": "^15.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

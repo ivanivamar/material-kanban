@@ -3,19 +3,27 @@
     <div class="panel flex flex-column">
       <div class="flex justify-content-between align-items-center">
         <span class="font-bold text-lg">Recent Work Progress</span>
-        <button class="btn btn-primary" (click)="showAddProjectModal = true">New Project</button>
+        <button class="btn btn-primary" (click)="showAddProjectModal = true">
+          <span class="material-icons">add</span>
+          Project
+        </button>
       </div>
       <div class="grid grid-nogutter gap-5 mt-2">
-        <div class="col-12 md:col" *ngFor="let project of projects; let i = index">
-          <div class="project-card p-2 border-round-md max-w-15rem" [style.background]="lightColorArray[i]"
+        <div class="col-12 md:col max-w-full md:max-w-15rem" *ngFor="let project of projects; let i = index">
+          <div class="project-card p-2 border-round-md" [style.background]="lightColorArray[i]"
             (click)="navigateToProject(project)">
             <div class="flex flex-row align-items-center gap-2">
               <div class="border-round-md p-3 font-bold text-lg" [style.background]="darkColorArray[i]">
                 {{project.title.substring(0, 2)}}
               </div>
-              <div class="flex flex-column justify-content-between" style="height: 48px;">
+              <div class="flex flex-column justify-content-between w-full" style="height: 48px;">
                 <h3 class="m-0 text-base">{{project.title}}</h3>
-                <span class="text-sm text-700">{{getTasksCount(project)}} total tasks</span>
+                <div class="flex align-items-center justify-content-between">
+                  <span class="text-sm text-700">{{getTasksCount(project)}} total tasks</span>
+                  <button class="btn btn-secondary" (click)="deleteProject(project.id, $event)">
+                    <span class="material-icons text-red-500">delete</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -54,15 +62,15 @@
       <span class="font-bold text-lg">Recent Work Progress</span>
 
       <div *ngFor="let task of currentWeekTasks">
-        <div class="flex flex-row align-items-center gap-2">
-          <div class="border-round-md p-3 font-bold text-lg">
+        <div class="flex flex-column gap-2">
+          <div class="border-round-md p-2 pb-0 pt-3 font-bold text-lg">
             {{task.project}}
           </div>
-          <div class="flex flex-column justify-content-between" *ngFor="let element of task" style="height: 48px;">
+          <div class="flex flex-column justify-content-between card" *ngFor="let element of task.tasks" style="height: 48px;">
             <span class="font-bold text-base">{{element.title}}</span>
             <div>
-              <span class="text-sm text-700">{{element.description}} | </span>
-              <span class="text-sm text-700">{{element.creationDate | date: 'dd/LL/yyyy - HH:MM'}}</span>
+              <span class="text-sm text-700" *ngIf="element.description !== ''">{{element.description}} | </span>
+              <span class="text-sm text-700">{{toDateTime(element.creationDate) | date: 'dd/LL/yyyy - HH:MM'}}</span>
             </div>
           </div>
         </div>

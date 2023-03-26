@@ -43,16 +43,20 @@ export class KanbanDashboardComponent implements OnInit {
 
     constructor(private firestore: Firestore, private router: Router) { }
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         this.loading = true;
         this.getProjects().subscribe((projects: ProjectWithId[]) => {
             console.log(projects);
             this.projects = projects;
             this.loading = false;
+            this.getCurrentWeekTasks();
+            this.makeWeekTasksChart(this.projects);
+            console.log(this.currentWeekTasks);
+            console.log('%c options: ', 'background: #222; color: #bada55', this.options);
+            console.log('%c data: ', 'background: #222; color: #bada55', this.data);
         });
 
-        this.getCurrentWeekTasks();
-        this.makeWeekTasksChart(this.projects);
+
     }
 
     getCurrentWeekTasks() {
@@ -60,7 +64,7 @@ export class KanbanDashboardComponent implements OnInit {
             project.columns.forEach((column: Column) => {
                 let tasksArray: Task[] = [];
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(task.creationDate);
+                    let taskDate = this.toDateTime(task.creationDate.seconds);
                     let today = new Date();
 
                     let taskDay = taskDate.getDay();
@@ -80,13 +84,13 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     makeWeekTasksChart(projects: ProjectWithId[]) {
-        let weekTasks = [12, 14, 11, 17, 15];
-        let lastWeekTasks = [10, 12, 8, 15, 12];
+        let weekTasks = [0, 0, 0, 0, 0];
+        let lastWeekTasks = [0, 0, 0, 0, 0];
 
         projects.forEach((project: ProjectWithId) => {
             project.columns.forEach((column: Column) => {
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(task.creationDate);
+                    let taskDate = this.toDateTime(task.creationDate.seconds);
 
                     let taskDay = taskDate.getDay();
                     weekTasks[taskDay--]++;
@@ -99,6 +103,10 @@ export class KanbanDashboardComponent implements OnInit {
                 });
             });
         });
+
+        // remove 0 values from arrays
+        weekTasks = weekTasks.filter((value) => value != 0);
+        lastWeekTasks = lastWeekTasks.filter((value) => value != 0);
 
         this.data = {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -158,7 +166,11 @@ export class KanbanDashboardComponent implements OnInit {
 
     //#region Setters
     async addProject() {
-        const response = await this.sendAddProject(this.projectTitle);
+        let project: Project = {
+            title: this.projectTitle,
+            columns: []
+        };
+        const response = await this.sendAddProject(project);
         console.log(response);
 
         this.showAddProjectModal = false;
@@ -171,7 +183,8 @@ export class KanbanDashboardComponent implements OnInit {
     //#endregion
 
     //#region Deleters
-    async deleteProject(projectId: string) {
+    async deleteProject(projectId: string, event: any) {
+        event.stopPropagation();
         const response = await this.sendDeleteProject(projectId);
         console.log(response);
     }
@@ -188,6 +201,12 @@ export class KanbanDashboardComponent implements OnInit {
             count += column.tasks.length;
         });
         return count;
+    }
+
+    toDateTime(secs: any) {
+        var t = new Date(1970, 0, 1); // Epoch
+        t.setSeconds(secs);
+        return t;
     }
 
     private idGenerator(): string {
