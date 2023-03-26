@@ -12,6 +12,7 @@ import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { KanbanDashboardComponent } from './kanban-dashboard/kanban-dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ChartModule,
     DragDropModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
