@@ -1,11 +1,22 @@
 export interface Task {
     id: string;
     title: string;
-    labels: string[];
+    labels: Labels[];
     description: string;
-    checkboxes: string[];
+    checkboxes: Checkboxes[];
     urgency: Urgency;
     creationDate: any;
+}
+
+export interface Checkboxes {
+    title: string;
+    checked: boolean;
+}
+
+export interface Labels {
+    name: string;
+    color: string;
+    code: string;
 }
 
 export interface Column {
@@ -25,4 +36,5 @@ export interface ProjectWithId extends Project {
 export interface Urgency {
     title: string;
     color: string;
+    code: number;
 }
