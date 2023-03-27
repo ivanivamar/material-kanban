@@ -71,7 +71,7 @@ export class KanbanDashboardComponent implements OnInit {
                     let todayDay = today.getDay();
                     console.log(taskDay, todayDay);
 
-                    if (taskDay == todayDay) {
+                    if (taskDay == todayDay && !task.completed) {
                         tasksArray.push(task);
                     }
                 });

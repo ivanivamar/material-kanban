@@ -42,7 +42,12 @@
                     <div class="flex flex-row align-items-center justify-content-between">
                         <span [classList]="'text-base font-bold urgency-' + task.urgency">{{
                             task.title }}</span>
-                        <div class="flex flex-row align-items-center gap-1">
+                        <div class="flex flex-row align-items-center">
+                            <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
+                                <span class="material-icons" [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                                    check_circle
+                                </span>
+                            </button>
                             <button class="btn btn-icon" (click)="deleteTask(project.id, column.id, task.id)">
                                 <span class="material-icons text-red-500">delete</span>
                             </button>
@@ -70,11 +75,18 @@
                     placeholder="Select Column..." (onChange)="onTaskColumnEdit($event)" [(ngModel)]="taskColumnId"
                     optionLabel="title" optionValue="id"></p-dropdown>
             </div>
-            <button class="dialog-close" (click)="showAddTaskModal = false">
-                <span class="material-icons">
-                    close
-                </span>
-            </button>
+            <div class="flex align-items-center gap-2">
+                <button *ngIf="selectedTask.id !== ''" class="btn btn-icon" (click)="toggleTaskCompleted()">
+                    <span class="material-icons" [classList]="selectedTask.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                        check_circle
+                    </span>
+                </button>
+                <button class="dialog-close" (click)="showAddTaskModal = false">
+                    <span class="material-icons">
+                        close
+                    </span>
+                </button>
+            </div>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-2">

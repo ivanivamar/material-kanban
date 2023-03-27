@@ -56,7 +56,7 @@
             <span class="font-bold text-lg">Recent Work Progress</span>
 
             <div *ngFor="let task of currentWeekTasks">
-                <div class="flex flex-column gap-2" *ngIf="task.tasks.length > 0">
+                <div class="flex flex-column gap-2" *ngIf="task.tasks.length > 0 ">
                     <div class="border-round-md p-2 pb-0 pt-3 font-bold text-lg">
                         {{task.project}}
                     </div>

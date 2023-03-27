@@ -151,6 +151,7 @@ export class KanbanBoardComponent implements OnInit {
                                 urgency: this.selectedTask.urgency ? this.selectedTask.urgency : null,
                                 labels: this.selectedTask.labels ? this.selectedTask.labels : [],
                                 checkboxes: this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [],
+                                completed: this.selectedTask.completed ? this.selectedTask.completed : false,
                                 creationDate: new Date().toUTCString(),
                             },
                         ];
@@ -166,9 +167,10 @@ export class KanbanBoardComponent implements OnInit {
                             if (task.id === this.selectedTask.id) {
                                 task.title = this.selectedTask.title ? this.selectedTask.title : '';
                                 task.description = this.selectedTask.description ? this.selectedTask.description : '';
-                                task.urgency = this.selectedTask.urgency ? this.selectedTask.urgency : null;
+                                task.urgency = this.selectedTask.urgency;
                                 task.labels = this.selectedTask.labels ? this.selectedTask.labels : [];
                                 task.checkboxes = this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [];
+                                task.completed = this.selectedTask.completed ? this.selectedTask.completed : false;
                             }
                             return task;
                         });
@@ -210,6 +212,15 @@ export class KanbanBoardComponent implements OnInit {
 
 
     //#region Helpers
+    toggleTaskCompleted(event?: any, task?: Task) {
+        event.stopPropagation();
+        this.selectedTask = task ? task : this.selectedTask;
+        console.log(this.selectedTask);
+        this.selectedTask.completed = !this.selectedTask.completed;
+
+        this.addTask();
+    }
+
     async onTaskColumnEdit(event: any) {
         console.log(event);
         // Find the old and new columns
