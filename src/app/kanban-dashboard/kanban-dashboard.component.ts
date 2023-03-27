@@ -60,26 +60,28 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     getCurrentWeekTasks() {
+        let tasksArray: Task[] = [];
         this.projects.forEach((project: ProjectWithId) => {
             project.columns.forEach((column: Column) => {
-                let tasksArray: Task[] = [];
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = this.toDateTime(task.creationDate.seconds);
+                    let taskDate = new Date(task.creationDate);
                     let today = new Date();
 
                     let taskDay = taskDate.getDay();
                     let todayDay = today.getDay();
+                    console.log(taskDay, todayDay);
 
                     if (taskDay == todayDay) {
                         tasksArray.push(task);
                     }
                 });
-                let sendData = {
-                    project: project.title,
-                    tasks: tasksArray
-                }
-                this.currentWeekTasks.push(sendData);
             });
+            let sendData = {
+                project: project.title,
+                tasks: tasksArray
+            }
+            this.currentWeekTasks.push(sendData);
+            tasksArray = [];
         });
     }
 
@@ -90,13 +92,12 @@ export class KanbanDashboardComponent implements OnInit {
         projects.forEach((project: ProjectWithId) => {
             project.columns.forEach((column: Column) => {
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = this.toDateTime(task.creationDate.seconds);
+                    let taskDate = new Date(task.creationDate);
 
                     let taskDay = taskDate.getDay();
                     weekTasks[taskDay--]++;
 
-                    let lastWeekDate = new Date();
-                    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+                    let lastWeekDate = new Date(new Date().toUTCString());
                     if (taskDate > lastWeekDate) {
                         lastWeekTasks[taskDay--]++;
                     }
@@ -130,11 +131,17 @@ export class KanbanDashboardComponent implements OnInit {
 
         this.options = {
             maintainAspectRatio: false,
-            aspectRatio: 0.6,
+            aspectRatio: 1,
             scales: {
                 y: {
                     beginAtZero: true,
+                    precision: 0
                 },
+            },
+            scale: {
+                ticks: {
+                    precision: 0
+                }
             },
             plugins: {
                 legend: {

@@ -151,7 +151,7 @@ export class KanbanBoardComponent implements OnInit {
                                 urgency: this.selectedTask.urgency ? this.selectedTask.urgency : null,
                                 labels: this.selectedTask.labels ? this.selectedTask.labels : [],
                                 checkboxes: this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [],
-                                creationDate: new Date(),
+                                creationDate: new Date().toUTCString(),
                             },
                         ];
                     }
