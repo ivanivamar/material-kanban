@@ -18,9 +18,8 @@
     </div>
 
     <div class="grid grid-nogutter mt-3 gap-5" *ngIf="project.columns.length > 0">
-        <div class="col p-3 column border-round-lg max-w-25rem" *ngFor="let column of project.columns" cdkDropList
-            (cdkDropListDropped)="onDrop($event)" [attr.id]="'column-' + column.id" [cdkDropListData]="column.tasks"
-            [cdkDropListConnectedTo]="getConnectedLists(column.id)">
+        <div class="col p-3 column border-round-lg max-w-25rem" *ngFor="let column of project.columns; let i = index"
+            pDroppable (onDrop)="primengDrop(i, column.tasks)">
             <div class="flex flex-row align-items-center justify-content-between">
                 <span class="text-base font-bold">{{ column.title }}</span>
                 <div class="flex flex-row align-items-center gap-1">
@@ -38,22 +37,62 @@
 
             <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
                 <div class="col-12 card" *ngFor="let task of column.tasks" (click)="editTaskSetup(column.id, task)"
-                    cdkDrag>
+                    pDraggable (onDragStart)="dragStart(task, i)" (onDragEnd)="dragEnd()">
                     <div class="flex flex-row align-items-center justify-content-between">
                         <span [classList]="'text-base font-bold urgency-' + task.urgency">{{
                             task.title }}</span>
-                        <div class="flex flex-row align-items-center gap-1">
+                        <div class="flex flex-row align-items-center">
+                            <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
+                                <span class="material-icons"
+                                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                                    check_circle
+                                </span>
+                            </button>
                             <button class="btn btn-icon" (click)="deleteTask(project.id, column.id, task.id)">
                                 <span class="material-icons text-red-500">delete</span>
                             </button>
                         </div>
                     </div>
+                    <span class="text-500 text-sm">{{task.creationDate | date: 'dd/LL/yyyy - HH:mm'}}</span>
                     <div class="grid grid-nogutter gap-2 mt-3 mb-2" *ngIf="task.labels.length > 0">
                         <div class="label" *ngFor="let label of task.labels" [style.background]="label.color">
                             {{ label.name }}
                         </div>
                     </div>
                     <span class="card-description text-base text-500">{{ task.description }}</span>
+
+                    <div class="flex align-items-center gap-2 mt-2" *ngIf="task.checkboxes.length > 0">
+                        <span
+                            [classList]="getTotalCompletedTasks(task) === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
+                        <span class="font-semibold text-600">{{getTotalCompletedTasks(task)}} /
+                            {{task.checkboxes.length}}</span>
+                        <div class="flex flex-1 bg-gray-200 border-round" style="height: 3px">
+                            <div class="bg-blue-500 border-round transition-all transition-duration-100"
+                                [style.width.%]="getTotalCompletedTasks(task) / task.checkboxes.length * 100"></div>
+                        </div>
+                        <button class="btn btn-icon" (click)="showCheckbox($event, task.id)">
+                            <span class="material-icons text-700"
+                                *ngIf="showCheckboxes !== task.id">keyboard_arrow_down</span>
+                            <span class="material-icons text-700"
+                                *ngIf="showCheckboxes === task.id">keyboard_arrow_up</span>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-column gap-2 mt-2 ml-3 transition-all transition-duration-150 fadein"
+                        *ngIf="showCheckboxes === task.id">
+                        <div class="flex flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes">
+                            <label
+                                [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
+                                (click)="saveCheckbox($event, task)">
+                                <input type="checkbox" [(ngModel)]="checkbox.checked">
+                                <span class="checkbox-helper"></span>
+                                <span class="outline">
+                                    <span class="outline-tick"></span>
+                                </span>
+                            </label>
+                            <span>{{ checkbox.title }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,11 +109,19 @@
                     placeholder="Select Column..." (onChange)="onTaskColumnEdit($event)" [(ngModel)]="taskColumnId"
                     optionLabel="title" optionValue="id"></p-dropdown>
             </div>
-            <button class="dialog-close" (click)="showAddTaskModal = false">
-                <span class="material-icons">
-                    close
-                </span>
-            </button>
+            <div class="flex align-items-center gap-2">
+                <button *ngIf="selectedTask.id !== ''" class="btn btn-icon" (click)="toggleTaskCompleted()">
+                    <span class="material-icons"
+                        [classList]="selectedTask.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                        check_circle
+                    </span>
+                </button>
+                <button class="dialog-close" (click)="showAddTaskModal = false">
+                    <span class="material-icons">
+                        close
+                    </span>
+                </button>
+            </div>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-2">
@@ -85,6 +132,32 @@
                 <label for="description">Task Description</label>
                 <textarea id="description" rows="6" placeholder="Enter a description..."
                     [(ngModel)]="selectedTask.description"></textarea>
+            </div>
+
+            <div class="flex flex-column gap-2 mt-2 mb-4">
+                <label for="checkboxes">Checkboxes</label>
+                <div class="flex flex-row align-items-center gap-2">
+                    <input type="text" id="checkboxes" placeholder="Enter a checkbox..." [(ngModel)]="newCheckbox">
+                    <button class="btn btn-icon" (click)="addCheckbox()">
+                        <span class="material-icons">add</span>
+                    </button>
+                </div>
+                <div class="flex flex-column gap-2 mt-2" *ngIf="selectedTask.checkboxes.length > 0">
+                    <div class="flex flex-row align-items-center gap-2"
+                        *ngFor="let checkbox of selectedTask.checkboxes">
+                        <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
+                            <input type="checkbox" [(ngModel)]="checkbox.checked">
+                            <span class="checkbox-helper"></span>
+                            <span class="outline">
+                                <span class="outline-tick"></span>
+                            </span>
+                        </label>
+                        <input type="text" [(ngModel)]="checkbox.title">
+                        <button class="btn btn-icon" (click)="deleteCheckbox(checkbox)">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-row aling-items-center justify-content-between gap-3 mt-2">

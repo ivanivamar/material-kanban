@@ -6,9 +6,11 @@ export interface Task {
     checkboxes: Checkboxes[];
     urgency: Urgency;
     creationDate: any;
+    completed: boolean;
 }
 
 export interface Checkboxes {
+    id: string;
     title: string;
     checked: boolean;
 }

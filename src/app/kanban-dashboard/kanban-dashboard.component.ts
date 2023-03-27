@@ -10,12 +10,16 @@ import {
     deleteDoc,
     doc,
     DocumentData,
+    updateDoc,
+    arrayUnion,
 } from '@angular/fire/firestore';
 import {
     Project,
     Column,
     Task,
     ProjectWithId,
+    Urgency,
+    Checkboxes,
 } from '../interfaces/Kanban.interfaces';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -41,6 +45,35 @@ export class KanbanDashboardComponent implements OnInit {
 
     currentWeekTasks: any[] = [];
 
+    showAddColumnModal: boolean = false;
+    columnTitle: string = '';
+
+    projectId: string = '';
+    columnId: string = '';
+
+    showEditColumnModal: boolean = false;
+    columnEditId: string = '';
+    columnEditTitle: string = '';
+
+    showAddTaskModal: boolean = false;
+    taskColumnId: string = '';
+    selectedTask: any;
+    newCheckbox: string = '';
+
+    showCheckboxes: string = '';
+
+    labelsList = [
+        { name: 'Frontend', color: '#F8D4C7', code: 'frontend' },
+        { name: 'TS', color: '#FFE8BC', code: 'ts' },
+        { name: 'Translations', color: '#E5C7F5', code: 'translations' },
+        { name: 'Bugfix', color: '#FFF9EB', code: 'bugfix' },
+    ];
+    urgencyList: Urgency[] = [
+        { title: 'Low', code: 0, color: '#F8D4C7' },
+        { title: 'Medium', code: 1, color: '#FFE8BC' },
+        { title: 'High', code: 2, color: '#E5C7F5' },
+    ];
+
     constructor(private firestore: Firestore, private router: Router) { }
 
     async ngOnInit(): Promise<void> {
@@ -59,27 +92,42 @@ export class KanbanDashboardComponent implements OnInit {
 
     }
 
+    editTaskSetup(task: any) {
+        this.selectedTask = task;
+        this.projectId = task.projectId;
+        this.columnId = task.columnId;
+        this.showAddTaskModal = true;
+    }
+
     getCurrentWeekTasks() {
+        let tasksArray: any[] = [];
         this.projects.forEach((project: ProjectWithId) => {
             project.columns.forEach((column: Column) => {
-                let tasksArray: Task[] = [];
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = this.toDateTime(task.creationDate.seconds);
+                    let taskDate = new Date(task.creationDate);
                     let today = new Date();
 
                     let taskDay = taskDate.getDay();
                     let todayDay = today.getDay();
+                    console.log(taskDay, todayDay);
 
-                    if (taskDay == todayDay) {
-                        tasksArray.push(task);
+                    if (taskDay == todayDay && !task.completed) {
+                        tasksArray.push(
+                            {
+                                projectId: project.id,
+                                columnId: column.id,
+                                task: task
+                            }
+                        );
                     }
                 });
-                let sendData = {
-                    project: project.title,
-                    tasks: tasksArray
-                }
-                this.currentWeekTasks.push(sendData);
             });
+            let sendData = {
+                project: project.title,
+                tasks: tasksArray
+            }
+            this.currentWeekTasks.push(sendData);
+            tasksArray = [];
         });
     }
 
@@ -90,13 +138,12 @@ export class KanbanDashboardComponent implements OnInit {
         projects.forEach((project: ProjectWithId) => {
             project.columns.forEach((column: Column) => {
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = this.toDateTime(task.creationDate.seconds);
+                    let taskDate = new Date(task.creationDate);
 
                     let taskDay = taskDate.getDay();
                     weekTasks[taskDay--]++;
 
-                    let lastWeekDate = new Date();
-                    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+                    let lastWeekDate = new Date(new Date().toUTCString());
                     if (taskDate > lastWeekDate) {
                         lastWeekTasks[taskDay--]++;
                     }
@@ -130,11 +177,17 @@ export class KanbanDashboardComponent implements OnInit {
 
         this.options = {
             maintainAspectRatio: false,
-            aspectRatio: 0.6,
+            aspectRatio: 1,
             scales: {
                 y: {
                     beginAtZero: true,
+                    precision: 0
                 },
+            },
+            scale: {
+                ticks: {
+                    precision: 0
+                }
             },
             plugins: {
                 legend: {
@@ -180,6 +233,44 @@ export class KanbanDashboardComponent implements OnInit {
         const projectRef = collection(this.firestore, 'projects');
         return addDoc(projectRef, project);
     }
+
+    async addTask(projectId: string, columnId: string) {
+        this.loading = true;
+        const projectRef = doc(this.firestore, 'projects', projectId);
+        this.projects.forEach((project: ProjectWithId) => {
+            if (project.id == projectId) {
+                project.columns.forEach((column: Column) => {
+                    if (column.id == columnId) {
+                        let task: Task = {
+                            id: this.selectedTask.id,
+                            title: this.selectedTask.title,
+                            description: this.selectedTask.description,
+                            creationDate: new Date(),
+                            completed: false,
+                            checkboxes: this.selectedTask.checkboxes,
+                            labels: this.selectedTask.labels,
+                            urgency: this.selectedTask.urgency,
+                        };
+                        column.tasks.push(task);
+                    }
+                });
+            }
+        });
+        const response = await this.sendAddTask(projectRef, this.projects);
+        console.log(response);
+        this.loading = false;
+    }
+
+    sendAddTask(projectRef: any, projects: any[]) {
+        return updateDoc(projectRef, {
+            columns: projects[0].columns,
+        });
+    }
+
+    clearTask() {
+        this.selectedTask = {} as Task;
+        this.showAddTaskModal = false;
+    }
     //#endregion
 
     //#region Deleters
@@ -195,6 +286,50 @@ export class KanbanDashboardComponent implements OnInit {
     //#endregion
 
     //#region Helpers
+    addCheckbox() {
+        this.selectedTask.checkboxes.push({
+            id: this.idGenerator(),
+            title: this.newCheckbox,
+            checked: false,
+        });
+        this.newCheckbox = '';
+    }
+
+    deleteCheckbox(checkbox: Checkboxes) {
+        this.selectedTask.checkboxes = this.selectedTask.checkboxes.filter((c: { id: string; }) => c.id !== checkbox.id);
+    }
+
+    saveCheckbox(event: any, task: any) {
+        event.stopPropagation();
+
+        setTimeout(() => {
+            this.selectedTask = task;
+            this.addTask(task.projectId, task.columnId);
+        }, 100);
+    }
+
+    showCheckbox(event: any, taskId: string) {
+        event.stopPropagation();
+        if (this.showCheckboxes === taskId) {
+            this.showCheckboxes = '';
+        } else {
+            this.showCheckboxes = taskId;
+        }
+    }
+
+    getTotalCompletedTasks(task: Task) {
+        return task.checkboxes.filter(t => t.checked).length;
+    }
+
+    toggleTaskCompleted(event?: any, task?: any) {
+        event.stopPropagation();
+        this.selectedTask = task ? task : this.selectedTask;
+        console.log(this.selectedTask);
+        this.selectedTask.completed = !this.selectedTask.completed;
+
+        this.addTask(task.projectId, task.columnId);
+    }
+
     getTasksCount(project: Project): number {
         let count = 0;
         project.columns.forEach((column: Column) => {
