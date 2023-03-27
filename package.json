@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 5200 --open",
+    "start": "ng serve --port 5200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+	"postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +21,7 @@
     "@angular/platform-browser": "^15.2.0",
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
+    "@formkit/auto-animate": "^1.0.0-beta.6",
     "chart.js": "^4.2.1",
     "firebase": "^9.18.0",
     "ngx-spinner": "^15.0.1",

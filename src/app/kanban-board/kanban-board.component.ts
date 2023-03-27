@@ -38,6 +38,9 @@ export class KanbanBoardComponent implements OnInit {
     showAddTaskModal: boolean = false;
     taskColumnId: string = '';
     selectedTask: Task = {} as Task;
+    newCheckbox: string = '';
+
+    showCheckboxes: string = '';
 
     labelsList = [
         { name: 'Frontend', color: '#F8D4C7', code: 'frontend' },
@@ -50,6 +53,10 @@ export class KanbanBoardComponent implements OnInit {
         { title: 'Medium', code: 1, color: '#FFE8BC' },
         { title: 'High', code: 2, color: '#E5C7F5' },
     ];
+    draggedTask: any;
+
+    selectedTasks: any[] = [];
+    startColumnId: any = null;
 
     constructor(
         private router: Router,
@@ -212,6 +219,71 @@ export class KanbanBoardComponent implements OnInit {
 
 
     //#region Helpers
+    primengDrop(columnId: number, tasks: any) {
+        if (this.draggedTask && this.startColumnId !== columnId) {
+
+            this.project.columns[columnId].tasks = [
+                ...this.project.columns[columnId].tasks,
+                this.draggedTask,
+            ];
+            this.project.columns[this.startColumnId].tasks = this.project.columns[
+                this.startColumnId
+            ].tasks.filter((val, i) => val.id != this.draggedTask.id);
+            this.draggedTask = null;
+        }
+        updateDoc(doc(this.firestore, 'projects', this.projectId), {
+            columns: this.project.columns.map((column: any) => {
+                return column;
+            }
+            )
+        });
+    }
+
+    dragStart(task: any, startColumdId: number) {
+        this.draggedTask = task;
+        this.startColumnId = startColumdId;
+    }
+
+    dragEnd() {
+        this.draggedTask = null;
+        this.startColumnId = null;
+    }
+
+    saveCheckbox(event: any, task: Task) {
+        event.stopPropagation();
+
+        setTimeout(() => {
+            this.selectedTask = task;
+            this.addTask();
+        }, 100);
+    }
+
+    showCheckbox(event: any, taskId: string) {
+        event.stopPropagation();
+        if (this.showCheckboxes === taskId) {
+            this.showCheckboxes = '';
+        } else {
+            this.showCheckboxes = taskId;
+        }
+    }
+
+    addCheckbox() {
+        this.selectedTask.checkboxes.push({
+            id: this.idGenerator(),
+            title: this.newCheckbox,
+            checked: false,
+        });
+        this.newCheckbox = '';
+    }
+
+    deleteCheckbox(checkbox: Checkboxes) {
+        this.selectedTask.checkboxes = this.selectedTask.checkboxes.filter(c => c.id !== checkbox.id);
+    }
+
+    getTotalCompletedTasks(task: Task) {
+        return task.checkboxes.filter(t => t.checked).length;
+    }
+
     toggleTaskCompleted(event?: any, task?: Task) {
         event.stopPropagation();
         this.selectedTask = task ? task : this.selectedTask;
@@ -247,7 +319,8 @@ export class KanbanBoardComponent implements OnInit {
             columns: this.project.columns.map((column: any) => {
                 return column;
             }
-        )});
+            )
+        });
     }
 
     onDrop(event: CdkDragDrop<Task[]>) {

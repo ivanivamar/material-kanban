@@ -55,21 +55,150 @@
         <div class="panel">
             <span class="font-bold text-lg">Recent Work Progress</span>
 
-            <div *ngFor="let task of currentWeekTasks">
-                <div class="flex flex-column gap-2" *ngIf="task.tasks.length > 0 ">
+            <div *ngFor="let currentWeekTask of currentWeekTasks">
+                <div class="flex flex-column gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
                     <div class="border-round-md p-2 pb-0 pt-3 font-bold text-lg">
-                        {{task.project}}
+                        {{currentWeekTask.project}}
                     </div>
-                    <div class="flex flex-column justify-content-between card" *ngFor="let element of task.tasks">
-                        <span class="font-bold text-base">{{element.title}}</span>
-                        <div class="mt-2">
-                            <span class="text-sm text-700" *ngIf="element.description !== ''">{{element.description}} |
-                            </span>
-                            <span class="text-sm text-700">{{element.creationDate | date: 'dd/LL/yyyy - HH:MM'}}</span>
+
+                    <div class="col-12 card" *ngFor="let taskContainer of currentWeekTask.tasks" (click)="editTaskSetup(taskContainer)">
+                        <div class="flex flex-row align-items-center justify-content-between">
+                            <span [classList]="'text-base font-bold urgency-' + taskContainer.task.urgency">{{
+                                taskContainer.task.title }}</span>
+                            <div class="flex flex-row align-items-center">
+                                <button class="btn btn-icon">
+                                    <span class="material-icons"
+                                        [classList]="taskContainer.task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                                        check_circle
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <span class="text-500 text-sm">{{taskContainer.task.creationDate | date: 'dd/LL/yyyy - HH:mm'}}</span>
+                        <div class="grid grid-nogutter gap-2 mt-3 mb-2" *ngIf="taskContainer.task.labels.length > 0">
+                            <div class="label" *ngFor="let label of taskContainer.task.labels" [style.background]="label.color">
+                                {{ label.name }}
+                            </div>
+                        </div>
+                        <span class="card-description text-base text-500">{{ taskContainer.task.description }}</span>
+
+                        <div class="flex align-items-center gap-2 mt-2" *ngIf="taskContainer.task.checkboxes.length > 0">
+                            <span
+                                [classList]="getTotalCompletedTasks(taskContainer.task) === taskContainer.task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
+                            <span class="font-semibold text-600">{{getTotalCompletedTasks(taskContainer.task)}} /
+                                {{taskContainer.task.checkboxes.length}}</span>
+                            <div class="flex flex-1 bg-gray-200 border-round" style="height: 3px">
+                                <div class="bg-blue-500 border-round transition-all transition-duration-100"
+                                    [style.width.%]="getTotalCompletedTasks(taskContainer.task) / taskContainer.task.checkboxes.length * 100"></div>
+                            </div>
+                            <button class="btn btn-icon" (click)="showCheckbox($event, taskContainer.task.id)">
+                                <span class="material-icons text-700"
+                                    *ngIf="showCheckboxes !== taskContainer.task.id">keyboard_arrow_down</span>
+                                <span class="material-icons text-700"
+                                    *ngIf="showCheckboxes === taskContainer.task.id">keyboard_arrow_up</span>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-column gap-2 mt-2 ml-3 transition-all transition-duration-150 fadein"
+                            *ngIf="showCheckboxes === taskContainer.task.id">
+                            <div class="flex flex-row align-items-center gap-2"
+                                *ngFor="let checkbox of taskContainer.task.checkboxes">
+                                <label
+                                    [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
+                                    (click)="saveCheckbox($event, taskContainer)">
+                                    <input type="checkbox" [(ngModel)]="checkbox.checked">
+                                    <span class="checkbox-helper"></span>
+                                    <span class="outline">
+                                        <span class="outline-tick"></span>
+                                    </span>
+                                </label>
+                                <span>{{ checkbox.title }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-container" *ngIf="showAddTaskModal">
+    <div class="dialog">
+        <div class="dialog-header">
+            <div class="flex flex-row align-items-center gap-3 w-7">
+                <span class="dialog-title w-4">Edit Task</span>
+            </div>
+            <div class="flex align-items-center gap-2">
+                <button *ngIf="selectedTask.task.id !== ''" class="btn btn-icon" (click)="toggleTaskCompleted()">
+                    <span class="material-icons"
+                        [classList]="selectedTask.task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                        check_circle
+                    </span>
+                </button>
+                <button class="dialog-close" (click)="showAddTaskModal = false">
+                    <span class="material-icons">
+                        close
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="dialog-content">
+            <div class="flex flex-column gap-2">
+                <label for="title">Task Title</label>
+                <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="selectedTask.task.title">
+            </div>
+            <div class="flex flex-column gap-2 mt-2">
+                <label for="description">Task Description</label>
+                <textarea id="description" rows="6" placeholder="Enter a description..."
+                    [(ngModel)]="selectedTask.task.description"></textarea>
+            </div>
+
+            <div class="flex flex-column gap-2 mt-2 mb-4">
+                <label for="checkboxes">Checkboxes</label>
+                <div class="flex flex-row align-items-center gap-2">
+                    <input type="text" id="checkboxes" placeholder="Enter a checkbox..." [(ngModel)]="newCheckbox">
+                    <button class="btn btn-icon" (click)="addCheckbox()">
+                        <span class="material-icons">add</span>
+                    </button>
+                </div>
+                <div class="flex flex-column gap-2 mt-2" *ngIf="selectedTask.task.checkboxes.length > 0">
+                    <div class="flex flex-row align-items-center gap-2"
+                        *ngFor="let checkbox of selectedTask.task.checkboxes">
+                        <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
+                            <input type="checkbox" [(ngModel)]="checkbox.checked">
+                            <span class="checkbox-helper"></span>
+                            <span class="outline">
+                                <span class="outline-tick"></span>
+                            </span>
+                        </label>
+                        <input type="text" [(ngModel)]="checkbox.title">
+                        <button class="btn btn-icon" (click)="deleteCheckbox(checkbox)">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-row aling-items-center justify-content-between gap-3 mt-2">
+                <div class="flex flex-column gap-2 w-6">
+                    <label for="labels">Labels</label>
+                    <p-multiSelect [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
+                        defaultLabel="Select Labels..." [(ngModel)]="selectedTask.task.labels" optionLabel="name"
+                        display="chip"></p-multiSelect>
+                </div>
+                <div class="flex flex-column gap-2 w-6">
+                    <label for="urgency">Urgency</label>
+                    <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
+                        placeholder="Select Urgency..." [showClear]="true" [(ngModel)]="selectedTask.task.urgency"
+                        optionLabel="title" optionValue="code"></p-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-secondary" (click)="clearTask()">
+                <span class="material-icons">close</span>
+                Cancel
+            </button>
         </div>
     </div>
 </div>

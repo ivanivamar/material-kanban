@@ -10,6 +10,7 @@ export interface Task {
 }
 
 export interface Checkboxes {
+    id: string;
     title: string;
     checked: boolean;
 }
