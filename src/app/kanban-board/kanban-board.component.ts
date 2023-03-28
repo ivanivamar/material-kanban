@@ -44,10 +44,10 @@ export class KanbanBoardComponent implements OnInit {
     showCheckboxes: string = '';
 
     labelsList = [
-        { name: 'Frontend', color: '#F8D4C7', code: 'frontend' },
-        { name: 'TS', color: '#FFE8BC', code: 'ts' },
-        { name: 'Translations', color: '#E5C7F5', code: 'translations' },
-        { name: 'Bugfix', color: '#FFF9EB', code: 'bugfix' },
+        { name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
+        { name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
+        { name: 'TRANSLATIONS', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
+        { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
     ];
     urgencyList: Urgency[] = [
         { title: 'Low', code: 0, color: '#F8D4C7' },

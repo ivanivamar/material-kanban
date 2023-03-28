@@ -1,12 +1,14 @@
 <nav>
-  <a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">
-    <span class="material-symbols-rounded mr-2 text-blue-600">stop</span>
-    Dashboard
-  </a>
-  <div class="sublinks">
-    <a (click)="navigateTo(project.id)" [classList]="project.id === currentProjectId ? 'cursor-pointer active sublink' : 'cursor-pointer sublink'" routerLinkActive="active" ariaCurrentWhenActive="page" class="sublink" *ngFor="let project of projects">
-      <span class="material-symbols-rounded mr-2">stop</span>
-      {{project.title}}
+    <a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span class="material-symbols-rounded mr-2">overview_key</span>
+        <span class="font-medium text-base">Dashboard</span>
     </a>
-  </div>
+    <div class="sublinks">
+        <a (click)="navigateTo(project.id)"
+            [classList]="project.id === currentProjectId ? 'cursor-pointer active sublink' : 'cursor-pointer sublink'"
+            routerLinkActive="active" ariaCurrentWhenActive="page" class="sublink" *ngFor="let project of projects">
+            <span class="material-symbols-rounded mr-2">view_kanban</span>
+            <span class="font-medium text-base">{{project.title}}</span>
+        </a>
+    </div>
 </nav>

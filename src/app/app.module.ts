@@ -18,13 +18,15 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { CardComponent } from './common/card/card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     KanbanDashboardComponent,
-    KanbanBoardComponent
+    KanbanBoardComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

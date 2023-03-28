@@ -19,6 +19,7 @@ export interface Checkboxes {
 export interface Labels {
     name: string;
     color: string;
+    background: string;
     code: string;
 }
 

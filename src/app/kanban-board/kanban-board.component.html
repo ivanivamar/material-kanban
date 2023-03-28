@@ -1,70 +1,77 @@
 <div class="col-10" *ngIf="!loading">
     <div class="flex align-items-center justify-content-between">
         <div class="flex gap-2 align-items-center">
-            <button class="btn btn-secondary" routerLink="/dashboard">
+            <button class="btn btn-icon" routerLink="/dashboard">
                 <span class="material-icons">arrow_back</span>
             </button>
             <div>
-                <span class="text-lg font-bold mr-2">Kanban Board <span class="ml-1">·</span></span>
-                <span class="text-lg">{{ project.title }}</span>
+                <span class="text-xl font-black mr-2">Kanban Board <span class="ml-1">·</span></span>
+                <span class="text-xl font-regular">{{ project.title }}</span>
             </div>
-        </div>
-        <div>
-            <button class="btn btn-icon" (click)="showAddColumnModal = true">
-                <span class="material-icons">add</span>
-            </button>
         </div>
     </div>
 
     <div class="grid grid-nogutter mt-3 gap-5" *ngIf="project.columns.length > 0">
-        <div class="col p-3 column border-round-lg max-w-25rem" *ngFor="let column of project.columns; let i = index"
-            pDroppable (onDrop)="primengDrop(i, column.tasks)">
-            <div class="flex flex-row align-items-center mb-3 justify-content-between">
-                <span class="text-base block">{{ column.title }}</span>
-                <div class="flex flex-row align-items-center gap-1">
-                    <button class="btn btn-icon" (click)="editColumnSetup(column.id, column.title)">
+        <!-- COLUMNS -->
+        <div class="col column max-w-22rem" *ngFor="let column of project.columns; let i = index" pDroppable
+            (onDrop)="primengDrop(i, column.tasks)">
+            <header>
+                <div class="left-container">
+                    <button class="btn btn-icon" (click)="addTaskSetup(column.id)">
+                        <span class="material-icons text-lg">add</span>
+                    </button>
+                    <span class="font-black title">{{ column.title }}</span>
+                    <span class="task-count font-medium">({{ column.tasks.length < 10 ? '0' : '' }}{{
+                            column.tasks.length }})</span>
+                </div>
+                <div class="right-container">
+                    <button class="btn btn-icon text" (click)="editColumnSetup(column.id, column.title)">
                         <span class="material-icons">edit</span>
                     </button>
-                    <button class="btn btn-icon" (click)="deleteColumn(project.id, column.id)">
+                    <button class="btn btn-icon text" (click)="deleteColumn(project.id, column.id)">
                         <span class="material-icons text-red-500">delete</span>
                     </button>
                 </div>
-            </div>
+            </header>
 
-            <button class="btn btn-primary p-2 flex justify-content-center align-items-center text-center w-full"
-                (click)="addTaskSetup(column.id)">
-                <span class="material-icons">add</span>
-            </button>
+            <!-- CARDS -->
             <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
-                <div class="col-12 card transition-all transition-duration-100" *ngFor="let task of column.tasks"
+                <div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency" *ngFor="let task of column.tasks"
                     (click)="editTaskSetup(column.id, task)" pDraggable (onDragStart)="dragStart(task, i)"
                     (onDragEnd)="dragEnd()">
-                    <div class="flex flex-row align-items-center justify-content-between">
-                        <div class="flex align-items-center">
-                            <span class=""
-                                [classList]="'material-icons text-xs mr-2 urgency-' + task.urgency">circle</span>
-                            <span [classList]="'text-base font-bold'">{{
-                                task.title }}</span>
+                    <div class="urgency"></div>
+                    <header>
+                        <div class="content-container">
+                            <span class="font-medium">{{ task.title }}</span>
+                            <div class="date-container">
+                                <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy'  }}</span>
+                                |
+                                <span class="time-container">
+                                    <span class="material-symbols-rounded time-icon">timer</span>
+                                    <span class="time text-xs font-medium">{{ task.creationDate | date: 'HH:mm' }}</span>
+                                </span>
+                            </div>
                         </div>
-                        <div class="flex flex-row align-items-center gap-1">
-                            <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
+                        <div class="flex align-items-center gap-2" style="position: relative; top: 2.5px">
+                            <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
                                 <span class="material-icons"
-                                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-white'">
+                                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
                                     check_circle
                                 </span>
                             </button>
-                            <button class="btn btn-icon" (click)="deleteTask(project.id, column.id, task.id)">
+                            <button class="btn btn-icon text" (click)="deleteTask(project.id, column.id, task.id)">
                                 <span class="material-icons text-red-500">delete</span>
                             </button>
                         </div>
-                    </div>
-                    <span class="text-500 text-sm">{{task.creationDate | date: 'dd/LL/yyyy - HH:mm'}}</span>
-                    <div class="grid grid-nogutter gap-2 mt-3 mb-2" *ngIf="task.labels.length > 0">
-                        <div class="label" *ngFor="let label of task.labels" [style.background]="label.color">
-                            {{ label.name }}
+                    </header>
+                    <div class="body">
+                        <div class="label-container">
+                            <div class="label font-medium" *ngFor="let label of task.labels" [style.color]="label.color" [style.background]="label.background">
+                                {{ label.name }}
+                            </div>
                         </div>
+                        <span class="description font-regular">{{ task.description }}</span>
                     </div>
-                    <span class="card-description text-base text-500">{{ task.description }}</span>
 
                     <div class="flex align-items-center gap-2 mt-2" *ngIf="task.checkboxes.length > 0">
                         <span
@@ -101,6 +108,9 @@
                 </div>
             </div>
         </div>
+        <button class="btn btn-icon bg-blue-500 hover:bg-blue-600" (click)="showAddColumnModal = true">
+            <span class="material-icons text-white">add</span>
+        </button>
     </div>
 </div>
 

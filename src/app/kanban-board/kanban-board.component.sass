@@ -1,37 +1,3 @@
-.panel
-    border: 1px solid #F2F2F3
-    padding: 20px
-    border-radius: 8px
-
-.card
-    background-color: #1C2023
-    border-radius: 8px
-    padding: 12px 20px
-    cursor: pointer
-
-    &.cdk-drag-placeholder
-        opacity: 0.2
-
-    &:hover
-        border-color: #1A73E8
-
-    .card-title
-        font-size: 18px
-        font-weight: 600
-        margin-bottom: 10px
-
-    .card-description
-        font-size: 14px
-        color: #A9A9A9
-        display: block
-        text-overflow: ellipsis
-        overflow: hidden
-        max-height: 200px
-
-        display: -webkit-box
-        -webkit-line-clamp: 3
-        -webkit-box-orient: vertical
-
 img
     width: 100px
     height: 100px
@@ -46,22 +12,33 @@ img
 ::ng-deep .p-dropdown
     width: 100%
     background-color: transparent
-    border: 2px solid #1C2023
+    border: 2px solid #DDD
 
-.label
-    font-size: 14px
-    font-weight: 600
-    color: black
-    border-radius: 8px
-    width: fit-content
-    text-align: center
-    padding: 4px 12px
+.column
+    background-color: #FFFFFF
+    box-shadow: 0 4px 8px 0 rgba(138, 158, 180, 0.05)
+    padding: 20px
+    border-radius: 4px
 
-.urgency-0
-    color: #269846
+    header
+        display: flex
+        justify-content: space-between
+        margin-bottom: 20px
 
-.urgency-1
-    color: #FCC72D
+        .left-container
+            display: flex
+            align-items: center
+            gap: 12px
 
-.urgency-2
-    color: #E74033
+            .title
+                font-size: 18px
+                color: #252A48
+
+            .task-count
+                font-size: 16px
+                color: #2e7dff
+
+        .right-container
+            display: flex
+            align-items: center
+            gap: 12px

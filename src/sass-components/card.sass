@@ -1,0 +1,138 @@
+.card
+    border: 2px solid $border-color
+    border-radius: 4px
+    box-shadow: 0 0 0 0
+    padding: 20px !important
+    position: relative
+    cursor: pointer
+
+    .urgency
+        position: absolute
+        top: 24px
+        left: -3px
+        background-color: $secondary-color
+        height: 36px
+        width: 4px
+        border-radius: 2px
+
+    &:hover
+        border-color: $secondary-color-dark
+
+    &.urgency-0
+        &:hover
+            border-color: $primary-color
+
+        .urgency
+            background-color: $primary-color
+
+    &.urgency-1
+        &:hover
+            border-color: $warning-color
+
+        .urgency
+            background-color: $warning-color
+
+    &.urgency-2
+        &:hover
+            border-color: $danger-color
+
+        .urgency
+            background-color: $danger-color
+
+    header
+        display: flex
+        justify-content: space-between
+        align-items: baseline
+        margin-bottom: 0 !important
+
+        .content-container
+            display: flex
+            flex-direction: column
+            gap: 4px
+
+            .title
+                font-size: 18px
+                color: $text-color
+
+            .date-container
+                display: flex
+                align-items: center
+                gap: 8px
+                color: rgba(0, 0, 0, 0.18)
+
+                .date
+                    font-size: 14px
+                    color: $text-secondary
+
+                .time-container
+                    display: flex
+                    align-items: center
+                    gap: 4px
+
+                    .time-icon
+                        font-size: 14px
+                        color: $text-color
+
+                    .time
+                        font-size: 14px
+                        color: $text-secondary
+
+    .body
+        margin-top: 12px
+
+        .label-container
+            display: flex
+            align-items: center
+            flex-wrap: wrap
+            gap: 8px
+            margin-bottom: 8px
+
+            .label
+                padding: 8px 12px
+                border-radius: 4px
+                font-size: 14px
+                font-family: $font-family-medium
+
+        .description
+            font-size: 14px
+            color: $text-secondary
+            display: block
+            text-overflow: ellipsis
+            overflow: hidden
+            max-height: 200px
+
+            display: -webkit-box
+            -webkit-line-clamp: 3
+            -webkit-box-orient: vertical
+
+    .footer
+        display: flex
+        justify-content: end
+        margin-top: 20px
+        gap: 16px
+
+    .checkbox-container
+        display: flex
+        flex-direction: column
+
+        .checkbox
+            border-top: 1px solid $border-color
+            padding: 8px 0
+
+            .checkbox-input
+                border: 0
+                background-color: transparent
+                outline: none
+                cursor: text
+                color: $text-secondary
+
+                &::placeholder
+                    color: $text-secondary
+
+                &:hover
+                    color: $text-color
+                    text-decoration: underline
+
+            .btn-icon
+                height: 8px
+                width: 8px

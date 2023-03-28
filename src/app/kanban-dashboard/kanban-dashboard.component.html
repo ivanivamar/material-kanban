@@ -2,7 +2,7 @@
     <div class="col-12 lg:col-8">
         <div class="flex align-items-center justify-content-between mb-3">
             <div class="flex align-items-center">
-                <span class="material-symbols-rounded text-4xl text-blue-600">stop</span>
+                <span class="material-symbols-rounded text-4xl mr-2 text-blue-600">overview_key</span>
                 <h1 class="m-0 text-3xl">Dashboard</h1>
             </div>
 
@@ -11,7 +11,7 @@
             </button>
         </div>
         <div class="flex flex-column" *ngIf="!loading && !project">
-            <div class="grid grid-nogutter gap-5 pb-3 mt-2 border-bottom-1 border-900">
+            <div class="grid grid-nogutter gap-5 pb-3 mt-2 border-bottom-1 border-300">
                 <div *ngFor="let project of projects; let i = index">
                     <div class="btn btn-primary" (click)="navigateToProject(project)">
                         <span class="material-symbols-rounded">view_kanban</span>
