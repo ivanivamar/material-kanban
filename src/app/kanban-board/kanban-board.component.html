@@ -38,8 +38,11 @@
                 <div class="col-12 card transition-all transition-duration-100" *ngFor="let task of column.tasks" (click)="editTaskSetup(column.id, task)"
                     pDraggable (onDragStart)="dragStart(task, i)" (onDragEnd)="dragEnd()">
                     <div class="flex flex-row align-items-center justify-content-between">
-                        <span [classList]="'text-base font-bold'">{{
-                            task.title }}</span>
+                        <div class="flex align-items-center">
+                          <span class="" [classList]="'material-icons text-xs mr-2 urgency-' + task.urgency">circle</span>
+                          <span [classList]="'text-base font-bold'">{{
+                              task.title }}</span>
+                        </div>
                         <div class="flex flex-row align-items-center">
                             <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
                                 <span class="material-icons"
