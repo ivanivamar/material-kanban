@@ -183,7 +183,7 @@
                 <div class="flex flex-column gap-2 w-6">
                     <label for="urgency">Urgency</label>
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." [showClear]="true" [(ngModel)]="selectedTask.task.urgency"
+                        placeholder="Select Urgency..." appendTo="body" [showClear]="true" [(ngModel)]="selectedTask.task.urgency"
                         optionLabel="title" optionValue="code"></p-dropdown>
                 </div>
             </div>
