@@ -1,60 +1,67 @@
 .panel
-  border: 1px solid #F2F2F3
-  padding: 20px
-  border-radius: 8px
-
-  .column
-    background-color: #F8F9FA
+    border: 1px solid #F2F2F3
+    padding: 20px
+    border-radius: 8px
 
 .card
-  background-color: #1C2023
-  border-radius: 8px
-  padding: 12px 20px
-  cursor: pointer
+    background-color: #1C2023
+    border-radius: 8px
+    padding: 12px 20px
+    cursor: pointer
 
-  &.cdk-drag-placeholder
-    opacity: 0.2
+    &.cdk-drag-placeholder
+        opacity: 0.2
 
-  &:hover
-    border-color: #1A73E8
+    &:hover
+        border-color: #1A73E8
 
-  .card-title
-    font-size: 18px
-    font-weight: 600
-    margin-bottom: 10px
+    .card-title
+        font-size: 18px
+        font-weight: 600
+        margin-bottom: 10px
 
-  .card-description
-    font-size: 14px
-    color: #A9A9A9
-    display: block
-    text-overflow: ellipsis
-    overflow: hidden
-    max-height: 200px
+    .card-description
+        font-size: 14px
+        color: #A9A9A9
+        display: block
+        text-overflow: ellipsis
+        overflow: hidden
+        max-height: 200px
 
-    display: -webkit-box
-    -webkit-line-clamp: 3
-    -webkit-box-orient: vertical
+        display: -webkit-box
+        -webkit-line-clamp: 3
+        -webkit-box-orient: vertical
+
+img
+    width: 100px
+    height: 100px
+    object-fit: cover
+    border-radius: 18px
+    transition: all 0.2s ease-in-out
+
+    &:hover
+        filter: brightness(0.8)
 
 ::ng-deep .p-multiselect,
 ::ng-deep .p-dropdown
-  width: 100%
-  background-color: transparent
-  border: 2px solid #1C2023
+    width: 100%
+    background-color: transparent
+    border: 2px solid #1C2023
 
 .label
-  font-size: 14px
-  font-weight: 600
-  color: black
-  border-radius: 8px
-  width: fit-content
-  text-align: center
-  padding: 4px 12px
+    font-size: 14px
+    font-weight: 600
+    color: black
+    border-radius: 8px
+    width: fit-content
+    text-align: center
+    padding: 4px 12px
 
 .urgency-0
-  color: #269846
+    color: #269846
 
 .urgency-1
-  color: #FCC72D
+    color: #FCC72D
 
 .urgency-2
-  color: #E74033
+    color: #E74033

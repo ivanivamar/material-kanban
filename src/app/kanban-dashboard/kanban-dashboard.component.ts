@@ -245,6 +245,7 @@ export class KanbanDashboardComponent implements OnInit {
                             checkboxes: this.selectedTask.checkboxes,
                             labels: this.selectedTask.labels,
                             urgency: this.selectedTask.urgency,
+                            images: this.selectedTask.images,
                         };
                         column.tasks.push(task);
                     }

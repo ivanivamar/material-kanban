@@ -15,6 +15,7 @@ import {
 import { Observable } from 'rxjs';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
 
 @Component({
     selector: 'app-kanban-board',
@@ -58,10 +59,13 @@ export class KanbanBoardComponent implements OnInit {
     selectedTasks: any[] = [];
     startColumnId: any = null;
 
+    selectedImage: string = '';
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private firestore: Firestore) {
+        private firestore: Firestore,
+        private storage: Storage) {
     }
 
     ngOnInit(): void {
@@ -165,6 +169,7 @@ export class KanbanBoardComponent implements OnInit {
                                 labels: this.selectedTask.labels ? this.selectedTask.labels : [],
                                 checkboxes: this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [],
                                 completed: this.selectedTask.completed ? this.selectedTask.completed : false,
+                                images: this.selectedTask.images ? this.selectedTask.images : [],
                                 creationDate: new Date().toUTCString(),
                             },
                         ];
@@ -184,6 +189,7 @@ export class KanbanBoardComponent implements OnInit {
                                 task.labels = this.selectedTask.labels ? this.selectedTask.labels : [];
                                 task.checkboxes = this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [];
                                 task.completed = this.selectedTask.completed ? this.selectedTask.completed : false;
+                                task.images = this.selectedTask.images ? this.selectedTask.images : [];
                             }
                             return task;
                         });
@@ -225,6 +231,27 @@ export class KanbanBoardComponent implements OnInit {
 
 
     //#region Helpers
+    uploadTaskImage(event: any) {
+        const image = event.target.files[0];
+        const imgRef = ref(this.storage, `taskImages/${image.name}`);
+
+        if (this.selectedTask.images == null) {
+            this.selectedTask.images = [];
+        }
+
+        uploadBytes(imgRef, image)
+            .then(response => {
+                getDownloadURL(response.ref).then(url => {
+                    this.selectedTask.images.push(url);
+                });
+            })
+            .catch(error => console.log(error));
+    }
+
+    removeImage(image: string) {
+        this.selectedTask.images = this.selectedTask.images.filter(img => img !== image);
+    }
+
     primengDrop(columnId: number, tasks: any) {
         if (this.draggedTask && this.startColumnId !== columnId) {
             this.project.columns[columnId].tasks = [

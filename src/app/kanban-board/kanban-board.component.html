@@ -31,17 +31,20 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary p-2 flex justify-content-center align-items-center text-center w-full" (click)="addTaskSetup(column.id)">
+            <button class="btn btn-primary p-2 flex justify-content-center align-items-center text-center w-full"
+                (click)="addTaskSetup(column.id)">
                 <span class="material-icons">add</span>
             </button>
             <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
-                <div class="col-12 card transition-all transition-duration-100" *ngFor="let task of column.tasks" (click)="editTaskSetup(column.id, task)"
-                    pDraggable (onDragStart)="dragStart(task, i)" (onDragEnd)="dragEnd()">
+                <div class="col-12 card transition-all transition-duration-100" *ngFor="let task of column.tasks"
+                    (click)="editTaskSetup(column.id, task)" pDraggable (onDragStart)="dragStart(task, i)"
+                    (onDragEnd)="dragEnd()">
                     <div class="flex flex-row align-items-center justify-content-between">
                         <div class="flex align-items-center">
-                          <span class="" [classList]="'material-icons text-xs mr-2 urgency-' + task.urgency">circle</span>
-                          <span [classList]="'text-base font-bold'">{{
-                              task.title }}</span>
+                            <span class=""
+                                [classList]="'material-icons text-xs mr-2 urgency-' + task.urgency">circle</span>
+                            <span [classList]="'text-base font-bold'">{{
+                                task.title }}</span>
                         </div>
                         <div class="flex flex-row align-items-center gap-1">
                             <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
@@ -136,6 +139,16 @@
                     [(ngModel)]="selectedTask.description"></textarea>
             </div>
 
+            <div class="flex flex-row align-items-center flex-wrap gap-3 mt-2">
+                <div class="relative" *ngFor="let image of selectedTask.images">
+                    <img [src]="image" alt="Task Image" class="cursor-pointer" (click)="selectedImage = image">
+                    <button class="btn btn-icon absolute" style="top:4px; right:4px" (click)="removeImage(image)">
+                        <span class="material-icons text-red-500">delete</span>
+                    </button>
+                </div>
+                <input type="file" id="images" (change)="uploadTaskImage($event)">
+            </div>
+
             <div class="flex flex-column gap-2 mt-2 mb-4">
                 <label for="checkboxes">Checkboxes</label>
                 <div class="flex flex-row align-items-center gap-2">
@@ -172,8 +185,8 @@
                 <div class="flex flex-column gap-2 w-6">
                     <label for="urgency">Urgency</label>
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." appendTo="body" [showClear]="true" [(ngModel)]="selectedTask.urgency"
-                        optionLabel="title" optionValue="code"></p-dropdown>
+                        placeholder="Select Urgency..." appendTo="body" [showClear]="true"
+                        [(ngModel)]="selectedTask.urgency" optionLabel="title" optionValue="code"></p-dropdown>
                 </div>
             </div>
         </div>
@@ -246,5 +259,16 @@
                 Column
             </button>
         </div>
+    </div>
+</div>
+
+<div class="dialog-container" *ngIf="selectedImage !== ''">
+    <button class="btn btn-icon absolute" style="top: 170px; right: 30%" (click)="selectedImage = ''">
+        <span class="material-icons">
+            close
+        </span>
+    </button>
+    <div class="dialog">
+        <img [src]="selectedImage" class="w-full h-full shadow-1 pointer-events-none">
     </div>
 </div>

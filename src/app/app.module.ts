@@ -17,6 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
     DropdownModule,
     MultiSelectModule,
     BrowserAnimationsModule,
-    DragDropModulePrime
+    DragDropModulePrime,
+    provideStorage(() => getStorage())
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -7,6 +7,7 @@ export interface Task {
     urgency: Urgency;
     creationDate: any;
     completed: boolean;
+    images: string[];
 }
 
 export interface Checkboxes {

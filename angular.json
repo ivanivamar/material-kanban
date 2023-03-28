@@ -35,7 +35,9 @@
               "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css"
             ],
-            "scripts": ["node_modules/chart.js/dist/chart.js"]
+            "scripts": [
+              "node_modules/chart.js/dist/chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -101,7 +103,19 @@
               "node_modules/primeng/resources/themes/lara-dark-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css"
             ],
-            "scripts": ["node_modules/chart.js/dist/chart.js"]
+            "scripts": [
+              "node_modules/chart.js/dist/chart.js"
+            ]
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "material-kanban:build:production",
+            "firebaseProject": "materialkanban",
+            "firebaseHostingSite": "materialkanban"
           }
         }
       }
