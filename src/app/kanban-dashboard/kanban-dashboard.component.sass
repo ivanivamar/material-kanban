@@ -16,24 +16,33 @@
   border-radius: 50%
 
 .card
-  background-color: #FFFFFF
-  border: 1px solid #F2F2F3
+  background-color: #1C2023
   border-radius: 8px
   padding: 12px 20px
   cursor: pointer
-  transition: all 0.2s ease-in-out
+
+  &.cdk-drag-placeholder
+    opacity: 0.2
 
   &:hover
     border-color: #1A73E8
 
-    .card-title
-      font-size: 18px
-      font-weight: 600
-      margin-bottom: 10px
+  .card-title
+    font-size: 18px
+    font-weight: 600
+    margin-bottom: 10px
 
-    .card-description
-      font-size: 14px
-      color: #A9A9A9
+  .card-description
+    font-size: 14px
+    color: #A9A9A9
+    display: block
+    text-overflow: ellipsis
+    overflow: hidden
+    max-height: 200px
+
+    display: -webkit-box
+    -webkit-line-clamp: 3
+    -webkit-box-orient: vertical
 
 ::ng-deep .p-multiselect,
 ::ng-deep .p-dropdown

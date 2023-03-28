@@ -43,10 +43,10 @@
                           <span [classList]="'text-base font-bold'">{{
                               task.title }}</span>
                         </div>
-                        <div class="flex flex-row align-items-center">
+                        <div class="flex flex-row align-items-center gap-1">
                             <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
                                 <span class="material-icons"
-                                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-white'">
                                     check_circle
                                 </span>
                             </button>
@@ -65,10 +65,10 @@
 
                     <div class="flex align-items-center gap-2 mt-2" *ngIf="task.checkboxes.length > 0">
                         <span
-                            [classList]="getTotalCompletedTasks(task) === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
+                            [classList]="getTotalCompletedTasks(task) === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-white'">check_box</span>
                         <span class="font-semibold text-600">{{getTotalCompletedTasks(task)}} /
                             {{task.checkboxes.length}}</span>
-                        <div class="flex flex-1 bg-gray-200 border-round" style="height: 3px">
+                        <div class="flex flex-1 bg-white border-round" style="height: 3px">
                             <div class="bg-blue-500 border-round transition-all transition-duration-100"
                                 [style.width.%]="getTotalCompletedTasks(task) / task.checkboxes.length * 100"></div>
                         </div>
