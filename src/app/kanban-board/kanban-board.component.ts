@@ -76,6 +76,12 @@ export class KanbanBoardComponent implements OnInit {
                     this.projects = projects;
                     this.project = this.projects.find((project: ProjectWithId) => project.id === this.projectId);
                     console.log('%c Project: ', 'background: #222; color: #bada55', this.project);
+                    // sort tasks in columns by creation date
+                    this.project.columns.forEach((column: Column) => {
+                        column.tasks.sort((a: Task, b: Task) => {
+                            return a.creationDate - b.creationDate;
+                        });
+                    });
                     this.loading = false;
                 });
             }
@@ -221,11 +227,14 @@ export class KanbanBoardComponent implements OnInit {
     //#region Helpers
     primengDrop(columnId: number, tasks: any) {
         if (this.draggedTask && this.startColumnId !== columnId) {
-
             this.project.columns[columnId].tasks = [
                 ...this.project.columns[columnId].tasks,
                 this.draggedTask,
             ];
+            // sort tasks by creation date
+            this.project.columns[columnId].tasks.sort((a: any, b: any) => {
+                return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+            });
             this.project.columns[this.startColumnId].tasks = this.project.columns[
                 this.startColumnId
             ].tasks.filter((val, i) => val.id != this.draggedTask.id);
@@ -240,7 +249,7 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     dragStart(task: any, startColumdId: number) {
-        this.draggedTask = task;
+        this.draggedTask = JSON.parse(JSON.stringify(task));
         this.startColumnId = startColumdId;
     }
 
@@ -285,9 +294,10 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     toggleTaskCompleted(event?: any, task?: Task) {
-        event.stopPropagation();
+        if (event) {
+          event.stopPropagation();
+        }
         this.selectedTask = task ? task : this.selectedTask;
-        console.log(this.selectedTask);
         this.selectedTask.completed = !this.selectedTask.completed;
 
         this.addTask();

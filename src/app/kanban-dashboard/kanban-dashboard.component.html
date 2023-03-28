@@ -1,37 +1,27 @@
-<div class="grid" *ngIf="!loading && !project">
+<div class="grid">
     <div class="col-12 lg:col-8">
-        <div class="panel flex flex-column">
-            <div class="flex justify-content-between align-items-center">
-                <span class="font-bold text-lg">Recent Work Progress</span>
-                <button class="btn btn-primary" (click)="showAddProjectModal = true">
-                    <span class="material-icons">add</span>
-                    Project
-                </button>
+        <div class="flex align-items-center justify-content-between mb-3">
+            <div class="flex align-items-center">
+                <span class="material-symbols-rounded text-4xl text-blue-600">stop</span>
+                <h1 class="m-0 text-3xl">Dashboard</h1>
             </div>
-            <div class="grid grid-nogutter gap-5 mt-2">
-                <div class="col-12 md:col max-w-full md:max-w-15rem" *ngFor="let project of projects; let i = index">
-                    <div class="project-card p-2 border-round-md" [style.background]="lightColorArray[i]"
-                        (click)="navigateToProject(project)">
-                        <div class="flex flex-row align-items-center gap-2">
-                            <div class="border-round-md p-3 font-bold text-lg" [style.background]="darkColorArray[i]">
-                                {{project.title.substring(0, 2)}}
-                            </div>
-                            <div class="flex flex-column justify-content-between w-full" style="height: 48px;">
-                                <h3 class="m-0 text-base">{{project.title}}</h3>
-                                <div class="flex align-items-center justify-content-between">
-                                    <span class="text-sm text-700">{{getTasksCount(project)}} total tasks</span>
-                                    <button class="btn btn-secondary" (click)="deleteProject(project.id, $event)">
-                                        <span class="material-icons text-red-500">delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+
+            <button class="btn btn-icon" (click)="showAddProjectModal = true">
+                <span class="material-icons">add</span>
+            </button>
+        </div>
+        <div class="flex flex-column" *ngIf="!loading && !project">
+            <div class="grid grid-nogutter gap-5 pb-3 mt-2 border-bottom-1 border-900">
+                <div *ngFor="let project of projects; let i = index">
+                    <div class="btn btn-primary" (click)="navigateToProject(project)">
+                        <span class="material-symbols-rounded">view_kanban</span>
+                        {{project.title}}
                     </div>
                 </div>
             </div>
         </div>
         <div class="grid mt-3">
-            <div class="col">
+            <div class="col w-full">
                 <div class="panel">
                     <div class="flex flex-row align-items-center justify-content-between mb-3">
                         <span class="font-bold text-lg">Recent Work Progress</span>
@@ -61,7 +51,8 @@
                         {{currentWeekTask.project}}
                     </div>
 
-                    <div class="col-12 card" *ngFor="let taskContainer of currentWeekTask.tasks" (click)="editTaskSetup(taskContainer)">
+                    <div class="col-12 card" *ngFor="let taskContainer of currentWeekTask.tasks"
+                        (click)="editTaskSetup(taskContainer)">
                         <div class="flex flex-row align-items-center justify-content-between">
                             <span [classList]="'text-base font-bold urgency-' + taskContainer.task.urgency">{{
                                 taskContainer.task.title }}</span>
@@ -76,20 +67,23 @@
                         </div>
                         <span class="text-500 text-sm">{{taskContainer.task.creationDate | date: 'dd/LL/yyyy - HH:mm'}}</span>
                         <div class="grid grid-nogutter gap-2 mt-3 mb-2" *ngIf="taskContainer.task.labels.length > 0">
-                            <div class="label" *ngFor="let label of taskContainer.task.labels" [style.background]="label.color">
+                            <div class="label" *ngFor="let label of taskContainer.task.labels"
+                                [style.background]="label.color">
                                 {{ label.name }}
                             </div>
                         </div>
                         <span class="card-description text-base text-500">{{ taskContainer.task.description }}</span>
 
-                        <div class="flex align-items-center gap-2 mt-2" *ngIf="taskContainer.task.checkboxes.length > 0">
+                        <div class="flex align-items-center gap-2 mt-2"
+                            *ngIf="taskContainer.task.checkboxes.length > 0">
                             <span
                                 [classList]="getTotalCompletedTasks(taskContainer.task) === taskContainer.task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
                             <span class="font-semibold text-600">{{getTotalCompletedTasks(taskContainer.task)}} /
                                 {{taskContainer.task.checkboxes.length}}</span>
                             <div class="flex flex-1 bg-gray-200 border-round" style="height: 3px">
                                 <div class="bg-blue-500 border-round transition-all transition-duration-100"
-                                    [style.width.%]="getTotalCompletedTasks(taskContainer.task) / taskContainer.task.checkboxes.length * 100"></div>
+                                    [style.width.%]="getTotalCompletedTasks(taskContainer.task) / taskContainer.task.checkboxes.length * 100">
+                                </div>
                             </div>
                             <button class="btn btn-icon" (click)="showCheckbox($event, taskContainer.task.id)">
                                 <span class="material-icons text-700"
@@ -135,7 +129,7 @@
                         check_circle
                     </span>
                 </button>
-                <button class="dialog-close" (click)="showAddTaskModal = false">
+                <button class="btn btn-icon" (click)="showAddTaskModal = false">
                     <span class="material-icons">
                         close
                     </span>
@@ -207,7 +201,7 @@
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Add Project</span>
-            <button class="dialog-close" (click)="showAddProjectModal = false">
+            <button class="btn btn-icon" (click)="showAddProjectModal = false">
                 <span class="material-icons">
                     close
                 </span>

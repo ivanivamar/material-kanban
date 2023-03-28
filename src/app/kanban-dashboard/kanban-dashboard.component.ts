@@ -84,12 +84,7 @@ export class KanbanDashboardComponent implements OnInit {
             this.loading = false;
             this.getCurrentWeekTasks();
             this.makeWeekTasksChart(this.projects);
-            console.log(this.currentWeekTasks);
-            console.log('%c options: ', 'background: #222; color: #bada55', this.options);
-            console.log('%c data: ', 'background: #222; color: #bada55', this.data);
         });
-
-
     }
 
     editTaskSetup(task: any) {

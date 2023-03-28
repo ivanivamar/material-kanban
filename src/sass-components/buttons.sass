@@ -1,64 +1,59 @@
 .btn
-  border: none
-  border-radius: 4px
-  padding: 6px 14px
-  font-size: 16px
-  font-family: $font-family-medium
-  cursor: pointer
-  transition: background-color 0.2s ease
-  display: flex
-  align-items: center
-  gap: 8px
-
-  .material-icons
+    border: 0
+    border-radius: 8px
+    padding: 8px 16px
     font-size: 16px
+    font-family: $font-family-medium
+    cursor: pointer
+    transition: background-color 0.2s ease
+    display: flex
+    align-items: center
+    gap: 8px
 
-  &.btn-primary
-    background-color: $primary-color
-    color: white
+    .material-icons
+        font-size: 16px
 
-    &:hover
-      background-color: $primary-color-hover
+    &.btn-primary
+        background-color: #1C2023
+        color: white
 
-    &:active
-      background-color: $primary-color-active
+        &:hover
+            filter: brightness(1.1)
 
-    &:disabled
-      opacity: 0.5
-      background-color: $primary-color-disabled
-      color: #ffffff
+        &:active
+            filter: brightness(1.2)
 
-  &.btn-secondary
-    background-color: transparent
-    color: black
+        &:disabled
+            opacity: 0.5
 
-    &:hover
-      background-color: $primary-color-light
-      color: black
+    &.btn-secondary
+        background-color: transparent
+        color: white
 
-    &:active
-      background-color: $primary-color-light
-      color: black
+        &:hover
+            background-color: #1C2023
 
-    &:disabled
-      opacity: 0.5
-      background-color: $primary-color-disabled
-      color: black
+        &:active
+            background-color: #1C2023
+            filter: brightness(1.2)
 
-  &.btn-icon
-    padding: 8px
-    background-color: transparent
-    color: $primary-color
+        &:disabled
+            opacity: 0.5
 
-    &:hover
-      background-color: $primary-color-light
-      color: $primary-color
+    &.btn-icon
+        padding: 8px
+        background-color: #17181C
+        color: white
+        border-radius: 50%
+        width: 32px
+        height: 32px
+        border: 1px solid #5B5D5E
+        display: flex
+        justify-content: center
+        align-items: center
 
-    &:active
-      background-color: $primary-color-light
-      color: $primary-color
+        &:hover
+            background-color: rgba(91, 93, 94, 0.3)
 
-    &:disabled
-      opacity: 0.5
-      background-color: $primary-color-disabled
-      color: $primary-color
+        &:disabled
+            opacity: 0.5

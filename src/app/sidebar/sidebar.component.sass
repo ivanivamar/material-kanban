@@ -1,15 +1,15 @@
 
-$primary-color: #1A73E8
+$primary-color: #568FD9
 
 nav
-  background-color: #ffffff
-  border-right: 2px solid #F7F7F7
+  background-color: #000000
   height: 100%
   position: fixed
   top: 0
   left: 0
   width: 250px
   z-index: 1
+  padding: 24px 16px
 
   header
     padding: 24px
@@ -21,24 +21,54 @@ nav
       font-weight: 600
       font-family: 'Roboto', sans-serif
 
+  .sublinks
+    margin-left: 28px
+    position: relative
+
+    &::before
+      content: ''
+      display: block
+      width: 2px
+      height: 100%
+      background-color: #252525
+      position: absolute
+      left: -12px
+      top: 0
+      z-index: -1
+
   a
     text-decoration: none
     background-color: transparent
-    color: #000000
-    padding: 12px 24px
-    margin-left: 4px
+    color: #505050
+    font-weight: 600
+    padding: 6px 8px
+    font-size: 14px
+    border-radius: 6px
     display: flex
     align-items: center
     transition: background-color 0.2s ease
-    border-left: 4px solid #F7F7F7
-    border-bottom: 1px solid #F7F7F7
+
+    .material-icons
+      font-size: 16px
 
     &:hover
-      background-color: #F7F8F8
+      background-color: #1C1E1F
 
     &.active
-      border-left: 4px solid $primary-color
-      border-bottom: 1px solid #F7F7F7
+      background-color: #1C1E1F
+      color: white
 
     &.sublink
-      margin-left: 28px
+      margin-top: 4px
+      padding: 6px 4px
+      position: relative
+
+      &::before
+        content: ''
+        display: block
+        width: 8px
+        height: 2px
+        background-color: #252525
+        position: absolute
+        left: -12px
+        top: 50%

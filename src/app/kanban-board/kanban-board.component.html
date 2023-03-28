@@ -1,4 +1,4 @@
-<div class="panel" *ngIf="!loading">
+<div class="col-10" *ngIf="!loading">
     <div class="flex align-items-center justify-content-between">
         <div class="flex gap-2 align-items-center">
             <button class="btn btn-secondary" routerLink="/dashboard">
@@ -10,9 +10,8 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-primary" (click)="showAddColumnModal = true">
+            <button class="btn btn-icon" (click)="showAddColumnModal = true">
                 <span class="material-icons">add</span>
-                Column
             </button>
         </div>
     </div>
@@ -20,12 +19,9 @@
     <div class="grid grid-nogutter mt-3 gap-5" *ngIf="project.columns.length > 0">
         <div class="col p-3 column border-round-lg max-w-25rem" *ngFor="let column of project.columns; let i = index"
             pDroppable (onDrop)="primengDrop(i, column.tasks)">
-            <div class="flex flex-row align-items-center justify-content-between">
-                <span class="text-base font-bold">{{ column.title }}</span>
+            <div class="flex flex-row align-items-center mb-3 justify-content-between">
+                <span class="text-base block">{{ column.title }}</span>
                 <div class="flex flex-row align-items-center gap-1">
-                    <button class="btn btn-icon" (click)="addTaskSetup(column.id)">
-                        <span class="material-icons">add_task</span>
-                    </button>
                     <button class="btn btn-icon" (click)="editColumnSetup(column.id, column.title)">
                         <span class="material-icons">edit</span>
                     </button>
@@ -35,11 +31,14 @@
                 </div>
             </div>
 
+            <button class="btn btn-primary p-2 flex justify-content-center align-items-center text-center w-full" (click)="addTaskSetup(column.id)">
+                <span class="material-icons">add</span>
+            </button>
             <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
-                <div class="col-12 card" *ngFor="let task of column.tasks" (click)="editTaskSetup(column.id, task)"
+                <div class="col-12 card transition-all transition-duration-100" *ngFor="let task of column.tasks" (click)="editTaskSetup(column.id, task)"
                     pDraggable (onDragStart)="dragStart(task, i)" (onDragEnd)="dragEnd()">
                     <div class="flex flex-row align-items-center justify-content-between">
-                        <span [classList]="'text-base font-bold urgency-' + task.urgency">{{
+                        <span [classList]="'text-base font-bold'">{{
                             task.title }}</span>
                         <div class="flex flex-row align-items-center">
                             <button class="btn btn-icon" (click)="toggleTaskCompleted($event, task)">
@@ -116,7 +115,7 @@
                         check_circle
                     </span>
                 </button>
-                <button class="dialog-close" (click)="showAddTaskModal = false">
+                <button class="btn btn-icon" (click)="showAddTaskModal = false">
                     <span class="material-icons">
                         close
                     </span>
@@ -142,7 +141,7 @@
                         <span class="material-icons">add</span>
                     </button>
                 </div>
-                <div class="flex flex-column gap-2 mt-2" *ngIf="selectedTask.checkboxes.length > 0">
+                <div class="flex flex-column gap-2 mt-2" *ngIf="selectedTask.checkboxes">
                     <div class="flex flex-row align-items-center gap-2"
                         *ngFor="let checkbox of selectedTask.checkboxes">
                         <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
@@ -193,7 +192,7 @@
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Edit Column</span>
-            <button class="dialog-close" (click)="showEditColumnModal = false">
+            <button class="btn btn-icon" (click)="showEditColumnModal = false">
                 <span class="material-icons">
                     close
                 </span>
@@ -222,7 +221,7 @@
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Add Column</span>
-            <button class="dialog-close" (click)="showAddColumnModal = false">
+            <button class="btn btn-icon" (click)="showAddColumnModal = false">
                 <span class="material-icons">
                     close
                 </span>
