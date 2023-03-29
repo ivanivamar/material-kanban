@@ -1,15 +1,27 @@
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { addDoc, collection, deleteDoc, doc, DocumentData, Firestore } from 'firebase/firestore';
 import { Project } from './interfaces/Kanban.interfaces';
-import { collectionData, collectionSnapshots } from '@angular/fire/firestore';
+import {
+    Firestore,
+    collectionData,
+    collection,
+    addDoc,
+    deleteDoc,
+    doc,
+    DocumentData,
+    updateDoc,
+    getDoc,
+} from '@angular/fire/firestore';
+import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
 
 @Injectable({
     providedIn: 'root'
 })
 export class KanbanService {
 
-    constructor(private firestore: Firestore) { }
+    constructor(
+        private firestore: Firestore,
+        private storage: Storage) { }
 
     //#region Getters
     getProjects(): Observable<Project[]> {
@@ -17,16 +29,33 @@ export class KanbanService {
         return collectionData(projectRef, { idField: 'id' }) as Observable<Project[]>;
     }
 
-    getProjectById(projectId: string) {
-        const projectRef = collection(this.firestore, 'projects');
-        return doc(projectRef, projectId);
+    getProjectById(projectId: string): Observable<Project> {
+        const projectRef = doc(this.firestore, 'projects', projectId);
+        return new Observable<Project>(observer => {
+            getDoc(projectRef).then(project => {
+                observer.next(project.data() as Project);
+                observer.complete();
+            }).catch(error => {
+                observer.error(error);
+            });
+        });
     }
     //#endregion
 
     //#region Setters
-    sendAddProject(project: any) {
+    addProject(project: any) {
         const projectRef = collection(this.firestore, 'projects');
         return addDoc(projectRef, project);
+    }
+
+    updateProject(project: any) {
+        const projectRef = collection(this.firestore, 'projects');
+        return updateDoc(doc(projectRef, project.id), project);
+    }
+
+    uploadImage(image: any) {
+        const imageRef = ref(this.storage, 'images/' + this.idGenerator());
+        return uploadBytes(imageRef, image);
     }
     //#endregion
 

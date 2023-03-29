@@ -6,6 +6,7 @@ export interface Task {
     checkboxes: Checkboxes[];
     urgency: Urgency;
     creationDate: any;
+    modificationDate: any;
     completed: boolean;
     images: string[];
 }
@@ -30,13 +31,10 @@ export interface Column {
 }
 
 export interface Project {
+    id?: string;
     title: string;
     columns: Column[];
 }
-export interface ProjectWithId extends Project {
-    id: string;
-}
-
 export interface Urgency {
     title: string;
     color: string;

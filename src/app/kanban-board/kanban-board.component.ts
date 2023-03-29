@@ -1,31 +1,19 @@
-import { Checkboxes, Column, Labels, Project, Urgency } from './../interfaces/Kanban.interfaces';
-import { ProjectWithId, Task } from '../interfaces/Kanban.interfaces';
+import { KanbanService } from './../kanban-service.service';
+import { Checkboxes, Column, Labels, Project, Urgency, Task } from './../interfaces/Kanban.interfaces';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    Firestore,
-    collectionData,
-    collection,
-    addDoc,
-    deleteDoc,
-    doc,
-    DocumentData,
-    updateDoc,
-} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
 
 @Component({
     selector: 'app-kanban-board',
     templateUrl: './kanban-board.component.html',
     styleUrls: ['./kanban-board.component.sass'],
-    providers: []
 })
 export class KanbanBoardComponent implements OnInit {
     projects: any[] = [];
-    project: ProjectWithId = {} as ProjectWithId;
+    project: Project = {} as Project;
     projectId: string = '';
     loading: boolean = false;
 
@@ -37,9 +25,6 @@ export class KanbanBoardComponent implements OnInit {
     columnEditTitle: string = '';
 
     showAddTaskModal: boolean = false;
-    taskColumnId: string = '';
-    selectedTask: Task = {} as Task;
-    newCheckbox: string = '';
 
     showCheckboxes: string = '';
 
@@ -55,17 +40,12 @@ export class KanbanBoardComponent implements OnInit {
         { title: 'High', code: 2, color: '#E5C7F5' },
     ];
     draggedTask: any;
-
-    selectedTasks: any[] = [];
-    startColumnId: any = null;
-
-    selectedImage: string = '';
+    startColumnId: any;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private firestore: Firestore,
-        private storage: Storage) {
+        private kanbanService: KanbanService) {
     }
 
     ngOnInit(): void {
@@ -75,18 +55,14 @@ export class KanbanBoardComponent implements OnInit {
             } else {
                 this.loading = true;
                 this.projectId = params['projectId'];
-                this.getProjects().subscribe((projects: ProjectWithId[]) => {
-                    console.log(projects);
-                    this.projects = projects;
-                    this.project = this.projects.find((project: ProjectWithId) => project.id === this.projectId);
-                    console.log('%c Project: ', 'background: #222; color: #bada55', this.project);
-                    // sort tasks in columns by creation date
-                    this.project.columns.forEach((column: Column) => {
-                        column.tasks.sort((a: Task, b: Task) => {
-                            return a.creationDate - b.creationDate;
-                        });
-                    });
-                    this.loading = false;
+                from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
+                    setTimeout(() => {
+                        this.project = project;
+                        // add projectId to project object
+                        this.project.id = this.projectId;
+                        this.loading = false;
+                        console.log(this.project);
+                    }, 200);
                 });
             }
         });
@@ -98,160 +74,108 @@ export class KanbanBoardComponent implements OnInit {
         this.showEditColumnModal = true;
     }
 
-    addTaskSetup(columnId: string) {
-        this.taskColumnId = columnId;
+    addTaskSetup() {
         this.showAddTaskModal = true;
     }
-
-    editTaskSetup(columnId: string, task: Task) {
-        this.taskColumnId = columnId;
-        this.selectedTask = task;
-        this.showAddTaskModal = true;
-    }
-
-    //#region Getters
-    getProjects(): Observable<ProjectWithId[]> {
-        const projectRef = collection(this.firestore, 'projects');
-        return collectionData(projectRef, { idField: 'id' }) as Observable<
-            ProjectWithId[]
-        >;
-    }
-    //#endregion
 
     //#region Setters
     async addColumn() {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', this.projectId);
-        await updateDoc(projectRef, {
-            columns: [
-                ...this.project.columns,
-                {
-                    id: this.idGenerator(),
-                    title: this.columnTitle,
-                    tasks: [],
-                },
-            ],
-        });
+        let newColumn: Column = {
+            id: this.idGenerator(),
+            title: this.columnTitle,
+            tasks: [],
+        };
+
+        // Add new column to project
+        this.project.columns.push(newColumn);
+
+        // Update project
+        this.kanbanService.updateProject(this.project);
+
         this.loading = false;
         this.showAddColumnModal = false;
     }
 
     async editColumn() {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', this.projectId);
-        await updateDoc(projectRef, {
-            columns: this.project.columns.map((column: any) => {
-                if (column.id === this.columnEditId) {
-                    column.title = this.columnEditTitle;
-                }
-                return column;
-            }),
+
+        // Update existing column
+        this.project.columns.forEach((column: Column) => {
+            if (column.id === this.columnEditId) {
+                column.title = this.columnEditTitle;
+            }
         });
+
+        // Update project
+        this.kanbanService.updateProject(this.project);
+
+        this.columnEditTitle = '';
         this.loading = false;
         this.showEditColumnModal = false;
     }
 
-    async addTask() {
+    async addTask(columnId: string) {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', this.projectId);
-        console.log(this.taskColumnId);
-        if (this.selectedTask.id === '' || this.selectedTask.id == null || this.selectedTask.id === undefined) {
-            await updateDoc(projectRef, {
-                columns: this.project.columns.map((column: any) => {
-                    if (column.id === this.taskColumnId) {
-                        column.tasks = [
-                            ...column.tasks,
-                            {
-                                id: this.idGenerator(),
-                                title: this.selectedTask.title ? this.selectedTask.title : '',
-                                description: this.selectedTask.description ? this.selectedTask.description : '',
-                                urgency: this.selectedTask.urgency ? this.selectedTask.urgency : null,
-                                labels: this.selectedTask.labels ? this.selectedTask.labels : [],
-                                checkboxes: this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [],
-                                completed: this.selectedTask.completed ? this.selectedTask.completed : false,
-                                images: this.selectedTask.images ? this.selectedTask.images : [],
-                                creationDate: new Date().toUTCString(),
-                            },
-                        ];
-                    }
-                    return column;
-                }),
-            });
-        } else {
-            await updateDoc(projectRef, {
-                columns: this.project.columns.map((column: any) => {
-                    if (column.id === this.taskColumnId) {
-                        column.tasks = column.tasks.map((task: any) => {
-                            if (task.id === this.selectedTask.id) {
-                                task.title = this.selectedTask.title ? this.selectedTask.title : '';
-                                task.description = this.selectedTask.description ? this.selectedTask.description : '';
-                                task.urgency = this.selectedTask.urgency;
-                                task.labels = this.selectedTask.labels ? this.selectedTask.labels : [];
-                                task.checkboxes = this.selectedTask.checkboxes ? this.selectedTask.checkboxes : [];
-                                task.completed = this.selectedTask.completed ? this.selectedTask.completed : false;
-                                task.images = this.selectedTask.images ? this.selectedTask.images : [];
-                            }
-                            return task;
-                        });
-                    }
-                    return column;
-                }),
-            });
-        }
+
+        let newTask: Task = {
+            id: this.idGenerator(),
+            title: '',
+            description: '',
+            urgency: { title: 'Low', code: 0, color: '#F8D4C7' },
+            labels: [],
+            checkboxes: [],
+            completed: false,
+            images: [],
+            creationDate: new Date().toUTCString(),
+            modificationDate: new Date().toUTCString(),
+        };
+
+        // Add new task to column
+        this.project.columns.forEach((column: Column) => {
+            if (column.id === columnId) {
+                column.tasks.push(newTask);
+            }
+        });
+
+        // Update project
+        this.kanbanService.updateProject(this.project);
+
         this.loading = false;
-        this.clearTask();
     }
 
     //#endregion
 
     //#region Deleters
-    async deleteColumn(projectId: string, columnId: string) {
+    async deleteColumn(columnId: string) {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', projectId);
-        await updateDoc(projectRef, {
-            columns: this.project.columns.filter((column: any) => column.id !== columnId)
-        });
+
+        // remove column from project
+        this.project.columns = this.project.columns.filter((column: any) => column.id !== columnId);
+
+        // Update project
+        this.kanbanService.updateProject(this.project);
+
         this.loading = false;
     }
 
-    async deleteTask(projectId: string, columnId: string, taskId: string) {
+    async deleteTask(taskId: any) {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', projectId);
-        await updateDoc(projectRef, {
-            columns: this.project.columns.map((column: any) => {
-                if (column.id === columnId) {
-                    column.tasks = column.tasks.filter((task: any) => task.id !== taskId);
-                }
-                return column;
-            })
+
+        // remove task from column
+        this.project.columns.forEach((column: Column) => {
+            column.tasks = column.tasks.filter((task: any) => task.id !== taskId);
         });
+
+        // Update project
+        this.kanbanService.updateProject(this.project);
+
         this.loading = false;
     }
     //#endregion
 
 
     //#region Helpers
-    uploadTaskImage(event: any) {
-        const image = event.target.files[0];
-        const imgRef = ref(this.storage, `taskImages/${image.name}`);
-
-        if (this.selectedTask.images == null) {
-            this.selectedTask.images = [];
-        }
-
-        uploadBytes(imgRef, image)
-            .then(response => {
-                getDownloadURL(response.ref).then(url => {
-                    this.selectedTask.images.push(url);
-                });
-            })
-            .catch(error => console.log(error));
-    }
-
-    removeImage(image: string) {
-        this.selectedTask.images = this.selectedTask.images.filter(img => img !== image);
-    }
-
     primengDrop(columnId: number, tasks: any) {
         if (this.draggedTask && this.startColumnId !== columnId) {
             this.project.columns[columnId].tasks = [
@@ -267,97 +191,18 @@ export class KanbanBoardComponent implements OnInit {
             ].tasks.filter((val, i) => val.id != this.draggedTask.id);
             this.draggedTask = null;
         }
-        updateDoc(doc(this.firestore, 'projects', this.projectId), {
-            columns: this.project.columns.map((column: any) => {
-                return column;
-            }
-            )
-        });
+
+        this.kanbanService.updateProject(this.project);
     }
 
-    dragStart(task: any, startColumdId: number) {
-        this.draggedTask = JSON.parse(JSON.stringify(task));
-        this.startColumnId = startColumdId;
+    dragStart(event: any) {
+        this.draggedTask = JSON.parse(JSON.stringify(event.task));
+        this.startColumnId = event.startColumnId;
     }
 
     dragEnd() {
         this.draggedTask = null;
         this.startColumnId = null;
-    }
-
-    saveCheckbox(event: any, task: Task) {
-        event.stopPropagation();
-
-        setTimeout(() => {
-            this.selectedTask = task;
-            this.addTask();
-        }, 100);
-    }
-
-    showCheckbox(event: any, taskId: string) {
-        event.stopPropagation();
-        if (this.showCheckboxes === taskId) {
-            this.showCheckboxes = '';
-        } else {
-            this.showCheckboxes = taskId;
-        }
-    }
-
-    addCheckbox() {
-        this.selectedTask.checkboxes.push({
-            id: this.idGenerator(),
-            title: this.newCheckbox,
-            checked: false,
-        });
-        this.newCheckbox = '';
-    }
-
-    deleteCheckbox(checkbox: Checkboxes) {
-        this.selectedTask.checkboxes = this.selectedTask.checkboxes.filter(c => c.id !== checkbox.id);
-    }
-
-    getTotalCompletedTasks(task: Task) {
-        return task.checkboxes.filter(t => t.checked).length;
-    }
-
-    toggleTaskCompleted(event?: any, task?: Task) {
-        if (event) {
-          event.stopPropagation();
-        }
-        this.selectedTask = task ? task : this.selectedTask;
-        this.selectedTask.completed = !this.selectedTask.completed;
-
-        this.addTask();
-    }
-
-    async onTaskColumnEdit(event: any) {
-        console.log(event);
-        // Find the old and new columns
-        const oldColumn = this.project.columns.find(c => c.tasks.includes(this.selectedTask)) as Column;
-        const newColumn = this.project.columns.find(c => c.id === event.value) as Column;
-
-        // If the task is already in the new column, do nothing
-        if (oldColumn === newColumn) {
-            return;
-        }
-
-        // Remove the task from the old column
-        const index = oldColumn.tasks.indexOf(this.selectedTask);
-        console.log(index);
-        if (index > -1) {
-            oldColumn.tasks.splice(index, 1);
-        }
-
-        // Add the task to the new column
-        newColumn.tasks.push(this.selectedTask);
-
-        // Update the Firestore document
-        updateDoc(doc(this.firestore, 'projects', this.projectId), {
-            columns: this.project.columns.map((column: any) => {
-                return column;
-            }
-            )
-        });
     }
 
     onDrop(event: CdkDragDrop<Task[]>) {
@@ -373,21 +218,13 @@ export class KanbanBoardComponent implements OnInit {
         return this.project.columns.filter(c => c.id !== columnId).map(c => 'column-' + c.id);
     }
 
-    private async editColumnOnDrag(project: ProjectWithId) {
+    private async editColumnOnDrag(project: Project) {
         this.loading = true;
-        const projectRef = doc(this.firestore, 'projects', project.id);
-        await updateDoc(projectRef, {
-            columns: project.columns.map((column: any) => {
-                return column;
-            }),
-        });
-        this.loading = false;
-    }
 
-    clearTask() {
-        this.taskColumnId = '';
-        this.selectedTask = {} as Task;
-        this.showAddTaskModal = false;
+        // Update project
+        this.kanbanService.updateProject(project);
+
+        this.loading = false;
     }
 
     private idGenerator(): string {

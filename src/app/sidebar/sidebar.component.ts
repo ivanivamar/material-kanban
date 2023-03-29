@@ -1,6 +1,7 @@
+import { KanbanService } from 'src/app/kanban-service.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
     Firestore,
     collectionData,
@@ -16,7 +17,6 @@ import {
     Project,
     Column,
     Task,
-    ProjectWithId,
     Urgency,
     Checkboxes,
 } from '../interfaces/Kanban.interfaces';
@@ -31,17 +31,13 @@ export class SidebarComponent {
     loading = false;
     currentProjectId: string = '';
 
-    constructor(private firestore: Firestore, private router: Router) { }
+    constructor(private kanbanService: KanbanService, private router: Router) { }
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
-        this.getProjects().subscribe((projects: any[]) => {
-            console.log(projects);
+
+        from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
             this.projects = projects;
-            // add router link to each project
-            this.projects.forEach((project: any) => {
-                project.link = '?projectId=${project.id}';
-            });
             this.loading = false;
         });
 
@@ -49,12 +45,6 @@ export class SidebarComponent {
         this.router.routerState.root.queryParams.subscribe((params) => {
             this.currentProjectId = params['projectId'];
         });
-    }
-    getProjects(): Observable<any[]> {
-        const projectRef = collection(this.firestore, 'projects');
-        return collectionData(projectRef, { idField: 'id' }) as Observable<
-            any[]
-        >;
     }
 
     navigateTo(projectId: string): void {
