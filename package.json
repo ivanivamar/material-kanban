@@ -24,6 +24,7 @@
     "@formkit/auto-animate": "^1.0.0-beta.6",
     "chart.js": "^4.2.1",
     "firebase": "^9.18.0",
+    "firebase-tools": "^11.25.2",
     "ngx-spinner": "^15.0.1",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
