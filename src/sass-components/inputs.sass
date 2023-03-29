@@ -95,33 +95,38 @@ label
 
 input[type="file"]
     border: 0
-    border-radius: 18px
-    height: 100px
-    width: 100px
+    border-radius: 4px
+    padding: 0
+    font-size: 16px
+    font-family: $font-family-medium
+    cursor: pointer
+    transition: background-color 0.2s ease
     display: flex
     align-items: center
-    justify-content: center
-    background-color: $primary-color
+    height: auto
+    width: auto
 
     &::-webkit-file-upload-button
-      display: none
+        display: none
 
     &::before
-        content: "Upload"
-        font-size: 16px
-        font-family: "Roboto", sans-serif
-        color: $text-color
-        font-weight: 500
+        content: 'Upload'
         border: 0
-        border-radius: 18px
-        height: 100px
-        width: 100px
+        border-radius: 4px
+        width: 80px
+        padding: 8px 16px
+        font-size: 16px
+        font-family: $font-family-medium
+        cursor: pointer
+        transition: background-color 0.2s ease
         display: flex
         align-items: center
-        justify-content: center
-        background-color: $primary-color
-        transition: all .2s ease-in-out
+        gap: 8px
         cursor: pointer
+        background-color: $primary-color
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16)
+        color: white
 
     &:hover
-        filter: brightness(1.2)
+        &::before
+            background-color: $primary-color-hover

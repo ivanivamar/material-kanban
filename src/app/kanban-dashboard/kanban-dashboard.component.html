@@ -51,36 +51,49 @@
                         {{currentWeekTask.project}}
                     </div>
 
-                    <div class="col-12 card" *ngFor="let taskContainer of currentWeekTask.tasks"
-                        (click)="editTaskSetup(taskContainer)">
-                        <div class="flex flex-row align-items-center justify-content-between">
-                            <span [classList]="'text-base font-bold urgency-' + taskContainer.task.urgency">{{
-                                taskContainer.task.title }}</span>
-                            <div class="flex flex-row align-items-center">
-                                <button class="btn btn-icon">
+                    <div [classList]="'col-12 card urgency-' + taskContainer.task.urgency"
+                        *ngFor="let taskContainer of currentWeekTask.tasks" (click)="editTaskSetup(taskContainer)">
+                        <div class="urgency"></div>
+                        <header>
+                            <div class="content-container">
+                                <span class="font-medium">{{ taskContainer.task.title }}</span>
+                                <div class="date-container">
+                                    <span class="date text-xs font-medium">{{ taskContainer.task.creationDate | date:
+                                        'd/MM, yyyy' }}</span>
+                                    |
+                                    <span class="time-container">
+                                        <span class="material-symbols-rounded time-icon">timer</span>
+                                        <span class="time text-xs font-medium">{{ taskContainer.task.creationDate |
+                                            date: 'HH:mm' }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex align-items-center gap-2" style="position: relative; top: 2.5px">
+                                <button class="btn btn-icon text">
                                     <span class="material-icons"
-                                        [classList]="taskContainer.task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
+                                        [classList]="taskContainer.task.completed ? 'material-icons text-green-500' : 'material-icons'">
                                         check_circle
                                     </span>
                                 </button>
                             </div>
-                        </div>
-                        <span class="text-500 text-sm">{{taskContainer.task.creationDate | date: 'dd/LL/yyyy - HH:mm'}}</span>
-                        <div class="grid grid-nogutter gap-2 mt-3 mb-2" *ngIf="taskContainer.task.labels.length > 0">
-                            <div class="label" *ngFor="let label of taskContainer.task.labels"
-                                [style.background]="label.color">
-                                {{ label.name }}
+                        </header>
+                        <div class="body">
+                            <div class="label-container">
+                                <div class="label font-medium" *ngFor="let label of taskContainer.task.labels"
+                                    [style.color]="label.color" [style.background]="label.background">
+                                    {{ label.name }}
+                                </div>
                             </div>
+                            <span class="description font-regular">{{ taskContainer.task.description }}</span>
                         </div>
-                        <span class="card-description text-base text-500">{{ taskContainer.task.description }}</span>
 
                         <div class="flex align-items-center gap-2 mt-2"
                             *ngIf="taskContainer.task.checkboxes.length > 0">
                             <span
-                                [classList]="getTotalCompletedTasks(taskContainer.task) === taskContainer.task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
+                                [classList]="getTotalCompletedTasks(taskContainer.task) === taskContainer.task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-white'">check_box</span>
                             <span class="font-semibold text-600">{{getTotalCompletedTasks(taskContainer.task)}} /
                                 {{taskContainer.task.checkboxes.length}}</span>
-                            <div class="flex flex-1 bg-gray-200 border-round" style="height: 3px">
+                            <div class="flex flex-1 bg-white border-round" style="height: 3px">
                                 <div class="bg-blue-500 border-round transition-all transition-duration-100"
                                     [style.width.%]="getTotalCompletedTasks(taskContainer.task) / taskContainer.task.checkboxes.length * 100">
                                 </div>
@@ -99,7 +112,7 @@
                                 *ngFor="let checkbox of taskContainer.task.checkboxes">
                                 <label
                                     [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
-                                    (click)="saveCheckbox($event, taskContainer)">
+                                    (click)="saveCheckbox($event, taskContainer.task)">
                                     <input type="checkbox" [(ngModel)]="checkbox.checked">
                                     <span class="checkbox-helper"></span>
                                     <span class="outline">
@@ -183,8 +196,8 @@
                 <div class="flex flex-column gap-2 w-6">
                     <label for="urgency">Urgency</label>
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." appendTo="body" [showClear]="true" [(ngModel)]="selectedTask.task.urgency"
-                        optionLabel="title" optionValue="code"></p-dropdown>
+                        placeholder="Select Urgency..." appendTo="body" [showClear]="true"
+                        [(ngModel)]="selectedTask.task.urgency" optionLabel="title" optionValue="code"></p-dropdown>
                 </div>
             </div>
         </div>
