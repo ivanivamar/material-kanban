@@ -8,6 +8,10 @@
                 <span class="text-xl font-black mr-2">Kanban Board <span class="ml-1">·</span></span>
                 <span class="text-xl font-regular">{{ project.title }}</span>
             </div>
+            <button class="btn btn-primary ml-3 bg-blue-500 hover:bg-blue-600" (click)="showAddColumnModal = true">
+                <span class="material-icons text-white">add</span>
+                Column
+            </button>
         </div>
     </div>
 
@@ -75,7 +79,7 @@
 
                     <div class="flex align-items-center gap-2 mt-2" *ngIf="task.checkboxes.length > 0">
                         <span
-                            [classList]="getTotalCompletedTasks(task) === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-white'">check_box</span>
+                            [classList]="getTotalCompletedTasks(task) === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
                         <span class="font-semibold text-600">{{getTotalCompletedTasks(task)}} /
                             {{task.checkboxes.length}}</span>
                         <div class="flex flex-1 bg-white border-round" style="height: 3px">
@@ -108,9 +112,6 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-icon bg-blue-500 hover:bg-blue-600" (click)="showAddColumnModal = true">
-            <span class="material-icons text-white">add</span>
-        </button>
     </div>
 </div>
 

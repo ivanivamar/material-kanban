@@ -6,16 +6,20 @@
                 <h1 class="m-0 text-3xl">Dashboard</h1>
             </div>
 
-            <button class="btn btn-icon" (click)="showAddProjectModal = true">
+            <button class="btn btn-primary" (click)="showAddProjectModal = true">
                 <span class="material-icons">add</span>
+                Project
             </button>
         </div>
         <div class="flex flex-column" *ngIf="!loading && !project">
-            <div class="grid grid-nogutter gap-5 pb-3 mt-2 border-bottom-1 border-300">
-                <div *ngFor="let project of projects; let i = index">
-                    <div class="btn btn-primary" (click)="navigateToProject(project)">
+            <div class="flex gap-5 pb-3 mt-2 border-bottom-1 border-300">
+                <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2" *ngFor="let project of projects; let i = index">
+                    <div class="btn btn-primary p-2 pl-2 pr-5" (click)="navigateToProject(project)">
                         <span class="material-symbols-rounded">view_kanban</span>
                         {{project.title}}
+                    </div>
+                    <div class="btn btn-icon text absolute" style="top:2px;right:2px;z-index:1111" (click)="deleteProject(project.id, $event)">
+                        <span class="material-symbols-rounded text-white">delete</span>
                     </div>
                 </div>
             </div>
