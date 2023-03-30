@@ -12,7 +12,7 @@ import {
     updateDoc,
     getDoc,
 } from '@angular/fire/firestore';
-import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
+import { getDownloadURL, getMetadata, ref, Storage, uploadBytes } from '@angular/fire/storage';
 
 @Injectable({
     providedIn: 'root'
@@ -53,9 +53,24 @@ export class KanbanService {
         return updateDoc(doc(projectRef, project.id), project);
     }
 
-    uploadImage(image: any) {
+    uploadImage(image: any): Promise<any> {
         const imageRef = ref(this.storage, 'images/' + this.idGenerator());
-        return uploadBytes(imageRef, image);
+        return uploadBytes(imageRef, image)
+            .then(response => {
+                // return the download url and the image name
+                return combineLatest([
+                    getDownloadURL(response.ref),
+                    getMetadata(response.ref)
+                ]).pipe(
+                    map(([url, metadata]) => {
+                        return {
+                            url,
+                            name: metadata.name
+                        };
+                    })
+                ).toPromise();
+            })
+            .catch(error =>  console.log(error));
     }
     //#endregion
 

@@ -8,7 +8,12 @@ export interface Task {
     creationDate: any;
     modificationDate: any;
     completed: boolean;
-    images: string[];
+    images: Images[];
+}
+
+export interface Images {
+    name: string;
+    url: string;
 }
 
 export interface Checkboxes {

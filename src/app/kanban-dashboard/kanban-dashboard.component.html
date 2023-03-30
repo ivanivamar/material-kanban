@@ -19,7 +19,7 @@
                         <span class="material-symbols-rounded">view_kanban</span>
                         {{project.title}}
                     </div>
-                    <div class="btn btn-icon text absolute flex md:hidden" style="top:4px;right:4px;z-index:1111"
+                    <div class="btn btn-icon text absolute" style="top:4px;right:4px;z-index:1111"
                         (click)="deleteProject(project.id, $event)">
                         <span class="material-symbols-rounded text-white text-base">close</span>
                     </div>
@@ -29,7 +29,8 @@
         <div class="grid mt-3">
             <div class="col w-full">
                 <div class="panel">
-                    <div class="flex flex-column md:flex-row align-items-left gap-2 md:align-items-center justify-content-start md:justify-content-between mb-3">
+                    <div
+                        class="flex flex-column md:flex-row align-items-left gap-2 md:align-items-center justify-content-start md:justify-content-between mb-3">
                         <span class="font-bold text-lg">Total Tasks</span>
                         <div class="flex flex-row align-items-center gap-3 legend">
                             <div class="flex flex-row align-items-center gap-2">
@@ -53,13 +54,22 @@
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">
                 <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
-                    <div class="border-round-md p-3 pb-2 font-bold text-lg">
-                        {{currentWeekTask.project}}
+                    <div class="flex align-items-center gap-3 p-2 cursor-pointer"
+                        (click)="showTasksFromProject = currentWeekTask.project"
+                        style="border-bottom: 1px solid #E1E3E8">
+                        <span class="material-icons text-500"
+                            *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
+                        <span class="material-icons text-500"
+                            *ngIf="showTasksFromProject !== currentWeekTask.project">keyboard_arrow_up</span>
+                        <span class="font-bold">{{ currentWeekTask.project }}</span>
+                        <span class="text-500">{{ currentWeekTask.tasks.length }} tasks</span>
                     </div>
 
-                    <app-card class="col-12 p-0 md:p-2" *ngFor="let taskContainer of currentWeekTask.tasks"
-                        [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
-                    </app-card>
+                    <div *ngIf="showTasksFromProject === currentWeekTask.project">
+                        <app-card class="col-12 p-0 md:p-2" *ngFor="let taskContainer of currentWeekTask.tasks"
+                            [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
+                        </app-card>
+                    </div>
                 </div>
             </div>
         </div>

@@ -163,19 +163,22 @@
                 <span class="material-icons text-500" *ngIf="!showModalFiles">keyboard_arrow_up</span>
                 <span class="font-bold">Attatchments</span>
             </div>
-            <div class="flex flex-row align-items-center flex-wrap gap-3" *ngIf="showModalFiles">
-                <div class="relative" *ngFor="let image of task.images">
-                    <div class="attatchment-button" (click)="selectedImage = image">
-                        <span class="material-symbols-outlined">
-                            file_open
-                        </span>
-                        {{image.substring(image.lastIndexOf('/') + 1)}}
+            <div class="flex flex-column pt-2 gap-3" *ngIf="showModalFiles">
+                <div class="flex align-items-center flex-wrap gap-3">
+                    <div class="relative" *ngFor="let image of task.images">
+                        <div class="attatchment-button cursor-pointerr" (click)="selectedImage = image.url">
+                            <span class="material-symbols-rounded border-400 border-radius-lg p-3">
+                                file_open
+                            </span>
+                            {{image.name}}
+                        </div>
+                        <button class="btn btn-icon text absolute" style="top:6px; right:8px"
+                            (click)="removeImage(image)">
+                            <span class="material-icons text-red-500">delete</span>
+                        </button>
                     </div>
-                    <button class="btn btn-icon absolute" style="top:4px; right:4px" (click)="removeImage(image)">
-                        <span class="material-icons text-red-500">delete</span>
-                    </button>
                 </div>
-                <input class="custom-file btn btn-text" type="file" id="images" (change)="uploadTaskImage($event)">
+                <input class="custom-file btn btn-text p-0 w-1" style="height: 24px;" type="file" id="images" (change)="uploadTaskImage($event)">
             </div>
 
             <div class="flex flex-column md:flex-row aling-items-center justify-content-between gap-3 mt-2">
@@ -207,7 +210,7 @@
 </div>
 
 <div class="dialog-container" *ngIf="selectedImage !== ''">
-    <button class="btn btn-icon absolute" style="top: 170px; right: 30%" (click)="selectedImage = ''">
+    <button class="btn btn-icon absolute" style="top: 138px; right: 22%" (click)="selectedImage = ''">
         <span class="material-icons">
             close
         </span>

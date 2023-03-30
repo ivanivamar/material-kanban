@@ -34,6 +34,8 @@ export class KanbanDashboardComponent implements OnInit {
     projectId: string = '';
     columnId: string = '';
 
+    showTasksFromProject: string = '';
+
     constructor(private kanbanService: KanbanService, private router: Router) { }
 
     async ngOnInit(): Promise<void> {
@@ -48,6 +50,7 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     getCurrentWeekTasks() {
+        this.currentWeekTasks = [];
         let tasksArray: any[] = [];
         this.projects.forEach((project: Project) => {
             project.columns.forEach((column: Column) => {
@@ -76,6 +79,9 @@ export class KanbanDashboardComponent implements OnInit {
             this.currentWeekTasks.push(sendData);
             tasksArray = [];
         });
+
+        // set showTasksFromProject to first project
+        this.showTasksFromProject = this.currentWeekTasks[0].project;
     }
 
     makeWeekTasksChart(projects: Project[]) {

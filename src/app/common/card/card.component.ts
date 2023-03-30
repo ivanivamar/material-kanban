@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Checkboxes, Column, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
+import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
 
@@ -193,14 +193,19 @@ export class CardComponent implements OnInit {
         const image = event.target.files[0];
 
         if (image) {
-            this.kanbanService.uploadImage(image).then((url: any) => {
-                this.task.images.push(url);
+            this.kanbanService.uploadImage(image).then((image: Images) => {
+                console.log('image', image);
+                let imageObject: Images = {
+                    url: image.url,
+                    name: image.name
+                };
+                this.task.images.push(imageObject);
             });
         }
     }
 
-    removeImage(image: string) {
-        this.task.images = this.task.images.filter(img => img !== image);
+    removeImage(image: Images) {
+        this.task.images = this.task.images.filter(img => img.url !== image.url);
     }
 
     hideModal() {
