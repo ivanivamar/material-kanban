@@ -16,7 +16,7 @@
                 </span>
             </div>
         </div>
-        <div class="flex align-items-center gap-2" style="position: relative; top: 2.5px">
+        <div class="flex align-items-center gap-4" style="position: relative; top: 2.5px">
             <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
                 <span class="material-icons"
                     [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
@@ -49,24 +49,20 @@
 
 
     <!-- CHECKBOXES -->
-    <div class="flex align-items-center gap-2 mt-2" *ngIf="task.checkboxes.length > 0">
-        <span
-            [classList]="getTotalCompletedTasks() === task.checkboxes.length ? 'material-icons text-blue-600' : 'material-icons text-600'">check_box</span>
-        <span class="font-semibold text-600">{{getTotalCompletedTasks()}} /
-            {{task.checkboxes.length}}</span>
-        <div class="flex flex-1 bg-white border-round" style="height: 3px">
-            <div class="bg-blue-500 border-round transition-all transition-duration-100"
-                [style.width.%]="getTotalCompletedTasks() / task.checkboxes.length * 100"></div>
-        </div>
-        <button class="btn btn-icon" (click)="showCheckbox($event, task.id)">
-            <span class="material-icons text-700" *ngIf="!showCheckboxes">keyboard_arrow_down</span>
-            <span class="material-icons text-700" *ngIf="showCheckboxes">keyboard_arrow_up</span>
+    <div class="footer">
+        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showCheckbox($event, task.id)">
+            <span [classList]="!showCheckboxes ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{ task.checkboxes.length }}</span>
+            <span [classList]="!showCheckboxes ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">checklist</span>
+        </button>
+        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
+            <span [classList]="!showImages ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{ task.images.length }}</span>
+            <span [classList]="!showImages ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">attach_file</span>
         </button>
     </div>
 
-    <div class="flex flex-column gap-2 mt-2 ml-3 transition-all transition-duration-150 fadein"
+    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein"
         *ngIf="showCheckboxes">
-        <div class="flex flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes">
+        <div class="flex checkbox w-full flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes; let i = index">
             <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
                 (click)="saveCheckbox($event)">
                 <input type="checkbox" [(ngModel)]="checkbox.checked">
@@ -75,7 +71,12 @@
                     <span class="outline-tick"></span>
                 </span>
             </label>
-            <span>{{ checkbox.title }}</span>
+            <input class="checkbox-input" type="text" placeholder="Enter text..." (click)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)" [(ngModel)]="checkbox.title"/>
+            <button class="btn btn-icon p-3" *ngIf="i+1 === task.checkboxes.length" (click)="addCheckbox($event)">
+                <span class="material-icons">add</span>
+            </button>            <button class="btn btn-icon p-3" (click)="deleteCheckbox($event, checkbox)">
+                <span class="material-icons text-red-500">delete</span>
+            </button>
         </div>
     </div>
     <!-- /CHECKBOXES -->

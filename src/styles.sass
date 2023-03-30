@@ -120,6 +120,24 @@ body
     background-color: $bg-color
     color: $text-color
 
+::-webkit-scrollbar
+    width: 8px
+    border-radius: 5px 5px 5px 5px
+
+/* Track */
+::-webkit-scrollbar-track
+    background: $secondary-color
+    border-radius: 5px 5px 5px 5px
+
+/* Handle */
+::-webkit-scrollbar-thumb
+    background: $primary-color
+    border-radius: 5px 5px 5px 5px
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+    background: $primary-color-hover
+
 @import 'sass-components/dialog'
 @import 'sass-components/buttons'
 @import 'sass-components/scaffolder'

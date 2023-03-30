@@ -17,7 +17,7 @@
 
     <div class="grid grid-nogutter mt-3 gap-5" *ngIf="project.columns.length > 0">
         <!-- COLUMNS -->
-        <div class="col column max-w-22rem" *ngFor="let column of project.columns; let i = index" pDroppable
+        <div class="col column max-w-22rem" style="max-height: 750px; overflow-y: auto" *ngFor="let column of project.columns; let i = index" pDroppable
             (onDrop)="primengDrop(i, column.tasks)">
             <header>
                 <div class="left-container">

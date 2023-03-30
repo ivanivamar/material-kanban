@@ -108,12 +108,19 @@
     .footer
         display: flex
         justify-content: end
-        margin-top: 20px
+        align-items: center
+        margin-top: 10px
         gap: 16px
+        z-index: 111111
 
-    .checkbox-container
+        button:hover
+            span
+                color: $primary-color
+
+    .checkbox-footer
         display: flex
         flex-direction: column
+        margin-top: 20px
 
         .checkbox
             border-top: 1px solid $border-color

@@ -22,6 +22,7 @@ export class CardComponent implements OnInit {
     draggedTask: any;
     project!: Project;
     showCheckboxes = false;
+    showImages = false;
     newCheckbox = '';
     selectedImage: any = '';
     labelsList: Labels[] = [
@@ -71,13 +72,21 @@ export class CardComponent implements OnInit {
         this.showAddTaskModal = false;
     }
 
-    saveCheckbox(event: any) {
+    saveCheckbox(event?: any, isInput?: boolean, checkbox?: Checkboxes) {
         event.stopPropagation();
         // update task in column in project
         this.project.columns.forEach((column: Column) => {
             column.tasks = column.tasks.map((searchTask: any) => {
                 if (searchTask.id === this.task.id) {
                     this.task.modificationDate = new Date().toUTCString();
+                    if (isInput) {
+                        this.task.checkboxes = this.task.checkboxes.map((searchCheckbox: Checkboxes) => {
+                            if (searchCheckbox.id === checkbox!.id) {
+                                checkbox!.title = event.target.value;
+                            }
+                            return searchCheckbox;
+                        });
+                    }
                     return this.task;
                 }
                 return searchTask;
@@ -111,12 +120,26 @@ export class CardComponent implements OnInit {
         }, 100);
     }
 
-    deleteCheckbox(checkbox: Checkboxes) {
+    deleteCheckbox(event?: any, checkbox?: Checkboxes) {
+        event.stopPropagation();
+        this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox!.id);
+
+        if (event) {
+            this.kanbanService.updateProject(this.project);
+        }
+    }
+
+    deleteCheckboxInline(checkbox: Checkboxes) {
         this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox.id);
+        this.saveCheckbox();
     }
 
     getTotalCompletedTasks() {
         return this.task.checkboxes.filter(t => t.checked).length;
+    }
+
+    manageInlineCheckboxEdit(event: any) {
+        event.stopPropagation();
     }
 
     cardDragStart() {
@@ -138,9 +161,19 @@ export class CardComponent implements OnInit {
     showCheckbox(event: any, taskId: string) {
         event.stopPropagation();
         this.showCheckboxes = !this.showCheckboxes;
+        this.showImages = false;
     }
 
-    addCheckbox() {
+    showImagesFooter(event: any, taskId: string) {
+        event.stopPropagation();
+        this.showImages = !this.showImages;
+        this.showCheckboxes = false;
+    }
+
+    addCheckbox(event?: any) {
+        if (event) {
+            event.stopPropagation();
+        }
         this.task.checkboxes.push({
             id: this.idGenerator(),
             title: this.newCheckbox,
