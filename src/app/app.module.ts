@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { CardComponent } from './common/card/card.component';
+import { NavbarComponent } from './common/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CardComponent } from './common/card/card.component';
     SidebarComponent,
     KanbanDashboardComponent,
     KanbanBoardComponent,
-    CardComponent
+    CardComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@
                 </span>
             </div>
         </div>
-        <div class="flex align-items-center gap-4" style="position: relative; top: 2.5px">
+        <div class="flex align-items-center gap-2 md:gap-4" style="position: relative; top: 2.5px">
             <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
                 <span class="material-icons"
                     [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
@@ -80,12 +80,14 @@
             <input class="checkbox-input" type="text" placeholder="Enter text..."
                 (click)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
                 [(ngModel)]="checkbox.title" />
-            <button class="btn btn-icon p-3" *ngIf="i+1 === task.checkboxes.length" (click)="addCheckbox($event)">
-                <span class="material-icons">add</span>
-            </button> <button class="btn btn-icon p-3" (click)="deleteCheckbox($event, checkbox)">
+            <button class="btn btn-icon text p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-icons text-red-500">delete</span>
             </button>
         </div>
+        <button class="btn btn-text font-regular ml-2" (click)="addCheckbox($event)">
+            <span class="material-icons text-500">add</span>
+            Add Subtask
+        </button>
     </div>
     <!-- /CHECKBOXES -->
 </div>
@@ -95,38 +97,46 @@
     <div class="dialog">
         <div class="dialog-header">
             <div class="flex flex-row align-items-center gap-3 w-full">
-                <span class="dialog-title w-4">Dashboard / {{project.title}} / Edit Task</span>
+                <span class="dialog-title font-regular text-lg">
+                    Dashboard /
+                    {{project.title}} /
+                    Edit Task</span>
             </div>
             <div class="flex align-items-center gap-4">
-                <button class="btn btn-icon text" (click)="showAddTaskModal = false">
+                <button class="btn btn-icon text" (click)="hideModal()">
                     <span class="material-icons text-2xl">
-                        close
+                        minimize
                     </span>
                 </button>
             </div>
         </div>
-        <div class="dialog-content">
+        <div class="dialog-content max-h-full md:max-h-30rem">
             <div class="flex flex-row align-items-baseline gap-2">
                 <button *ngIf="task.id !== ''" class="btn btn-icon text" (click)="toggleTaskCompleted()">
-                    <span [classList]="task.completed ? 'material-icons text-green-500 text-2xl' : 'material-icons text-2xl'">
+                    <span
+                        [classList]="task.completed ? 'material-icons text-green-500 text-2xl' : 'material-icons text-2xl'">
                         check_circle
                     </span>
                 </button>
                 <div class="flex flex-column gap-2 p-3 w-full" style="border: 1px solid #E1E3E8; border-radius: 8px;">
-                    <input type="text" class="border-0 font-bold text-lg outline-0 p-0" id="title" placeholder="Enter a title..." [(ngModel)]="task.title">
-                    <textarea id="description" class="border-0 mt-1 outline-0 p-0" rows="3" placeholder="Enter a description..."
-                        [(ngModel)]="task.description"></textarea>
+                    <input type="text" class="border-0 font-bold text-lg outline-0 p-0" id="title"
+                        placeholder="Enter a title..." [(ngModel)]="task.title">
+                    <textarea id="description" class="border-0 mt-1 outline-0 p-0" rows="3"
+                        placeholder="Enter a description..." [(ngModel)]="task.description"></textarea>
                 </div>
             </div>
 
             <div class="flex flex-column gap-2 mt-5 mb-4">
-                <div class="flex align-items-center gap-3 p-2" style="border-bottom: 1px solid #E1E3E8">
-                    <span class="material-icons text-500">keyboard_arrow_down</span>
+                <div class="flex align-items-center gap-3 p-2 cursor-pointer"
+                    (click)="showModalCheckboxes = !showModalCheckboxes" style="border-bottom: 1px solid #E1E3E8">
+                    <span class="material-icons text-500" *ngIf="showModalCheckboxes">keyboard_arrow_down</span>
+                    <span class="material-icons text-500" *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
                     <span class="font-bold">Subtasks</span>
                     <span class="text-500 text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
                 </div>
-                <div class="flex flex-column gap-2 mt-2" *ngIf="task.checkboxes">
-                    <div class="flex flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes">
+                <div class="flex flex-column gap-2 mt-2" *ngIf="task.checkboxes && showModalCheckboxes">
+                    <div class="flex checkbox flex-row align-items-center gap-2"
+                        *ngFor="let checkbox of task.checkboxes">
                         <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
                             <input type="checkbox" [(ngModel)]="checkbox.checked">
                             <span class="checkbox-helper"></span>
@@ -134,40 +144,48 @@
                                 <span class="outline-tick"></span>
                             </span>
                         </label>
-                        <input type="text" [(ngModel)]="checkbox.title">
-                        <button class="btn btn-icon" (click)="deleteCheckbox($event, checkbox)">
+                        <input class="checkbox-input" placeholder="Enter subtask..." type="text"
+                            [(ngModel)]="checkbox.title">
+                        <button class="btn btn-icon text" (click)="deleteCheckbox($event, checkbox)">
                             <span class="material-icons">delete</span>
                         </button>
                     </div>
-                    <button class="btn btn-secondary text-500 font-regular w-2" (click)="addCheckbox()">
+                    <button class="btn btn-text font-regular ml-2" (click)="addCheckbox()">
                         <span class="material-icons text-500">add</span>
-                        Subtask
+                        Add Subtask
                     </button>
                 </div>
             </div>
 
-            <div class="flex align-items-center gap-3 p-2" style="border-bottom: 1px solid #E1E3E8">
-                <span class="material-icons text-500">keyboard_arrow_down</span>
+            <div class="flex align-items-center gap-3 p-2 cursor-pointer" (click)="showModalFiles = !showModalFiles"
+                style="border-bottom: 1px solid #E1E3E8">
+                <span class="material-icons text-500" *ngIf="showModalFiles">keyboard_arrow_down</span>
+                <span class="material-icons text-500" *ngIf="!showModalFiles">keyboard_arrow_up</span>
                 <span class="font-bold">Attatchments</span>
             </div>
-            <div class="flex flex-row align-items-center flex-wrap gap-3 mt-5">
+            <div class="flex flex-row align-items-center flex-wrap gap-3" *ngIf="showModalFiles">
                 <div class="relative" *ngFor="let image of task.images">
-                    <img [src]="image" alt="Task Image" class="cursor-pointer" (click)="selectedImage = image">
+                    <div class="attatchment-button" (click)="selectedImage = image">
+                        <span class="material-symbols-outlined">
+                            file_open
+                        </span>
+                        {{image.substring(image.lastIndexOf('/') + 1)}}
+                    </div>
                     <button class="btn btn-icon absolute" style="top:4px; right:4px" (click)="removeImage(image)">
                         <span class="material-icons text-red-500">delete</span>
                     </button>
                 </div>
+                <input class="custom-file btn btn-text" type="file" id="images" (change)="uploadTaskImage($event)">
             </div>
-            <input class="custom-file" type="file" id="images" (change)="uploadTaskImage($event)">
 
-            <div class="flex flex-row aling-items-center justify-content-between gap-3 mt-2">
-                <div class="flex flex-column gap-2 w-6">
+            <div class="flex flex-column md:flex-row aling-items-center justify-content-between gap-3 mt-2">
+                <div class="flex flex-column gap-2 w-full md:w-6">
                     <label for="labels">Labels</label>
                     <p-multiSelect [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
                         defaultLabel="Select Labels..." [(ngModel)]="task.labels" optionLabel="name"
                         display="chip"></p-multiSelect>
                 </div>
-                <div class="flex flex-column gap-2 w-6">
+                <div class="flex flex-column gap-2 w-full md:w-6">
                     <label for="urgency">Urgency</label>
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
                         placeholder="Select Urgency..." appendTo="body" [showClear]="true" [(ngModel)]="task.urgency"
@@ -175,14 +193,14 @@
                 </div>
             </div>
         </div>
-        <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" (click)="showAddTaskModal = false">
+        <div class="dialog-footer absolute md:relative bottom-0 w-full">
+            <button type="button" class="btn btn-secondary" (click)="hideModal()">
                 <span class="material-icons">close</span>
                 Cancel
             </button>
             <button type="button" class="btn btn-primary" (click)="editTask()">
-                <span class="material-icons">edit</span>
-                Task
+                <span class="material-symbols-rounded">save</span>
+                Save
             </button>
         </div>
     </div>

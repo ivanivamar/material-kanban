@@ -1,25 +1,28 @@
-<div class="col-10" *ngIf="!loading">
+<div class="col-12 h-full" *ngIf="!loading">
     <div class="flex align-items-center justify-content-between">
-        <div class="flex gap-2 align-items-center">
-            <button class="btn btn-icon" routerLink="/dashboard">
-                <span class="material-icons">arrow_back</span>
-            </button>
-            <div>
-                <span class="text-xl font-black mr-2">Kanban Board <span class="ml-1">·</span></span>
-                <span class="text-xl font-regular">{{ project.title }}</span>
+        <div class="flex flex-column md:flex-row gap-2 align-items-left md:align-items-center">
+            <div class="flex gap-2 align-items-center">
+                <button class="btn btn-icon" routerLink="/dashboard">
+                    <span class="material-icons">arrow_back</span>
+                </button>
+                <div>
+                    <span class="text-xl font-black mr-2">Kanban Board <span class="ml-1">·</span></span>
+                    <span class="text-xl font-regular">{{ project.title }}</span>
+                </div>
             </div>
-            <button class="btn btn-primary ml-3 bg-blue-500 hover:bg-blue-600" (click)="showAddColumnModal = true">
-                <span class="material-icons text-white">add</span>
+            <button class="btn btn-primary" (click)="showAddColumnModal = true">
+                <span class="material-icons">add</span>
                 Column
             </button>
         </div>
     </div>
 
-    <div class="grid grid-nogutter mt-3 gap-5" *ngIf="project.columns.length > 0">
+    <div class="flex md:grid flex-column md:flex-row grid-nogutter mt-3 gap-5 h-full"
+        *ngIf="project.columns.length > 0">
         <!-- COLUMNS -->
-        <div class="col column max-w-22rem" style="max-height: 750px; overflow-y: auto" *ngFor="let column of project.columns; let i = index" pDroppable
-            (onDrop)="primengDrop(i, column.tasks)">
-            <header>
+        <div class="col-12 md:col column p-0 md:p-4 h-auto md:h-full"
+            *ngFor="let column of project.columns; let i = index" pDroppable (onDrop)="primengDrop(i, column.tasks)">
+            <header class="p-3 md:p-0 mb-0 md:mb-3 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                 <div class="left-container">
                     <button class="btn btn-icon" (click)="addTask(column.id)">
                         <span class="material-icons text-lg">add</span>
@@ -39,7 +42,7 @@
             </header>
 
             <!-- CARDS -->
-            <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
+            <div class="grid grid-nogutter gap-3 max-h-full overflow-y-auto" *ngIf="column.tasks.length > 0">
                 <app-card class="col-12" *ngFor="let task of column.tasks" [columnId]="column.id"
                     [taskProjectId]="projectId" [task]="task" [index]="i" (dragStart)="dragStart($event)"
                     (dragEnd)="dragEnd()" (updateKanban)="updateKanban()">

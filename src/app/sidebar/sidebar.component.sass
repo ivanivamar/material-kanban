@@ -10,6 +10,8 @@ nav
     width: 250px
     z-index: 1
     padding: 24px 16px
+    border-right: 2px solid #EFF0F3
+    box-shadow: none
 
     header
         padding: 24px
@@ -51,3 +53,14 @@ nav
             margin-top: 4px
             padding: 10px
             position: relative
+
+// mobile
+@media screen and (max-width: 768px)
+    nav
+        width: 75px
+
+        header
+            display: none
+
+        .sublinks
+            margin: 0

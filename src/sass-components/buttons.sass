@@ -40,6 +40,22 @@
         &:disabled
             opacity: 0.5
 
+    &.btn-text
+        background-color: transparent
+        color: $text-color
+        height: auto
+        width: fit-content
+        padding: 8px 4px
+        font-size: 14px
+        font-family: $font-family
+        border-radius: 0
+
+        &:hover
+            border-bottom: 1px solid #E1E3E8
+
+        &:disabled
+            opacity: 0.5
+
     &.btn-icon
         padding: 8px
         background-color: $secondary-color
@@ -77,3 +93,9 @@
 
             &:disabled
                 opacity: 0.5
+
+// mobile
+@media screen and (max-width: 768px)
+    .btn
+        padding: 8px 12px
+        font-size: 14px

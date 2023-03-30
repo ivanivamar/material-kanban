@@ -1,9 +1,9 @@
-<div class="grid">
+<div class="grid h-full">
     <div class="col-12 lg:col-8">
-        <div class="flex align-items-center justify-content-between mb-3">
+        <div class="flex align-items-center justify-content-between mb-1">
             <div class="flex align-items-center">
-                <span class="material-symbols-rounded text-4xl mr-2 text-blue-600">overview_key</span>
-                <h1 class="m-0 text-3xl">Dashboard</h1>
+                <span class="material-symbols-rounded text-lg md:text-4xl mr-2 text-blue-600">overview_key</span>
+                <h1 class="m-0 text-lg md:text-3xl">Dashboard</h1>
             </div>
 
             <button class="btn btn-primary" (click)="showAddProjectModal = true">
@@ -12,16 +12,16 @@
             </button>
         </div>
         <div class="flex flex-column" *ngIf="!loading && !project">
-            <div class="flex gap-5 pb-3 mt-2 border-bottom-1 border-300">
+            <div class="flex gap-2 md:gap-5 flex-column md:flex-row pb-3 mt-2 border-bottom-1 border-300">
                 <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
                     <div class="btn btn-primary p-2 pl-2 pr-5" (click)="navigateToProject(project)">
                         <span class="material-symbols-rounded">view_kanban</span>
                         {{project.title}}
                     </div>
-                    <div class="btn btn-icon text absolute" style="top:8px;right:4px;z-index:1111"
+                    <div class="btn btn-icon text absolute flex md:hidden" style="top:4px;right:4px;z-index:1111"
                         (click)="deleteProject(project.id, $event)">
-                        <span class="material-symbols-rounded text-white">delete</span>
+                        <span class="material-symbols-rounded text-white text-base">close</span>
                     </div>
                 </div>
             </div>
@@ -29,9 +29,9 @@
         <div class="grid mt-3">
             <div class="col w-full">
                 <div class="panel">
-                    <div class="flex flex-row align-items-center justify-content-between mb-3">
-                        <span class="font-bold text-lg">Recent Work Progress</span>
-                        <div class="flex flex-row align-items-center gap-3 ml-2 legend">
+                    <div class="flex flex-column md:flex-row align-items-left gap-2 md:align-items-center justify-content-start md:justify-content-between mb-3">
+                        <span class="font-bold text-lg">Total Tasks</span>
+                        <div class="flex flex-row align-items-center gap-3 legend">
                             <div class="flex flex-row align-items-center gap-2">
                                 <div class="legend-item" style="background: #1A73E8;"></div>
                                 <span class="text-sm font-bold">Current Week</span>
@@ -47,17 +47,17 @@
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-4">
-        <div class="panel" style="max-height: 800px; overflow-y: auto">
-            <span class="font-bold text-lg">Recent Work Progress</span>
+    <div class="col-12 lg:col-4 h-full">
+        <div class="panel p-0 md:p-3 h-full" style="overflow-y: auto">
+            <span class="font-bold text-lg block p-3 md:p-0 pb-0">Recent Work Progress</span>
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">
-                <div class="flex flex-column gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
-                    <div class="border-round-md p-2 pb-0 pt-3 font-bold text-lg">
+                <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
+                    <div class="border-round-md p-3 pb-2 font-bold text-lg">
                         {{currentWeekTask.project}}
                     </div>
 
-                    <app-card class="col-12" *ngFor="let taskContainer of currentWeekTask.tasks"
+                    <app-card class="col-12 p-0 md:p-2" *ngFor="let taskContainer of currentWeekTask.tasks"
                         [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
                     </app-card>
                 </div>

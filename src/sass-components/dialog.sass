@@ -12,7 +12,7 @@
 
 .dialog
     background-color: white
-    border-radius: 4px
+    border-radius: 6px
     width: 800px
 
     .dialog-header
@@ -46,3 +46,23 @@
         border-bottom-left-radius: 24px
         border-bottom-right-radius: 24px
         border-top: 1px solid #E1E3E8
+
+// mobile
+@media screen and (max-width: 768px)
+    .dialog
+        width: 100%
+        border-radius: 0
+        height: 100%
+
+        .dialog-header
+            border-top-left-radius: 0
+            border-top-right-radius: 0
+
+        .dialog-content
+            overflow-y: auto
+            height: 100vh
+            max-height: calc(100% - 130px) !important
+
+        .dialog-footer
+            border-bottom-left-radius: 0
+            border-bottom-right-radius: 0

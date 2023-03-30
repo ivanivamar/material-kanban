@@ -38,6 +38,9 @@ export class CardComponent implements OnInit {
         { title: 'High', code: 2, color: '#E5C7F5' },
     ];
 
+    showModalCheckboxes = true;
+    showModalFiles = true;
+
     constructor(
         private kanbanService: KanbanService) { }
 
@@ -198,6 +201,12 @@ export class CardComponent implements OnInit {
 
     removeImage(image: string) {
         this.task.images = this.task.images.filter(img => img !== image);
+    }
+
+    hideModal() {
+        this.showAddTaskModal = false;
+        this.showModalFiles = true;
+        this.showModalCheckboxes = true;
     }
 
     private idGenerator(): string {
