@@ -17,6 +17,7 @@ export class CardComponent implements OnInit {
 
     @Output() dragStart: EventEmitter<any> = new EventEmitter<any>();
     @Output() dragEnd: EventEmitter<any> = new EventEmitter<any>();
+    @Output() updateKanban: EventEmitter<any> = new EventEmitter<any>();
 
     showAddTaskModal = false;
     draggedTask: any;
@@ -98,7 +99,8 @@ export class CardComponent implements OnInit {
         }, 100);
     }
 
-    async deleteTask() {
+    async deleteTask(event?: any) {
+        event.stopPropagation();
         // remove task from column
         this.project.columns.forEach((column: Column) => {
             column.tasks = column.tasks.filter((searchTask: any) => searchTask.id !== this.task.id);
@@ -106,6 +108,8 @@ export class CardComponent implements OnInit {
 
         // Update project
         this.kanbanService.updateProject(this.project);
+
+        this.updateKanban.emit();
     }
 
     //#region Helpers

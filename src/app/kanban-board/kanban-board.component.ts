@@ -68,6 +68,18 @@ export class KanbanBoardComponent implements OnInit {
         });
     }
 
+    updateKanban() {
+        from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
+            setTimeout(() => {
+                this.project = project;
+                // add projectId to project object
+                this.project.id = this.projectId;
+                this.loading = false;
+                console.log(this.project);
+            }, 200);
+        });
+    }
+
     editColumnSetup(columnId: string, columnTitle: string) {
         this.columnEditId = columnId;
         this.columnEditTitle = columnTitle;
@@ -75,7 +87,7 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     addTaskSetup() {
-        this.showAddTaskModal = true;
+
     }
 
     //#region Setters
@@ -122,7 +134,7 @@ export class KanbanBoardComponent implements OnInit {
             id: this.idGenerator(),
             title: '',
             description: '',
-            urgency: { title: 'Low', code: 0, color: '#F8D4C7' },
+            urgency: 0,
             labels: [],
             checkboxes: [],
             completed: false,
@@ -137,6 +149,8 @@ export class KanbanBoardComponent implements OnInit {
                 column.tasks.push(newTask);
             }
         });
+
+        console.log(this.project);
 
         // Update project
         this.kanbanService.updateProject(this.project);

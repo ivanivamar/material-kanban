@@ -21,7 +21,7 @@
             (onDrop)="primengDrop(i, column.tasks)">
             <header>
                 <div class="left-container">
-                    <button class="btn btn-icon" (click)="addTaskSetup()">
+                    <button class="btn btn-icon" (click)="addTask(column.id)">
                         <span class="material-icons text-lg">add</span>
                     </button>
                     <span class="font-black title">{{ column.title }}</span>
@@ -42,7 +42,7 @@
             <div class="grid grid-nogutter mt-2 gap-3" *ngIf="column.tasks.length > 0">
                 <app-card class="col-12" *ngFor="let task of column.tasks" [columnId]="column.id"
                     [taskProjectId]="projectId" [task]="task" [index]="i" (dragStart)="dragStart($event)"
-                    (dragEnd)="dragEnd()">
+                    (dragEnd)="dragEnd()" (updateKanban)="updateKanban()">
                 </app-card>
             </div>
         </div>

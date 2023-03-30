@@ -4,7 +4,7 @@ export interface Task {
     labels: Labels[];
     description: string;
     checkboxes: Checkboxes[];
-    urgency: Urgency;
+    urgency: number;
     creationDate: any;
     modificationDate: any;
     completed: boolean;
