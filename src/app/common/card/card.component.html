@@ -51,18 +51,24 @@
     <!-- CHECKBOXES -->
     <div class="footer">
         <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showCheckbox($event, task.id)">
-            <span [classList]="!showCheckboxes ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{ task.checkboxes.length }}</span>
-            <span [classList]="!showCheckboxes ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">checklist</span>
+            <span
+                [classList]="!showCheckboxes ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
+                task.checkboxes.length }}</span>
+            <span
+                [classList]="!showCheckboxes ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">checklist</span>
         </button>
-        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
-            <span [classList]="!showImages ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{ task.images.length }}</span>
-            <span [classList]="!showImages ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">attach_file</span>
+        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)"
+            *ngIf="task.images">
+            <span [classList]="!showImages ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
+                task.images.length }}</span>
+            <span
+                [classList]="!showImages ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">attach_file</span>
         </button>
     </div>
 
-    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein"
-        *ngIf="showCheckboxes">
-        <div class="flex checkbox w-full flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes; let i = index">
+    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" *ngIf="showCheckboxes">
+        <div class="flex checkbox w-full flex-row align-items-center gap-2"
+            *ngFor="let checkbox of task.checkboxes; let i = index">
             <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
                 (click)="saveCheckbox($event)">
                 <input type="checkbox" [(ngModel)]="checkbox.checked">
@@ -71,10 +77,12 @@
                     <span class="outline-tick"></span>
                 </span>
             </label>
-            <input class="checkbox-input" type="text" placeholder="Enter text..." (click)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)" [(ngModel)]="checkbox.title"/>
+            <input class="checkbox-input" type="text" placeholder="Enter text..."
+                (click)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
+                [(ngModel)]="checkbox.title" />
             <button class="btn btn-icon p-3" *ngIf="i+1 === task.checkboxes.length" (click)="addCheckbox($event)">
                 <span class="material-icons">add</span>
-            </button>            <button class="btn btn-icon p-3" (click)="deleteCheckbox($event, checkbox)">
+            </button> <button class="btn btn-icon p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-icons text-red-500">delete</span>
             </button>
         </div>
@@ -86,55 +94,39 @@
 <div class="dialog-container" *ngIf="showAddTaskModal">
     <div class="dialog">
         <div class="dialog-header">
-            <div class="flex flex-row align-items-center gap-3 w-7">
-                <span class="dialog-title w-4">Edit Task</span>
+            <div class="flex flex-row align-items-center gap-3 w-full">
+                <span class="dialog-title w-4">Dashboard / {{project.title}} / Edit Task</span>
             </div>
-            <div class="flex align-items-center gap-2">
-                <button *ngIf="task.id !== ''" class="btn btn-icon" (click)="toggleTaskCompleted()">
-                    <span class="material-icons"
-                        [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons text-gray-500'">
-                        check_circle
-                    </span>
-                </button>
-                <button class="btn btn-icon" (click)="showAddTaskModal = false">
-                    <span class="material-icons">
+            <div class="flex align-items-center gap-4">
+                <button class="btn btn-icon text" (click)="showAddTaskModal = false">
+                    <span class="material-icons text-2xl">
                         close
                     </span>
                 </button>
             </div>
         </div>
         <div class="dialog-content">
-            <div class="flex flex-column gap-2">
-                <label for="title">Task Title</label>
-                <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="task.title">
-            </div>
-            <div class="flex flex-column gap-2 mt-2">
-                <label for="description">Task Description</label>
-                <textarea id="description" rows="6" placeholder="Enter a description..."
-                    [(ngModel)]="task.description"></textarea>
-            </div>
-
-            <div class="flex flex-row align-items-center flex-wrap gap-3 mt-2">
-                <div class="relative" *ngFor="let image of task.images">
-                    <img [src]="image" alt="Task Image" class="cursor-pointer" (click)="selectedImage = image">
-                    <button class="btn btn-icon absolute" style="top:4px; right:4px" (click)="removeImage(image)">
-                        <span class="material-icons text-red-500">delete</span>
-                    </button>
+            <div class="flex flex-row align-items-baseline gap-2">
+                <button *ngIf="task.id !== ''" class="btn btn-icon text" (click)="toggleTaskCompleted()">
+                    <span [classList]="task.completed ? 'material-icons text-green-500 text-2xl' : 'material-icons text-2xl'">
+                        check_circle
+                    </span>
+                </button>
+                <div class="flex flex-column gap-2 p-3 w-full" style="border: 1px solid #E1E3E8; border-radius: 8px;">
+                    <input type="text" class="border-0 font-bold text-lg outline-0 p-0" id="title" placeholder="Enter a title..." [(ngModel)]="task.title">
+                    <textarea id="description" class="border-0 mt-1 outline-0 p-0" rows="3" placeholder="Enter a description..."
+                        [(ngModel)]="task.description"></textarea>
                 </div>
-                <input type="file" id="images" (change)="uploadTaskImage($event)">
             </div>
 
-            <div class="flex flex-column gap-2 mt-2 mb-4">
-                <label for="checkboxes">Checkboxes</label>
-                <div class="flex flex-row align-items-center gap-2">
-                    <input type="text" id="checkboxes" placeholder="Enter a checkbox..." [(ngModel)]="newCheckbox">
-                    <button class="btn btn-icon" (click)="addCheckbox()">
-                        <span class="material-icons">add</span>
-                    </button>
+            <div class="flex flex-column gap-2 mt-5 mb-4">
+                <div class="flex align-items-center gap-3 p-2" style="border-bottom: 1px solid #E1E3E8">
+                    <span class="material-icons text-500">keyboard_arrow_down</span>
+                    <span class="font-bold">Subtasks</span>
+                    <span class="text-500 text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
                 </div>
                 <div class="flex flex-column gap-2 mt-2" *ngIf="task.checkboxes">
-                    <div class="flex flex-row align-items-center gap-2"
-                        *ngFor="let checkbox of task.checkboxes">
+                    <div class="flex flex-row align-items-center gap-2" *ngFor="let checkbox of task.checkboxes">
                         <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
                             <input type="checkbox" [(ngModel)]="checkbox.checked">
                             <span class="checkbox-helper"></span>
@@ -143,12 +135,30 @@
                             </span>
                         </label>
                         <input type="text" [(ngModel)]="checkbox.title">
-                        <button class="btn btn-icon" (click)="deleteCheckbox(checkbox)">
+                        <button class="btn btn-icon" (click)="deleteCheckbox($event, checkbox)">
                             <span class="material-icons">delete</span>
                         </button>
                     </div>
+                    <button class="btn btn-secondary text-500 font-regular w-2" (click)="addCheckbox()">
+                        <span class="material-icons text-500">add</span>
+                        Subtask
+                    </button>
                 </div>
             </div>
+
+            <div class="flex align-items-center gap-3 p-2" style="border-bottom: 1px solid #E1E3E8">
+                <span class="material-icons text-500">keyboard_arrow_down</span>
+                <span class="font-bold">Attatchments</span>
+            </div>
+            <div class="flex flex-row align-items-center flex-wrap gap-3 mt-5">
+                <div class="relative" *ngFor="let image of task.images">
+                    <img [src]="image" alt="Task Image" class="cursor-pointer" (click)="selectedImage = image">
+                    <button class="btn btn-icon absolute" style="top:4px; right:4px" (click)="removeImage(image)">
+                        <span class="material-icons text-red-500">delete</span>
+                    </button>
+                </div>
+            </div>
+            <input class="custom-file" type="file" id="images" (change)="uploadTaskImage($event)">
 
             <div class="flex flex-row aling-items-center justify-content-between gap-3 mt-2">
                 <div class="flex flex-column gap-2 w-6">
@@ -160,8 +170,8 @@
                 <div class="flex flex-column gap-2 w-6">
                     <label for="urgency">Urgency</label>
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." appendTo="body" [showClear]="true"
-                        [(ngModel)]="task.urgency" optionLabel="title" optionValue="code"></p-dropdown>
+                        placeholder="Select Urgency..." appendTo="body" [showClear]="true" [(ngModel)]="task.urgency"
+                        optionLabel="title" optionValue="code"></p-dropdown>
                 </div>
             </div>
         </div>
