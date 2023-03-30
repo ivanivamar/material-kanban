@@ -42,7 +42,7 @@
             </header>
 
             <!-- CARDS -->
-            <div class="grid grid-nogutter gap-3 max-h-full overflow-y-auto" *ngIf="column.tasks.length > 0">
+            <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-full overflow-y-auto" *ngIf="column.tasks.length > 0">
                 <app-card class="col-12" *ngFor="let task of column.tasks" [columnId]="column.id"
                     [taskProjectId]="projectId" [task]="task" [index]="i" (dragStart)="dragStart($event)"
                     (dragEnd)="dragEnd()" (updateKanban)="updateKanban()">
