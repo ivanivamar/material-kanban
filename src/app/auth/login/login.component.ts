@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         // check if user is logged in
         this.auth.isLoggedIn().then((user: any) => {
             if (user) {
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['']);
             }
         });
     }
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
             password: this.loginForm.password,
         }).then((user) => {
             console.log('user', user);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['']);
         }).catch((error) => {
             console.log('error', error);
         });
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     loginWithGoogle() {
         this.auth.googleLogin().then((user) => {
             console.log('user', user);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['']);
         }).catch((error) => {
             console.log('error', error);
         });

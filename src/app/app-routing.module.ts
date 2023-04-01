@@ -10,17 +10,12 @@ import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
-    },
-    {
-        path: 'dashboard',
         component: KanbanDashboardComponent,
         pathMatch: 'full',
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },
     {
-        path: 'dashboard/kanban',
+        path: 'kanban',
         component: KanbanBoardComponent,
         pathMatch: 'full',
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),

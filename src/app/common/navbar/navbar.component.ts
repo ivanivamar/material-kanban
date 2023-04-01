@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { Project } from 'src/app/interfaces/Kanban.interfaces';
@@ -19,11 +19,13 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     projectId = '';
 
     user: any;
+    userImage = '';
 
     constructor(
         private kanbanService: KanbanService,
         private route: ActivatedRoute,
         private authService: AuthService,
+        private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -34,6 +36,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
             this.user = user;
+            this.userImage = user.photoURL;
         });
 
         // get project name by getting projectId from url and then call kanbanService.getProjectById(projectId)
@@ -55,7 +58,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     logout() {
         this.authService.logout()
             .then(() => {
-                window.location.href = '/auth/login';
+                this.router.navigate(['']);
             }).catch((error) => {
                 console.log('error', error);
             });

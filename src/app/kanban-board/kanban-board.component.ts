@@ -51,7 +51,7 @@ export class KanbanBoardComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             if (params == null || params['projectId'] == null) {
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['']);
             } else {
                 this.loading = true;
                 this.projectId = params['projectId'];

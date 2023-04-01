@@ -48,7 +48,7 @@ export class SidebarComponent {
     }
 
     navigateTo(projectId: string): void {
-        this.router.navigate(['/dashboard/kanban'], {
+        this.router.navigate(['/kanban'], {
             queryParams: { projectId: projectId },
         });
     }
