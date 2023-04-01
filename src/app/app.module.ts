@@ -20,6 +20,7 @@ import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { CardComponent } from './common/card/card.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
+import { provideAuth,getAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NavbarComponent } from './common/navbar/navbar.component';
     MultiSelectModule,
     BrowserAnimationsModule,
     DragDropModulePrime,
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth())
   ],
   providers: [],
   bootstrap: [AppComponent],
