@@ -7,8 +7,10 @@
         <a class="nav-breadcrumbs__link" routerLink="/home" *ngIf="projectName !== ''">{{ projectName }}</a>
     </div>
 
-    <div class="nav-actions">
-        <button class="btn btn-icon" (click)="logout()" *ngIf="isLoggedIn">
+    <div class="nav-actions" *ngIf="user">
+        <img class="w-2 h-2 border-circle" [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
+        <span class="font-medium" *ngIf="user.displayName">{{ user.displayName }}</span>
+        <button class="btn btn-icon ml-3" (click)="logout()">
             <span class="material-symbols-rounded">logout</span>
         </button>
     </div>

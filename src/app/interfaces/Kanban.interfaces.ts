@@ -39,6 +39,7 @@ export interface Project {
     id?: string;
     title: string;
     columns: Column[];
+    uid: string;
 }
 export interface Urgency {
     title: string;

@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     projectName = '';
     projectId = '';
 
-    isLoggedIn = false;
+    user: any;
 
     constructor(
         private kanbanService: KanbanService,
@@ -32,8 +32,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         this.isRegister = window.location.pathname === '/auth/register' ? true : false;
 
         // check if user is logged in
-        this.authService.isLoggedIn().then((isLoggedIn: boolean) => {
-            this.isLoggedIn = isLoggedIn;
+        this.authService.isLoggedIn().then((user: any) => {
+            this.user = user;
         });
 
         // get project name by getting projectId from url and then call kanbanService.getProjectById(projectId)

@@ -11,7 +11,23 @@ export class AuthService {
     constructor(private auth: Auth) { }
 
     register({ username, email, password }: Register) {
-        return createUserWithEmailAndPassword(this.auth, email, password);
+        // create user
+        return createUserWithEmailAndPassword(this.auth, email, password)
+            .then((userCredential: any) => {
+                // Signed in
+                let user = userCredential.user;
+                user.displayName = username;
+                this.auth.updateCurrentUser(user);
+                // ...
+                return user;
+            }
+            ).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+                return error;
+            }
+            );
     }
 
     login({ email, password }: Login) {
@@ -22,14 +38,11 @@ export class AuthService {
         return signOut(this.auth);
     }
 
-    isLoggedIn(): Promise<boolean> {
+    isLoggedIn(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.auth.onAuthStateChanged((user) => {
-                if (user) {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
+                console.log('user', user);
+                resolve(user);
             });
         });
     }

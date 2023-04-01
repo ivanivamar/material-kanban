@@ -9,11 +9,13 @@ import {
     Checkboxes,
 } from '../interfaces/Kanban.interfaces';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-kanban-dashboard',
     templateUrl: './kanban-dashboard.component.html',
     styleUrls: ['./kanban-dashboard.component.sass'],
+    providers: [KanbanService, AuthService],
 })
 export class KanbanDashboardComponent implements OnInit {
     projects: any[] = [];
@@ -36,13 +38,30 @@ export class KanbanDashboardComponent implements OnInit {
 
     showTasksFromProject: string = '';
 
-    constructor(private kanbanService: KanbanService, private router: Router) { }
+    user: any;
+
+    constructor(
+        private kanbanService: KanbanService,
+        private router: Router,
+        private authService: AuthService,
+        ) { }
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
 
+        // check if user is logged in
+        this.authService.isLoggedIn().then((user: any) => {
+            this.user = user;
+        });
+
         from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
             this.projects = projects;
+
+            // filter projects by user uid
+            this.projects = this.projects.filter((project: Project) => {
+                return project.uid === this.user.uid;
+            });
+
             this.loading = false;
             this.getCurrentWeekTasks();
             this.makeWeekTasksChart(this.projects);
@@ -160,7 +179,8 @@ export class KanbanDashboardComponent implements OnInit {
     async addProject() {
         let project: Project = {
             title: this.projectTitle,
-            columns: []
+            columns: [],
+            uid: this.user.uid,
         };
 
         this.kanbanService.addProject(project);
