@@ -20,24 +20,41 @@ import {
     Urgency,
     Checkboxes,
 } from '../interfaces/Kanban.interfaces';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.sass']
+    styleUrls: ['./sidebar.component.sass'],
+    providers: [KanbanService, AuthService],
 })
 export class SidebarComponent {
     projects: any[] = [];
     loading = false;
     currentProjectId: string = '';
 
-    constructor(private kanbanService: KanbanService, private router: Router) { }
+    user: any;
+
+    constructor(
+        private kanbanService: KanbanService,
+        private router: Router,
+        private authService: AuthService,
+        ) { }
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
 
+        // check if user is logged in
+        this.authService.isLoggedIn().then((user: any) => {
+            this.user = user;
+        });
+
         from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
             this.projects = projects;
+            // filter projects by user uid
+            this.projects = this.projects.filter((project) => {
+                return project.uid === this.user.uid;
+            });
             this.loading = false;
         });
 

@@ -1,6 +1,6 @@
 <nav>
     <div class="nav-breadcrumbs">
-        <a class="nav-breadcrumbs__link" routerLink="" *ngIf="isDashboard">Dashboard</a>
+        <a class="nav-breadcrumbs__link" routerLink="" *ngIf="user">Dashboard</a>
         <a class="nav-breadcrumbs__link" routerLink="/auth/login" *ngIf="isLogin">Login</a>
         <a class="nav-breadcrumbs__link" routerLink="/auth/register" *ngIf="isRegister">Register</a>
         <span class="nav-breadcrumbs__separator" *ngIf="projectName !== ''">/</span>
