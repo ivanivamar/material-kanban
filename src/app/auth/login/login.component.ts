@@ -45,7 +45,9 @@ export class LoginComponent implements OnInit {
         this.auth.googleLogin().then((user) => {
             console.log('user', user);
             this.router.navigate(['']);
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         }).catch((error) => {
             console.log('error', error);
         });
