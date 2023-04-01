@@ -99,8 +99,12 @@ export class KanbanDashboardComponent implements OnInit {
             tasksArray = [];
         });
 
-        // set showTasksFromProject to first project
-        this.showTasksFromProject = this.currentWeekTasks[0].project;
+        // set showTasksFromProject to first project that has tasks
+        this.currentWeekTasks.forEach((project: any) => {
+            if (project.tasks.length > 0) {
+                this.showTasksFromProject = project.project;
+            }
+        });
     }
 
     makeWeekTasksChart(projects: Project[]) {

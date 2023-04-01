@@ -46,16 +46,18 @@ export class SidebarComponent {
 
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
-            this.user = user;
-        });
+            if (user) {
+                this.user = user;
 
-        from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
-            this.projects = projects;
-            // filter projects by user uid
-            this.projects = this.projects.filter((project) => {
-                return project.uid === this.user.uid;
-            });
-            this.loading = false;
+                from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
+                    this.projects = projects;
+                    // filter projects by user uid
+                    this.projects = this.projects.filter((project) => {
+                        return project.uid === this.user.uid;
+                    });
+                    this.loading = false;
+                });
+            }
         });
 
         // get current project id from url

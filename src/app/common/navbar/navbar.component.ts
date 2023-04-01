@@ -11,8 +11,7 @@ import { KanbanService } from 'src/app/kanban-service.service';
     styleUrls: ['./navbar.component.sass'],
     providers: [KanbanService, AuthService],
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
-    isDashboard = false;
+export class NavbarComponent implements OnInit {
     isLogin = false;
     isRegister = false;
     projectName = '';
@@ -29,14 +28,15 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     ) { }
 
     ngOnInit(): void {
-        this.isDashboard = window.location.pathname === '/dashboard' ? true : false;
         this.isLogin = window.location.pathname === '/auth/login' ? true : false;
         this.isRegister = window.location.pathname === '/auth/register' ? true : false;
 
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
-            this.user = user;
-            this.userImage = user.photoURL;
+            if (user) {
+                this.user = user;
+                this.userImage = user.photoURL;
+            }
         });
 
         // get project name by getting projectId from url and then call kanbanService.getProjectById(projectId)
@@ -59,14 +59,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         this.authService.logout()
             .then(() => {
                 this.router.navigate(['']);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
             }).catch((error) => {
                 console.log('error', error);
             });
-    }
-
-    ngAfterViewInit() {
-        this.isDashboard = window.location.pathname === '/dashboard' ? true : false;
-        this.isLogin = window.location.pathname === '/auth/login' ? true : false;
-        this.isRegister = window.location.pathname === '/auth/register' ? true : false;
     }
 }
