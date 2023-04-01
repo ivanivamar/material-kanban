@@ -22,6 +22,12 @@ export class RegisterComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        // check if user is logged in
+        this.auth.isLoggedIn().then((user: any) => {
+            if (user) {
+                this.router.navigate(['/dashboard']);
+            }
+        });
     }
 
     register() {
