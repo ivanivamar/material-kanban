@@ -1,0 +1,32 @@
+<div class="h-full w-full flex align-items-start md:align-items-center justify-content-start md:justify-content-center">
+    <div class="page-dialog border-1 border-200">
+        <div class="page-dialog__title border-bottom-1 pb-3 border-color">
+            <span class="title font-medium text-color">Register</span>
+            <button class="btn btn-icon" routerLink="/auth/login">
+                <span class="material-symbols-rounded">login</span>
+            </button>
+        </div>
+
+        <form class="page-dialog__content">
+            <div class="grid mb-3 grid-nogguter">
+                <div class="form-group col-12 md:col">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username..." [(ngModel)]="registerForm.username" required>
+                </div>
+                <div class="form-group col-12 md:col">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email..." [(ngModel)]="registerForm.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password..." [(ngModel)]="registerForm.password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required>
+            </div>
+        </form>
+
+        <div class="page-dialog__actions border-top-1 pt-3 border-color">
+            <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
+        </div>
+    </div>
+</div>

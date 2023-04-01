@@ -1,0 +1,40 @@
+nav
+    background-color: white
+    border-bottom: 1px solid #EBEEF1
+    margin-left: 250px
+    padding: 24px
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+    .nav-breadcrumbs
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        gap: 12px
+
+        .nav-breadcrumbs__link
+            font-size: 14px
+            color: #1a1a1a
+            text-decoration: none
+
+            &:hover
+                text-decoration: underline
+
+        .nav-breadcrumbs__separator
+            font-size: 14px
+            color: #1a1a1a
+
+    .nav-actions
+        display: flex
+        align-items: center
+        justify-content: flex-end
+        gap: 8px
+
+
+// mobile
+@media screen and (max-width: 768px)
+    nav
+        margin-left: 75px
+        padding: 16px
+        overflow: auto

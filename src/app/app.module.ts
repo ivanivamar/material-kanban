@@ -20,7 +20,9 @@ import { DragDropModule as DragDropModulePrime } from 'primeng/dragdrop';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { CardComponent } from './common/card/card.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
-import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideAuth,getAuth, AuthModule } from '@angular/fire/auth';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     KanbanDashboardComponent,
     KanbanBoardComponent,
     CardComponent,
-    NavbarComponent
+    NavbarComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     FormsModule,
     ChartModule,
     DragDropModule,
+    AuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     HttpClientModule,
