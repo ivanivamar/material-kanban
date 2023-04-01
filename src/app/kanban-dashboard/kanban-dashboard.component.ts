@@ -94,11 +94,11 @@ export class KanbanDashboardComponent implements OnInit {
                     let taskDate = new Date(task.creationDate);
 
                     let taskDay = taskDate.getDay();
-                    weekTasks[taskDay--]++;
+                    weekTasks[taskDay - 1]++;
 
                     let lastWeekDate = new Date(new Date().toUTCString());
                     if (taskDate > lastWeekDate) {
-                        lastWeekTasks[taskDay--]++;
+                        lastWeekTasks[taskDay - 1]++;
                     }
                 });
             });
