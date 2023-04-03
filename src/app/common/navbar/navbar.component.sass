@@ -1,12 +1,15 @@
 nav
     background-color: white
     border-bottom: 1px solid #EBEEF1
-    margin-left: 250px
     padding: 16px 24px
     height: 64px
     display: flex
     align-items: center
     justify-content: space-between
+    position: fixed
+    top: 0
+    left: 250px
+    width: calc(100% - 250px)
 
     .nav-breadcrumbs
         display: flex
@@ -32,10 +35,11 @@ nav
         justify-content: flex-end
         gap: 8px
 
-
 // mobile
 @media screen and (max-width: 768px)
     nav
         margin-left: 75px
         padding: 16px
         overflow: auto
+        left: 0
+        width: calc(100%)
