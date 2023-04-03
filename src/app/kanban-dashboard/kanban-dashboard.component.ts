@@ -10,6 +10,7 @@ import {
 } from '../interfaces/Kanban.interfaces';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import * as dayjs from 'dayjs';
 
 @Component({
     selector: 'app-kanban-dashboard',
@@ -74,13 +75,7 @@ export class KanbanDashboardComponent implements OnInit {
         this.projects.forEach((project: Project) => {
             project.columns.forEach((column: Column) => {
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(task.creationDate);
-
-                    let today = new Date();
-                    const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-                    const lastDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6));
-
-                    if ((taskDate >= firstDayOfWeek && taskDate <= lastDayOfWeek) && !task.completed) {
+                    if (!task.completed) {
                         tasksArray.push(
                             {
                                 projectId: project.id,
@@ -114,22 +109,26 @@ export class KanbanDashboardComponent implements OnInit {
         projects.forEach((project: Project) => {
             project.columns.forEach((column: Column) => {
                 column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(task.creationDate);
+                    let taskDate = new Date(new Date(task.creationDate).getFullYear(), new Date(task.creationDate).getMonth(), new Date(task.creationDate).getDate());
 
                     let taskDay = taskDate.getDay();
-                    weekTasks[taskDay - 1]++;
 
-                    let lastWeekDate = new Date(new Date().toUTCString());
-                    if (taskDate > lastWeekDate) {
+                    let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+                    let monday = this.getMonday(today);
+                    if (taskDate < monday) {
+                        console.log('monday:', monday);
+                        console.log('taskDate:', taskDate);
                         lastWeekTasks[taskDay - 1]++;
+                    } else {
+                        weekTasks[taskDay - 1]++;
                     }
                 });
             });
         });
 
-        // remove 0 values from arrays
-        weekTasks = weekTasks.filter((value) => value != 0);
-        lastWeekTasks = lastWeekTasks.filter((value) => value != 0);
+		// remove 0 values from the end of the array
+		weekTasks = weekTasks.filter((value) => value !== 0);
+		lastWeekTasks = lastWeekTasks.filter((value) => value !== 0);
 
         this.data = {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -273,10 +272,12 @@ export class KanbanDashboardComponent implements OnInit {
         }
         return false;
     }
-    //#endregion
 
-    /* drop(event: CdkDragDrop<Task[]>, project: Project, column: Column) {
-            moveItemInArray(column.tasks, event.previousIndex, event.currentIndex);
-            //this.editColumn(project, column);
-        } */
+    getMonday(d: any) {
+        d = new Date(d);
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+    }
+    //#endregion
 }

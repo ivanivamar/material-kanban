@@ -6,12 +6,6 @@
     <!-- HEADER -->
     <header>
         <div class="content-container">
-            <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
-                <span class="material-icons"
-                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
-                    check_circle
-                </span>
-            </button>
             <span class="font-medium title">{{ task.title }}</span>
             <div class="date-container">
                 <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
@@ -22,7 +16,13 @@
                 </span>
             </div>
         </div>
-        <div class="flex align-items-center gap-2 md:gap-4" style="position: relative; top: 2.5px">
+        <div class="flex align-items-center gap-2 md:gap-3" style="position: relative; top: 2.5px">
+            <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
+                <span class="material-icons"
+                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
+                    check_circle
+                </span>
+            </button>
             <button class="btn btn-icon text" (click)="deleteTask($event)">
                 <span class="material-icons text-red-500">delete</span>
             </button>
@@ -178,7 +178,8 @@
                         </button>
                     </div>
                 </div>
-                <input class="custom-file btn btn-text p-0 w-1" style="height: 24px;" type="file" id="images" (change)="uploadTaskImage($event)">
+                <input class="custom-file btn btn-text p-0 w-1" style="height: 24px;" type="file" id="images"
+                    (change)="uploadTaskImage($event)">
             </div>
 
             <div class="flex flex-column md:flex-row aling-items-center justify-content-between gap-3 mt-2">
