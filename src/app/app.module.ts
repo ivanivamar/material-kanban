@@ -23,6 +23,8 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { provideAuth,getAuth, AuthModule } from '@angular/fire/auth';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @NgModule({
   declarations: [
@@ -44,13 +46,15 @@ import { RegisterComponent } from './auth/register/register.component';
     AuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()),
     HttpClientModule,
     DropdownModule,
     MultiSelectModule,
     BrowserAnimationsModule,
     DragDropModulePrime,
-    provideStorage(() => getStorage()),
-    provideAuth(() => getAuth())
+    CalendarModule,
+    ConfirmPopupModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

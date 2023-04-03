@@ -20,7 +20,7 @@
                         {{project.title}}
                     </div>
                     <div class="btn btn-icon text absolute" style="top:4px;right:4px;z-index:1111"
-                        (click)="deleteProject(project.id, $event)">
+                        (click)="confirmDeleteProject($event, project.id)">
                         <span class="material-symbols-rounded text-white text-base">close</span>
                     </div>
                 </div>
@@ -74,6 +74,7 @@
             </div>
         </div>
     </div>
+    <p-confirmPopup appendTo="body"></p-confirmPopup>
 </div>
 
 <div class="dialog-container" *ngIf="showAddProjectModal">
@@ -108,3 +109,5 @@
         </div>
     </div>
 </div>
+
+

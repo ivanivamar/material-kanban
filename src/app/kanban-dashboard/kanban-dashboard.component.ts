@@ -11,12 +11,13 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import * as dayjs from 'dayjs';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
     selector: 'app-kanban-dashboard',
     templateUrl: './kanban-dashboard.component.html',
     styleUrls: ['./kanban-dashboard.component.sass'],
-    providers: [KanbanService, AuthService],
+    providers: [KanbanService, AuthService, ConfirmationService],
 })
 export class KanbanDashboardComponent implements OnInit {
     projects: any[] = [];
@@ -45,7 +46,8 @@ export class KanbanDashboardComponent implements OnInit {
         private kanbanService: KanbanService,
         private router: Router,
         private authService: AuthService,
-        ) { }
+        private confirmationService: ConfirmationService,
+    ) { }
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
@@ -116,8 +118,6 @@ export class KanbanDashboardComponent implements OnInit {
                     let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
                     let monday = this.getMonday(today);
                     if (taskDate < monday) {
-                        console.log('monday:', monday);
-                        console.log('taskDate:', taskDate);
                         lastWeekTasks[taskDay - 1]++;
                     } else {
                         weekTasks[taskDay - 1]++;
@@ -126,9 +126,9 @@ export class KanbanDashboardComponent implements OnInit {
             });
         });
 
-		// remove 0 values from the end of the array
-		weekTasks = weekTasks.filter((value) => value !== 0);
-		lastWeekTasks = lastWeekTasks.filter((value) => value !== 0);
+        // remove 0 values from the end of the array
+        weekTasks = weekTasks.filter((value) => value !== 0);
+        lastWeekTasks = lastWeekTasks.filter((value) => value !== 0);
 
         this.data = {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -194,6 +194,21 @@ export class KanbanDashboardComponent implements OnInit {
     //#endregion
 
     //#region Deleters
+    confirmDeleteProject(event: any, projectId: string) {
+        console.log(event);
+        this.confirmationService.confirm({
+            target: event.target,
+            message: 'Are you sure that you want to delete this project?',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deleteProject(projectId, event);
+            },
+            reject: () => {
+                return;
+            },
+        });
+    }
+
     async deleteProject(projectId: string, event: any) {
         event.stopPropagation();
         this.kanbanService.deleteProject(projectId);
@@ -276,7 +291,7 @@ export class KanbanDashboardComponent implements OnInit {
     getMonday(d: any) {
         d = new Date(d);
         var day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
         return new Date(d.setDate(diff));
     }
     //#endregion
