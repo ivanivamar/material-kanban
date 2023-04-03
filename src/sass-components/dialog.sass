@@ -15,21 +15,24 @@
     border-radius: 6px
     width: 800px
 
+    &.dialog-lg
+        width: 1000px
+
     .dialog-header
         display: flex
         justify-content: space-between
         align-items: center
-        padding: 16px 24px
+        padding: 24px
         background-color: white
         border-top-left-radius: 24px
         border-top-right-radius: 24px
         border-bottom: 1px solid #E1E3E8
 
-    .dialog-title
-        font-size: 16px
-        font-weight: 500
-        font-family: $font-family
-        color: $text-color
+        .dialog-title
+            font-size: 16px
+            font-weight: 500
+            font-family: $font-family
+            color: $text-color
 
     .dialog-content
         padding: 24px
@@ -66,3 +69,7 @@
         .dialog-footer
             border-bottom-left-radius: 0
             border-bottom-right-radius: 0
+
+@media screen and (min-width: 768px)
+    .md\:max-h-40rem
+        max-height: 40rem !important

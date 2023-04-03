@@ -35,9 +35,10 @@ export class KanbanBoardComponent implements OnInit {
         { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
     ];
     urgencyList: Urgency[] = [
-        { title: 'Low', code: 0, color: '#F8D4C7' },
-        { title: 'Medium', code: 1, color: '#FFE8BC' },
-        { title: 'High', code: 2, color: '#E5C7F5' },
+        { title: 'Low', code: 0, color: '#DBDBDE' },
+        { title: 'Normal', code: 1, color: '#2E7DFF' },
+        { title: 'High', code: 2, color: '#FDC33E' },
+        { title: 'Urgent', code: 3, color: '#FC6252' },
     ];
     draggedTask: any;
     startColumnId: any;
@@ -134,13 +135,14 @@ export class KanbanBoardComponent implements OnInit {
             id: this.idGenerator(),
             title: '',
             description: '',
-            urgency: 0,
+            urgency: this.urgencyList[0],
             labels: [],
             checkboxes: [],
             completed: false,
             images: [],
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
+            dueDate: new Date(''),
         };
 
         // Add new task to column

@@ -112,3 +112,40 @@ label
     &::before
         content: 'Upload'
         color: $text-color
+
+.p-calendar
+    width: 100%
+
+    &:hover
+        border-bottom: 1px solid $text-secondary !important
+
+.p-calendar .p-inputtext
+    border: 0
+    padding: 0
+    outline: none !important
+    border-radius: 0
+
+    &:enabled:focus
+        border: 0
+        outline: none !important
+        box-shadow: none !important
+
+.p-calendar .p-datepicker-trigger
+    background-color: transparent
+    border: 0
+    color: black
+
+.p-multiselect,
+.p-dropdown
+    border: 0 !important
+    outline: none !important
+    border-radius: 0 !important
+    box-shadow: none !important
+    border-bottom: 1px solid transparent !important
+
+    &:hover
+        border-bottom: 1px solid $text-secondary !important
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item
+    padding: 12px 24px !important
+    border-bottom: 1px solid #E9EAEE !important

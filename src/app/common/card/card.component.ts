@@ -33,13 +33,15 @@ export class CardComponent implements OnInit {
         { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
     ];
     urgencyList: Urgency[] = [
-        { title: 'Low', code: 0, color: '#F8D4C7' },
-        { title: 'Medium', code: 1, color: '#FFE8BC' },
-        { title: 'High', code: 2, color: '#E5C7F5' },
+        { title: 'Low', code: 0, color: '#DBDBDE' },
+        { title: 'Normal', code: 1, color: '#2E7DFF' },
+        { title: 'High', code: 2, color: '#FDC33E' },
+        { title: 'Urgent', code: 3, color: '#FC6252' },
     ];
 
     showModalCheckboxes = true;
     showModalFiles = true;
+    columnName = '';
 
     constructor(
         private kanbanService: KanbanService) { }
@@ -52,6 +54,14 @@ export class CardComponent implements OnInit {
                     this.project = project;
                     // add projectId to project
                     this.project.id = this.taskProjectId;
+                    // get column name of task
+                    this.project.columns.forEach((column: Column) => {
+                        column.tasks.forEach((searchTask: any) => {
+                            if (searchTask.id === this.task.id) {
+                                this.columnName = column.title;
+                            }
+                        });
+                    });
                 });
             }
         }, 500);
@@ -98,7 +108,7 @@ export class CardComponent implements OnInit {
         });
 
         setTimeout(() => {
-            this.kanbanService.updateProject(this.project);
+            this.editTask();
         }, 100);
     }
 
@@ -123,7 +133,7 @@ export class CardComponent implements OnInit {
         this.task.completed = !this.task.completed;
 
         setTimeout(() => {
-            this.kanbanService.updateProject(this.project);
+            this.editTask();
         }, 100);
     }
 

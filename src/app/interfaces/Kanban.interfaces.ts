@@ -4,11 +4,12 @@ export interface Task {
     labels: Labels[];
     description: string;
     checkboxes: Checkboxes[];
-    urgency: number;
+    urgency: Urgency;
     creationDate: any;
     modificationDate: any;
     completed: boolean;
     images: Images[];
+    dueDate: Date;
 }
 
 export interface Images {
