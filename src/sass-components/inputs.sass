@@ -104,14 +104,20 @@ label
 
 .custom-file[type="file"]
     color: transparent
+    position: relative
+    cursor: pointer
 
     &::-webkit-file-upload-button
         display: none !important
         visibility: hidden !important
 
     &::before
-        content: 'Upload'
+        content: 'Add Attachment'
         color: $text-color
+        position: absolute
+        top: 50%
+        left: 0
+        transform: translate(2px, -50%)
 
 .p-calendar
     width: 100%
@@ -135,11 +141,15 @@ label
     border: 0
     color: black
 
+p-calendar.p-calendar-clearable .p-calendar-clear-icon
+    right: 2.75rem !important
+
 .p-multiselect,
 .p-dropdown
     border: 0 !important
     outline: none !important
     border-radius: 0 !important
+    background: transparent !important
     box-shadow: none !important
     border-bottom: 1px solid transparent !important
 

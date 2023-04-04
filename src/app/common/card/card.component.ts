@@ -38,6 +38,7 @@ export class CardComponent implements OnInit {
         { title: 'High', code: 2, color: '#FDC33E' },
         { title: 'Urgent', code: 3, color: '#FC6252' },
     ];
+    selectedLabel: any = null;
 
     showModalCheckboxes = true;
     showModalFiles = true;
@@ -81,6 +82,7 @@ export class CardComponent implements OnInit {
 
         // Update project
         this.kanbanService.updateProject(this.project);
+
 
         // Close modal
         this.showAddTaskModal = false;
@@ -126,6 +128,22 @@ export class CardComponent implements OnInit {
     }
 
     //#region Helpers
+    onLabelRemove(label: Labels) {
+        this.task.labels = this.task.labels.filter(l => l.name !== label.name);
+
+        setTimeout(() => {
+            this.editTask();
+        }, 100);
+    }
+
+    onLabelSelect(event: any) {
+        console.log('onLabelSelect', event);
+        // push event.value to task
+        this.task.labels = [...this.task.labels, event.value];
+        event.value = '';
+        this.selectedLabel = null;
+    }
+
     toggleTaskCompleted(event?: any, task?: Task) {
         if (event) {
           event.stopPropagation();

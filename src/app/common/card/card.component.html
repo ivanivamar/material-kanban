@@ -102,7 +102,7 @@
                 <span class="dialog-title font-regular flex gap-2">
                     <span class="text-color">Dashboard</span>
                     <span class="text-color">/</span>
-                    <span class="text-color">{{ project.title }}</span>
+                    <span class="text-color">{{ project.title ? project.title : '--' }}</span>
                     <span class="text-color">/</span>
                     <span class="text-black">{{ columnName }}</span>
                 </span>
@@ -143,22 +143,24 @@
                         <span class="font-bold">Subtasks</span>
                         <span class="text-500 text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
                     </div>
-                    <div class="flex flex-column gap-2 mt-2" *ngIf="task.checkboxes && showModalCheckboxes">
-                        <div class="flex checkbox flex-row align-items-center gap-2"
-                            *ngFor="let checkbox of task.checkboxes">
-                            <label
-                                [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
-                                <input type="checkbox" [(ngModel)]="checkbox.checked">
-                                <span class="checkbox-helper"></span>
-                                <span class="outline">
-                                    <span class="outline-tick"></span>
-                                </span>
-                            </label>
-                            <input class="checkbox-input" placeholder="Enter subtask..." type="text"
-                                [(ngModel)]="checkbox.title">
-                            <button class="btn btn-icon text" (click)="deleteCheckbox($event, checkbox)">
-                                <span class="material-icons">delete</span>
-                            </button>
+                    <div class="flex flex-column gap-2 mt-2" *ngIf="showModalCheckboxes">
+                        <div *ngIf="task.checkboxes.length > 0">
+                            <div class="flex checkbox flex-row align-items-center gap-2"
+                                *ngFor="let checkbox of task.checkboxes">
+                                <label
+                                    [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
+                                    <input type="checkbox" [(ngModel)]="checkbox.checked">
+                                    <span class="checkbox-helper"></span>
+                                    <span class="outline">
+                                        <span class="outline-tick"></span>
+                                    </span>
+                                </label>
+                                <input class="checkbox-input" placeholder="Enter subtask..." type="text"
+                                    [(ngModel)]="checkbox.title">
+                                <button class="btn btn-icon text opacity-0" (click)="deleteCheckbox($event, checkbox)">
+                                    <span class="material-icons">delete</span>
+                                </button>
+                            </div>
                         </div>
                         <button class="btn btn-text font-regular ml-2" (click)="addCheckbox()">
                             <span class="material-icons text-500">add</span>
@@ -174,7 +176,7 @@
                     <span class="font-bold">Attatchments</span>
                 </div>
                 <div class="flex flex-column pt-2 gap-3" *ngIf="showModalFiles">
-                    <div class="flex align-items-center flex-wrap gap-3">
+                    <div class="flex align-items-center flex-wrap gap-3" *ngIf="task.images.length > 0">
                         <div class="relative" *ngFor="let image of task.images">
                             <div class="attatchment-button cursor-pointerr" (click)="selectedImage = image.url">
                                 <span class="material-symbols-rounded border-400 border-radius-lg p-3">
@@ -188,7 +190,12 @@
                             </button>
                         </div>
                     </div>
-                    <input class="custom-file btn btn-text p-0" style="height: 24px;" type="file" id="images"
+                    <button class="btn btn-text" (click)="addFile.click()">
+                        <i class="material-symbols-rounded text-color text-lg">attach_file_add</i>
+                        Add Attachment
+                    </button>
+
+                    <input class="custom-file p-0 opacity-0" #addFile style="height: 24px;" type="file" id="images"
                         (change)="uploadTaskImage($event)">
                 </div>
             </div>
@@ -202,8 +209,8 @@
 
                     <div class="flex gap-2 align-items-center">
                         <i class="pi pi-calendar text-color"></i>
-                        <p-calendar [(ngModel)]="task.dueDate" placeholder="Enter due date..." [showClear]="true" [showTime]="true"
-                        [showIcon]="true" appendTo="body" icon="pi pi-angle-down"></p-calendar>
+                        <p-calendar [(ngModel)]="task.dueDate" placeholder="Enter due date..." [showClear]="true"
+                            [showTime]="true" [showIcon]="true" appendTo="body" icon="pi pi-angle-down"></p-calendar>
                     </div>
                 </div>
 
@@ -213,8 +220,7 @@
                     </span>
 
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." appendTo="body" [(ngModel)]="task.urgency"
-                        optionLabel="title">
+                        placeholder="Select Urgency..." appendTo="body" [(ngModel)]="task.urgency" optionLabel="title">
                         <ng-template pTemplate="selectedItem">
                             <div class="flex align-items-center gap-2" *ngIf="task.urgency">
                                 <i class="pi pi-flag" [style.color]="task.urgency.color"></i>
@@ -235,9 +241,14 @@
                         Tags
                     </span>
 
-                    <p-multiSelect [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        defaultLabel="Select Labels..." [(ngModel)]="task.labels" optionLabel="name"
-                        display="chip"></p-multiSelect>
+                    <div class="flex aling-items-center flex-wrap gap-2 mb-2">
+                        <p-chip [label]="label.name" [removable]="true" *ngFor="let label of task.labels"
+                            (onRemove)="onLabelRemove(label)"></p-chip>
+                    </div>
+
+                    <p-dropdown [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
+                        placeholder="Select Labels..." [(ngModel)]="selectedLabel" (onChange)="onLabelSelect($event)"
+                        appendTo="body" optionLabel="name"></p-dropdown>
                 </div>
 
                 <div class="section border-bottom-0">

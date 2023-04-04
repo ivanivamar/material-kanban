@@ -142,7 +142,7 @@ export class KanbanBoardComponent implements OnInit {
             images: [],
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
-            dueDate: new Date(''),
+            dueDate: new Date(),
         };
 
         // Add new task to column
