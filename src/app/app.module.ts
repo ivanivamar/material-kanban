@@ -8,7 +8,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { KanbanDashboardComponent } from './kanban-dashboard/kanban-dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +25,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
+import { KanbanBoardComponent } from './kanban-dashboard/kanban-board/kanban-board.component';
+import { NoteComponent } from './common/note/note.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ChipModule } from 'primeng/chip';
     CardComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    NoteComponent
   ],
   imports: [
     BrowserModule,

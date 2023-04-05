@@ -11,7 +11,7 @@
         <span class="material-symbols-rounded mr-2">person_add</span>
         <span class="font-medium text-base hidden md:block">Register</span>
     </a>
-    <div class="sublinks" *ngIf="user">
+    <div class="sublinks mb-2" *ngIf="user">
         <a (click)="navigateTo(project.id)"
             [classList]="project.id === currentProjectId ? 'cursor-pointer active sublink' : 'cursor-pointer sublink'"
             routerLinkActive="active" ariaCurrentWhenActive="page" class="sublink" *ngFor="let project of projects">
@@ -19,4 +19,8 @@
             <span class="font-medium text-base hidden md:block">{{project.title}}</span>
         </a>
     </div>
+    <a routerLink="/clipboards" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
+        <span class="material-symbols-rounded mr-2">assignment</span>
+        <span class="font-medium text-base hidden md:block">Clipboards</span>
+    </a>
 </nav>

@@ -1,5 +1,5 @@
-import { KanbanService } from './../kanban-service.service';
-import { Checkboxes, Column, Labels, Project, Urgency, Task } from './../interfaces/Kanban.interfaces';
+import { KanbanService } from '../../kanban-service.service';
+import { Checkboxes, Column, Labels, Project, Urgency, Task } from '../../interfaces/Kanban.interfaces';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';

@@ -59,3 +59,24 @@ export interface Login {
     email: string;
     password: string;
 }
+
+export interface Clipboards {
+    id: string;
+    title: string;
+    clipboard: Clipboard[];
+}
+
+export interface Clipboard {
+    id: string;
+    title: string;
+    creationDate: any;
+    modificationDate: any;
+    notes: Note[];
+}
+
+export interface Note {
+    id: string;
+    text: any;
+    creationDate: any;
+    modificationDate: any;
+}
