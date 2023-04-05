@@ -10,7 +10,6 @@ import {
 } from '../interfaces/Kanban.interfaces';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import * as dayjs from 'dayjs';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
