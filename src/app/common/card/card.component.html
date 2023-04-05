@@ -71,7 +71,7 @@
         <div class="flex checkbox w-full flex-row align-items-center gap-2"
             *ngFor="let checkbox of task.checkboxes; let i = index">
             <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
-                (click)="saveCheckbox($event)">
+                (click)="saveCheckbox(false, $event)">
                 <input type="checkbox" [(ngModel)]="checkbox.checked">
                 <span class="checkbox-helper"></span>
                 <span class="outline">
@@ -79,7 +79,7 @@
                 </span>
             </label>
             <input class="checkbox-input" type="text" placeholder="Enter text..."
-                (input)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
+                (input)="saveCheckbox(false, $event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
                 [(ngModel)]="checkbox.title" />
             <button class="btn btn-icon text p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-icons text-red-500">delete</span>
@@ -117,6 +117,7 @@
 </div>
 <!-- EDIT TASK MODAL -->
 <div class="dialog-container" *ngIf="showAddTaskModal">
+    <div class="overlay" (click)="hideModal()"></div>
     <div class="dialog dialog-lg">
 
 
@@ -153,7 +154,7 @@
                         style="border: 1px solid #E1E3E8; border-radius: 8px;">
                         <input type="text" class="border-0 font-bold text-lg outline-0 p-0" id="title"
                             placeholder="Enter a title..." [(ngModel)]="task.title">
-                        <textarea id="description" class="border-0 mt-1 outline-0 p-0" rows="3"
+                        <textarea id="description" class="border-0 mt-1 min-h-3rem outline-0 p-0 font-regular" rows="5"
                             placeholder="Enter a description..." [(ngModel)]="task.description"></textarea>
                     </div>
                 </div>
@@ -189,7 +190,7 @@
                                     </span>
                                 </label>
                                 <input class="checkbox-input" placeholder="Enter subtask..." type="text"
-                                    [(ngModel)]="checkbox.title">
+                                    [(ngModel)]="checkbox.title" (input)="saveCheckbox(true, $event, false, checkbox)">
                                 <button class="btn btn-icon text opacity-0" (click)="deleteCheckbox($event, checkbox)">
                                     <span class="material-icons">delete</span>
                                 </button>

@@ -89,14 +89,10 @@ export class CardComponent implements OnInit {
         // Update project
         this.kanbanService.updateProject(this.project);
 
-
-        // Close modal
-        this.showAddTaskModal = !hideModal;
-
         this.messageService.add({ severity: 'success', summary: 'Task updated', detail: 'Task updated' });
     }
 
-    saveCheckbox(event?: any, isInput?: boolean, checkbox?: Checkboxes) {
+    saveCheckbox(showModal: boolean, event?: any, isInput?: boolean, checkbox?: Checkboxes) {
         this.timeouts.forEach((timeout: NodeJS.Timeout) => {
             clearTimeout(timeout);
         });
@@ -121,8 +117,10 @@ export class CardComponent implements OnInit {
         });
 
         let tO = setTimeout(() => {
+            this.editTask(true);
 
-            this.editTask();
+            // Close modal
+            this.showAddTaskModal = showModal;
         }, 500);
         this.timeouts.push(tO);
     }
@@ -191,9 +189,10 @@ export class CardComponent implements OnInit {
         }
     }
 
-    deleteCheckboxInline(checkbox: Checkboxes) {
+    deleteCheckboxInline(event: any, checkbox: Checkboxes) {
+        event.stopPropagation();
         this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox.id);
-        this.saveCheckbox();
+        this.saveCheckbox(false);
     }
 
     getTotalCompletedTasks() {
