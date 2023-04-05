@@ -78,7 +78,7 @@
                 </span>
             </label>
             <input class="checkbox-input" type="text" placeholder="Enter text..."
-                (click)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
+                (input)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
                 [(ngModel)]="checkbox.title" />
             <button class="btn btn-icon text p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-icons text-red-500">delete</span>

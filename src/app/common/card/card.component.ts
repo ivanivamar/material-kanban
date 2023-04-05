@@ -4,10 +4,10 @@ import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.sass'],
-  providers: [KanbanService],
+    selector: 'app-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.sass'],
+    providers: [KanbanService],
 })
 export class CardComponent implements OnInit {
     @Input() task: Task = {} as Task;
@@ -18,6 +18,8 @@ export class CardComponent implements OnInit {
     @Output() dragStart: EventEmitter<any> = new EventEmitter<any>();
     @Output() dragEnd: EventEmitter<any> = new EventEmitter<any>();
     @Output() updateKanban: EventEmitter<any> = new EventEmitter<any>();
+
+    timeouts: NodeJS.Timeout[] = [];
 
     showAddTaskModal = false;
     draggedTask: any;
@@ -48,24 +50,21 @@ export class CardComponent implements OnInit {
         private kanbanService: KanbanService) { }
 
     ngOnInit(): void {
-        setTimeout(() => {
-            console.log('projectId', this.taskProjectId);
-            if (this.taskProjectId) {
-                from(this.kanbanService.getProjectById(this.taskProjectId)).subscribe((project: Project) => {
-                    this.project = project;
-                    // add projectId to project
-                    this.project.id = this.taskProjectId;
-                    // get column name of task
-                    this.project.columns.forEach((column: Column) => {
-                        column.tasks.forEach((searchTask: any) => {
-                            if (searchTask.id === this.task.id) {
-                                this.columnName = column.title;
-                            }
-                        });
+        if (this.taskProjectId) {
+            from(this.kanbanService.getProjectById(this.taskProjectId)).subscribe((project: Project) => {
+                this.project = project;
+                // add projectId to project
+                this.project.id = this.taskProjectId;
+                // get column name of task
+                this.project.columns.forEach((column: Column) => {
+                    column.tasks.forEach((searchTask: any) => {
+                        if (searchTask.id === this.task.id) {
+                            this.columnName = column.title;
+                        }
                     });
                 });
-            }
-        }, 500);
+            });
+        }
     }
 
     editTask() {
@@ -89,6 +88,9 @@ export class CardComponent implements OnInit {
     }
 
     saveCheckbox(event?: any, isInput?: boolean, checkbox?: Checkboxes) {
+        this.timeouts.forEach((timeout: NodeJS.Timeout) => {
+            clearTimeout(timeout);
+        });
         event.stopPropagation();
         // update task in column in project
         this.project.columns.forEach((column: Column) => {
@@ -109,9 +111,11 @@ export class CardComponent implements OnInit {
             });
         });
 
-        setTimeout(() => {
+        let tO = setTimeout(() => {
+
             this.editTask();
-        }, 100);
+        }, 500);
+        this.timeouts.push(tO);
     }
 
     async deleteTask(event?: any) {
@@ -146,7 +150,7 @@ export class CardComponent implements OnInit {
 
     toggleTaskCompleted(event?: any, task?: Task) {
         if (event) {
-          event.stopPropagation();
+            event.stopPropagation();
         }
         this.task.completed = !this.task.completed;
 
