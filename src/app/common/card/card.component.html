@@ -6,7 +6,8 @@
     <!-- HEADER -->
     <header>
         <div class="content-container">
-            <span class="font-medium title">{{ task.title }}</span>
+            <span class="font-medium title" *ngIf="task.title !== '' || task.title">{{ task.title }}</span>
+            <span class="font-medium text-500 title" *ngIf="task.title === '' || !task.title">Enter a title</span>
             <div class="date-container">
                 <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
                 |
@@ -275,8 +276,10 @@
                     </span>
 
                     <div class="flex aling-items-center flex-wrap gap-2 mb-2">
-                        <p-chip [label]="label.name" [removable]="true" *ngFor="let label of task.labels"
-                            (onRemove)="onLabelRemove(label)" [style.background]="label.background"></p-chip>
+                        <p-chip [removable]="true" *ngFor="let label of task.labels"
+                            (onRemove)="onLabelRemove(label)" [style.background]="label.background">
+                            <div class="font-medium label" [style.background]="label.background" [style.color]="label.color">{{ label.name }}</div>
+                        </p-chip>
                     </div>
 
                     <p-dropdown [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
