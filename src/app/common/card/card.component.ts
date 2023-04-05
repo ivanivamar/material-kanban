@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.sass'],
-    providers: [KanbanService],
+    providers: [KanbanService, MessageService],
 })
 export class CardComponent implements OnInit {
+    @ViewChild('fileInput') fileInput: any;
+
     @Input() task: Task = {} as Task;
     @Input() index: any = 0 as number;
     @Input() taskProjectId: string | undefined;
@@ -47,7 +50,8 @@ export class CardComponent implements OnInit {
     columnName = '';
 
     constructor(
-        private kanbanService: KanbanService) { }
+        private kanbanService: KanbanService,
+        private messageService: MessageService) { }
 
     ngOnInit(): void {
         if (this.taskProjectId) {
@@ -67,7 +71,10 @@ export class CardComponent implements OnInit {
         }
     }
 
-    editTask() {
+    editTask(hideModal?: boolean) {
+        if (hideModal === undefined) {
+            hideModal = true;
+        }
         // update task in column in project
         this.project.columns.forEach((column: Column) => {
             column.tasks = column.tasks.map((searchTask: any) => {
@@ -84,7 +91,9 @@ export class CardComponent implements OnInit {
 
 
         // Close modal
-        this.showAddTaskModal = false;
+        this.showAddTaskModal = !hideModal;
+
+        this.messageService.add({ severity: 'success', summary: 'Task updated', detail: 'Task updated' });
     }
 
     saveCheckbox(event?: any, isInput?: boolean, checkbox?: Checkboxes) {
@@ -135,17 +144,33 @@ export class CardComponent implements OnInit {
     onLabelRemove(label: Labels) {
         this.task.labels = this.task.labels.filter(l => l.name !== label.name);
 
-        setTimeout(() => {
-            this.editTask();
-        }, 100);
+        this.editTask(false);
+    }
+
+    fileInputClick(event: any) {
+        event.stopPropagation();
+
+        this.fileInput.nativeElement.click();
+        this.showAddTaskModal = false;
+    }
+
+    showImage(event: any, image: any) {
+        event.stopPropagation();
+
+        this.selectedImage = image;
+    }
+
+    manageClick(event: any) {
+        event.stopPropagation();
     }
 
     onLabelSelect(event: any) {
-        console.log('onLabelSelect', event);
         // push event.value to task
         this.task.labels = [...this.task.labels, event.value];
-        event.value = '';
+        event.value = null;
         this.selectedLabel = null;
+
+        this.editTask(false);
     }
 
     toggleTaskCompleted(event?: any, task?: Task) {
@@ -154,9 +179,7 @@ export class CardComponent implements OnInit {
         }
         this.task.completed = !this.task.completed;
 
-        setTimeout(() => {
-            this.editTask();
-        }, 100);
+        this.editTask(false);
     }
 
     deleteCheckbox(event?: any, checkbox?: Checkboxes) {
@@ -164,7 +187,7 @@ export class CardComponent implements OnInit {
         this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox!.id);
 
         if (event) {
-            this.kanbanService.updateProject(this.project);
+            this.editTask(false);
         }
     }
 
@@ -234,10 +257,14 @@ export class CardComponent implements OnInit {
                 this.task.images.push(imageObject);
             });
         }
+
+        this.editTask(false);
     }
 
     removeImage(image: Images) {
         this.task.images = this.task.images.filter(img => img.url !== image.url);
+
+        this.editTask(false);
     }
 
     hideModal() {

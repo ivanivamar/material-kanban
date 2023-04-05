@@ -90,8 +90,30 @@
         </button>
     </div>
     <!-- /CHECKBOXES -->
-</div>
 
+    <!-- IMAGES -->
+    <div class="image-footer w-full transition-all transition-duration-150 fadein" *ngIf="showImages">
+        <div class="flex image flex-wrap w-full flex-row align-items-center gap-2"
+            *ngFor="let image of task.images; let i = index">
+            <div class="attatchment-button cursor-pointer" (click)="showImage(image.url, $event)">
+                <div class="image-container">
+                    <span class="material-symbols-rounded text-700 text-sm">image</span>
+                </div>
+                <span class="image-title font-regular">{{ image.name }}</span>
+                <button class="btn btn-icon text p-3" (click)="removeImage(image)">
+                    <span class="material-icons text-red-500">delete</span>
+                </button>
+            </div>
+        </div>
+        <button class="btn btn-text font-regular ml-2" (click)="fileInputClick($event)">
+            <span class="material-icons text-500">add</span>
+            Add Image
+        </button>
+
+        <input type="file" #fileInput (click)="manageClick($event)" (change)="uploadTaskImage($event)"
+            style="display: none" />
+    </div>
+</div>
 <!-- EDIT TASK MODAL -->
 <div class="dialog-container" *ngIf="showAddTaskModal">
     <div class="dialog dialog-lg">
@@ -110,7 +132,7 @@
             <div class="flex align-items-center gap-4">
                 <button class="btn btn-icon text" (click)="hideModal()">
                     <span class="material-icons text-2xl">
-                        minimize
+                        close
                     </span>
                 </button>
             </div>
@@ -133,6 +155,16 @@
                         <textarea id="description" class="border-0 mt-1 outline-0 p-0" rows="3"
                             placeholder="Enter a description..." [(ngModel)]="task.description"></textarea>
                     </div>
+                </div>
+                <div class="flex align-items-center justify-content-end gap-2 mt-2">
+                    <button type="button" class="btn btn-outline" (click)="hideModal()">
+                        <span class="material-symbols-rounded text-base">close</span>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="editTask()">
+                        <span class="material-symbols-rounded text-base">save</span>
+                        Save
+                    </button>
                 </div>
 
                 <div class="flex flex-column gap-2 mt-5 mb-4">
@@ -178,7 +210,7 @@
                 <div class="flex flex-column pt-2 gap-3" *ngIf="showModalFiles">
                     <div class="flex align-items-center flex-wrap gap-3" *ngIf="task.images.length > 0">
                         <div class="relative" *ngFor="let image of task.images">
-                            <div class="attatchment-button cursor-pointerr" (click)="selectedImage = image.url">
+                            <div class="attatchment-button cursor-pointer" (click)="selectedImage = image.url">
                                 <span class="material-symbols-rounded border-400 border-radius-lg p-3">
                                     file_open
                                 </span>
@@ -190,12 +222,12 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-text" (click)="addFile.click()">
+                    <button class="btn btn-text ml-2" (click)="addFile.click()">
                         <i class="material-symbols-rounded text-color text-lg">attach_file_add</i>
                         Add Attachment
                     </button>
 
-                    <input class="custom-file p-0 opacity-0" #addFile style="height: 24px;" type="file" id="images"
+                    <input class="custom-file p-0 hidden" #addFile style="height: 24px;" type="file" id="images"
                         (change)="uploadTaskImage($event)">
                 </div>
             </div>
@@ -220,15 +252,16 @@
                     </span>
 
                     <p-dropdown [options]="urgencyList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
-                        placeholder="Select Urgency..." appendTo="body" [(ngModel)]="task.urgency" optionLabel="title">
+                        placeholder="Select Urgency..." appendTo="body" [(ngModel)]="task.urgency" optionLabel="title"
+                        (onChange)="editTask(false)">
                         <ng-template pTemplate="selectedItem">
-                            <div class="flex align-items-center gap-2" *ngIf="task.urgency">
+                            <div class="flex align-items-center gap-3" *ngIf="task.urgency">
                                 <i class="pi pi-flag" [style.color]="task.urgency.color"></i>
                                 <span>{{ task.urgency.title }}</span>
                             </div>
                         </ng-template>
                         <ng-template let-urgency pTemplate="item">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex align-items-center gap-3">
                                 <i class="pi pi-flag" [style.color]="urgency.color"></i>
                                 <span>{{ urgency.title }}</span>
                             </div>
@@ -243,7 +276,7 @@
 
                     <div class="flex aling-items-center flex-wrap gap-2 mb-2">
                         <p-chip [label]="label.name" [removable]="true" *ngFor="let label of task.labels"
-                            (onRemove)="onLabelRemove(label)"></p-chip>
+                            (onRemove)="onLabelRemove(label)" [style.background]="label.background"></p-chip>
                     </div>
 
                     <p-dropdown [options]="labelsList" [classList]="'w-full'" [ngStyle]="{width: '100%'}"
@@ -268,18 +301,6 @@
                 </div>
             </div>
         </div>
-
-
-        <div class="dialog-footer absolute md:relative bottom-0 w-full">
-            <button type="button" class="btn btn-secondary" (click)="hideModal()">
-                <span class="material-icons">close</span>
-                Cancel
-            </button>
-            <button type="button" class="btn btn-primary" (click)="editTask()">
-                <span class="material-symbols-rounded">save</span>
-                Save
-            </button>
-        </div>
     </div>
 </div>
 
@@ -293,3 +314,5 @@
         <img [src]="selectedImage" class="w-full h-full shadow-1 pointer-events-none">
     </div>
 </div>
+
+<p-toast></p-toast>

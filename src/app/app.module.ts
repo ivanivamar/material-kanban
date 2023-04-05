@@ -26,6 +26,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ChipModule } from 'primeng/chip';
     DragDropModulePrime,
     CalendarModule,
     ConfirmPopupModule,
-    ChipModule
+    ChipModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent],

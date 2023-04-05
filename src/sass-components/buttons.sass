@@ -9,7 +9,6 @@
     display: flex
     align-items: center
     gap: 8px
-    height: 40px
 
     .material-icons
         font-size: 16px
@@ -30,6 +29,20 @@
 
     &.btn-secondary
         background-color: transparent
+        color: black
+
+        &:hover
+            background-color: $secondary-color-hover
+
+        &:active
+            background-color: $secondary-color-active
+
+        &:disabled
+            opacity: 0.5
+
+    &.btn-outline
+        background-color: transparent
+        border: 1px solid #E1E3E8
         color: black
 
         &:hover
