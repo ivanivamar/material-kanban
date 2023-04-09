@@ -117,6 +117,7 @@
 </div>
 <!-- EDIT TASK MODAL -->
 <div class="dialog-container" *ngIf="showAddTaskModal">
+    <div class="overlay" (click)="hideModal()"></div>
     <div class="dialog dialog-lg">
 
 
@@ -175,6 +176,10 @@
                         <span class="material-icons text-500" *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
                         <span class="font-bold">Subtasks</span>
                         <span class="text-500 text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
+                        <button class="btn btn-text font-regular ml-2" (click)="addCheckbox()">
+                            <span class="material-icons text-500">add</span>
+                            Add Subtask
+                        </button>
                     </div>
                     <div class="flex flex-column gap-2 mt-2" *ngIf="showModalCheckboxes">
                         <div *ngIf="task.checkboxes.length > 0">
@@ -195,10 +200,6 @@
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-text font-regular ml-2" (click)="addCheckbox()">
-                            <span class="material-icons text-500">add</span>
-                            Add Subtask
-                        </button>
                     </div>
                 </div>
 
@@ -207,6 +208,13 @@
                     <span class="material-icons text-500" *ngIf="showModalFiles">keyboard_arrow_down</span>
                     <span class="material-icons text-500" *ngIf="!showModalFiles">keyboard_arrow_up</span>
                     <span class="font-bold">Attatchments</span>
+                    <button class="btn btn-text ml-2" (click)="addFile.click()">
+                        <i class="material-symbols-rounded text-color text-lg">attach_file_add</i>
+                        Add Attachment
+                    </button>
+
+                    <input class="custom-file p-0 hidden" #addFile style="height: 24px;" type="file" id="images"
+                        (change)="uploadTaskImage($event)">
                 </div>
                 <div class="flex flex-column pt-2 gap-3" *ngIf="showModalFiles">
                     <div class="flex align-items-center flex-wrap gap-3" *ngIf="task.images.length > 0">
@@ -223,13 +231,6 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-text ml-2" (click)="addFile.click()">
-                        <i class="material-symbols-rounded text-color text-lg">attach_file_add</i>
-                        Add Attachment
-                    </button>
-
-                    <input class="custom-file p-0 hidden" #addFile style="height: 24px;" type="file" id="images"
-                        (change)="uploadTaskImage($event)">
                 </div>
             </div>
 

@@ -121,6 +121,7 @@ label
 
 .p-calendar
     width: 100%
+    border-bottom: 1px solid transparent !important
 
     &:hover
         border-bottom: 1px solid $text-secondary !important
@@ -139,7 +140,13 @@ label
 .p-calendar .p-datepicker-trigger
     background-color: transparent
     border: 0
-    color: black
+    color: $text-color !important
+    width: 35px !important
+
+    &:hover
+        background-color: transparent !important
+        border: 0
+        color: black !important
 
 p-calendar.p-calendar-clearable .p-calendar-clear-icon
     right: 2.75rem !important
