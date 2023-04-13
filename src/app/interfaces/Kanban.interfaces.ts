@@ -41,6 +41,7 @@ export interface Project {
     title: string;
     columns: Column[];
     uid: string;
+    order: number;
 }
 export interface Urgency {
     title: string;

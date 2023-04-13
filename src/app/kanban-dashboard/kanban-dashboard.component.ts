@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ConfirmationService } from 'primeng/api';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-kanban-dashboard',
@@ -62,6 +63,11 @@ export class KanbanDashboardComponent implements OnInit {
             // filter projects by user uid
             this.projects = this.projects.filter((project: Project) => {
                 return project.uid === this.user.uid;
+            });
+
+            // order projects by order property
+            this.projects.sort((a: Project, b: Project) => {
+                return a.order - b.order;
             });
 
             this.loading = false;
@@ -125,10 +131,6 @@ export class KanbanDashboardComponent implements OnInit {
             });
         });
 
-        // remove 0 values from the end of the array
-        weekTasks = weekTasks.filter((value) => value !== 0);
-        lastWeekTasks = lastWeekTasks.filter((value) => value !== 0);
-
         this.data = {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
             datasets: [
@@ -183,6 +185,7 @@ export class KanbanDashboardComponent implements OnInit {
             title: this.projectTitle,
             columns: [],
             uid: this.user.uid,
+            order: this.projects.length + 1,
         };
 
         this.kanbanService.addProject(project);
@@ -241,6 +244,15 @@ export class KanbanDashboardComponent implements OnInit {
         var t = new Date(1970, 0, 1); // Epoch
         t.setSeconds(secs);
         return t;
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
+
+        this.projects.forEach((project: Project, index: number) => {
+            project.order = index;
+            this.kanbanService.updateProject(project);
+        });
     }
 
     private idGenerator(): string {

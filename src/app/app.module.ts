@@ -27,6 +27,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
 import { ToastModule } from 'primeng/toast';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ToastModule } from 'primeng/toast';
     CalendarModule,
     ConfirmPopupModule,
     ChipModule,
-    ToastModule
+    ToastModule,
+    PickListModule
   ],
   providers: [],
   bootstrap: [AppComponent],
