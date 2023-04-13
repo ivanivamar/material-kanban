@@ -1,116 +1,135 @@
 .btn
-    border: 0
-    border-radius: 4px
-    padding: 8px 16px
-    font-size: 16px
-    font-family: $font-family-medium
-    cursor: pointer
-    transition: background-color 0.2s ease
+    border-radius: 100px
+    padding: 0.5rem 1rem
     display: flex
     align-items: center
+    justify-content: center
+    font-size: 14px
+    font-weight: 600
+    font-family: $font-regular
+    letter-spacing: 1px
+    cursor: pointer
+    transition: all 0.2s ease-in-out
+    border: 0
     gap: 8px
 
-    .material-icons
-        font-size: 16px
+    &.elevated-btn
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+        background: transparent
+        color: $primary-color
 
-    &.btn-primary
-        background-color: $primary-color
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16)
+        &:hover
+            background: $secondary-color-hover
+
+        &:active
+            background: $secondary-color-active
+
+    &.filled-btn
+        background: $primary-color
         color: white
 
         &:hover
-            background-color: $primary-color-hover
+            background: $primary-color-hover
 
         &:active
-            background-color: $primary-color-active
+            background: $primary-color-active
 
-        &:disabled
-            opacity: 0.5
-
-    &.btn-secondary
-        background-color: transparent
+    &.filled-tonal-btn
+        background: $secondary-color
         color: black
 
         &:hover
-            background-color: $secondary-color-hover
+            background: $secondary-color-hover
 
         &:active
-            background-color: $secondary-color-active
+            background: $secondary-color-active
 
-        &:disabled
-            opacity: 0.5
-
-    &.btn-outline
-        background-color: transparent
-        border: 1px solid #E1E3E8
-        color: black
-
-        &:hover
-            background-color: $secondary-color-hover
-
-        &:active
-            background-color: $secondary-color-active
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-text
-        background-color: transparent
-        color: $text-color
-        height: auto
-        width: fit-content
-        padding: 8px 4px
-        font-size: 14px
-        font-family: $font-family
-        border-radius: 0
-        border-bottom: 1px solid transparent
-
-        &:hover
-            border-bottom: 1px solid #E1E3E8
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-icon
-        padding: 8px
-        background-color: $secondary-color
+    &.outlined-btn
+        border: 1px solid #A08C8C
+        background: transparent
         color: $primary-color
+
+        &:hover
+            background: $primary-color-hover
+
+        &:active
+            background: $primary-color-active
+
+    &.text-btn
+        background: transparent
+        color: $primary-color
+
+        &:hover
+            background: $secondary-color-hover
+
+        &:active
+            background: $secondary-color-active
+
+    &.icon-btn
+        background: transparent
+        color: $text-color
+        padding: 0.5rem
+        border-radius: 50%
+
+        &:hover
+            background: $secondary-color-hover
+
+        &:active
+            background: $secondary-color-active
+
+    &.segmented-btn
+        border-radius: 0
+        border: 1px solid #A08C8C
+        background: transparent
+        color: $primary-color
+
+        &:hover
+            background: $secondary-color-hover
+
+        &:active
+            background: $secondary-color-active
+
+        &:first-child
+            border-radius: 100px 0 0 100px
+            border-right: none
+
+        &:last-child
+            border-radius: 0 100px 100px 0
+            border-left: none
+
+    &.fab-btn
+        border-radius: 18px
+        padding: 0.5rem
+        background: $secondary-color
+        color: black
         width: 36px
         height: 36px
-        border: 0
-        display: flex
-        justify-content: center
-        align-items: center
 
         &:hover
-            background-color: $secondary-color-hover
+            background: $secondary-color-hover
 
         &:active
-            background-color: $secondary-color-active
+            background: $secondary-color-active
 
-        &:disabled
-            opacity: 0.5
+        &.btn-sm
+            width: 24px
+            height: 24px
 
-        &.text
-            background-color: transparent
-            color: $text-color
-            padding: 0
-            height: auto
-            width: auto
-            font-size: 14px
-            font-family: $font-family
+        &.btn-lg
+            width: 56px
+            height: 56px
 
-            &:hover
-                color: $primary-color
+    &.extended-fab-btn
+        border-radius: 18px
+        padding: 0.5rem 1rem
+        background: $secondary-color
+        color: $primary-color
+        width: 120px
+        height: 56px
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
 
-            &:active
-                color: $primary-color-active
+        &:hover
+            background: $secondary-color-hover
 
-            &:disabled
-                opacity: 0.5
-
-// mobile
-@media screen and (max-width: 768px)
-    .btn
-        padding: 8px 12px
-        font-size: 14px
+        &:active
+            background: $secondary-color-active

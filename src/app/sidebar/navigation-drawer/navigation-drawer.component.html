@@ -1,0 +1,13 @@
+<div [classList]="open ? 'open navigation-drawer' : 'navigation-drawer'">
+    <div class="overlay" (mouseover)="sendCloseDrawer()"></div>
+    <div class="drawer">
+        <div class="nav-drawer-section">
+            <div class="navigation-drawer-item" *ngFor="let sectionLink of sectionLinks">
+                <a (click)="navigateTo(sectionLink)" routerLinkActive="active" ariaCurrentWhenActive="page" class="section-link">
+                    <span class="material-symbols-rounded">{{sectionLink.icon}}</span>
+                    <div class="label">{{sectionLink.label}}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

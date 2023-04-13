@@ -1,4 +1,4 @@
-<div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency.code"
+<div [classList]="'col-12 card transition-all transition-duration-100 mdc-ripple-surface urgency-' + task.urgency.code"
     (click)="showAddTaskModal = true" pDraggable (onDragStart)="cardDragStart()" (onDragEnd)="cardDragEnd()">
     <div class="urgency"></div>
 

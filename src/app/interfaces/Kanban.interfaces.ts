@@ -59,3 +59,10 @@ export interface Login {
     email: string;
     password: string;
 }
+
+export interface DrawerSectionLink {
+    label: string;
+    icon: string;
+    route: string;
+    params?: any;
+}

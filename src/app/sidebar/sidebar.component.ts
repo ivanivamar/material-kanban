@@ -19,11 +19,13 @@ import {
     Task,
     Urgency,
     Checkboxes,
+    DrawerSectionLink,
 } from '../interfaces/Kanban.interfaces';
 import { AuthService } from '../auth.service';
 
+
 @Component({
-    selector: 'app-sidebar',
+    selector: 'left-nav-rail',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.sass'],
     providers: [KanbanService, AuthService],
@@ -34,6 +36,9 @@ export class SidebarComponent {
     currentProjectId: string = '';
 
     user: any;
+
+    drawerSectionLinks: DrawerSectionLink[] = [];
+    hovered = false;
 
     constructor(
         private kanbanService: KanbanService,
@@ -69,6 +74,23 @@ export class SidebarComponent {
     navigateTo(projectId: string): void {
         this.router.navigate(['/kanban'], {
             queryParams: { projectId: projectId },
+        });
+    }
+
+    onHoverSection(): void {
+        this.hovered = true;
+    }
+
+    loadSectionLinks(): void {
+        this.drawerSectionLinks = [];
+
+        this.projects.forEach((project) => {
+            this.drawerSectionLinks.push({
+                label: project.title,
+                icon: 'folder',
+                route: `/kanban`,
+                params: { projectId: project.id },
+            });
         });
     }
 }

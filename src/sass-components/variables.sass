@@ -1,0 +1,113 @@
+$bg-color: #211A1A
+$bg-color-dark: #2F2525
+$sidebar-bg-color: #362929
+$primary-color: #5C3F3F
+$primary-color-hover: #674B4B
+$primary-color-active: #6D5151
+
+$secondary-color: #433535
+$secondary-color-hover: #4F4242
+$secondary-color-active: #5A4E4E
+
+$warning-color: #FDAF1B
+$warning-color-hover: #FDBF3B
+$danger-color: #FD6860
+$danger-color-hover: #FB7B77
+
+$border-color: #534343
+$border-radius: 24px
+$text-color: #EDE0DF
+$text-color-active: #FFDAD9
+$text-secondary: #D7C2C1
+$text-secondary-active: #EDE0DF
+
+.text-color-primary
+    color: $primary-color
+
+.secondary-color
+    color: $secondary-color
+
+.secondary-color-hover
+    color: $secondary-color-hover
+
+.secondary-color-active
+    color: $secondary-color-active
+
+.warning-color
+    color: $warning-color
+
+.warning-color-hover
+    color: $warning-color-hover
+
+.danger-color
+    color: $danger-color
+
+.danger-color-hover
+    color: $danger-color-hover
+
+.bg-primary-color
+    background-color: $primary-color
+
+.bg-primary-color-hover
+    background-color: $primary-color-hover
+
+.bg-primary-color-active
+    background-color: $primary-color-active
+
+.bg-secondary-color
+    background-color: $secondary-color
+
+.bg-secondary-color-hover
+    background-color: $secondary-color-hover
+
+.bg-secondary-color-active
+    background-color: $secondary-color-active
+
+.bg-warning-color
+    background-color: $warning-color
+
+.bg-warning-color-hover
+    background-color: $warning-color-hover
+
+.bg-danger-color
+    background-color: $danger-color
+
+.bg-danger-color-hover
+    background-color: $danger-color-hover
+
+.border-primary-color
+    border-color: $primary-color
+
+.border-primary-color-hover
+    border-color: $primary-color-hover
+
+.border-primary-color-active
+    border-color: $primary-color-active
+
+.border-secondary-color
+    border-color: $secondary-color
+
+.border-secondary-color-hover
+    border-color: $secondary-color-hover
+
+.border-secondary-color-active
+    border-color: $secondary-color-active
+
+.border-color
+    border-color: $border-color
+
+.text-color
+    color: $text-color
+
+/* Ripple effect */
+.ripple
+    background-position: center
+    transition: background 0.8s
+
+    &:hover
+        background: $primary-color radial-gradient(circle, transparent 1%, $primary-color 1%) center/15000%
+
+    &:active
+        background-color: $primary-color
+        background-size: 100%
+        transition: background 0s

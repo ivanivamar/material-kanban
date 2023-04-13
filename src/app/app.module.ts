@@ -27,6 +27,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
 import { ToastModule } from 'primeng/toast';
+import { NavigationDrawerComponent } from './sidebar/navigation-drawer/navigation-drawer.component';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ToastModule } from 'primeng/toast';
     CardComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    NavigationDrawerComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { ToastModule } from 'primeng/toast';
     CalendarModule,
     ConfirmPopupModule,
     ChipModule,
-    ToastModule
+    ToastModule,
+    RippleModule
   ],
   providers: [],
   bootstrap: [AppComponent],

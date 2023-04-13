@@ -2,7 +2,7 @@
     <div class="flex align-items-center justify-content-between">
         <div class="flex flex-column md:flex-row gap-2 align-items-left md:align-items-center">
             <div class="flex gap-2 align-items-center">
-                <button class="btn btn-icon" routerLink="">
+                <button class="btn icon-btn ripple" routerLink="">
                     <span class="material-icons">arrow_back</span>
                 </button>
                 <div>
@@ -10,21 +10,9 @@
                     <span class="text-xl font-regular">{{ project.title }}</span>
                 </div>
             </div>
-            <button class="btn btn-primary" (click)="showAddColumnModal = true">
+            <button class="btn filled-btn ripple" (click)="showAddColumnModal = true">
                 <span class="material-icons">add</span>
                 Column
-            </button>
-        </div>
-
-        <div class="bg-white shadow-2 p-3 border-round-sm flex align-items-center justify-content-between text-500">
-            <button class="btn btn-icon text font-bold mr-3">
-                <span class="material-symbols-rounded text-blue-500 text-base">view_kanban</span>
-                Kanban
-            </button>
-            |
-            <button class="btn btn-icon text font-bold ml-3 mr-3">
-                <span class="material-symbols-rounded text-blue-500 text-base">calendar_month</span>
-                Calendar
             </button>
         </div>
     </div>
@@ -36,18 +24,18 @@
             *ngFor="let column of project.columns; let i = index" pDroppable (onDrop)="primengDrop(i, column.tasks)">
             <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                 <div class="left-container">
-                    <button class="btn btn-icon" (click)="addTask(column.id)">
+                    <button class="btn icon-btn" (click)="addTask(column.id)">
                         <span class="material-icons text-lg">add</span>
                     </button>
-                    <span class="font-black title">{{ column.title }}</span>
-                    <span class="task-count font-medium">({{ column.tasks.length < 10 ? '0' : '' }}{{
+                    <span class="font-bold title text-white">{{ column.title }}</span>
+                    <span class="task-count font-medium primary-color">({{ column.tasks.length < 10 ? '0' : '' }}{{
                             column.tasks.length }})</span>
                 </div>
                 <div class="right-container">
-                    <button class="btn btn-icon text" (click)="editColumnSetup(column.id, column.title)">
+                    <button class="btn icon-btn" (click)="editColumnSetup(column.id, column.title)">
                         <span class="material-icons">edit</span>
                     </button>
-                    <button class="btn btn-icon text" (click)="deleteColumn(column.id)">
+                    <button class="btn icon-btn" (click)="deleteColumn(column.id)">
                         <span class="material-icons text-red-500">delete</span>
                     </button>
                 </div>
