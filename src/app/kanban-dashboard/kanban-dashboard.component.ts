@@ -227,6 +227,16 @@ export class KanbanDashboardComponent implements OnInit {
         return count;
     }
 
+    getTasksFromCompletedColumn(project: Project): number {
+        let count = 0;
+        project.columns.forEach((column: Column) => {
+            if (column.title === 'Completed') {
+                count += column.tasks.length;
+            }
+        });
+        return count;
+    }
+
     toDateTime(secs: any) {
         var t = new Date(1970, 0, 1); // Epoch
         t.setSeconds(secs);

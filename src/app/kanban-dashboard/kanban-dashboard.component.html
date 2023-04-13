@@ -12,12 +12,26 @@
             </button>
         </div>
         <div class="flex flex-column" *ngIf="!loading && !project">
-            <div class="flex gap-2 md:gap-5 flex-column md:flex-row pb-3 mt-2 border-bottom-1 border-300">
+            <div class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row pb-3 mt-2 border-bottom-1 border-300">
                 <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
-                    <div class="btn btn-primary p-2 pl-2 pr-5" (click)="navigateToProject(project)">
-                        <span class="material-symbols-rounded">view_kanban</span>
-                        {{project.title}}
+                    <div class="btn btn-primary align-items-start flex flex-column p-2 pl-2 pr-3" (click)="navigateToProject(project)">
+                        <div class="flex gap-2 align-items-center">
+                            <span class="material-symbols-rounded">view_kanban</span>
+                            {{project.title}}
+                        </div>
+                        <div class="flex flex-column">
+                            <span class="text-white">Tasks:</span>
+                            <div class="flex align-items-center gap-2 p-1">
+                                <span class="font-medium text-white">0</span>
+                                <div class="tasks-bar w-100">
+                                    <div class="tasks-bar-progress"
+                                        [style]="{ width: (getTasksFromCompletedColumn(project) / getTasksCount(project)) * 100 + '%' }">
+                                    </div>
+                                </div>
+                                <span class="font-medium text-white">{{ getTasksCount(project) }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="btn btn-icon text absolute" style="top:4px;right:4px;z-index:1111"
                         (click)="confirmDeleteProject($event, project.id)">
@@ -109,5 +123,3 @@
         </div>
     </div>
 </div>
-
-<p-toast></p-toast>
