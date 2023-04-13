@@ -65,6 +65,7 @@
 </div>
 
 <div class="dialog-container" *ngIf="showEditColumnModal">
+    <div class="overlay" (click)="showEditColumnModal = false; columnEditTitle = ''"></div>
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Edit Column</span>
@@ -94,6 +95,7 @@
 </div>
 
 <div class="dialog-container" *ngIf="showAddColumnModal">
+    <div class="overlay" (click)="showAddColumnModal = false; columnTitle = ''"></div>
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Add Column</span>

@@ -92,6 +92,7 @@
 </div>
 
 <div class="dialog-container" *ngIf="showAddProjectModal">
+    <div class="overlay" (click)="showAddProjectModal = false; projectTitle = ''"></div>
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">Add Project</span>
