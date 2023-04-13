@@ -50,17 +50,13 @@
                         class="flex flex-column md:flex-row align-items-left gap-2 md:align-items-center justify-content-start md:justify-content-between mb-3">
                         <span class="font-bold text-lg">Total Tasks</span>
                         <div class="flex flex-row align-items-center gap-3 legend">
-                            <div class="flex flex-row align-items-center gap-2">
-                                <div class="legend-item" style="background: #1A73E8;"></div>
-                                <span class="text-sm font-bold">Current Week</span>
-                            </div>
-                            <div class="flex flex-row align-items-center gap-2">
-                                <div class="legend-item" style="background: #E8F0FE;"></div>
-                                <span class="text-sm">Past Week</span>
+                            <div class="flex flex-row align-items-center gap-2" *ngFor="let project of projects">
+                                <div class="legend-item" [style]="{ 'background-color': project.color }"></div>
+                                <span class="text-sm font-bold">{{ project.title }}</span>
                             </div>
                         </div>
                     </div>
-                    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+                    <p-chart type="bar" [data]="data" [options]="options"></p-chart>
                 </div>
             </div>
         </div>

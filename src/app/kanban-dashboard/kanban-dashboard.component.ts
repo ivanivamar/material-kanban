@@ -110,46 +110,23 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     makeWeekTasksChart(projects: Project[]) {
-        let weekTasks = [0, 0, 0, 0, 0];
-        let lastWeekTasks = [0, 0, 0, 0, 0];
-
-        projects.forEach((project: Project) => {
-            project.columns.forEach((column: Column) => {
-                column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(new Date(task.creationDate).getFullYear(), new Date(task.creationDate).getMonth(), new Date(task.creationDate).getDate());
-
-                    let taskDay = taskDate.getDay();
-
-                    let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-                    let monday = this.getMonday(today);
-                    if (taskDate < monday) {
-                        lastWeekTasks[taskDay - 1]++;
-                    } else {
-                        weekTasks[taskDay - 1]++;
-                    }
-                });
-            });
-        });
-
         this.data = {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            labels: [],
             datasets: [
                 {
-                    label: 'Current Week',
-                    data: weekTasks,
-                    borderColor: '#1A73E8',
-                    fill: false,
-                    tension: 0.4,
-                },
-                {
-                    label: 'Previous Week',
-                    data: lastWeekTasks,
-                    borderColor: '#E8F0FE',
-                    fill: false,
-                    tension: 0.4,
-                },
+                    label: 'Projects Tasks',
+                    data: [],
+                    backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                    borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                    borderWidth: 1,
+                }
             ],
         };
+
+        projects.forEach((project: Project) => {
+            this.data.labels.push(project.title);
+            this.data.datasets[0].data.push(this.getTasksCount(project));
+        });
 
         this.options = {
             maintainAspectRatio: false,
