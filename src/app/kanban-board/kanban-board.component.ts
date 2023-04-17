@@ -12,6 +12,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
     styleUrls: ['./kanban-board.component.sass'],
 })
 export class KanbanBoardComponent implements OnInit {
+    ProjectTabs = ProjectTabs;
+    currentTab: ProjectTabs = ProjectTabs.Kanban;
+
     projects: any[] = [];
     project: Project = {} as Project;
     projectId: string = '';
@@ -291,4 +294,9 @@ export class KanbanBoardComponent implements OnInit {
         return false;
     }
     //#endregion
+}
+
+export enum ProjectTabs {
+    Kanban,
+    Calendar,
 }

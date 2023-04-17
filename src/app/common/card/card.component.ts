@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.sass'],
-    providers: [KanbanService, MessageService],
+    providers: [KanbanService, MessageService, ConfirmationService],
 })
 export class CardComponent implements OnInit {
     @ViewChild('fileInput') fileInput: any;
@@ -32,10 +32,10 @@ export class CardComponent implements OnInit {
     newCheckbox = '';
     selectedImage: any = '';
     labelsList: Labels[] = [
-        { name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
-        { name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
-        { name: 'TRANSLATIONS', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
-        { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
+        { name: 'Frontend', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
+        { name: 'TypeScript', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
+        { name: 'Translations', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
+        { name: 'Bugfix', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
     ];
     urgencyList: Urgency[] = [
         { title: 'Low', code: 0, color: '#DBDBDE' },
@@ -51,7 +51,10 @@ export class CardComponent implements OnInit {
 
     constructor(
         private kanbanService: KanbanService,
-        private messageService: MessageService) { }
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService
+    ) {
+    }
 
     ngOnInit(): void {
         if (this.taskProjectId) {
@@ -127,6 +130,18 @@ export class CardComponent implements OnInit {
         this.timeouts.push(tO);
     }
 
+    confirmDelete(event?: any) {
+        event.stopPropagation();
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete this task?',
+            target: event.target,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deleteTask();
+            },
+        });
+    }
+
     async deleteTask(event?: any) {
         event.stopPropagation();
         // remove task from column
@@ -173,13 +188,16 @@ export class CardComponent implements OnInit {
         this.editTask(false);
     }
 
-    toggleTaskCompleted(event?: any, task?: Task) {
+    toggleTaskCompleted(event?: Event, task?: Task) {
         if (event) {
             event.stopPropagation();
+            event.preventDefault();
+
+            this.showAddTaskModal = false;
         }
         this.task.completed = !this.task.completed;
 
-        this.editTask(false);
+        this.editTask(event ? true : false);
     }
 
     deleteCheckbox(event?: any, checkbox?: Checkboxes) {

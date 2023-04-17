@@ -1,22 +1,22 @@
 <nav>
     <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
         <span class="material-symbols-rounded mr-2">overview_key</span>
-        <span class="font-medium text-base hidden md:block">Dashboard</span>
+        <span class="font-regular text-base hidden md:block">Dashboard</span>
     </a>
     <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="!user">
         <span class="material-symbols-rounded mr-2">login</span>
-        <span class="font-medium text-base hidden md:block">Login</span>
+        <span class="font-regular text-base hidden md:block">Login</span>
     </a>
     <a routerLink="/auth/register" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="!user" class="mt-2">
         <span class="material-symbols-rounded mr-2">person_add</span>
-        <span class="font-medium text-base hidden md:block">Register</span>
+        <span class="font-regular text-base hidden md:block">Register</span>
     </a>
     <div class="sublinks" *ngIf="user">
         <a (click)="navigateTo(project.id)"
             [classList]="project.id === currentProjectId ? 'cursor-pointer active sublink' : 'cursor-pointer sublink'"
             routerLinkActive="active" ariaCurrentWhenActive="page" class="sublink" *ngFor="let project of projects">
             <span class="material-symbols-rounded mr-2">view_kanban</span>
-            <span class="font-medium text-base hidden md:block">{{project.title}}</span>
+            <span class="font-regular text-base hidden md:block">{{project.title}}</span>
         </a>
     </div>
 </nav>

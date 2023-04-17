@@ -5,27 +5,33 @@
 
     <!-- HEADER -->
     <header>
-        <div class="content-container">
-            <span class="font-medium title" *ngIf="task.title !== '' || task.title">{{ task.title }}</span>
-            <span class="font-medium text-500 title" *ngIf="task.title === '' || !task.title">Enter a title</span>
-            <div class="date-container">
-                <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
-                |
-                <span class="time-container">
-                    <span class="material-symbols-rounded time-icon">timer</span>
-                    <span class="time text-xs font-medium">{{ task.creationDate | date: 'HH:mm' }}</span>
+        <div class="flex align-items-baseline gap-2">
+            <button class="btn btn-icon text relative" (click)="toggleTaskCompleted($event, task)" style="top:2px">
+                <span class="material-symbols-rounded text-base" *ngIf="!task.completed">
+                    circle
                 </span>
-            </div>
-        </div>
-        <div class="flex align-items-center gap-2 md:gap-3" style="position: relative; top: 2.5px">
-            <button class="btn btn-icon text" (click)="toggleTaskCompleted($event, task)">
-                <span class="material-icons"
-                    [classList]="task.completed ? 'material-icons text-green-500' : 'material-icons'">
+                <span class="material-symbols-rounded text-base" *ngIf="task.completed">
                     check_circle
                 </span>
             </button>
-            <button class="btn btn-icon text" (click)="deleteTask($event)">
-                <span class="material-icons text-red-500">delete</span>
+            <div class="content-container">
+                <span class="font-medium title" *ngIf="task.title !== '' || task.title">
+                    {{ task.title }}
+                </span>
+                <span class="font-medium text-500 title" *ngIf="task.title === '' || !task.title">Enter a title</span>
+                <div class="date-container">
+                    <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
+                    |
+                    <span class="time-container">
+                        <span class="material-symbols-rounded time-icon">timer</span>
+                        <span class="time text-xs font-medium">{{ task.creationDate | date: 'HH:mm' }}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="flex align-items-center gap-2 md:gap-3" style="position: relative; top: 2.5px">
+            <button class="btn btn-icon text" (click)="confirmDelete($event)">
+                <span class="material-symbols-rounded text-base text-red-500">delete</span>
             </button>
         </div>
     </header>
@@ -34,37 +40,40 @@
 
     <!-- BODY -->
     <div class="body">
-        <!-- LABELS -->
-        <div class="label-container">
-            <div class="label font-medium" *ngFor="let label of task.labels" [style.color]="label.color"
-                [style.background]="label.background">
-                {{ label.name }}
-            </div>
-        </div>
-        <!-- /LABELS -->
 
         <!-- DESCRIPTION -->
-        <span class="description font-regular">{{ task.description }}</span>
+        <!-- <span class="description font-regular">{{ task.description }}</span> -->
         <!-- /DESCRIPTION -->
     </div>
 
 
     <!-- CHECKBOXES -->
     <div class="footer">
-        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showCheckbox($event, task.id)">
-            <span
-                [classList]="!showCheckboxes ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
-                task.checkboxes.length }}</span>
-            <span
-                [classList]="!showCheckboxes ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">checklist</span>
-        </button>
-        <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)"
-            *ngIf="task.images">
-            <span [classList]="!showImages ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
-                task.images.length }}</span>
-            <span
-                [classList]="!showImages ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">attach_file</span>
-        </button>
+        <!-- LABELS -->
+        <div class="label-container">
+            <div class="label" *ngFor="let label of task.labels">
+                <i class="material-icons mr-1 text-xs" [style.color]="label.color">circle</i>
+                {{ label.name }}
+            </div>
+        </div>
+        <!-- /LABELS -->
+        <div class="flex align-items-center gap-3">
+            <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showCheckbox($event, task.id)">
+                <span
+                    [classList]="!showCheckboxes ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
+                    task.checkboxes.length }}</span>
+                <span
+                    [classList]="!showCheckboxes ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">checklist</span>
+            </button>
+            <button class="btn btn-icon text flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)"
+                *ngIf="task.images">
+                <span
+                    [classList]="!showImages ? 'text-700 text-sm font-regular' : 'text-blue-500 text-sm font-regular'">{{
+                    task.images.length }}</span>
+                <span
+                    [classList]="!showImages ? 'material-symbols-rounded text-700 text-sm' : 'material-symbols-rounded text-blue-500 text-sm'">attach_file</span>
+            </button>
+        </div>
     </div>
 
     <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" *ngIf="showCheckboxes">
@@ -145,8 +154,10 @@
             <div class="content w-full md:w-8">
                 <div class="flex flex-row align-items-baseline gap-2">
                     <button *ngIf="task.id !== ''" class="btn btn-icon text" (click)="toggleTaskCompleted()">
-                        <span
-                            [classList]="task.completed ? 'material-icons text-green-500 text-2xl' : 'material-icons text-2xl'">
+                        <span class="material-symbols-rounded text-xl" *ngIf="!task.completed">
+                            circle
+                        </span>
+                        <span class="material-symbols-rounded text-xl" *ngIf="task.completed">
                             check_circle
                         </span>
                     </button>
@@ -277,9 +288,10 @@
                     </span>
 
                     <div class="flex aling-items-center flex-wrap gap-2 mb-2">
-                        <p-chip [removable]="true" *ngFor="let label of task.labels"
-                            (onRemove)="onLabelRemove(label)" [style.background]="label.background">
-                            <div class="font-medium label" [style.background]="label.background" [style.color]="label.color">{{ label.name }}</div>
+                        <p-chip [removable]="true" *ngFor="let label of task.labels" (onRemove)="onLabelRemove(label)"
+                            [style.background]="label.background">
+                            <div class="font-medium label" [style.background]="label.background"
+                                [style.color]="label.color">{{ label.name }}</div>
                         </p-chip>
                     </div>
 
@@ -320,3 +332,4 @@
 </div>
 
 <p-toast></p-toast>
+<p-confirmPopup appendTo="body"></p-confirmPopup>
