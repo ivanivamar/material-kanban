@@ -176,7 +176,7 @@
                         <span class="material-icons text-500" *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
                         <span class="font-bold">Subtasks</span>
                         <span class="text-500 text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
-                        <button class="btn btn-text font-regular ml-2" (click)="addCheckbox()">
+                        <button class="btn btn-text font-regular ml-2" (click)="addCheckbox($event)">
                             <span class="material-icons text-500">add</span>
                             Add Subtask
                         </button>
