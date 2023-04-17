@@ -142,8 +142,7 @@ export class CardComponent implements OnInit {
         });
     }
 
-    async deleteTask(event?: any) {
-        event.stopPropagation();
+    async deleteTask() {
         // remove task from column
         this.project.columns.forEach((column: Column) => {
             column.tasks = column.tasks.filter((searchTask: any) => searchTask.id !== this.task.id);
