@@ -41,6 +41,26 @@ img
             align-items: center
             gap: 12px
 
+    .dropzone
+        border: 2px dashed #DDD
+        background-color: #fff
+        border-radius: 8px
+        padding: 12px
+        width: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        transition: all 0.2s ease-in-out
+        cursor: pointer
+
+        &:hover
+            border-color: #2E7DFF
+
+    &.p-draggable-enter,
+    &:hover
+
+        .dropzone
+            border-color: #2E7DFF
 
 @media screen and (min-width: 768px)
     .md\:h-97

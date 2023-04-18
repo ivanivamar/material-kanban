@@ -13,7 +13,8 @@
         <div (click)="currentTab = ProjectTabs.Kanban" class="tab" [class.active]="currentTab === ProjectTabs.Kanban">
             Kanban
         </div>
-        <div class="tab" (click)="currentTab = ProjectTabs.Calendar" [class.active]="currentTab === ProjectTabs.Calendar">
+        <div class="tab" (click)="currentTab = ProjectTabs.Calendar"
+            [class.active]="currentTab === ProjectTabs.Calendar">
             Calendar
         </div>
     </div>
@@ -24,7 +25,8 @@
                 *ngIf="project.columns.length > 0">
                 <!-- COLUMNS -->
                 <div class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3"
-                    *ngFor="let column of project.columns; let i = index" pDroppable (onDrop)="primengDrop(i, column.tasks)">
+                    *ngFor="let column of project.columns; let i = index" pDroppable
+                    (onDrop)="primengDrop(i, column.tasks)">
                     <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                         <div class="left-container">
                             <button class="btn btn-icon text" (click)="addTask(column.id)">
@@ -44,7 +46,12 @@
                     </header>
 
                     <!-- CARDS -->
-                    <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-full h-auto overflow-y-auto" *ngIf="column.tasks.length > 0">
+                    <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-full h-auto overflow-y-auto">
+                        <div class="dropzone">
+                            <i class="material-symbols-rounded text-lg">
+                                arrow_drop_down_circle
+                            </i>
+                        </div>
                         <app-card class="col-12" *ngFor="let task of column.tasks" [columnId]="column.id"
                             [taskProjectId]="projectId" [task]="task" [index]="i" (dragStart)="dragStart($event)"
                             (dragEnd)="dragEnd()" (updateKanban)="updateKanban()">
