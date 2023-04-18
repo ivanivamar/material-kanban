@@ -18,8 +18,6 @@ export class CardComponent implements OnInit {
     @Input() taskProjectId: string | undefined;
     @Input() columnId: string | undefined;
 
-    @Output() dragStart: EventEmitter<any> = new EventEmitter<any>();
-    @Output() dragEnd: EventEmitter<any> = new EventEmitter<any>();
     @Output() updateKanban: EventEmitter<any> = new EventEmitter<any>();
 
     timeouts: NodeJS.Timeout[] = [];
@@ -219,22 +217,6 @@ export class CardComponent implements OnInit {
 
     manageInlineCheckboxEdit(event: any) {
         event.stopPropagation();
-    }
-
-    cardDragStart() {
-        if (this.columnId) {
-            this.draggedTask = JSON.parse(JSON.stringify(this.task));
-            let data = {
-                task: this.draggedTask,
-                startColumnId: this.index
-            };
-
-            this.dragStart.emit(data);
-        }
-    }
-
-    cardDragEnd() {
-        this.dragEnd.emit();
     }
 
     showCheckbox(event: any, taskId: string) {

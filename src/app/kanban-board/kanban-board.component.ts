@@ -4,7 +4,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-kanban-board',
@@ -195,41 +195,32 @@ export class KanbanBoardComponent implements OnInit {
 
 
     //#region Helpers
-    primengDrop(columnId: number, tasks: any) {
-        if (this.draggedTask && this.startColumnId !== columnId) {
-            this.project.columns[columnId].tasks = [
-                ...this.project.columns[columnId].tasks,
-                this.draggedTask,
-            ];
-            // sort tasks by creation date
-            this.project.columns[columnId].tasks.sort((a: any, b: any) => {
-                return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
-            });
-            this.project.columns[this.startColumnId].tasks = this.project.columns[
-                this.startColumnId
-            ].tasks.filter((val, i) => val.id != this.draggedTask.id);
-            this.draggedTask = null;
+    drop(event: CdkDragDrop<Task[]>) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex,
+            );
         }
+        this.playAudio('assets/drop.mp3', 1);
 
         this.kanbanService.updateProject(this.project);
     }
 
-    dragStart(event: any) {
-        this.draggedTask = JSON.parse(JSON.stringify(event.task));
-        this.startColumnId = event.startColumnId;
+    onDragStart() {
+        this.playAudio('assets/drag.mp3', 0.3);
     }
 
-    dragEnd() {
-        this.draggedTask = null;
-        this.startColumnId = null;
-    }
-
-    onDrop(event: CdkDragDrop<Task[]>) {
-        console.log(event);
-        // move the task from its old column to its new column
-        moveItemInArray(event.previousContainer.data, event.previousIndex, event.currentIndex);
-        // update the database
-        this.editColumnOnDrag(this.project);
+    playAudio(url: string, volume: number) {
+        const audio = new Audio();
+        audio.volume = volume;
+        audio.src = url;
+        audio.load();
+        audio.play();
     }
 
     getConnectedLists(columnId: string): string[] {

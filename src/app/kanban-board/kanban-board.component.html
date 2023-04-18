@@ -21,12 +21,12 @@
 
     <div [ngSwitch]="currentTab">
         <div *ngSwitchCase="ProjectTabs.Kanban">
-            <div class="flex md:grid flex-column md:flex-row grid-nogutter mt-5 gap-5 h-full"
+            <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter mt-5 gap-5 h-full"
                 *ngIf="project.columns.length > 0">
                 <!-- COLUMNS -->
-                <div class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3"
-                    *ngFor="let column of project.columns; let i = index" pDroppable
-                    (onDrop)="primengDrop(i, column.tasks)">
+                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3"
+                    *ngFor="let column of project.columns; let i = index" [cdkDropListData]="column.tasks"
+                    (cdkDropListDropped)="drop($event)">
                     <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                         <div class="left-container">
                             <button class="btn btn-icon text" (click)="addTask(column.id)">
@@ -52,9 +52,8 @@
                                 arrow_drop_down_circle
                             </i>
                         </div>
-                        <app-card class="col-12" *ngFor="let task of column.tasks" [columnId]="column.id"
-                            [taskProjectId]="projectId" [task]="task" [index]="i" (dragStart)="dragStart($event)"
-                            (dragEnd)="dragEnd()" (updateKanban)="updateKanban()">
+                        <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
+                            [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag (cdkDragStarted)="onDragStart()" (updateKanban)="updateKanban()">
                         </app-card>
                     </div>
                 </div>
