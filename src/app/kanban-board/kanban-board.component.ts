@@ -206,7 +206,21 @@ export class KanbanBoardComponent implements OnInit {
                 event.currentIndex,
             );
         }
+        this.playAudio('assets/drop.mp3', 1);
+
         this.kanbanService.updateProject(this.project);
+    }
+
+    onDragStart() {
+        this.playAudio('assets/drag.mp3', 0.3);
+    }
+
+    playAudio(url: string, volume: number) {
+        const audio = new Audio();
+        audio.volume = volume;
+        audio.src = url;
+        audio.load();
+        audio.play();
     }
 
     getConnectedLists(columnId: string): string[] {

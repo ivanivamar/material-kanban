@@ -53,7 +53,7 @@
                             </i>
                         </div>
                         <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
-                            [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag (updateKanban)="updateKanban()">
+                            [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag (cdkDragStarted)="onDragStart()" (updateKanban)="updateKanban()">
                         </app-card>
                     </div>
                 </div>
