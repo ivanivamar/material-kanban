@@ -1,5 +1,5 @@
 <div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency.code"
-    (click)="showAddTaskModal = true">
+    (click)="showAddTaskModal = true" cdkDragHandle>
     <div class="urgency"></div>
 
 
@@ -76,9 +76,11 @@
         </div>
     </div>
 
-    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" *ngIf="showCheckboxes">
+    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" cdkDropList *ngIf="showCheckboxes"
+        [cdkDropListData]="task.checkboxes" (cdkDropListDropped)="drop($event, true)">
         <div class="flex checkbox w-full flex-row align-items-center gap-2"
-            *ngFor="let checkbox of task.checkboxes; let i = index">
+            *ngFor="let checkbox of task.checkboxes; let i = index" cdkDrag>
+            <i class="material-icons text-500 text-xs mr-2" cdkDragHandle>drag_indicator</i>
             <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
                 (click)="saveCheckbox($event)">
                 <input type="checkbox" [(ngModel)]="checkbox.checked">
@@ -180,7 +182,7 @@
                     </button>
                 </div>
 
-                <div class="flex flex-column gap-2 mt-5 mb-4">
+                <div class="flex flex-column gap-2 mt-5 mb-2">
                     <div class="flex align-items-center gap-3 p-2 cursor-pointer"
                         (click)="showModalCheckboxes = !showModalCheckboxes" style="border-bottom: 1px solid #E1E3E8">
                         <span class="material-icons text-500" *ngIf="showModalCheckboxes">keyboard_arrow_down</span>
@@ -192,10 +194,12 @@
                             Add Subtask
                         </button>
                     </div>
-                    <div class="flex flex-column gap-2 mt-2" *ngIf="showModalCheckboxes">
-                        <div *ngIf="task.checkboxes.length > 0">
+                    <div class="flex flex-column gap-2 mt-2 max-h-8rem overflow-y-auto" *ngIf="showModalCheckboxes">
+                        <div *ngIf="task.checkboxes.length > 0" cdkDropList [cdkDropListData]="task.checkboxes"
+                            (cdkDropListDropped)="drop($event, false)">
                             <div class="flex checkbox flex-row align-items-center gap-2"
-                                *ngFor="let checkbox of task.checkboxes">
+                                *ngFor="let checkbox of task.checkboxes" cdkDrag>
+                                <i class="material-icons text-500 text-sm" style="cursor: grab" cdkDragHandle>drag_indicator</i>
                                 <label
                                     [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
                                     <input type="checkbox" [(ngModel)]="checkbox.checked">

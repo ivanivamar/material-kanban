@@ -3,6 +3,7 @@ import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-card',
@@ -153,6 +154,21 @@ export class CardComponent implements OnInit {
     }
 
     //#region Helpers
+    drop(event: CdkDragDrop<Checkboxes[]>, show: boolean) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex,
+            );
+        }
+
+        this.editTask(show);
+    }
+
     onLabelRemove(label: Labels) {
         this.task.labels = this.task.labels.filter(l => l.name !== label.name);
 

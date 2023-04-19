@@ -45,13 +45,13 @@
                         </div>
                     </header>
 
+                    <div class="dropzone">
+                        <i class="material-symbols-rounded text-lg">
+                            arrow_drop_down_circle
+                        </i>
+                    </div>
                     <!-- CARDS -->
-                    <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-full h-auto overflow-y-auto">
-                        <div class="dropzone">
-                            <i class="material-symbols-rounded text-lg">
-                                arrow_drop_down_circle
-                            </i>
-                        </div>
+                    <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto">
                         <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
                             [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag (cdkDragStarted)="onDragStart()" (updateKanban)="updateKanban()">
                         </app-card>
