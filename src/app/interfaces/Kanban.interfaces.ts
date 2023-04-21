@@ -10,6 +10,7 @@ export interface Task {
     completed: boolean;
     images: Images[];
     dueDate: Date;
+    dayDuration?: number;
 }
 
 export interface Images {

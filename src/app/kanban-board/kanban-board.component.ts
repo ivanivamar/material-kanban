@@ -211,10 +211,6 @@ export class KanbanBoardComponent implements OnInit {
         this.kanbanService.updateProject(this.project);
     }
 
-    onDragStart() {
-        this.playAudio('assets/drag.mp3', 0.3);
-    }
-
     playAudio(url: string, volume: number) {
         const audio = new Audio();
         audio.volume = volume;
@@ -289,5 +285,5 @@ export class KanbanBoardComponent implements OnInit {
 
 export enum ProjectTabs {
     Kanban,
-    Calendar,
+    Timeline,
 }

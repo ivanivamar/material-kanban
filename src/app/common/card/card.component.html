@@ -1,8 +1,5 @@
 <div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency.code"
-    (click)="showAddTaskModal = true" cdkDragHandle>
-    <div class="urgency"></div>
-
-
+    (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);">
     <!-- HEADER -->
     <header>
         <div class="flex align-items-baseline gap-2">

@@ -169,6 +169,14 @@ export class CardComponent implements OnInit {
         this.editTask(show);
     }
 
+    playAudio(url: string, volume: number) {
+        const audio = new Audio();
+        audio.volume = volume;
+        audio.src = url;
+        audio.load();
+        audio.play();
+    }
+
     onLabelRemove(label: Labels) {
         this.task.labels = this.task.labels.filter(l => l.name !== label.name);
 

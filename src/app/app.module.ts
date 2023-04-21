@@ -28,6 +28,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
 import { ToastModule } from 'primeng/toast';
 import { PickListModule } from 'primeng/picklist';
+import { KanbanTimelineComponent } from './kanban-board/kanban-calendar/kanban-timeline.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { PickListModule } from 'primeng/picklist';
     CardComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    KanbanTimelineComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { PickListModule } from 'primeng/picklist';
     ConfirmPopupModule,
     ChipModule,
     ToastModule,
-    PickListModule
+    PickListModule,
+    SelectButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent],

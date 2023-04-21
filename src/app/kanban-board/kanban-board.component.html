@@ -3,7 +3,7 @@
         <div class="flex flex-row justify-content-between gap-2 align-items-left md:align-items-center w-100">
             <span class="text-2xl font-medium">{{ project.title }}</span>
         </div>
-        <button class="btn btn-outline" (click)="showAddColumnModal = true">
+        <button class="btn btn-primary" (click)="showAddColumnModal = true" *ngIf="currentTab === ProjectTabs.Kanban">
             <span class="material-icons">add</span>
             Column
         </button>
@@ -13,13 +13,13 @@
         <div (click)="currentTab = ProjectTabs.Kanban" class="tab" [class.active]="currentTab === ProjectTabs.Kanban">
             Kanban
         </div>
-        <div class="tab" (click)="currentTab = ProjectTabs.Calendar"
-            [class.active]="currentTab === ProjectTabs.Calendar">
-            Calendar
+        <div class="tab" (click)="currentTab = ProjectTabs.Timeline"
+            [class.active]="currentTab === ProjectTabs.Timeline">
+            Timeline
         </div>
     </div>
 
-    <div [ngSwitch]="currentTab">
+    <div [ngSwitch]="currentTab" class="h-full">
         <div *ngSwitchCase="ProjectTabs.Kanban">
             <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter mt-5 gap-5 h-full"
                 *ngIf="project.columns.length > 0">
@@ -53,13 +53,16 @@
                     <!-- CARDS -->
                     <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto">
                         <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
-                            [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag (cdkDragStarted)="onDragStart()" (updateKanban)="updateKanban()">
+                            [taskProjectId]="projectId" [task]="task" [index]="i" cdkDrag
+                            (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);" (updateKanban)="updateKanban()">
                         </app-card>
                     </div>
                 </div>
             </div>
         </div>
-        <div *ngSwitchCase="ProjectTabs.Calendar"></div>
+        <div *ngSwitchCase="ProjectTabs.Timeline" class="h-full">
+            <app-kanban-timeline [projectId]="projectId" class="h-full"></app-kanban-timeline>
+        </div>
     </div>
 </div>
 
