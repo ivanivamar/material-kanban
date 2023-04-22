@@ -1,22 +1,22 @@
 $bg-color: #F4F6F8
 $bg-white: #FFFFFF
-$primary-color: #2e7dff
-$primary-color-hover: #4d91ff
-$primary-color-active: #1e6bff
+$primary-color: #0662fe
+$primary-color-hover: #1068ff
+$primary-color-active: #0a5be0
 
-$secondary-color: #F4F6F8
-$secondary-color-hover: #F4F6F8
-$secondary-color-active: #F4F6F8
+$secondary-color: #F5F7F9
+$secondary-color-hover: #f5f7f9
+$secondary-color-active: #f5f7f9
 $secondary-color-dark: #F4F6F8
 
-$warning-color: #FDAF1B
-$warning-color-hover: #FDBF3B
-$danger-color: #FD6860
+$warning-color: #F9D660
+$warning-color-hover: #FDF9EC
+$danger-color: #FA5056
 $danger-color-hover: #FB7B77
 
-$border-color: #F4F5F7
-$text-color: #0A0920
-$text-secondary: #9E9EA7
+$border-color: #F3F3F4
+$text-color: #1a1a1a
+$text-secondary: #B5B7BE
 
 @font-face
     font-family: 'Product Sans Regular'
@@ -120,6 +120,7 @@ body
     background-color: $bg-color
     color: $text-color
     margin: 0
+    overflow: hidden
 
 ::-webkit-scrollbar
     width: 5px
@@ -140,98 +141,20 @@ body
 ::-webkit-scrollbar-thumb:hover
     background: $primary-color-hover
 
-.primary-color
-    color: $primary-color
-
-.primary-color-hover
-    color: $primary-color-hover
-
-.primary-color-active
-    color: $primary-color-active
-
-.secondary-color
-    color: $secondary-color
-
-.secondary-color-hover
-    color: $secondary-color-hover
-
-.secondary-color-active
-    color: $secondary-color-active
-
-.secondary-color-dark
-    color: $secondary-color-dark
-
-.warning-color
-    color: $warning-color
-
-.warning-color-hover
-    color: $warning-color-hover
-
-.danger-color
-    color: $danger-color
-
-.danger-color-hover
-    color: $danger-color-hover
-
-.bg-primary-color
-    background-color: $primary-color
-
-.bg-primary-color-hover
-    background-color: $primary-color-hover
-
-.bg-primary-color-active
-    background-color: $primary-color-active
-
-.bg-secondary-color
-    background-color: $secondary-color
-
-.bg-secondary-color-hover
-    background-color: $secondary-color-hover
-
-.bg-secondary-color-active
-    background-color: $secondary-color-active
-
-.bg-secondary-color-dark
-    background-color: $secondary-color-dark
-
-.bg-warning-color
-    background-color: $warning-color
-
-.bg-warning-color-hover
-    background-color: $warning-color-hover
-
-.bg-danger-color
-    background-color: $danger-color
-
-.bg-danger-color-hover
-    background-color: $danger-color-hover
-
-.border-primary-color
-    border-color: $primary-color
-
-.border-primary-color-hover
-    border-color: $primary-color-hover
-
-.border-primary-color-active
-    border-color: $primary-color-active
-
-.border-secondary-color
-    border-color: $secondary-color
-
-.border-secondary-color-hover
-    border-color: $secondary-color-hover
-
-.border-secondary-color-active
-    border-color: $secondary-color-active
-
-.border-secondary-color-dark
-    border-color: $secondary-color-dark
-
-.border-color
-    border-color: $border-color
-
 .text-color
-    color: $text-color
+    color: $text-color !important
+.text-secondary
+    color: $text-secondary !important
+.text-primary
+    color: $primary-color !important
+
+.bg-white
+    background-color: $bg-white !important
+.bg-primary
+    background-color: $primary-color !important
+.bg-secondary
+    background-color: $secondary-color !important
+
 
 @import 'sass-components/dialog'
 @import 'sass-components/buttons'

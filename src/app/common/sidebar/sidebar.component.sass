@@ -1,0 +1,78 @@
+
+$primary-color: #568FD9
+
+nav
+    background-color: #FFFFFF
+    height: 100%
+    position: fixed
+    top: 0
+    left: 0
+    width: 275px
+    z-index: 1
+    border-right: 1px solid #F1F1F3
+
+    header
+        padding: 24px 32px
+        border-bottom: 1px solid #F1F1F3
+        display: flex
+        align-items: center
+        gap: 12px
+
+        i
+            font-size: 24px
+            border-radius: 6px
+            padding: 6px
+
+        h1
+            margin: 0
+            font-size: 18px
+
+    .section
+        padding: 32px
+        display: flex
+        flex-direction: column
+        gap: 8px
+
+        .section-title
+            padding-left: 12px
+            font-size: 12px
+            font-weight: 600
+            color: #B5B7BE
+            margin: 0
+            letter-spacing: 1.5px
+
+        a
+            text-decoration: none
+            background-color: transparent
+            color: #B5B7BE
+            font-weight: 600
+            padding: 12px
+            font-size: 16px
+            border-radius: 6px
+            display: flex
+            align-items: center
+            transition: background-color 0.2s ease
+
+            .material-symbols-rounded
+                font-size: 18px
+
+            &:hover
+                background-color: #F5F7F9
+
+            &.active
+                background-color: #F5F7F9
+                color: #1C1B22
+
+// mobile
+@media screen and (max-width: 768px)
+    nav
+        width: 75px
+
+        header
+            display: none
+
+        .section
+            padding: 16px
+
+            .section-title
+                padding-left: 0

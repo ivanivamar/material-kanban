@@ -19,8 +19,8 @@ import {
     Task,
     Urgency,
     Checkboxes,
-} from '../interfaces/Kanban.interfaces';
-import { AuthService } from '../auth.service';
+} from '../../interfaces/Kanban.interfaces';
+import { AuthService } from '../../auth.service';
 
 @Component({
     selector: 'app-sidebar',

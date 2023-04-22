@@ -20,6 +20,8 @@ export class NavbarComponent implements OnInit {
     user: any;
     userImage = '';
 
+    profileExpanded = false;
+
     constructor(
         private kanbanService: KanbanService,
         private route: ActivatedRoute,

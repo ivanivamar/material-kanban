@@ -1,0 +1,31 @@
+<nav>
+    <header>
+        <i class="material-symbols-rounded text-2xl border-radius bg-primary">overview_key</i>
+        <h1 class="font-bold">Project Manager</h1>
+    </header>
+
+    <div class="section">
+        <span class="section-title font-medium text-secondary mb-2">
+            MENU
+        </span>
+
+        <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="!user">
+            <span class="material-symbols-rounded mr-2">login</span>
+            <span class="font-medium text-base hidden md:block">Login</span>
+        </a>
+        <a routerLink="/auth/register" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="!user"
+            class="mt-2">
+            <span class="material-symbols-rounded mr-2">person_add</span>
+            <span class="font-medium text-base hidden md:block">Register</span>
+        </a>
+
+        <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
+            <span class="material-symbols-rounded mr-2">home</span>
+            <span class="font-medium text-base hidden md:block">Overview</span>
+        </a>
+        <a routerLink="/projects" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
+            <span class="material-symbols-rounded mr-2">folder</span>
+            <span class="font-medium text-base hidden md:block">Projects</span>
+        </a>
+    </div>
+</nav>
