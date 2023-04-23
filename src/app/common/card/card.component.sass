@@ -18,18 +18,18 @@
         background-color: transparent
         outline: none
         cursor: text
-        color: #252A48
+        color: #ffffff
         padding: 0
 
         &::placeholder
-            color: #8A9EB4
+            color: #B5B7BE
 
             &:hover
-                color: #252A48
+                color: #ffffff
                 text-decoration: underline
 
     &:hover
-        background-color: #F4F6F8
+        background-color: #1E293C
 
         .btn
             opacity: 1 !important
@@ -38,10 +38,9 @@
     padding: 24px
 
 .details
-    background-color: #f9f9fa
 
     .section
-        border-bottom: 2px solid #F0F1F4
+        border-bottom: 2px solid #253145
         padding: 24px
 
         .title
@@ -64,16 +63,22 @@
         .urgency
             left: -1px
 
-::ng-deep .p-chip
+::ng-deep .p-chip,
+::ng-deep p-chip
     padding: 0
-    background: transparent
+    background: transparent !important
 
 .label
-    padding: 4px
-    border-radius: 4px
-    border: 1px solid #F4F5F7
-    font-size: 14px
+    padding: 4px 8px
+    border-radius: 10px
+    font-family: 'Readex Pro'
+    font-style: normal
+    font-weight: 500
+    font-size: 12px
+    line-height: 16px
     display: flex
     align-items: center
-    color: #9E9EA7
+    border: 0
+    background-color: #334155 !important
+    color: white !important
     text-transform: capitalize

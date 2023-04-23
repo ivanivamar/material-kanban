@@ -26,9 +26,8 @@ export class KanbanDashboardComponent implements OnInit {
     darkColorArray = ['#FFE8BC', '#E5C7F5', '#F8D4C7'];
     lightColorArray = ['#FFF9EB', '#F7F0FB', '#FFF2EE'];
     loading: boolean = false;
-    project = null;
-
     projectTitle: string = '';
+    projectDescription: string = '';
 
     data: any;
     options: any;
@@ -151,7 +150,7 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     navigateToProject(project: Project) {
-        this.router.navigate(['/kanban'], {
+        this.router.navigate(['/projects/kanban'], {
             queryParams: { projectId: project.id },
         });
     }
@@ -160,7 +159,24 @@ export class KanbanDashboardComponent implements OnInit {
     async addProject() {
         let project: Project = {
             title: this.projectTitle,
-            columns: [],
+            description: this.projectDescription,
+            columns: [
+                {
+                    id: this.idGenerator(),
+                    title: 'To Do',
+                    tasks: [],
+                },
+                {
+                    id: this.idGenerator(),
+                    title: 'In Progress',
+                    tasks: [],
+                },
+                {
+                    id: this.idGenerator(),
+                    title: 'Completed',
+                    tasks: [],
+                },
+            ],
             uid: this.user.uid,
             order: this.projects.length + 1,
         };
@@ -169,8 +185,23 @@ export class KanbanDashboardComponent implements OnInit {
 
         this.showAddProjectModal = false;
         this.projectTitle = '';
+        this.projectDescription = '';
     }
     //#endregion
+
+    closeProjectModal() {
+        this.showAddProjectModal = false;
+        this.projectTitle = '';
+        this.projectDescription = '';
+    }
+
+    setDisabled(): boolean {
+        if (this.isEmpty(this.projectTitle)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     //#region Deleters
     confirmDeleteProject(event: any, projectId: string) {

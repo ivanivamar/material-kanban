@@ -1,4 +1,4 @@
-<div class="flex align-items-center justify-content-between p-3 pl-5 pr-5 bg-white">
+<div class="flex align-items-center justify-content-between p-3 pl-5 pr-5">
     <span class="text-3xl font-black text-color">Projects</span>
 
     <button class="btn btn-primary" (click)="showAddProjectModal = true">
@@ -7,7 +7,19 @@
     </button>
 </div>
 
-<div class="grid grid-nogguter p-3 pl-5 pr-5 bg-white">
+<div class="p-5 flex gap-5">
+    <mat-dropdown class="w-50 mb-3" [options]="projectOptions" [placeholder]="'Select a project'"
+        [ngModel]="selectedProject" [showClear]="true"></mat-dropdown>
+
+    <mat-input class="w-50 mb-3" [placeholder]="'Enter Email'" [icon]="'alternate_email'" [showClear]="true"
+        [inputType]="'email'" [ngModel]="inputVar" [helperText]="'Helper text'" [maxLength]="30"
+        [required]="true"></mat-input>
+
+    <mat-textarea class="w-50 mb-3" [placeholder]="'Enter Description'" [icon]="'description'" [showClear]="true"
+        [ngModel]="inputVar" [required]="true"></mat-textarea>
+</div>
+
+<div class="grid grid-nogguter p-3 pl-5 pr-5">
     <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let project of projects">
         <div class="project-card" (click)="navigateToProject(project)">
             <div class="flex align-items-center justify-content-between">
@@ -37,7 +49,7 @@
     <div class="dialog">
         <div class="dialog-header">
             <button class="btn btn-icon text fw-bold" (click)="showAddProjectModal = false">
-                <span class="material-icons text-secondary">
+                <span class="material-symbols-rounded text-secondary">
                     minimize
                 </span>
             </button>
@@ -57,13 +69,13 @@
         </div>
         <div class="dialog-footer">
             <button type="button" class="btn btn-secondary" (click)="showAddProjectModal = false">
-                <span class="material-icons">
+                <span class="material-symbols-rounded">
                     close
                 </span>
                 Cancel
             </button>
             <button type="button" class="btn btn-primary" (click)="addProject()">
-                <span class="material-icons">
+                <span class="material-symbols-rounded">
                     add
                 </span>
                 Project

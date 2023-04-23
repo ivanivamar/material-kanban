@@ -16,12 +16,6 @@ const routes: Routes = [
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },
     {
-        path: 'projects',
-        component: ProjectsComponent,
-        pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
-    },
-    {
         path: 'projects/kanban',
         component: KanbanBoardComponent,
         pathMatch: 'full',

@@ -31,6 +31,10 @@ import { PickListModule } from 'primeng/picklist';
 import { KanbanTimelineComponent } from './kanban-board/kanban-calendar/kanban-timeline.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProjectsComponent } from './projects/projects.component';
+import { RippleDirective } from './ripple.directive';
+import { MatDropdownComponent } from './common/mat-dropdown/mat-dropdown.component';
+import { MatInputComponent } from './common/mat-input/mat-input.component';
+import { MatTextareaComponent } from './common/mat-textarea/mat-textarea.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { ProjectsComponent } from './projects/projects.component';
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
-    KanbanTimelineComponent
+    KanbanTimelineComponent,
+    RippleDirective,
+    MatDropdownComponent,
+    MatInputComponent,
+    MatTextareaComponent
   ],
   imports: [
     BrowserModule,

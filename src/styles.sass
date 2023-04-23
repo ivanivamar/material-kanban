@@ -1,8 +1,8 @@
-$bg-color: #F4F6F8
-$bg-white: #FFFFFF
-$primary-color: #0662fe
-$primary-color-hover: #1068ff
-$primary-color-active: #0a5be0
+$bg-color: #0F172B
+$bg-color-secondary: #1E293C
+$primary-color: #94C4FA
+$primary-color-hover: #9fc9f8
+$primary-color-active: #89baf1
 
 $secondary-color: #F5F7F9
 $secondary-color-hover: #f5f7f9
@@ -15,105 +15,10 @@ $danger-color: #FA5056
 $danger-color-hover: #FB7B77
 
 $border-color: #F3F3F4
-$text-color: #1a1a1a
+$text-color: #ffffff
 $text-secondary: #B5B7BE
 
-@font-face
-    font-family: 'Product Sans Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Regular'), url('./assets/ProductSans-Regular.woff') format('woff')
-
-.font-regular
-    font-family: 'Product Sans Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Italic'), url('./assets/ProductSans-Italic.woff') format('woff')
-
-.font-italic
-    font-family: 'Product Sans Italic', sans-serif
-
-@font-face
-    font-family: 'Product Sans Thin Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Thin Regular'), url('./assets/ProductSans-Thin.woff') format('woff')
-
-.font-thin
-    font-family: 'Product Sans Thin Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Light Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Light Regular'), url('./assets/ProductSans-Light.woff') format('woff')
-
-.font-light
-    font-family: 'Product Sans Light Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Medium Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Medium Regular'), url('./assets/ProductSans-Medium.woff') format('woff')
-
-.font-medium
-    font-family: 'Product Sans Medium Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Black Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Black Regular'), url('./assets/ProductSans-Black.woff') format('woff')
-
-.font-black
-    font-family: 'Product Sans Black Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Thin Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Thin Italic'), url('./assets/ProductSans-ThinItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Light Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Light Italic'), url('./assets/ProductSans-LightItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Medium Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Medium Italic'), url('./assets/ProductSans-MediumItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Bold'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Bold'), url('./assets/ProductSans-Bold.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Bold Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Bold Italic'), url('./assets/ProductSans-BoldItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Black Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Black Italic'), url('./assets/ProductSans-BlackItalic.woff') format('woff')
-
-$font-family: 'Product Sans Regular', sans-serif
-$font-family-bold: 'Product Sans Bold', sans-serif
-$font-family-light: 'Product Sans Light Regular', sans-serif
-$font-family-medium: 'Product Sans Medium Regular', sans-serif
-$font-family-thin: 'Product Sans Thin Regular', sans-serif
-$font-family-black: 'Product Sans Black Regular', sans-serif
+$font-family: 'Readex Pro', sans-serif
 
 body
     font-family: $font-family
@@ -123,23 +28,23 @@ body
     overflow: hidden
 
 ::-webkit-scrollbar
-    width: 5px
-    height: 5px
+    width: 4px
+    height: 4px
     border-radius: 5px 5px 5px 5px
 
 /* Track */
 ::-webkit-scrollbar-track
-    background: $secondary-color
+    background: transparent
     border-radius: 5px 5px 5px 5px
 
 /* Handle */
 ::-webkit-scrollbar-thumb
-    background: $primary-color
+    background: #334155
     border-radius: 5px 5px 5px 5px
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover
-    background: $primary-color-hover
+    background: #334155
 
 .text-color
     color: $text-color !important
@@ -148,14 +53,14 @@ body
 .text-primary
     color: $primary-color !important
 
-.bg-white
-    background-color: $bg-white !important
+.bg-color
+    background-color: $bg-color !important
 .bg-primary
     background-color: $primary-color !important
 .bg-secondary
     background-color: $secondary-color !important
 
-
+@import 'sass-components/typography'
 @import 'sass-components/dialog'
 @import 'sass-components/buttons'
 @import 'sass-components/scaffolder'

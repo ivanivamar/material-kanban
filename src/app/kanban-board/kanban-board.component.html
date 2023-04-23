@@ -1,12 +1,8 @@
 <div class="col-12 h-full" *ngIf="!loading">
-    <div class="flex align-items-center justify-content-between">
-        <div class="flex flex-row justify-content-between gap-2 align-items-left md:align-items-center w-100">
-            <span class="text-2xl font-medium">{{ project.title }}</span>
+    <div class="flex align-items-center justify-content-between mb-1">
+        <div class="flex align-items-center">
+            <h1 class="m-0 headline4">Project List</h1>
         </div>
-        <button class="btn btn-primary" (click)="showAddColumnModal = true" *ngIf="currentTab === ProjectTabs.Kanban">
-            <span class="material-icons">add</span>
-            Column
-        </button>
     </div>
 
     <div class="tabs-container mt-3 mb-2">
@@ -24,32 +20,18 @@
             <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter mt-5 gap-5 h-full"
                 *ngIf="project.columns.length > 0">
                 <!-- COLUMNS -->
-                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3"
+                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 bg-color p-2 border-round-2xl"
                     *ngFor="let column of project.columns; let i = index" [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
                     <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                         <div class="left-container">
-                            <button class="btn btn-icon text" (click)="addTask(column.id)">
-                                <span class="material-icons text-lg">add</span>
+                            <button class="icon-btn text-btn" (click)="addTask(column.id)">
+                                <span class="material-symbols-rounded">add</span>
                             </button>
-                            <span class="font-medium title">{{ column.title }}</span>
-                            <span class="task-count font-medium">{{ column.tasks.length}}</span>
-                        </div>
-                        <div class="right-container">
-                            <button class="btn btn-icon text" (click)="editColumnSetup(column.id, column.title)">
-                                <span class="material-icons">edit</span>
-                            </button>
-                            <button class="btn btn-icon text" (click)="deleteColumn(column.id)">
-                                <span class="material-icons text-red-500">delete</span>
-                            </button>
+                            <span class="title text-color">{{ column.title }}</span>
+                            <span class="task-count">{{ column.tasks.length}}</span>
                         </div>
                     </header>
-
-                    <div class="dropzone">
-                        <i class="material-symbols-rounded text-lg">
-                            arrow_drop_down_circle
-                        </i>
-                    </div>
                     <!-- CARDS -->
                     <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto">
                         <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
@@ -70,12 +52,14 @@
     <div class="overlay" (click)="showEditColumnModal = false; columnEditTitle = ''"></div>
     <div class="dialog">
         <div class="dialog-header">
-            <span class="dialog-title">Edit Column</span>
-            <button class="btn btn-icon" (click)="showEditColumnModal = false">
-                <span class="material-icons">
-                    close
-                </span>
-            </button>
+            <header>
+                <button class="btn btn-icon" (click)="showEditColumnModal = false">
+                    <span class="material-symbols-rounded">
+                        close
+                    </span>
+                </button>
+                <span class="dialog-title">Edit Column</span>
+            </header>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-2">
@@ -85,11 +69,11 @@
         </div>
         <div class="dialog-footer">
             <button type="button" class="btn btn-secondary" (click)="showEditColumnModal = false">
-                <span class="material-icons">close</span>
+                <span class="material-symbols-rounded">close</span>
                 Cancel
             </button>
             <button type="button" class="btn btn-primary" (click)="editColumn()">
-                <span class="material-icons">edit</span>
+                <span class="material-symbols-rounded">edit</span>
                 Column
             </button>
         </div>
@@ -102,7 +86,7 @@
         <div class="dialog-header">
             <span class="dialog-title">Add Column</span>
             <button class="btn btn-icon" (click)="showAddColumnModal = false">
-                <span class="material-icons">
+                <span class="material-symbols-rounded">
                     close
                 </span>
             </button>
@@ -115,11 +99,11 @@
         </div>
         <div class="dialog-footer">
             <button type="button" class="btn btn-secondary" (click)="showAddColumnModal = false">
-                <span class="material-icons">close</span>
+                <span class="material-symbols-rounded">close</span>
                 Cancel
             </button>
             <button type="button" class="btn btn-primary" (click)="addColumn()">
-                <span class="material-icons">add</span>
+                <span class="material-symbols-rounded">add</span>
                 Column
             </button>
         </div>
