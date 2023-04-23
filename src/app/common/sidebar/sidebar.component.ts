@@ -66,6 +66,18 @@ export class SidebarComponent {
         });
     }
 
+    logout() {
+        this.authService.logout()
+            .then(() => {
+                this.router.navigate(['']);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }).catch((error) => {
+                console.log('error', error);
+            });
+    }
+
     navigateTo(projectId: string): void {
         this.router.navigate(['/kanban'], {
             queryParams: { projectId: projectId },

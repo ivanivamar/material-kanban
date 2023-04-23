@@ -1,10 +1,10 @@
 export interface Task {
     id: string;
     title: string;
-    labels: Labels[];
+    labels: any[];
     description: string;
     checkboxes: Checkboxes[];
-    urgency: Urgency;
+    urgency: any;
     creationDate: any;
     modificationDate: any;
     completed: boolean;
@@ -62,4 +62,12 @@ export interface Register {
 export interface Login {
     email: string;
     password: string;
+}
+
+export interface IDropdownOption {
+    value: any;
+    icon?: string;
+    iconColor?: string;
+    label: string;
+    selected?: boolean;
 }

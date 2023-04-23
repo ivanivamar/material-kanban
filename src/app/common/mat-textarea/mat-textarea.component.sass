@@ -1,0 +1,123 @@
+.textarea-container
+    border: 0
+    border-bottom: 2px solid #2E3B4F
+    background-color: #1E293B
+    padding: 8px 12px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    border-radius: 8px
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+    min-height: 58px
+    min-width: 300px
+
+    &:hover
+        border-color: #2F3A4E
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+        pointer-events: none
+
+    .textarea-text-container
+        display: flex
+        width: 100%
+        position: relative
+        padding-top: 4px
+
+        i
+            color: #fff
+            font-size: 20px
+
+        .floating-label
+            color: #64748B
+            font-family: 'Readex Pro', sans-serif
+            font-size: 14px
+            font-weight: 500
+            transition: all 0.2s ease-in-out
+            margin-bottom: 0
+            position: absolute
+            top: 2px
+            left: 0
+            transition: all 0.2s ease-in-out
+            z-index: 0
+            resize: none
+            height: auto
+            min-height: 50px
+
+            .required-asterisk
+                color: #DC2626
+                font-size: 16px
+
+        textarea
+            padding: 0
+            border: 0
+            color: #fff
+            font-size: 14px
+            font-weight: 400
+            line-height: 20px
+            letter-spacing: 0.25px
+            transition: all 0.2s ease-in-out
+            font-family: 'Readex Pro', sans-serif
+            z-index: 1
+
+            &::placeholder
+                color: #64748B
+
+        .textarea-actions
+            button
+                background-color: #64748B
+                height: 24px
+                width: 24px
+
+                i
+                    font-size: 16px
+                    color: #000
+                    font-weight: bold
+
+    &.active
+        border-color: #3B82F6
+
+        .floating-label
+            transform: translateY(-8px) !important
+            font-size: 11px !important
+            color: #3B82F6 !important
+
+    &.error
+        border-color: #DC2626
+
+        .floating-label
+            color: #DC2626 !important
+
+.textarea-helpers
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 4px 16px
+
+    &.error
+        .helper-text
+            color: #DC2626
+
+    .helper-text
+        color: #94A3B8
+        font-size: 12px
+        font-weight: 400
+        line-height: 16px
+        letter-spacing: 0.4px
+        font-family: monospace, sans-serif
+
+    .counter-container
+        display: flex
+        justify-content: end
+        align-items: center
+        gap: 4px
+
+        .counter-text
+            color: #94A3B8
+            font-size: 12px
+            font-weight: 400
+            line-height: 16px
+            letter-spacing: 0.4px
+            font-family: monospace, sans-serif

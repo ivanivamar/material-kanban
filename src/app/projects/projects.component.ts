@@ -9,6 +9,7 @@ import {
     Task,
     Urgency,
     Checkboxes,
+    IDropdownOption,
 } from '../interfaces/Kanban.interfaces';
 import { Router } from '@angular/router';
 
@@ -24,6 +25,14 @@ export class ProjectsComponent implements OnInit {
     loading: boolean = false;
     project: Project = {} as Project;
     user: any;
+
+    projectOptions: IDropdownOption[] = [
+        { value: '1', label: 'Project 1' },
+        { value: '2', label: 'Project 2' },
+        { value: '3', label: 'Project 3' },
+    ];
+    selectedProject: any = null;
+    inputVar: string = '';
 
     constructor(
         private kanbanService: KanbanService,

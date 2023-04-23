@@ -1,119 +1,412 @@
 .btn
     border: 0
-    border-radius: 4px
-    padding: 8px 16px
+    border-radius: 25px 25px 25px 25px
+    padding: 12px 16px
     font-size: 16px
-    font-family: $font-family-medium
+    font-family: $font-family
+    font-weight: 500
+    font-size: 14px
+    line-height: 20px
+    letter-spacing: 0.1px
     cursor: pointer
     transition: background-color 0.2s ease
     display: flex
     align-items: center
+    justify-content: center
+    height: 40px
+    min-width: 66px
     gap: 8px
 
-    .material-icons
+    .material-symbols-rounded
+        font-size: 14px
+
+    &.filled-btn
+        background-color: #60A5FA
+        color: #1E3A8A
+
+        &:hover
+            background-color: #3B82F6
+
+        &:active
+            background-color: #3B82F6
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.tonal-btn
+        background-color: #182C53
+        color: #60A5FA
+
+        &:hover
+            background-color: #1D3767
+
+        &:active
+            background-color: #1D3767
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.outlined-btn
+        background-color: transparent
+        border: 1px solid #60A5FA
+        color: #60A5FA
+
+        &:hover
+            background-color: #14223F
+
+        &:active
+            background-color: #14223F
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.elevated-btn
+        background-color: #1E293B
+        color: #60A5FA
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
+
+        &:hover
+            background-color: #162D55
+
+        &:active
+            background-color: #172E56
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.text-btn
+        background-color: transparent
+        color: #60A5FA
+
+        &:hover
+            background-color: #182C53
+
+        &:active
+            background-color: #182C53
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+.fab
+    border: 0
+    border-radius: 16px
+    padding: 0
+    font-size: 16px
+    font-family: $font-family
+    font-weight: 500
+    font-size: 16px
+    line-height: 20px
+    letter-spacing: 0.1px
+    cursor: pointer
+    transition: background-color 0.2s ease
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 56px
+    width: 56px
+    background-color: #60A5FA
+    color: #1E3A8A
+
+    &:hover
+        background-color: #3B82F6
+
+    &:active
+        background-color: #3B82F6
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+    i
         font-size: 16px
 
-    &.btn-primary
-        background-color: $primary-color
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16)
-        color: white
+    &.fab-small
+        height: 40px
+        width: 40px
 
-        &:hover
-            background-color: $primary-color-hover
-
-        &:active
-            background-color: $primary-color-active
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-secondary
-        background-color: transparent
-        color: black
-
-        &:hover
-            background-color: $secondary-color-hover
-
-        &:active
-            background-color: $secondary-color-active
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-outline
-        background-color: transparent
-        border: 1px solid #E1E3E8
-        color: #8E8E98
-        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease
-
-        &:hover
-            color: $text-color
-            border-color: $text-color
-
-        &:active
-            color: $text-color
-            border-color: $text-color
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-text
-        background-color: transparent
-        color: $text-color
-        height: auto
-        width: fit-content
-        padding: 8px 4px
-        font-size: 14px
-        font-family: $font-family
-        border-radius: 0
-        border-bottom: 1px solid transparent
-
-        &:hover
-            border-bottom: 1px solid #E1E3E8
-
-        &:disabled
-            opacity: 0.5
-
-    &.btn-icon
-        padding: 8px
-        background-color: $secondary-color
-        color: $primary-color
-        width: 36px
-        height: 36px
-        border: 0
-        display: flex
-        justify-content: center
-        align-items: center
-
-        &:hover
-            background-color: $secondary-color-hover
-
-        &:active
-            background-color: $secondary-color-active
-
-        &:disabled
-            opacity: 0.5
-
-        &.text
-            background-color: transparent
-            color: $text-color
-            padding: 0
-            height: auto
-            width: auto
+        i
             font-size: 14px
-            font-family: $font-family
 
-            &:hover
-                color: $primary-color
+    &.fab-large
+        height: 96px
+        width: 96px
 
-            &:active
-                color: $primary-color-active
+        i
+            font-size: 20px
 
-            &:disabled
-                opacity: 0.5
+.fab-extended
+    border: 0
+    border-radius: 16px
+    padding: 0
+    font-size: 16px
+    font-family: $font-family
+    font-weight: 500
+    font-size: 16px
+    line-height: 20px
+    letter-spacing: 0.1px
+    cursor: pointer
+    transition: background-color 0.2s ease
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 56px
+    width: 168px
+    background-color: #60A5FA
+    color: #1E3A8A
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
 
-// mobile
-@media screen and (max-width: 768px)
-    .btn
-        padding: 8px 12px
-        font-size: 14px
+    &:hover
+        background-color: #3B82F6
+
+    &:active
+        background-color: #3B82F6
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+    i
+        font-size: 16px
+
+.icon-btn
+    border: 0
+    border-radius: 50%
+    padding: 0
+    font-size: 16px
+    font-family: $font-family
+    font-weight: 500
+    font-size: 16px
+    line-height: 20px
+    letter-spacing: 0.1px
+    cursor: pointer
+    transition: background-color 0.2s ease
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 40px
+    width: 40px
+
+    i
+        font-size: 16px
+
+    &.filled-btn
+        background-color: #60A5FA
+        color: #1E3A8A
+
+        &:hover
+            background-color: #3B82F6
+
+        &:active
+            background-color: #3B82F6
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.tonal-btn
+        background-color: #182C53
+        color: #60A5FA
+
+        &:hover
+            background-color: #1D3767
+
+        &:active
+            background-color: #1D3767
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.outlined-btn
+        background-color: transparent
+        border: 1px solid #60A5FA
+        color: #60A5FA
+
+        &:hover
+            background-color: #14223F
+
+        &:active
+            background-color: #14223F
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.text-btn
+        background-color: transparent
+        color: #60A5FA
+
+        &:hover
+            background-color: #182C53
+
+        &:active
+            background-color: #182C53
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+.icon-btn-toggle
+    border-radius: 50%
+    padding: 0
+    font-size: 16px
+    font-family: $font-family
+    font-weight: 500
+    font-size: 16px
+    line-height: 20px
+    letter-spacing: 0.1px
+    cursor: pointer
+    transition: background-color 0.2s ease
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 40px
+    width: 40px
+    background-color: #60A5FA
+    color: #1E3A8A
+
+    &:hover
+        background-color: #3B82F6
+
+    &:active
+        background-color: #3B82F6
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+    i
+        font-size: 16px
+
+    &.filled-btn
+        background-color: #60A5FA
+        color: #1E3A8A
+
+        &:hover
+            background-color: #3B82F6
+
+        &:active
+            background-color: #3B82F6
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.tonal-btn
+        background-color: #182C53
+        color: #60A5FA
+
+        &:hover
+            background-color: #1D3767
+
+        &:active
+            background-color: #1D3767
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.outlined-btn
+        background-color: transparent
+        border: 1px solid #60A5FA
+        color: #60A5FA
+
+        &:hover
+            background-color: #14223F
+
+        &:active
+            background-color: #14223F
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.text-btn
+        background-color: transparent
+        color: #60A5FA
+
+        &:hover
+            background-color: #182C53
+
+        &:active
+            background-color: #182C53
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.active
+        background-color: #3B82F6
+        color: #1E3A8A
+
+        &:hover
+            background-color: #3B82F6
+
+        &:active
+            background-color: #3B82F6
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.active.filled-btn
+        background-color: #3B82F6
+        color: #1E3A8A
+
+        &:hover
+            background-color: #3B82F6
+
+        &:active
+            background-color: #3B82F6
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.active.tonal-btn
+        background-color: #1D3767
+        color: #60A5FA
+
+        &:hover
+            background-color: #1D3767
+
+        &:active
+            background-color: #1D3767
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.active.outlined-btn
+        background-color: #14223F
+        border: 1px solid #60A5FA
+        color: #60A5FA
+
+        &:hover
+            background-color: #14223F
+
+        &:active
+            background-color: #14223F
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.active.text-btn
+        background-color: #182C53
+        color: #60A5FA
+
+        &:hover
+            background-color: #182C53
+
+        &:active
+            background-color: #182C53
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed

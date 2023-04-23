@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
+import { Checkboxes, Column, IDropdownOption, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -13,6 +13,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class CardComponent implements OnInit {
     @ViewChild('fileInput') fileInput: any;
+    @ViewChild('addFiles') addFiles: any;
 
     @Input() task: Task = {} as Task;
     @Input() index: any = 0 as number;
@@ -30,17 +31,17 @@ export class CardComponent implements OnInit {
     showImages = false;
     newCheckbox = '';
     selectedImage: any = '';
-    labelsList: Labels[] = [
-        { name: 'Frontend', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
-        { name: 'TypeScript', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
-        { name: 'Translations', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
-        { name: 'Bugfix', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
+    labelsList: IDropdownOption[] = [
+        { label: 'Frontend', value: 'frontend' },
+        { label: 'TypeScript', value: 'ts' },
+        { label: 'Translations', value: 'translations' },
+        { label: 'Bugfix', value: 'bugfix' },
     ];
-    urgencyList: Urgency[] = [
-        { title: 'Low', code: 0, color: '#DBDBDE' },
-        { title: 'Normal', code: 1, color: '#2E7DFF' },
-        { title: 'High', code: 2, color: '#FDC33E' },
-        { title: 'Urgent', code: 3, color: '#FC6252' },
+    urgencyDropdownOptions: IDropdownOption[] = [
+        { label: 'Low', value: 0, icon: 'flag', iconColor: '#DBDBDE' },
+        { label: 'Normal', value: 1, icon: 'flag', iconColor: '#2E7DFF' },
+        { label: 'High', value: 2, icon: 'flag', iconColor: '#FDC33E' },
+        { label: 'Urgent', value: 3, icon: 'flag', iconColor: '#FC6252' },
     ];
     selectedLabel: any = null;
 
@@ -190,6 +191,11 @@ export class CardComponent implements OnInit {
         this.showAddTaskModal = false;
     }
 
+    fileInputClickInside(event: any) {
+        event.stopPropagation();
+        this.addFiles.nativeElement.click();
+    }
+
     showImage(event: any, image: any) {
         event.stopPropagation();
 
@@ -202,7 +208,7 @@ export class CardComponent implements OnInit {
 
     onLabelSelect(event: any) {
         // push event.value to task
-        this.task.labels = [...this.task.labels, event.value];
+        this.task.labels = [...this.task.labels, event];
         event.value = null;
         this.selectedLabel = null;
 
