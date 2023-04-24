@@ -1,28 +1,25 @@
-<div class="grid h-full">
-    <div class="col-12 lg:col-8">
-        <div class="flex align-items-center justify-content-between mb-1">
-            <div class="flex align-items-center">
-                <h1 class="m-0 text-2xl font-medium">Project List</h1>
-            </div>
+<header class="flex align-items-center justify-content-between mb-2 border-bottom-1 border-300 p-3 pt-2 pb-2">
+    <h1 class="m-0 headline6 text-color font-semibold">Projects</h1>
 
-            <button class="btn filled-btn" (click)="showAddProjectModal = true">
-                <span class="material-symbols-rounded">add</span>
-                Project
-            </button>
-        </div>
-        <div class="flex flex-column bg-color border-round-2xl mt-2" *ngIf="!loading">
-            <div cdkDropList
-                class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row p-3">
+    <button class="btn filled-btn small-btn" (click)="showAddProjectModal = true">
+        <span class="material-symbols-rounded">add</span>
+        Project
+    </button>
+</header>
+<div class="grid h-full grid-nogguter px-3 mt-2">
+    <div class="col-12 lg:col-8">
+        <div class="flex flex-column" *ngIf="!loading">
+            <span class="mb-3 headline6 text-color font-semibold">Projects</span>
+            <div cdkDropList class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row">
                 <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
-                    <div class="card"
-                        (click)="navigateToProject(project)">
-                        <header class="content-container">
+                    <div class="card" (click)="navigateToProject(project)">
+                        <header class="content-container flex-column">
                             <span class="title">{{project.title}}</span>
                             <span class="subtitle">{{project.description}}</span>
                         </header>
                         <div class="flex flex-column mt-3">
-                            <span class="text-white">Tasks:</span>
+                            <span class="text-color">Tasks:</span>
                             <div class="flex align-items-center gap-2 p-1">
                                 <span class="text-color">0</span>
                                 <div class="tasks-bar w-100">
@@ -30,13 +27,13 @@
                                         [style]="{ width: (getTasksFromCompletedColumn(project) / getTasksCount(project)) * 100 + '%' }">
                                     </div>
                                 </div>
-                                <span class="font-medium text-white">{{ getTasksCount(project) }}</span>
+                                <span class="text-color">{{ getTasksCount(project) }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="btn btn-icon text absolute" style="top:4px;right:4px;z-index:1111"
+                    <div class="icon-btn text-btn absolute" style="top:4px;right:4px;z-index:1"
                         (click)="confirmDeleteProject($event, project.id)">
-                        <span class="material-symbols-rounded text-white text-base">close</span>
+                        <i class="material-symbols-rounded">close</i>
                     </div>
                 </div>
             </div>
@@ -60,7 +57,7 @@
         </div>
     </div>
     <div class="col-12 lg:col-4 h-full">
-        <div class="panel p-0 md:p-3 h-full" style="overflow-y: auto">
+        <div class="panel border-1 border-300 p-0 md:p-3 h-full" style="overflow-y: auto">
             <span class="font-bold text-lg block p-3 md:p-0 pb-0">Recent Work Progress</span>
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">

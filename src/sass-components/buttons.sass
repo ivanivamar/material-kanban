@@ -9,7 +9,7 @@
     line-height: 20px
     letter-spacing: 0.1px
     cursor: pointer
-    transition: background-color 0.2s ease
+    transition: all 0.2s ease
     display: flex
     align-items: center
     justify-content: center
@@ -20,29 +20,36 @@
     .material-symbols-rounded
         font-size: 14px
 
+    &.small-btn
+        height: 32px
+        min-width: 56px
+
+        .material-symbols-rounded
+            font-size: 12px
+
     &.filled-btn
-        background-color: #60A5FA
-        color: #1E3A8A
+        background-color: $primary-color
+        color: #fff
 
         &:hover
-            background-color: #3B82F6
+            background-color: $primary-color-hover
 
         &:active
-            background-color: #3B82F6
+            background-color: $primary-color-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.tonal-btn
-        background-color: #182C53
-        color: #60A5FA
+        background-color: $secondary-color
+        color: #3B82F6
 
         &:hover
-            background-color: #1D3767
+            background-color: $secondary-color-hover
 
         &:active
-            background-color: #1D3767
+            background-color: $secondary-color-active
 
         &:disabled
             opacity: 0.5
@@ -50,29 +57,30 @@
 
     &.outlined-btn
         background-color: transparent
-        border: 1px solid #60A5FA
-        color: #60A5FA
+        border: 1px solid $border-primary-color
+        color: $primary-color
 
         &:hover
-            background-color: #14223F
+            background-color: $secondary-color-hover
 
         &:active
-            background-color: #14223F
+            background-color: $secondary-color-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.elevated-btn
-        background-color: #1E293B
-        color: #60A5FA
+        background-color: #fff
+        color: $primary-color
         box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
 
+
         &:hover
-            background-color: #162D55
+            background-color: $secondary-color
 
         &:active
-            background-color: #172E56
+            background-color: $secondary-color-active
 
         &:disabled
             opacity: 0.5
@@ -80,13 +88,14 @@
 
     &.text-btn
         background-color: transparent
-        color: #60A5FA
+        color: $primary-color
 
         &:hover
-            background-color: #182C53
+            background-color: $secondary-color
 
         &:active
-            background-color: #182C53
+            background-color: $secondary-color-active
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -103,20 +112,20 @@
     line-height: 20px
     letter-spacing: 0.1px
     cursor: pointer
-    transition: background-color 0.2s ease
+    transition: all 0.2s ease
     display: flex
     align-items: center
     justify-content: center
     height: 56px
     width: 56px
-    background-color: #60A5FA
-    color: #1E3A8A
+    background-color: $primary-color
+    color: #fff
 
     &:hover
-        background-color: #3B82F6
+        background-color: $primary-color-hover
 
     &:active
-        background-color: #3B82F6
+        background-color: $primary-color-active
 
     &:disabled
         opacity: 0.5
@@ -150,21 +159,21 @@
     line-height: 20px
     letter-spacing: 0.1px
     cursor: pointer
-    transition: background-color 0.2s ease
+    transition: all 0.2s ease
     display: flex
     align-items: center
     justify-content: center
     height: 56px
     width: 168px
-    background-color: #60A5FA
-    color: #1E3A8A
+    background-color: $primary-color
+    color: #fff
     box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
 
     &:hover
-        background-color: #3B82F6
+        background-color: $primary-color-hover
 
     &:active
-        background-color: #3B82F6
+        background-color: $primary-color-active
 
     &:disabled
         opacity: 0.5
@@ -191,32 +200,46 @@
     height: 40px
     width: 40px
 
-    i
+    .material-symbols-rounded
         font-size: 16px
 
+    &.btn-small
+        height: 32px
+        width: 32px
+
+        .material-symbols-rounded
+            font-size: 14px
+
+    &.btn-large
+        height: 48px
+        width: 48px
+
+        .material-symbols-rounded
+            font-size: 20px
+
     &.filled-btn
-        background-color: #60A5FA
-        color: #1E3A8A
+        background-color: $primary-color
+        color: $text-color
 
         &:hover
-            background-color: #3B82F6
+            filter: brightness(1.1)
 
         &:active
-            background-color: #3B82F6
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.tonal-btn
-        background-color: #182C53
-        color: #60A5FA
+        background-color: $secondary-color
+        color: $text-secondary
 
         &:hover
-            background-color: #1D3767
+            filter: brightness(1.1)
 
         &:active
-            background-color: #1D3767
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -224,14 +247,30 @@
 
     &.outlined-btn
         background-color: transparent
-        border: 1px solid #60A5FA
-        color: #60A5FA
+        border: 1px solid $border-color
+        color: $text-color
 
         &:hover
-            background-color: #14223F
+            background-color: $secondary-color
 
         &:active
-            background-color: #14223F
+            background-color: $secondary-color
+            filter: brightness(0.8)
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.elevated-btn
+        background-color: $secondary-color
+        color: $text-color
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
+
+        &:hover
+            filter: brightness(1.1)
+
+        &:active
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -239,13 +278,14 @@
 
     &.text-btn
         background-color: transparent
-        color: #60A5FA
+        color: $primary-color
 
         &:hover
-            background-color: #182C53
+            background-color: $secondary-color
 
         &:active
-            background-color: #182C53
+            background-color: $secondary-color
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -267,45 +307,46 @@
     justify-content: center
     height: 40px
     width: 40px
-    background-color: #60A5FA
-    color: #1E3A8A
+    background-color: transparent
+    color: $text-color
 
     &:hover
-        background-color: #3B82F6
+        background-color: $secondary-color
 
     &:active
-        background-color: #3B82F6
+        background-color: $secondary-color
+        filter: brightness(0.8)
 
     &:disabled
         opacity: 0.5
         cursor: not-allowed
 
-    i
+    .material-symbols-rounded
         font-size: 16px
 
     &.filled-btn
-        background-color: #60A5FA
-        color: #1E3A8A
+        background-color: $primary-color
+        color: $text-color
 
         &:hover
-            background-color: #3B82F6
+            filter: brightness(1.1)
 
         &:active
-            background-color: #3B82F6
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.tonal-btn
-        background-color: #182C53
-        color: #60A5FA
+        background-color: $secondary-color
+        color: $text-secondary
 
         &:hover
-            background-color: #1D3767
+            filter: brightness(1.1)
 
         &:active
-            background-color: #1D3767
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -313,14 +354,30 @@
 
     &.outlined-btn
         background-color: transparent
-        border: 1px solid #60A5FA
-        color: #60A5FA
+        border: 1px solid $border-color
+        color: $text-color
 
         &:hover
-            background-color: #14223F
+            background-color: $secondary-color
 
         &:active
-            background-color: #14223F
+            background-color: $secondary-color
+            filter: brightness(0.8)
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.elevated-btn
+        background-color: $secondary-color
+        color: $text-color
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)
+
+        &:hover
+            filter: brightness(1.1)
+
+        &:active
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5
@@ -328,13 +385,14 @@
 
     &.text-btn
         background-color: transparent
-        color: #60A5FA
+        color: $primary-color
 
         &:hover
-            background-color: #182C53
+            background-color: $secondary-color
 
         &:active
-            background-color: #182C53
+            background-color: $secondary-color
+            filter: brightness(0.8)
 
         &:disabled
             opacity: 0.5

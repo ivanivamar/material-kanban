@@ -1,32 +1,22 @@
 
-$primary-color: #568FD9
+$primary-color: #DBEAFE
 
 nav
-    background-color: #0F172B
+    background-color: #EFF6FF
     height: 100%
     position: fixed
     border-radius: 0px 16px 16px 0px
     top: 0
     left: 0
-    width: 275px
-    z-index: 999999
+    width: 75px
+    z-index: 10
 
     header
         margin: 16px
+        margin-bottom: 0
         padding: 16px 0
-        border-bottom: 1px solid #283548
         display: flex
         gap: 12px
-
-        i
-            font-size: 24px
-            border-radius: 6px
-            padding: 6px
-            color: black !important
-
-        h1
-            margin: 0
-            color: #fff
 
     .section
         padding: 16px
@@ -34,6 +24,18 @@ nav
         display: flex
         flex-direction: column
         gap: 8px
+        position: relative
+
+        &::before
+            content: ''
+            width: 60%
+            height: 2px
+            border-radius: 25px 25px 25px 25px
+            background-color: #ddd
+            position: absolute
+            left: 50%
+            top: -16px
+            transform: translateX(-50%)
 
         .section-title
             padding-left: 12px
@@ -48,7 +50,7 @@ nav
 a
     text-decoration: none
     background-color: transparent
-    color: #fff
+    color: #4A464E
     font-weight: 500
     padding: 12px
     font-size: 14px
@@ -67,7 +69,7 @@ a
 
     &:hover,
     &.active
-        background-color: #334155
+        background-color: $primary-color
 
 // mobile
 @media screen and (max-width: 768px)

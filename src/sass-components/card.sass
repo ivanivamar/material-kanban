@@ -1,61 +1,65 @@
 .card
-    border-radius: 16px
+    border-radius: 12px
     padding: 12px
     position: relative
-    cursor: grab
-    background-color: #1E293B
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+    cursor: pointer
+    background-color: #EFF6FF
+    transition: all 0.2s cubic-bezier(0, 0, 0.2, 1)
 
     &:active
         cursor: grabbing
+
+    &:hover
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1)
 
     header
         display: flex
         justify-content: space-between
         align-items: baseline
         margin-bottom: 0 !important
+        display: flex
+        gap: 4px
 
-        .content-container
+        .title
+            color: $text-color
+            font-size: 18px
+            font-weight: 600
+            font-family: $font-family
+
+        .sub-title
+            font-size: 16px
+            font-weight: 400
+            font-family: $font-family
+            letter-spacing: 0.5px
+            line-height: 24px
+            color: $text-secondary
+
+        .date-container
             display: flex
-            flex-direction: column
-            gap: 4px
+            align-items: center
+            gap: 8px
+            color: rgba(0, 0, 0, 0.18)
 
-            .title
-                color: $text-color
+            .date
+                font-size: 14px
+                color: $text-secondary
 
-            .sub-title
-                font-size: 16px
-                font-weight: 400
-                font-family: $font-family
-                letter-spacing: 0.5px
-                line-height: 24px
-                color: #94A3B8
-
-            .date-container
+            .time-container
                 display: flex
                 align-items: center
-                gap: 8px
-                color: rgba(0, 0, 0, 0.18)
+                gap: 4px
 
-                .date
+                .time-icon
+                    font-size: 14px
+                    color: $text-color
+
+                .time
                     font-size: 14px
                     color: $text-secondary
 
-                .time-container
-                    display: flex
-                    align-items: center
-                    gap: 4px
-
-                    .time-icon
-                        font-size: 14px
-                        color: $text-color
-
-                    .time
-                        font-size: 14px
-                        color: $text-secondary
-
     .body
         margin-top: 12px
+        margin-left: 48px
 
         .description
             font-size: 14px
@@ -96,8 +100,8 @@
                 display: flex
                 align-items: center
                 border: 0
-                background-color: #334155
-                color: $text-color
+                background-color: #DBEAFE
+                color: $primary-color
                 text-transform: capitalize
 
         button:hover
@@ -127,7 +131,7 @@
                     color: $text-color
                     text-decoration: underline
 
-            .btn-icon
+            .icon-btn
                 height: 8px
                 width: 8px
 

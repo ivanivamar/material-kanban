@@ -42,9 +42,9 @@ img
             gap: 12px
 
     .dropzone
-        border: 2px dashed #DDD
+        border: 1px dashed #DDD
         background-color: #fff
-        border-radius: 8px
+        border-radius: 12px
         padding: 12px
         width: 100%
         display: flex
@@ -56,11 +56,18 @@ img
         &:hover
             border-color: #2E7DFF
 
+            .material-symbols-rounded
+                font-size: 32px
+                color: #2E7DFF
+
     &.p-draggable-enter,
     &:hover
-
         .dropzone
             border-color: #2E7DFF
+
+            .material-symbols-rounded
+                font-size: 32px
+                color: #2E7DFF
 
 @media screen and (min-width: 768px)
     .md\:h-97
