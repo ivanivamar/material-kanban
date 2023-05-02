@@ -1,15 +1,20 @@
-<header class="flex align-items-center justify-content-between mb-2 border-bottom-1 border-300 p-3 pt-2 pb-2">
-    <button class="icon-btn text-btn" routerLink="">
-        <i class="material-symbols-rounded text-lg" style="color: black">
+<header class="flex align-items-center mb-2 p-0 py-2">
+    <button class="btn text-btn small-btn mr-2" routerLink="">
+        <i class="material-symbols-rounded text-lg">
             arrow_back
         </i>
     </button>
-    <h1 class="m-0 headline6 text-color font-semibold">{{ project.title }}</h1>
-    <div></div>
+    <h1 class="m-0 headline3 text-color font-regular">
+        Projects
+        <i class="material-symbols-rounded text-2xl">
+            chevron_right
+        </i>
+        {{ project.title }}
+    </h1>
 </header>
 
 <div *ngIf="!loading">
-    <div class="tabs-container my-2 mx-3">
+    <div class="tabs-container my-2 mx-0">
         <div (click)="currentTab = ProjectTabs.Kanban" class="tab" [class.active]="currentTab === ProjectTabs.Kanban">
             Kanban
         </div>
@@ -19,17 +24,17 @@
         </div>
     </div>
 
-    <div [ngSwitch]="currentTab" class="px-3 mb-3">
+    <div [ngSwitch]="currentTab" class="px-3">
         <div *ngSwitchCase="ProjectTabs.Kanban">
-            <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter mt-5 gap-5 h-full"
+            <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter gap-5 h-full"
                 *ngIf="project.columns.length > 0">
                 <!-- COLUMNS -->
-                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 border-1 border-100 p-2 border-round-2xl"
+                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 p-2"
                     *ngFor="let column of project.columns; let i = index" [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
                     <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
                         <div class="left-container">
-                            <button class="icon-btn text-btn" (click)="addTask(column.id)">
+                            <button class="btn text-btn small-btn" (click)="addTask(column.id)">
                                 <span class="material-symbols-rounded">add</span>
                             </button>
                             <span class="title text-color">{{ column.title }}</span>

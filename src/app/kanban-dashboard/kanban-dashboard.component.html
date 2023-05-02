@@ -1,15 +1,15 @@
-<header class="flex align-items-center justify-content-between mb-2 border-bottom-1 border-300 p-3 pt-2 pb-2">
-    <h1 class="m-0 headline6 text-color font-semibold">Projects</h1>
-
-    <button class="btn filled-btn small-btn" (click)="showAddProjectModal = true">
-        <span class="material-symbols-rounded">add</span>
-        Project
-    </button>
+<header class="flex align-items-center justify-content-between mb-2 p-3 pt-2 pb-2">
+    <h1 class="m-0 headline3 text-color font-regular">Projects</h1>
 </header>
 <div class="grid h-full grid-nogguter px-3 mt-2">
     <div class="col-12 lg:col-8">
         <div class="flex flex-column" *ngIf="!loading">
-            <span class="mb-3 headline6 text-color font-semibold">Projects</span>
+            <div class="card flex justify-content-between mb-3">
+                <span class="text-base line-height-4 text-color font-regular">Add Project</span>
+                <button class="btn filled-btn small-btn" (click)="showAddProjectModal = true">
+                    Add Project
+                </button>
+            </div>
             <div cdkDropList class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row">
                 <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
@@ -57,14 +57,13 @@
         </div>
     </div>
     <div class="col-12 lg:col-4 h-full">
-        <div class="panel border-1 border-300 p-0 md:p-3 h-full" style="overflow-y: auto">
-            <span class="font-bold text-lg block p-3 md:p-0 pb-0">Recent Work Progress</span>
+        <div class="panel p-0 pt-0 md:p-3 md:pt-0 h-full" style="overflow-y: auto">
+            <span class="font-medium text-lg block p-3 mb-2 md:p-0 block">Recent Work Progress</span>
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">
                 <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
-                    <div class="flex align-items-center gap-3 p-2 cursor-pointer"
-                        (click)="showTasksFromProject = currentWeekTask.project"
-                        style="border-bottom: 1px solid #E1E3E8">
+                    <div class="card flex align-items-center gap-3 p-2 cursor-pointer mt-1"
+                        (click)="showTasksFromProject = currentWeekTask.project">
                         <span class="material-symbols-rounded text-500"
                             *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
                         <span class="material-symbols-rounded text-500"
@@ -74,7 +73,7 @@
                     </div>
 
                     <div *ngIf="showTasksFromProject === currentWeekTask.project">
-                        <app-card class="col-12 p-0 md:p-2" *ngFor="let taskContainer of currentWeekTask.tasks"
+                        <app-card class="col-12 p-0" *ngFor="let taskContainer of currentWeekTask.tasks"
                             [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
                         </app-card>
                     </div>
@@ -91,11 +90,6 @@
         <div class="dialog-header">
             <header class="flex align-items-center justify-content-between">
                 <div class="flex align-items-center gap-2">
-                    <button class="icon-btn text-btn" (click)="closeProjectModal()">
-                        <span class="material-symbols-rounded">
-                            close
-                        </span>
-                    </button>
                     <span class="dialog-title">Add Project</span>
                 </div>
             </header>
@@ -109,17 +103,11 @@
             </div>
         </div>
         <div class="dialog-footer">
-            <button type="button" ripple class="btn text-btn" (click)="closeProjectModal()">
-                <span class="material-symbols-rounded">
-                    close
-                </span>
-                Cancel
+            <button type="button" ripple class="btn tonal-btn small-btn" (click)="closeProjectModal()">
+                Close
             </button>
-            <button type="button" ripple class="btn filled-btn" (click)="addProject()" [disabled]="setDisabled()">
-                <span class="material-symbols-rounded">
-                    add
-                </span>
-                Project
+            <button type="button" ripple class="btn tonal-btn small-btn" (click)="addProject()" [disabled]="setDisabled()">
+                Save
             </button>
         </div>
     </div>
