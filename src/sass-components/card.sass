@@ -1,16 +1,24 @@
 .card
-    border-radius: 12px
+    border-radius: 6px
     padding: 12px
     position: relative
     cursor: pointer
-    background-color: #EFF6FF
+    background-color: $bg-color-secondary
+    border: 1px solid $border-color
     transition: all 0.2s cubic-bezier(0, 0, 0.2, 1)
 
     &:active
         cursor: grabbing
+        background-color: #292724
+        border-color: #32302D
 
     &:hover
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1)
+        background-color: #343230
+        border-color: #343230
+        &:active
+            cursor: grabbing
+            background-color: #292724
+            border-color: #32302D
 
     header
         display: flex
@@ -91,7 +99,7 @@
 
             .label
                 padding: 4px 8px
-                border-radius: 10px
+                border-radius: 6px
                 font-family: 'Readex Pro'
                 font-style: normal
                 font-weight: 500
@@ -100,8 +108,8 @@
                 display: flex
                 align-items: center
                 border: 0
-                background-color: #DBEAFE
-                color: $primary-color
+                background-color: #2E2D2C
+                color: $text-color
                 text-transform: capitalize
 
         button:hover

@@ -43,7 +43,7 @@ export class CardComponent implements OnInit {
         { label: 'High', value: 2, icon: 'flag', iconColor: '#FDC33E' },
         { label: 'Urgent', value: 3, icon: 'flag', iconColor: '#FC6252' },
     ];
-    selectedLabel: any = null;
+    selectedLabel: IDropdownOption = { label: '', value: null };
 
     showModalCheckboxes = true;
     showModalFiles = true;
@@ -207,10 +207,10 @@ export class CardComponent implements OnInit {
     }
 
     onLabelSelect(event: any) {
+        let newLabel = this.labelsList.find(l => l.value === event);
         // push event.value to task
-        this.task.labels = [...this.task.labels, event];
-        event.value = null;
-        this.selectedLabel = null;
+        this.task.labels = [...this.task.labels, newLabel];
+        this.selectedLabel = { label: '', value: null };
 
         this.editTask(false);
     }

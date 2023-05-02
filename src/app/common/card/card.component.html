@@ -88,11 +88,11 @@
             <input class="checkbox-input" type="text" placeholder="Enter text..."
                 (input)="saveCheckbox($event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
                 [(ngModel)]="checkbox.title" />
-            <button class="btn btn-icon text p-3" (click)="deleteCheckbox($event, checkbox)">
+            <button class="icon-btn text-btn btn-small p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-symbols-rounded text-red-500">delete</span>
             </button>
         </div>
-        <button class="btn tonal-btn font-regular ml-2" (click)="addCheckbox($event)">
+        <button class="btn tonal-btn small-btn font-regular mt-2" (click)="addCheckbox($event)">
             <span class="material-symbols-rounded">add</span>
             Add Subtask
         </button>
@@ -280,7 +280,7 @@
                         </p-chip>
                     </div>
 
-                    <mat-dropdown [options]="labelsList" [icon]="'label'" [(value)]="selectedLabel"
+                    <mat-dropdown [options]="labelsList" [icon]="'label'" [(value)]="selectedLabel.value"
                         [returnValue]="false" (valueChange)="onLabelSelect($event)"
                         [placeholder]="'Select Labels...'"></mat-dropdown>
                 </div>

@@ -26,16 +26,15 @@ export class MatDropdownComponent implements OnInit {
     constructor(private _eref: ElementRef) { }
 
     ngOnInit() {
-        if (this.value) {
+        if (this.value !== null) {
             this.options.forEach((item: IDropdownOption) => {
-                if (item.value === this.value.value) {
+                if (item.value === this.value) {
                     item.selected = true;
                     this.ngModelLabel = item.label;
                 }
             });
         }
     }
-
 
     onClick(event: Event) {
         if (!this._eref.nativeElement.contains(event.target)) {
@@ -46,11 +45,7 @@ export class MatDropdownComponent implements OnInit {
     }
 
     selectItem(option: IDropdownOption) {
-        if (this.returnValue) {
-            this.value = option.value;
-        } else {
-            this.value = option;
-        }
+        this.value = option.value;
         this.ngModelLabel = option.label;
         this.valueChange.emit(this.value);
         option.selected = true;

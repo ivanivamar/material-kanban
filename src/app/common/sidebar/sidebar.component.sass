@@ -1,14 +1,14 @@
 
-$primary-color: #DBEAFE
+$primary-color: #4CC2FF
 
 nav
-    background-color: #EFF6FF
+    background-color: #241F1B
     height: 100%
     position: fixed
     border-radius: 0px 16px 16px 0px
     top: 0
     left: 0
-    width: 75px
+    width: 275px
     z-index: 10
 
     header
@@ -16,7 +16,7 @@ nav
         margin-bottom: 0
         padding: 16px 0
         display: flex
-        gap: 12px
+        gap: 3px
 
     .section
         padding: 16px
@@ -24,52 +24,54 @@ nav
         display: flex
         flex-direction: column
         gap: 8px
-        position: relative
-
-        &::before
-            content: ''
-            width: 60%
-            height: 2px
-            border-radius: 25px 25px 25px 25px
-            background-color: #ddd
-            position: absolute
-            left: 50%
-            top: -16px
-            transform: translateX(-50%)
-
-        .section-title
-            padding-left: 12px
-            font-size: 14px
-            line-height: 24px
-            letter-spacing: 0.1px
-            font-weight: 500
-            color: #64748B
-            margin: 0
-            font-family: 'Readex Pro', sans-serif
 
 a
     text-decoration: none
     background-color: transparent
-    color: #4A464E
+    color: #ffffff
     font-weight: 500
-    padding: 12px
+    padding: 6px 12px
     font-size: 14px
     line-height: 20px
     letter-spacing: 0.1px
-    border-radius: 25px 25px 25px 25px
+    border-radius: 6px
     display: flex
     align-items: center
     transition: background-color 0.2s ease
     font-family: 'Readex Pro', sans-serif
     justify-content: space-between
-    height: 44px
+    min-height: 36px
+    position: relative
 
     .material-symbols-rounded
-        font-size: 18px
+        font-size: 22px
+
+    &::before
+        content: ''
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        left: 0px
+        height: 0
+        width: 4px
+        border-radius: 25px 25px 25px 25px
+        background-color: #4CC2FF
+        transition: height 0.2s ease
 
     &:hover,
     &.active
-        background-color: $primary-color
+        background-color: #302D28
+
+    &.active
+        &:hover
+            background-color: #2B2925
+            &:active
+                background-color: #302D28 !important
+        &::before
+            height: 50%
+
+    &:active
+        background-color: #2C2824 !important
 
 // mobile
 @media screen and (max-width: 768px)
