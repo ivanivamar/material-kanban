@@ -1,5 +1,6 @@
 <div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency.code"
-    (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);">
+    (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
+    (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
     <!-- HEADER -->
     <header>
         <div class="flex align-items-baseline gap-2">
@@ -54,14 +55,15 @@
         </div>
         <!-- /LABELS -->
         <div class="flex align-items-center gap-1">
-            <button class="btn text-btn small-btn flex aling-items-center gap-2" (click)="showCheckbox($event, task.id)">
+            <button class="btn text-btn small-btn flex aling-items-center gap-2"
+                (click)="showCheckbox($event, task.id)">
                 <span [classList]="!showCheckboxes ? 'text-sm font-regular' : 'text-sm font-regular'">{{
                     task.checkboxes.length }}</span>
                 <span
                     [classList]="!showCheckboxes ? 'material-symbols-rounded text-sm' : 'material-symbols-rounded text-sm'">checklist</span>
             </button>
-            <button class="btn text-btn small-btn flex aling-items-center gap-2" (click)="showImagesFooter($event, task.id)"
-                *ngIf="task.images">
+            <button class="btn text-btn small-btn flex aling-items-center gap-2"
+                (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
                 <span [classList]="!showImages ? 'text-sm font-regular' : 'text-sm font-regular'">{{
                     task.images.length }}</span>
                 <span
@@ -180,7 +182,8 @@
                         <span class="material-symbols-rounded text-secondary"
                             *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
                         <span class="font-bold">Subtasks</span>
-                        <span class="text-secondary text-sm">{{getTotalCompletedTasks()}} / {{task.checkboxes.length}}</span>
+                        <span class="text-secondary text-sm">{{getTotalCompletedTasks()}} /
+                            {{task.checkboxes.length}}</span>
                         <button class="btn tonal-btn ml-2" (click)="addCheckbox($event)">
                             <span class="material-symbols-rounded">add</span>
                             Add Subtask
@@ -203,7 +206,8 @@
                                 </label>
                                 <input class="checkbox-input" placeholder="Enter subtask..." type="text"
                                     [(ngModel)]="checkbox.title">
-                                <button class="icon-btn text-btn btn-small opacity-0" (click)="deleteCheckbox($event, checkbox)">
+                                <button class="icon-btn text-btn btn-small opacity-0"
+                                    (click)="deleteCheckbox($event, checkbox)">
                                     <span class="material-symbols-rounded">delete</span>
                                 </button>
                             </div>
@@ -261,8 +265,8 @@
                     <span class="title font-medium">
                         Set Priority
                     </span>
-                    <mat-dropdown [options]="urgencyDropdownOptions" [icon]="'flag'" [(value)]="task.urgency" [returnValue]="false"
-                        (valueChange)="editTask(false)"></mat-dropdown>
+                    <mat-dropdown [options]="urgencyDropdownOptions" [icon]="'flag'" [(value)]="task.urgency"
+                        [returnValue]="false" (valueChange)="editTask(false)"></mat-dropdown>
                 </div>
 
                 <div class="section">
@@ -276,8 +280,9 @@
                         </p-chip>
                     </div>
 
-                    <mat-dropdown [options]="labelsList" [icon]="'label'" [(value)]="selectedLabel" [returnValue]="false"
-                        (valueChange)="onLabelSelect($event)" [placeholder]="'Select Labels...'"></mat-dropdown>
+                    <mat-dropdown [options]="labelsList" [icon]="'label'" [(value)]="selectedLabel"
+                        [returnValue]="false" (valueChange)="onLabelSelect($event)"
+                        [placeholder]="'Select Labels...'"></mat-dropdown>
                 </div>
 
                 <div class="section border-bottom-0">
