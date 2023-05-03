@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div cdkDropList class="flex flex-wrap flex-column md:flex-row">
-                <div class="project d-flex flex-row justify-content-between w-6 align-items-center gap-2"
+                <div class="project d-flex flex-row justify-content-between w-full md:w-6 align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
                     <div class="card flex justify-content-between" (click)="navigateToProject(project)">
                         <header class="content-container flex flex-column gap-0">
@@ -20,7 +20,7 @@
                         </header>
 
                         <div class="menu-container" [class.active]="project.menu">
-                            <button class="btn tonal-btn menubtn" (click)="toggleMenu($event, project)">
+                            <button class="btn tonal-btn small-btn menubtn" (click)="toggleMenu($event, project)">
                                 <span class="material-symbols-rounded">more_horiz</span>
                             </button>
 

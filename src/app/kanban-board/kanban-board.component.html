@@ -1,4 +1,4 @@
-<header class="flex align-items-center mb-2 p-0 py-2">
+<header class="flex align-items-center mb-2 p-0 py-2 mx-4">
     <button class="btn text-btn small-btn mr-2" routerLink="">
         <i class="material-symbols-rounded text-lg">
             arrow_back
@@ -14,13 +14,13 @@
 </header>
 
 <div *ngIf="!loading">
-    <div class="tabs-container my-2 mx-0">
+    <div class="tabs-container my-2 mx-4">
         <div (click)="currentTab = ProjectTabs.Kanban" class="tab" [class.active]="currentTab === ProjectTabs.Kanban">
-            Kanban
+            <i class="material-symbols-rounded">view_kanban</i>
         </div>
         <div class="tab" (click)="currentTab = ProjectTabs.Timeline"
             [class.active]="currentTab === ProjectTabs.Timeline">
-            Timeline
+            <i class="material-symbols-rounded">calendar_today</i>
         </div>
     </div>
 
