@@ -204,14 +204,15 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     //#region Deleters
-    confirmDeleteProject(event: any, projectId: string) {
-        console.log(event);
+    confirmDeleteProject(event: any, project: any) {
+        event.stopPropagation();
+        project.menu = !project.menu;
         this.confirmationService.confirm({
             target: event.target,
             message: 'Are you sure that you want to delete this project?',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.deleteProject(projectId, event);
+                this.deleteProject(project.id, event);
             },
             reject: () => {
                 return;
@@ -226,6 +227,19 @@ export class KanbanDashboardComponent implements OnInit {
     //#endregion
 
     //#region Helpers
+    toggleMenu(event: any, project: any) {
+        event.stopPropagation();
+        project.menu = !project.menu;
+    }
+
+    editProject(event: any, project: any) {
+        event.stopPropagation();
+        project.menu = !project.menu;
+        this.projectTitle = project.title;
+        this.projectDescription = project.description;
+        this.showAddProjectModal = true
+    }
+
     getTotalCompletedTasks(task: Task) {
         return task.checkboxes.filter(t => t.checked).length;
     }

@@ -1,6 +1,6 @@
 <nav>
-    <header class="pt-3 flex flex-column" *ngIf="user">
-        <a routerLink="/account" class="flex gap-3 align-items-center">
+    <header class="pt-3 flex flex-column">
+        <a routerLink="/account" class="flex gap-3 align-items-center" *ngIf="user">
             <img class="border-circle w-12 md:w-3 h-auto" [src]="user.photoURL" alt="User Avatar"
                 *ngIf="user.photoURL">
             <div class="flex flex-column">
@@ -28,7 +28,7 @@
         <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
             <div class="link-content flex align-items-center gap-2">
                 <span class="material-symbols-rounded">folder</span>
-                <span class="font-light">My Files</span>
+                <span class="font-light">Projects</span>
             </div>
         </a>
         <a routerLink="/account" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">

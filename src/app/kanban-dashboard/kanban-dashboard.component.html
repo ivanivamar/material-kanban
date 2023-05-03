@@ -5,35 +5,38 @@
     <div class="col-12 lg:col-8">
         <div class="flex flex-column" *ngIf="!loading">
             <div class="card flex justify-content-between mb-3">
-                <span class="text-base line-height-4 text-color font-regular">Add Project</span>
+                <span class="text-base line-height-4 text-color font-regular">Projects</span>
                 <button class="btn filled-btn small-btn" (click)="showAddProjectModal = true">
                     Add Project
                 </button>
             </div>
-            <div cdkDropList class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row">
-                <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
+            <div cdkDropList class="flex flex-wrap flex-column md:flex-row">
+                <div class="project d-flex flex-row justify-content-between w-6 align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
-                    <div class="card" (click)="navigateToProject(project)">
-                        <header class="content-container flex-column">
+                    <div class="card flex justify-content-between" (click)="navigateToProject(project)">
+                        <header class="content-container flex flex-column gap-0">
                             <span class="title">{{project.title}}</span>
-                            <span class="subtitle">{{project.description}}</span>
+                            <span class="subtitle text-xs text-500" *ngIf="project.description">{{project.description}}</span>
                         </header>
-                        <div class="flex flex-column mt-3">
-                            <span class="text-color">Tasks:</span>
-                            <div class="flex align-items-center gap-2 p-1">
-                                <span class="text-color">0</span>
-                                <div class="tasks-bar w-100">
-                                    <div class="tasks-bar-progress"
-                                        [style]="{ width: (getTasksFromCompletedColumn(project) / getTasksCount(project)) * 100 + '%' }">
-                                    </div>
+
+                        <div class="menu-container" [class.active]="project.menu">
+                            <button class="btn tonal-btn menubtn" (click)="toggleMenu($event, project)">
+                                <span class="material-symbols-rounded">more_horiz</span>
+                            </button>
+
+                            <div class="menu-content">
+                                <div class="menu-item"
+                                    (click)="editProject($event, project)">
+                                    <span class="material-symbols-rounded">edit</span>
+                                    <span class="text">Edit</span>
                                 </div>
-                                <span class="text-color">{{ getTasksCount(project) }}</span>
+                                <div class="menu-item"
+                                    (click)="confirmDeleteProject($event, project)">
+                                    <span class="material-symbols-rounded">delete</span>
+                                    <span class="text">Delete</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="icon-btn text-btn absolute" style="top:4px;right:4px;z-index:1"
-                        (click)="confirmDeleteProject($event, project.id)">
-                        <i class="material-symbols-rounded">close</i>
                     </div>
                 </div>
             </div>
@@ -106,7 +109,8 @@
             <button type="button" ripple class="btn tonal-btn small-btn" (click)="closeProjectModal()">
                 Close
             </button>
-            <button type="button" ripple class="btn tonal-btn small-btn" (click)="addProject()" [disabled]="setDisabled()">
+            <button type="button" ripple class="btn tonal-btn small-btn" (click)="addProject()"
+                [disabled]="setDisabled()">
                 Save
             </button>
         </div>
