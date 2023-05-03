@@ -6,6 +6,7 @@ import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { ProjectsComponent } from './projects/projects.component';
 
 const routes: Routes = [
     {
@@ -15,7 +16,7 @@ const routes: Routes = [
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },
     {
-        path: 'kanban',
+        path: 'projects/kanban',
         component: KanbanBoardComponent,
         pathMatch: 'full',
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),

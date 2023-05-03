@@ -77,7 +77,7 @@ label
         margin: 0
         cursor: pointer
         overflow: hidden
-        border: 2px solid #1a1a1a
+        border: 2px solid #60A5FA
         border-radius: 50%
         z-index: 2
 
@@ -94,14 +94,14 @@ label
     &:hover
         .outline
             .outline-tick
-                background: #1a1a1a
+                background: #60A5FA
                 opacity: .8
 
     &.is-checked
         .outline
 
             .outline-tick
-                background: #1a1a1a
+                background: #60A5FA
 
 .custom-file[type="file"]
     color: transparent
@@ -122,6 +122,7 @@ label
 
 .p-calendar
     width: 100%
+    border-bottom: 1px solid transparent !important
 
     &:hover
         border-bottom: 1px solid $text-secondary !important
@@ -140,7 +141,13 @@ label
 .p-calendar .p-datepicker-trigger
     background-color: transparent
     border: 0
-    color: black
+    color: $text-color !important
+    width: 35px !important
+
+    &:hover
+        background-color: transparent !important
+        border: 0
+        color: black !important
 
 p-calendar.p-calendar-clearable .p-calendar-clear-icon
     right: 2.75rem !important

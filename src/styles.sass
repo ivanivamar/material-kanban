@@ -1,119 +1,25 @@
-$bg-color: #ECEFF8
-$bg-white: #FFFFFF
-$primary-color: #2e7dff
-$primary-color-hover: #4d91ff
-$primary-color-active: #1e6bff
+$bg-color: #241F1B
+$bg-color-secondary: #2C2B29
+$primary-color: #4CC2FF
+$primary-color-hover: #48B2E9
+$primary-color-active: #45A4D5
 
-$secondary-color: #F6F9FF
-$secondary-color-hover: #F3F4F9
-$secondary-color-active: #ECEFF8
-$secondary-color-dark: #ECEFF8
+$secondary-color: #373737
+$secondary-color-hover: #434343
+$secondary-color-active: #383837
+$secondary-color-dark: #2C2823
 
-$warning-color: #FDAF1B
-$warning-color-hover: #FDBF3B
-$danger-color: #FD6860
-$danger-color-hover: #FB7B77
+$warning-color: #FFB900
+$warning-color-hover: #FFC94D
+$danger-color: #F25022
+$danger-color-hover: #F4714B
 
-$border-color: #F3F4F9
-$text-color: #252A48
-$text-secondary: #8A9EB4
+$border-color: #1E1D1B
+$border-primary-color: #4CC2FF
+$text-color: #ffffff
+$text-secondary: #85C8D8
 
-@font-face
-    font-family: 'Product Sans Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Regular'), url('./assets/ProductSans-Regular.woff') format('woff')
-
-.font-regular
-    font-family: 'Product Sans Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Italic'), url('./assets/ProductSans-Italic.woff') format('woff')
-
-.font-italic
-    font-family: 'Product Sans Italic', sans-serif
-
-@font-face
-    font-family: 'Product Sans Thin Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Thin Regular'), url('./assets/ProductSans-Thin.woff') format('woff')
-
-.font-thin
-    font-family: 'Product Sans Thin Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Light Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Light Regular'), url('./assets/ProductSans-Light.woff') format('woff')
-
-.font-light
-    font-family: 'Product Sans Light Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Medium Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Medium Regular'), url('./assets/ProductSans-Medium.woff') format('woff')
-
-.font-medium
-    font-family: 'Product Sans Medium Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Black Regular'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Black Regular'), url('./assets/ProductSans-Black.woff') format('woff')
-
-.font-black
-    font-family: 'Product Sans Black Regular', sans-serif
-
-@font-face
-    font-family: 'Product Sans Thin Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Thin Italic'), url('./assets/ProductSans-ThinItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Light Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Light Italic'), url('./assets/ProductSans-LightItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Medium Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Medium Italic'), url('./assets/ProductSans-MediumItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Bold'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Bold'), url('./assets/ProductSans-Bold.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Bold Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Bold Italic'), url('./assets/ProductSans-BoldItalic.woff') format('woff')
-
-@font-face
-    font-family: 'Product Sans Black Italic'
-    font-style: normal
-    font-weight: normal
-    src: local('Product Sans Black Italic'), url('./assets/ProductSans-BlackItalic.woff') format('woff')
-
-$font-family: 'Product Sans Regular', sans-serif
-$font-family-bold: 'Product Sans Bold', sans-serif
-$font-family-light: 'Product Sans Light Regular', sans-serif
-$font-family-medium: 'Product Sans Medium Regular', sans-serif
-$font-family-thin: 'Product Sans Thin Regular', sans-serif
-$font-family-black: 'Product Sans Black Regular', sans-serif
+$font-family: 'Readex Pro', sans-serif
 
 body
     font-family: $font-family
@@ -122,118 +28,42 @@ body
     margin: 0
 
 ::-webkit-scrollbar
-    width: 8px
+    width: 5px
+    height: 5px
     border-radius: 5px 5px 5px 5px
 
 /* Track */
 ::-webkit-scrollbar-track
-    background: $secondary-color
+    background: transparent
     border-radius: 5px 5px 5px 5px
 
 /* Handle */
 ::-webkit-scrollbar-thumb
-    background: $primary-color
+    background: #9F9F9F
     border-radius: 5px 5px 5px 5px
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover
-    background: $primary-color-hover
-
-.primary-color
-    color: $primary-color
-
-.primary-color-hover
-    color: $primary-color-hover
-
-.primary-color-active
-    color: $primary-color-active
-
-.secondary-color
-    color: $secondary-color
-
-.secondary-color-hover
-    color: $secondary-color-hover
-
-.secondary-color-active
-    color: $secondary-color-active
-
-.secondary-color-dark
-    color: $secondary-color-dark
-
-.warning-color
-    color: $warning-color
-
-.warning-color-hover
-    color: $warning-color-hover
-
-.danger-color
-    color: $danger-color
-
-.danger-color-hover
-    color: $danger-color-hover
-
-.bg-primary-color
-    background-color: $primary-color
-
-.bg-primary-color-hover
-    background-color: $primary-color-hover
-
-.bg-primary-color-active
-    background-color: $primary-color-active
-
-.bg-secondary-color
-    background-color: $secondary-color
-
-.bg-secondary-color-hover
-    background-color: $secondary-color-hover
-
-.bg-secondary-color-active
-    background-color: $secondary-color-active
-
-.bg-secondary-color-dark
-    background-color: $secondary-color-dark
-
-.bg-warning-color
-    background-color: $warning-color
-
-.bg-warning-color-hover
-    background-color: $warning-color-hover
-
-.bg-danger-color
-    background-color: $danger-color
-
-.bg-danger-color-hover
-    background-color: $danger-color-hover
-
-.border-primary-color
-    border-color: $primary-color
-
-.border-primary-color-hover
-    border-color: $primary-color-hover
-
-.border-primary-color-active
-    border-color: $primary-color-active
-
-.border-secondary-color
-    border-color: $secondary-color
-
-.border-secondary-color-hover
-    border-color: $secondary-color-hover
-
-.border-secondary-color-active
-    border-color: $secondary-color-active
-
-.border-secondary-color-dark
-    border-color: $secondary-color-dark
-
-.border-color
-    border-color: $border-color
+    background: #9F9F9F
 
 .text-color
-    color: $text-color
+    color: $text-color !important
+.text-secondary
+    color: $text-secondary !important
+.text-primary
+    color: $primary-color !important
 
+.bg-color
+    background-color: $bg-color !important
+.bg-primary
+    background-color: $primary-color !important
+.bg-secondary
+    background-color: $secondary-color !important
+
+@import 'sass-components/typography'
 @import 'sass-components/dialog'
 @import 'sass-components/buttons'
 @import 'sass-components/scaffolder'
 @import 'sass-components/inputs'
 @import 'sass-components/card'
+@import 'sass-components/tabs'

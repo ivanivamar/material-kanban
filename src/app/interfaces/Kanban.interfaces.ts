@@ -1,15 +1,16 @@
 export interface Task {
     id: string;
     title: string;
-    labels: Labels[];
+    labels: any[];
     description: string;
     checkboxes: Checkboxes[];
-    urgency: Urgency;
+    urgency: any;
     creationDate: any;
     modificationDate: any;
     completed: boolean;
     images: Images[];
     dueDate: Date;
+    dayDuration?: number;
 }
 
 export interface Images {
@@ -39,8 +40,11 @@ export interface Column {
 export interface Project {
     id?: string;
     title: string;
+    description?: string;
+    image?: string;
     columns: Column[];
     uid: string;
+    order: number;
 }
 export interface Urgency {
     title: string;
@@ -58,4 +62,12 @@ export interface Register {
 export interface Login {
     email: string;
     password: string;
+}
+
+export interface IDropdownOption {
+    value: any;
+    icon?: string;
+    iconColor?: string;
+    label: string;
+    selected?: boolean;
 }

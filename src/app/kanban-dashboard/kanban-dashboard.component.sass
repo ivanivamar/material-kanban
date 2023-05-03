@@ -1,7 +1,6 @@
 .panel
     padding: 16px
-    border-radius: 8px
-    background-color: white
+    border-radius: 16px
 
 .project-card
     cursor: pointer
@@ -9,6 +8,20 @@
 
     &:hover
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1)
+
+.project
+    .tasks-bar
+        height: 8px
+        border-radius: 25px 25px 25px 25px
+        background-color: #DBEAFE
+        width: 125px
+        position: relative
+
+        div
+            height: 100%
+            background: #2563EB
+            display: block
+            border-radius: 25px 25px 25px 25px
 
 .legend-item
     height: 8px

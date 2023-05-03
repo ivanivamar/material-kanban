@@ -1,25 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Checkboxes, Column, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
+import { Checkboxes, Column, IDropdownOption, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 import { from } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.sass'],
-    providers: [KanbanService, MessageService],
+    providers: [KanbanService, MessageService, ConfirmationService],
 })
 export class CardComponent implements OnInit {
     @ViewChild('fileInput') fileInput: any;
+    @ViewChild('addFiles') addFiles: any;
 
     @Input() task: Task = {} as Task;
     @Input() index: any = 0 as number;
     @Input() taskProjectId: string | undefined;
     @Input() columnId: string | undefined;
 
-    @Output() dragStart: EventEmitter<any> = new EventEmitter<any>();
-    @Output() dragEnd: EventEmitter<any> = new EventEmitter<any>();
     @Output() updateKanban: EventEmitter<any> = new EventEmitter<any>();
 
     timeouts: NodeJS.Timeout[] = [];
@@ -31,19 +31,19 @@ export class CardComponent implements OnInit {
     showImages = false;
     newCheckbox = '';
     selectedImage: any = '';
-    labelsList: Labels[] = [
-        { name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
-        { name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
-        { name: 'TRANSLATIONS', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
-        { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
+    labelsList: IDropdownOption[] = [
+        { label: 'Frontend', value: 'frontend' },
+        { label: 'TypeScript', value: 'ts' },
+        { label: 'Translations', value: 'translations' },
+        { label: 'Bugfix', value: 'bugfix' },
     ];
-    urgencyList: Urgency[] = [
-        { title: 'Low', code: 0, color: '#DBDBDE' },
-        { title: 'Normal', code: 1, color: '#2E7DFF' },
-        { title: 'High', code: 2, color: '#FDC33E' },
-        { title: 'Urgent', code: 3, color: '#FC6252' },
+    urgencyDropdownOptions: IDropdownOption[] = [
+        { label: 'Low', value: 0, icon: 'flag', iconColor: '#DBDBDE' },
+        { label: 'Normal', value: 1, icon: 'flag', iconColor: '#2E7DFF' },
+        { label: 'High', value: 2, icon: 'flag', iconColor: '#FDC33E' },
+        { label: 'Urgent', value: 3, icon: 'flag', iconColor: '#FC6252' },
     ];
-    selectedLabel: any = null;
+    selectedLabel: IDropdownOption = { label: '', value: null };
 
     showModalCheckboxes = true;
     showModalFiles = true;
@@ -51,7 +51,10 @@ export class CardComponent implements OnInit {
 
     constructor(
         private kanbanService: KanbanService,
-        private messageService: MessageService) { }
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService
+    ) {
+    }
 
     ngOnInit(): void {
         if (this.taskProjectId) {
@@ -125,8 +128,19 @@ export class CardComponent implements OnInit {
         this.timeouts.push(tO);
     }
 
-    async deleteTask(event?: any) {
+    confirmDelete(event?: any) {
         event.stopPropagation();
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete this task?',
+            target: event.target,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deleteTask();
+            },
+        });
+    }
+
+    async deleteTask() {
         // remove task from column
         this.project.columns.forEach((column: Column) => {
             column.tasks = column.tasks.filter((searchTask: any) => searchTask.id !== this.task.id);
@@ -139,6 +153,29 @@ export class CardComponent implements OnInit {
     }
 
     //#region Helpers
+    drop(event: CdkDragDrop<Checkboxes[]>, show: boolean) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex,
+            );
+        }
+
+        this.editTask(show);
+    }
+
+    playAudio(url: string, volume: number) {
+        const audio = new Audio();
+        audio.volume = volume;
+        audio.src = url;
+        audio.load();
+        audio.play();
+    }
+
     onLabelRemove(label: Labels) {
         this.task.labels = this.task.labels.filter(l => l.name !== label.name);
 
@@ -152,6 +189,11 @@ export class CardComponent implements OnInit {
         this.showAddTaskModal = false;
     }
 
+    fileInputClickInside(event: any) {
+        event.stopPropagation();
+        this.addFiles.nativeElement.click();
+    }
+
     showImage(event: any, image: any) {
         event.stopPropagation();
 
@@ -163,21 +205,24 @@ export class CardComponent implements OnInit {
     }
 
     onLabelSelect(event: any) {
+        let newLabel = this.labelsList.find(l => l.value === event);
         // push event.value to task
-        this.task.labels = [...this.task.labels, event.value];
-        event.value = null;
-        this.selectedLabel = null;
+        this.task.labels = [...this.task.labels, newLabel];
+        this.selectedLabel = { label: '', value: null };
 
         this.editTask(false);
     }
 
-    toggleTaskCompleted(event?: any, task?: Task) {
+    toggleTaskCompleted(event?: Event, task?: Task) {
         if (event) {
             event.stopPropagation();
+            event.preventDefault();
+
+            this.showAddTaskModal = false;
         }
         this.task.completed = !this.task.completed;
 
-        this.editTask(false);
+        this.editTask(event ? true : false);
     }
 
     deleteCheckbox(event?: any, checkbox?: Checkboxes) {
@@ -201,22 +246,6 @@ export class CardComponent implements OnInit {
 
     manageInlineCheckboxEdit(event: any) {
         event.stopPropagation();
-    }
-
-    cardDragStart() {
-        if (this.columnId) {
-            this.draggedTask = JSON.parse(JSON.stringify(this.task));
-            let data = {
-                task: this.draggedTask,
-                startColumnId: this.index
-            };
-
-            this.dragStart.emit(data);
-        }
-    }
-
-    cardDragEnd() {
-        this.dragEnd.emit();
     }
 
     showCheckbox(event: any, taskId: string) {

@@ -1,0 +1,31 @@
+<div class="textarea-container" [class.disabled]="disabled" [class.active]="isFocused || value !== ''"
+    [class.error]="error">
+    <div class="textarea-text-container gap-4 align-items-center justify-content-between">
+        <div class="flex gap-4 w-full">
+            <i class="material-symbols-rounded text-white" *ngIf="icon.length > 0">{{ icon }}</i>
+            <div class="flex flex-column gap-2 w-full pt-2">
+                <label class="floating-label">
+                    {{ placeholder }}
+                    <span class="required-asterisk" *ngIf="required">*</span>
+                </label>
+                <textarea #textAreaRef class="textarea" [(ngModel)]="value" (ngModelChange)="valueChange.emit(this.value)"
+                    name="{{ name }}" [disabled]="disabled" (focus)="onFocus()" (blur)="onBlur()"
+                    (ngModelChange)="verifyTextarea()" (input)="onInput(textAreaRef)"></textarea>
+            </div>
+        </div>
+        <div class="textarea-actions flex align-self-start" *ngIf="showClear && value.length !== 0">
+            <button class="icon-btn" (click)="clear(textAreaRef)">
+                <i class="material-symbols-rounded">close</i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="textarea-helpers" *ngIf="helperText.length > 0 || showCounter || maxLength > 0" [class.error]="error">
+    <span class="helper-text">{{ helperText }}</span>
+
+    <div class="counter-container">
+        <span class="counter-text" *ngIf="showCounter">{{ value.length }}</span>
+        <span class="counter-text" *ngIf="showCounter && maxLength > 0">/</span>
+        <span class="counter-text" *ngIf="maxLength > 0">{{ maxLength }}</span>
+    </div>
+</div>

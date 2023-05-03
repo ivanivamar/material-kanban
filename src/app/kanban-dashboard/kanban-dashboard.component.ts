@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ConfirmationService } from 'primeng/api';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-kanban-dashboard',
@@ -25,9 +26,8 @@ export class KanbanDashboardComponent implements OnInit {
     darkColorArray = ['#FFE8BC', '#E5C7F5', '#F8D4C7'];
     lightColorArray = ['#FFF9EB', '#F7F0FB', '#FFF2EE'];
     loading: boolean = false;
-    project = null;
-
     projectTitle: string = '';
+    projectDescription: string = '';
 
     data: any;
     options: any;
@@ -62,6 +62,11 @@ export class KanbanDashboardComponent implements OnInit {
             // filter projects by user uid
             this.projects = this.projects.filter((project: Project) => {
                 return project.uid === this.user.uid;
+            });
+
+            // order projects by order property
+            this.projects.sort((a: Project, b: Project) => {
+                return a.order - b.order;
             });
 
             this.loading = false;
@@ -104,50 +109,23 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     makeWeekTasksChart(projects: Project[]) {
-        let weekTasks = [0, 0, 0, 0, 0];
-        let lastWeekTasks = [0, 0, 0, 0, 0];
-
-        projects.forEach((project: Project) => {
-            project.columns.forEach((column: Column) => {
-                column.tasks.forEach((task: Task) => {
-                    let taskDate = new Date(new Date(task.creationDate).getFullYear(), new Date(task.creationDate).getMonth(), new Date(task.creationDate).getDate());
-
-                    let taskDay = taskDate.getDay();
-
-                    let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-                    let monday = this.getMonday(today);
-                    if (taskDate < monday) {
-                        lastWeekTasks[taskDay - 1]++;
-                    } else {
-                        weekTasks[taskDay - 1]++;
-                    }
-                });
-            });
-        });
-
-        // remove 0 values from the end of the array
-        weekTasks = weekTasks.filter((value) => value !== 0);
-        lastWeekTasks = lastWeekTasks.filter((value) => value !== 0);
-
         this.data = {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            labels: [],
             datasets: [
                 {
-                    label: 'Current Week',
-                    data: weekTasks,
-                    borderColor: '#1A73E8',
-                    fill: false,
-                    tension: 0.4,
-                },
-                {
-                    label: 'Previous Week',
-                    data: lastWeekTasks,
-                    borderColor: '#E8F0FE',
-                    fill: false,
-                    tension: 0.4,
-                },
+                    label: 'Projects Tasks',
+                    data: [],
+                    backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                    borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                    borderWidth: 1,
+                }
             ],
         };
+
+        projects.forEach((project: Project) => {
+            this.data.labels.push(project.title);
+            this.data.datasets[0].data.push(this.getTasksCount(project));
+        });
 
         this.options = {
             maintainAspectRatio: false,
@@ -172,7 +150,7 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     navigateToProject(project: Project) {
-        this.router.navigate(['/kanban'], {
+        this.router.navigate(['/projects/kanban'], {
             queryParams: { projectId: project.id },
         });
     }
@@ -181,16 +159,49 @@ export class KanbanDashboardComponent implements OnInit {
     async addProject() {
         let project: Project = {
             title: this.projectTitle,
-            columns: [],
+            description: this.projectDescription,
+            columns: [
+                {
+                    id: this.idGenerator(),
+                    title: 'To Do',
+                    tasks: [],
+                },
+                {
+                    id: this.idGenerator(),
+                    title: 'In Progress',
+                    tasks: [],
+                },
+                {
+                    id: this.idGenerator(),
+                    title: 'Completed',
+                    tasks: [],
+                },
+            ],
             uid: this.user.uid,
+            order: this.projects.length + 1,
         };
 
         this.kanbanService.addProject(project);
 
         this.showAddProjectModal = false;
         this.projectTitle = '';
+        this.projectDescription = '';
     }
     //#endregion
+
+    closeProjectModal() {
+        this.showAddProjectModal = false;
+        this.projectTitle = '';
+        this.projectDescription = '';
+    }
+
+    setDisabled(): boolean {
+        if (this.isEmpty(this.projectTitle)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     //#region Deleters
     confirmDeleteProject(event: any, projectId: string) {
@@ -227,10 +238,29 @@ export class KanbanDashboardComponent implements OnInit {
         return count;
     }
 
+    getTasksFromCompletedColumn(project: Project): number {
+        let count = 0;
+        project.columns.forEach((column: Column) => {
+            if (column.title === 'Completed') {
+                count += column.tasks.length;
+            }
+        });
+        return count;
+    }
+
     toDateTime(secs: any) {
         var t = new Date(1970, 0, 1); // Epoch
         t.setSeconds(secs);
         return t;
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
+
+        this.projects.forEach((project: Project, index: number) => {
+            project.order = index;
+            this.kanbanService.updateProject(project);
+        });
     }
 
     private idGenerator(): string {

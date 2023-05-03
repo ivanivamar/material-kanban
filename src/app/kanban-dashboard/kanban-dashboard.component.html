@@ -1,27 +1,39 @@
-<div class="grid h-full">
+<header class="flex align-items-center justify-content-between mb-2 p-3 pt-2 pb-2">
+    <h1 class="m-0 headline3 text-color font-regular">Projects</h1>
+</header>
+<div class="grid h-full grid-nogguter px-3 mt-2">
     <div class="col-12 lg:col-8">
-        <div class="flex align-items-center justify-content-between mb-1">
-            <div class="flex align-items-center">
-                <span class="material-symbols-rounded text-lg md:text-4xl mr-2 text-blue-600">overview_key</span>
-                <h1 class="m-0 text-lg md:text-3xl">Project List</h1>
+        <div class="flex flex-column" *ngIf="!loading">
+            <div class="card flex justify-content-between mb-3">
+                <span class="text-base line-height-4 text-color font-regular">Add Project</span>
+                <button class="btn filled-btn small-btn" (click)="showAddProjectModal = true">
+                    Add Project
+                </button>
             </div>
-
-            <button class="btn btn-primary" (click)="showAddProjectModal = true">
-                <span class="material-icons">add</span>
-                Project
-            </button>
-        </div>
-        <div class="flex flex-column" *ngIf="!loading && !project">
-            <div class="flex gap-2 md:gap-5 flex-column md:flex-row pb-3 mt-2 border-bottom-1 border-300">
+            <div cdkDropList class="flex flex-wrap gap-2 md:gap-5 flex-column md:flex-row">
                 <div class="project relative d-flex flex-row justify-content-between align-items-center gap-2"
                     *ngFor="let project of projects; let i = index">
-                    <div class="btn btn-primary p-2 pl-2 pr-5" (click)="navigateToProject(project)">
-                        <span class="material-symbols-rounded">view_kanban</span>
-                        {{project.title}}
+                    <div class="card" (click)="navigateToProject(project)">
+                        <header class="content-container flex-column">
+                            <span class="title">{{project.title}}</span>
+                            <span class="subtitle">{{project.description}}</span>
+                        </header>
+                        <div class="flex flex-column mt-3">
+                            <span class="text-color">Tasks:</span>
+                            <div class="flex align-items-center gap-2 p-1">
+                                <span class="text-color">0</span>
+                                <div class="tasks-bar w-100">
+                                    <div class="tasks-bar-progress"
+                                        [style]="{ width: (getTasksFromCompletedColumn(project) / getTasksCount(project)) * 100 + '%' }">
+                                    </div>
+                                </div>
+                                <span class="text-color">{{ getTasksCount(project) }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="btn btn-icon text absolute" style="top:4px;right:4px;z-index:1111"
+                    <div class="icon-btn text-btn absolute" style="top:4px;right:4px;z-index:1"
                         (click)="confirmDeleteProject($event, project.id)">
-                        <span class="material-symbols-rounded text-white text-base">close</span>
+                        <i class="material-symbols-rounded">close</i>
                     </div>
                 </div>
             </div>
@@ -33,40 +45,35 @@
                         class="flex flex-column md:flex-row align-items-left gap-2 md:align-items-center justify-content-start md:justify-content-between mb-3">
                         <span class="font-bold text-lg">Total Tasks</span>
                         <div class="flex flex-row align-items-center gap-3 legend">
-                            <div class="flex flex-row align-items-center gap-2">
-                                <div class="legend-item" style="background: #1A73E8;"></div>
-                                <span class="text-sm font-bold">Current Week</span>
-                            </div>
-                            <div class="flex flex-row align-items-center gap-2">
-                                <div class="legend-item" style="background: #E8F0FE;"></div>
-                                <span class="text-sm">Past Week</span>
+                            <div class="flex flex-row align-items-center gap-2" *ngFor="let project of projects">
+                                <div class="legend-item" [style]="{ 'background-color': project.color }"></div>
+                                <span class="text-sm font-bold">{{ project.title }}</span>
                             </div>
                         </div>
                     </div>
-                    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+                    <p-chart type="bar" [data]="data" [options]="options"></p-chart>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-12 lg:col-4 h-full">
-        <div class="panel p-0 md:p-3 h-full" style="overflow-y: auto">
-            <span class="font-bold text-lg block p-3 md:p-0 pb-0">Recent Work Progress</span>
+        <div class="panel p-0 pt-0 md:p-3 md:pt-0 h-full" style="overflow-y: auto">
+            <span class="font-medium text-lg block p-3 mb-2 md:p-0 block">Recent Work Progress</span>
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">
                 <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
-                    <div class="flex align-items-center gap-3 p-2 cursor-pointer"
-                        (click)="showTasksFromProject = currentWeekTask.project"
-                        style="border-bottom: 1px solid #E1E3E8">
-                        <span class="material-icons text-500"
+                    <div class="card flex align-items-center gap-3 p-2 cursor-pointer mt-1"
+                        (click)="showTasksFromProject = currentWeekTask.project">
+                        <span class="material-symbols-rounded text-500"
                             *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
-                        <span class="material-icons text-500"
+                        <span class="material-symbols-rounded text-500"
                             *ngIf="showTasksFromProject !== currentWeekTask.project">keyboard_arrow_up</span>
                         <span class="font-bold">{{ currentWeekTask.project }}</span>
                         <span class="text-500">{{ currentWeekTask.tasks.length }} tasks</span>
                     </div>
 
                     <div *ngIf="showTasksFromProject === currentWeekTask.project">
-                        <app-card class="col-12 p-0 md:p-2" *ngFor="let taskContainer of currentWeekTask.tasks"
+                        <app-card class="col-12 p-0" *ngFor="let taskContainer of currentWeekTask.tasks"
                             [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
                         </app-card>
                     </div>
@@ -78,33 +85,29 @@
 </div>
 
 <div class="dialog-container" *ngIf="showAddProjectModal">
-    <div class="dialog">
+    <div class="overlay" (click)="closeProjectModal()"></div>
+    <div class="dialog dialog-sm">
         <div class="dialog-header">
-            <span class="dialog-title">Add Project</span>
-            <button class="btn btn-icon" (click)="showAddProjectModal = false">
-                <span class="material-icons">
-                    close
-                </span>
-            </button>
+            <header class="flex align-items-center justify-content-between">
+                <div class="flex align-items-center gap-2">
+                    <span class="dialog-title">Add Project</span>
+                </div>
+            </header>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-2">
-                <label for="title">Project Title</label>
-                <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="projectTitle">
+                <mat-input class="w-100" [(value)]="projectTitle" [name]="'title'" [type]="'text'"
+                    [placeholder]="'Project Title'" [required]="true"></mat-input>
+                <mat-textarea class="w-100" [(value)]="projectDescription" [name]="'description'"
+                    [placeholder]="'Project Description'"></mat-textarea>
             </div>
         </div>
         <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" (click)="showAddProjectModal = false">
-                <span class="material-icons">
-                    close
-                </span>
-                Cancel
+            <button type="button" ripple class="btn tonal-btn small-btn" (click)="closeProjectModal()">
+                Close
             </button>
-            <button type="button" class="btn btn-primary" (click)="addProject()">
-                <span class="material-icons">
-                    add
-                </span>
-                Project
+            <button type="button" ripple class="btn tonal-btn small-btn" (click)="addProject()" [disabled]="setDisabled()">
+                Save
             </button>
         </div>
     </div>

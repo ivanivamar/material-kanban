@@ -12,47 +12,47 @@
     display: flex
     align-items: center
     gap: 12px !important
+    border-top: 0
 
     .checkbox-input
         border: 0
         background-color: transparent
         outline: none
         cursor: text
-        color: #252A48
+        color: #ffffff
         padding: 0
+        width: 80%
 
         &::placeholder
-            color: #8A9EB4
+            color: #ffffff
 
             &:hover
-                color: #252A48
+                color: #ffffff
                 text-decoration: underline
 
     &:hover
-        background-color: #F4F6F8
+        background-color: #383837
 
-        .btn
+        .icon-btn
             opacity: 1 !important
 
 .content
     padding: 24px
 
 .details
-    background-color: #f9f9fa
 
     .section
-        border-bottom: 2px solid #F0F1F4
-        padding: 24px
+        padding: 12px 24px
 
         .title
             font-size: 14px
-            color: #8A9EB4
+            color: #817C82
             margin-bottom: 12px
             display: block
 
         .title-dark
             font-size: 14px
-            color: #252A48
+            color: #4A464E
 
 // mobile
 @media screen and (max-width: 768px)
@@ -64,11 +64,22 @@
         .urgency
             left: -1px
 
-::ng-deep .p-chip
+::ng-deep .p-chip,
+::ng-deep p-chip
     padding: 0
-    background: transparent
+    background: transparent !important
 
 .label
-    padding: 8px 12px
-    border-radius: 4px
-    font-size: 14px
+    padding: 4px 8px
+    border-radius: 6px
+    font-family: 'Readex Pro'
+    font-style: normal
+    font-weight: 500
+    font-size: 12px
+    line-height: 16px
+    display: flex
+    align-items: center
+    border: 0
+    background-color: #373737 !important
+    color: #ffffff !important
+    text-transform: capitalize

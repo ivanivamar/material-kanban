@@ -1,35 +1,37 @@
 <div class="h-full w-full flex align-items-center justify-content-center">
     <div class="page-dialog border-1 border-200">
-        <div class="page-dialog__title border-bottom-1 pb-3 border-color">
+        <div class="page-dialog__title border-bottom-1 pb-3 border-300">
             <span class="title font-medium text-color">Login</span>
-            <button class="btn btn-icon" routerLink="/auth/register">
+            <button class="icon-btn outlined-btn" routerLink="/auth/register">
                 <span class="material-symbols-rounded">person_add</span>
             </button>
         </div>
 
         <div class="page-dialog__content">
             <div class="form-group mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email"
-                    [(ngModel)]="loginForm.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                <mat-input [(value)]="loginForm.email" [name]="'email'" [type]="'email'"
+                    [placeholder]="'Enter email...'" [required]="true"></mat-input>
             </div>
 
             <div class="form-group mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password"
-                    [(ngModel)]="loginForm.password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required>
+                <mat-input class="w-100" [(value)]="loginForm.password" [name]="'password'" [type]="'password'"
+                    [placeholder]="'Enter password...'" [required]="true"></mat-input>
             </div>
 
             <div class="form-group mb-3">
-                <button class="btn btn-secondary" (click)="loginWithGoogle()">
-                    <img class="h-1 w-1" src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google Logo">
+                <button class="btn tonal-btn" (click)="loginWithGoogle()">
+                    <img class="h-1 w-1 mr-2" src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                        alt="Google Logo">
                     Login with Google
                 </button>
             </div>
         </div>
 
-        <div class="page-dialog__actions border-top-1 pt-3 border-color">
-            <button class="btn btn-primary" (click)="login()">Register</button>
+        <div class="page-dialog__actions border-top-1 pt-3 border-300">
+            <button class="btn filled-btn" (click)="login()">
+                <i class="material-symbols-rounded">login</i>
+                Register
+            </button>
         </div>
     </div>
 </div>
