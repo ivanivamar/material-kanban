@@ -1,29 +1,45 @@
-$bg-color: #241F1B
-$bg-color-secondary: #2C2B29
-$primary-color: #4CC2FF
-$primary-color-hover: #48B2E9
-$primary-color-active: #45A4D5
+$bg-color: #FFFFFF
+$bg-color-secondary: #F7F7F7
 
-$secondary-color: #373737
-$secondary-color-hover: #434343
-$secondary-color-active: #383837
-$secondary-color-dark: #2C2823
+$primary-color: #0085FF
+$primary-color-hover: #339DFF
+$primary-color-active: #1272CC
+$border-primary-color: #CCE7FF
+$background-primary-color: #E5F3FF
 
-$warning-color: #FFB900
-$warning-color-hover: #FFC94D
-$danger-color: #F25022
-$danger-color-hover: #F4714B
+$content-1: #1C1C1C
+$content-2: #585757
+$content-3: #969696
+$border-secondary-color: #E8E8E8
+$background-secondary-color: #F7F7F7
 
-$border-color: #1E1D1B
-$border-primary-color: #4CC2FF
-$text-color: #ffffff
-$text-secondary: #85C8D8
+$warning-color: #FACC15
+$warning-color-hover: #FBD644
+$warning-color-active: #C8A311
+$border-warning-color: #FEF5D0
+$background-warning-color: #FFFAE8
+$danger-color: #E92C2C
+$danger-color-hover: #ED5656
+$danger-color-active: #BA2323
+$border-danger-color: #FBD5D5
+$background-danger-color: #FFECEC
+$success-color: #00BA34
+$success-color-hover: #33C85D
+$success-color-active: #00952A
+$border-success-color: #CCF1D6
+$background-success-color: #E5F8EB
 
-$font-family: 'Readex Pro', sans-serif
+$border-color: #E8E8E8
+$border-primary-color: #CCE7FF
+$text-color: #1C1C1C
+$text-secondary: #969696
+$border-radius: 8px
+
+$font-family: 'Inter', sans-serif
 
 body
     font-family: $font-family
-    background-color: $bg-color
+    background-color: $bg-color-secondary
     color: $text-color
     margin: 0
 
@@ -58,7 +74,25 @@ body
 .bg-primary
     background-color: $primary-color !important
 .bg-secondary
-    background-color: $secondary-color !important
+    background-color: $bg-color-secondary !important
+
+.border
+    border: 1px solid $border-color !important
+
+.border-primary
+    border: 1px solid $primary-color !important
+
+.border-secondary
+    border: 1px solid $border-secondary-color !important
+
+.border-warning
+    border: 1px solid $warning-color !important
+
+.border-danger
+    border: 1px solid $danger-color !important
+
+.rounded
+    border-radius: $border-radius !important
 
 @import 'sass-components/typography'
 @import 'sass-components/dialog'
@@ -68,3 +102,5 @@ body
 @import 'sass-components/inputs'
 @import 'sass-components/card'
 @import 'sass-components/tabs'
+@import 'sass-components/tables'
+@import 'sass-components/navigation'

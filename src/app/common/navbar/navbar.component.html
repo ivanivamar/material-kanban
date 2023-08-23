@@ -1,5 +1,5 @@
-<nav>
-    <!-- <div class="nav-breadcrumbs">
+<div class="navbar">
+    <div class="nav-breadcrumbs">
         <a class="nav-breadcrumbs__link" routerLink="" *ngIf="user">Your Projects</a>
         <a class="nav-breadcrumbs__link" routerLink="/auth/login" *ngIf="!user">Login</a>
         <span class="nav-breadcrumbs__separator" *ngIf="!user">/</span>
@@ -9,11 +9,6 @@
             <span class="material-symbols-rounded mr-2 text-base">view_kanban</span>
             {{ projectName }}
         </a>
-    </div> -->
-
-    <div class="flex align-items-center search-container" *ngIf="user">
-        <i class="material-symbols-rounded text-secondary">search</i>
-        <input type="text" class="nav-search text-secondary font-medium" placeholder="What are you looking for?">
     </div>
     <h2 class="nav-title text-lg" *ngIf="!user">Project Manager</h2>
     <div class="profile-dropdown" *ngIf="user" (click)="profileExpanded = !profileExpanded"
@@ -21,7 +16,7 @@
         <img class="border-circle" style="width: 36px;" [src]="userImage" alt="User Avatar" *ngIf="userImage">
 
         <div class="profile-dropdown__content">
-            <div class="profile-info gap-3 align-items-baseline">
+            <div class="profile-info gap-3 align-items-start">
                 <img class="border-circle" style="width: 46px;" [src]="userImage" alt="User Avatar" *ngIf="userImage">
                 <div class="flex flex-column gap-2">
                     <span class="font-regular text-color">{{ user?.displayName }}</span>
@@ -36,4 +31,4 @@
         </div>
     </div>
     <div class="overlay" *ngIf="profileExpanded" (click)="profileExpanded = !profileExpanded"></div>
-</nav>
+</div>

@@ -1,3 +1,13 @@
+export interface Organization {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    uid: string;
+    users: any[];
+    projects: Project[];
+}
+
 export interface Task {
     id: string;
     title: string;
@@ -45,6 +55,7 @@ export interface Project {
     columns: Column[];
     uid: string;
     order: number;
+    completed?: boolean;
 }
 export interface Urgency {
     title: string;

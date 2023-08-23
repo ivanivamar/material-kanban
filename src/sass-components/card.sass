@@ -1,158 +1,27 @@
 .card
-    border-radius: 6px
-    padding: 12px
-    position: relative
+    background-color: $bg-color
+    border-radius: $border-radius
+    border: 2px solid $border-color
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
+    display: flex
+    flex-direction: column
+    padding: 16px
     cursor: pointer
-    background-color: $bg-color-secondary
-    border: 1px solid $border-color
-    transition: all 0.2s cubic-bezier(0, 0, 0.2, 1)
+    transition: all 0.2s ease-in-out
 
-    &:active
-        cursor: grabbing
-        background-color: #292724
-        border-color: #32302D
+    &:hover,
+    &.active
+        box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
+        border-color: $primary-color
+        border-width: 2px
 
-    &:hover
-        background-color: #343230
-        border-color: #343230
-        &:active
-            cursor: grabbing
-            background-color: #292724
-            border-color: #32302D
-
-    header
+    .card-header
         display: flex
-        justify-content: space-between
-        align-items: baseline
-        margin-bottom: 0 !important
-        display: flex
-        gap: 4px
+        align-items: center
 
         .title
             color: $text-color
-            font-size: 18px
-            font-weight: 600
-            font-family: $font-family
-
-        .sub-title
             font-size: 16px
-            font-weight: 400
-            font-family: $font-family
-            letter-spacing: 0.5px
+            font-style: normal
+            font-weight: 500
             line-height: 24px
-            color: $text-secondary
-
-        .date-container
-            display: flex
-            align-items: center
-            gap: 8px
-            color: rgba(0, 0, 0, 0.18)
-
-            .date
-                font-size: 14px
-                color: $text-secondary
-
-            .time-container
-                display: flex
-                align-items: center
-                gap: 4px
-
-                .time-icon
-                    font-size: 14px
-                    color: $text-color
-
-                .time
-                    font-size: 14px
-                    color: $text-secondary
-
-    .body
-        margin-top: 12px
-        margin-left: 48px
-
-        .description
-            font-size: 14px
-            color: $text-secondary
-            display: block
-            text-overflow: ellipsis
-            overflow: hidden
-            max-height: 200px
-            overflow-wrap: anywhere
-
-            display: -webkit-box
-            -webkit-line-clamp: 3
-            -webkit-box-orient: vertical
-
-    .footer
-        display: flex
-        justify-content: space-between
-        width: 100%
-        align-items: center
-        margin-top: 10px
-        padding-left: 24px
-        gap: 16px
-        z-index: 111111
-
-        .label-container
-            display: flex
-            align-items: center
-            flex-wrap: wrap
-            gap: 8px
-
-            .label
-                padding: 4px 8px
-                border-radius: 6px
-                font-family: 'Readex Pro'
-                font-style: normal
-                font-weight: 500
-                font-size: 12px
-                line-height: 16px
-                display: flex
-                align-items: center
-                border: 0
-                background-color: #2E2D2C
-                color: $text-color
-                text-transform: capitalize
-
-        button:hover
-            span
-                color: $primary-color
-
-    .checkbox-footer
-        display: flex
-        flex-direction: column
-        margin-top: 20px
-
-        .checkbox
-            padding: 8px 0
-
-            .checkbox-input
-                border: 0
-                background-color: transparent
-                outline: none
-                cursor: text
-                color: $text-color
-
-                &::placeholder
-                    color: $text-color
-
-                &:hover
-                    color: $text-color
-                    text-decoration: underline
-
-            .icon-btn
-                height: 8px
-                width: 8px
-
-.cdk-drag-placeholder
-    opacity: .3
-
-.cdk-drag-animating
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
-
-.column.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder)
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
-
-.cdk-drag-preview .card
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),0 8px 10px 1px rgba(0, 0, 0, 0.14),0 3px 14px 2px rgba(0, 0, 0, 0.12)
-    transform: rotate(-5deg)
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)

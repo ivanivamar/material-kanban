@@ -9,6 +9,7 @@ export class MatInputComponent {
     @ViewChild('inputRef') inputRef!: ElementRef;
 
     @Input() value: any = null;
+    @Input() label: string = '';
     @Input() placeholder: string = '';
     @Input() disabled: boolean = false;
     @Input() icon: string = '';

@@ -5,9 +5,10 @@
     position: relative
 
     .menu-content
-        border-radius: 6px
-        background-color: #2E2E2E
-        border: 1px solid #1E1E1E
+        border-radius: $border-radius
+        background-color: $bg-color
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.08), 0px 1px 18px 0px rgba(0, 0, 0, 0.06), 0px 3px 5px 0px rgba(0, 0, 0, 0.10)
+        border: 1px solid $border-secondary-color
         position: absolute
         top: 105%
         right: 0
@@ -16,12 +17,12 @@
         height: auto
         display: none
         flex-direction: column
-        gap: 4px
         transition: all 0.2s ease-in-out
+        gap: 4px
 
         .menu-item
             padding: 6px 12px
-            color: #ffffff
+            color: $text-color
             font-size: 14px
             font-weight: 300
             line-height: 20px
@@ -39,23 +40,11 @@
             .material-symbols-rounded
                 font-size: 18px
 
-            &::before
-                content: ''
-                position: absolute
-                top: 50%
-                transform: translateY(-50%)
-                left: 0px
-                height: 0
-                width: 4px
-                border-radius: 25px 25px 25px 25px
-                background-color: #4CC2FF
-                transition: height 0.2s ease
-
             &:hover
-                background-color: #3A3A3A
+                background-color: $background-primary-color
 
-            &:active
-                background-color: #323231
+            &.active
+                background-color: $background-primary-color
 
     &.active
         .menu-content

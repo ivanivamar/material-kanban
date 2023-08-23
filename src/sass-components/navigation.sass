@@ -1,0 +1,197 @@
+nav
+    background-color: $bg-color
+    height: 100%
+    position: fixed
+    top: 0
+    left: 0
+    width: 72px
+    z-index: 10
+    border-right: 2px solid #F1F1F1
+
+    header
+        margin-bottom: 0
+        display: flex
+        align-items: center
+
+    .section
+        padding: 16px
+        padding-top: 0
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        gap: 8px
+
+.link-content
+    text-decoration: none
+    background-color: transparent
+    color: #969696
+    font-weight: 500
+    padding: 12px
+    font-size: 14px
+    line-height: 20px
+    letter-spacing: 0.1px
+    display: flex
+    flex-direction: column
+    align-items: center
+    transition: background-color 0.2s ease
+    font-family: 'Readex Pro', sans-serif
+    justify-content: center
+    min-height: 36px
+    position: relative
+    height: 48px
+    width: 48px
+    border-radius: $border-radius
+
+    .material-symbols-rounded
+        font-size: 24px
+
+    &:hover
+        background-color: $background-primary-color
+        color: $primary-color
+
+a.active .link-content
+    background-color: $background-primary-color
+    color: $primary-color
+
+// mobile
+@media screen and (max-width: 768px)
+    nav
+        width: 75px
+
+        header
+            display: none
+
+        .section
+            padding: 16px
+
+            .section-title
+                padding-left: 0
+
+.navbar
+    background-color: $background-secondary-color
+    border-bottom: 1px solid #F1F1F1
+    padding: 0 32px
+    height: 64px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    width: 100%
+    z-index: 99
+
+    .nav-breadcrumbs
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        gap: 12px
+
+        .nav-breadcrumbs__link
+            font-size: 14px
+            color: #1a1a1a
+            text-decoration: none
+            display: flex
+            align-items: center
+            border-bottom: 1px solid transparent
+
+            i
+                font-size: 10px
+                color: #1a1a1a
+
+            &:hover
+                border-bottom: 1px solid #1a1a1a
+
+        .nav-breadcrumbs__separator
+            font-size: 18px
+            color: #1a1a1a
+
+    .search-container
+        gap: 8px
+
+        i
+            font-size: 20px
+
+        input
+            border: 0
+            border-radius: 0
+            font-size: 16px
+            padding: 0
+
+            &::placeholder
+                color: #B5B7BE
+                font-size: 16px
+
+    .profile-dropdown
+        display: flex
+        align-items: center
+        justify-content: flex-end
+        border-radius: 50%
+        cursor: pointer
+        padding: 4px
+        transition: background-color 0.2s ease-in-out
+        position: relative
+
+        .profile-dropdown__content
+            position: absolute
+            top: 100%
+            width: 350px
+            right: 0
+            background-color: #F3F6FC
+            border-radius: 28px
+            box-shadow: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3)
+            overflow-x: auto
+            display: none
+            z-index: 999999
+
+            .profile-info
+                display: flex
+                align-items: center
+                gap: 12px
+                padding: 12px 16px
+                font-size: 14px
+                margin: 8px 8px 0
+                border-radius: 28px
+                background-color: white
+                padding-bottom: 20px
+
+            .profile-dropdown__item
+                display: flex
+                align-items: center
+                text-decoration: none
+                padding: 0 23px 0 39px
+
+                i
+                    font-size: 20px
+                    padding: 11px 4px
+                    width: 32px
+
+                span
+                    margin-left: 18px
+
+                &:hover
+                    background-color: #E0E9F8
+
+        &:hover
+            background-color: #F5F7F9
+
+        &.expanded
+            .profile-dropdown__content
+                display: block
+
+.overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0,0,0,0.5)
+    z-index: 9999
+    cursor: pointer
+
+// mobile
+@media screen and (max-width: 768px)
+    nav
+        margin-left: 75px
+        padding: 16px
+        overflow: hidden
+        left: 0
+        width: calc(100% - 75px)

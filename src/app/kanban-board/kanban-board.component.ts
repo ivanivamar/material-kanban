@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-kanban-board',
@@ -13,12 +14,15 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class KanbanBoardComponent implements OnInit {
     ProjectTabs = ProjectTabs;
+    searchTerm: string = '';
     currentTab: ProjectTabs = ProjectTabs.Kanban;
 
     projects: any[] = [];
     project: Project = {} as Project;
     projectId: string = '';
     loading: boolean = false;
+
+    user: any;
 
     showAddColumnModal: boolean = false;
     columnTitle: string = '';
@@ -49,7 +53,8 @@ export class KanbanBoardComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private kanbanService: KanbanService) {
+        private kanbanService: KanbanService,
+        private authService: AuthService,) {
     }
 
     ngOnInit(): void {
@@ -68,7 +73,31 @@ export class KanbanBoardComponent implements OnInit {
                         console.log(this.project);
                     }, 200);
                 });
+
+                // check if user is logged in
+                this.authService.isLoggedIn().then((user: any) => {
+                    this.user = user;
+                });
+                from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
+                    this.projects = projects;
+
+                    // filter projects by user uid
+                    this.projects = this.projects.filter((project: Project) => {
+                        return project.uid === this.user.uid;
+                    });
+
+                    // order projects by order property
+                    this.projects.sort((a: Project, b: Project) => {
+                        return a.order - b.order;
+                    });
+                });
             }
+        });
+    }
+
+    navigateToProject(project: Project) {
+        this.router.navigate(['/projects/kanban'], {
+            queryParams: { projectId: project.id },
         });
     }
 

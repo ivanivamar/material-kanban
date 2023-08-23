@@ -1,122 +1,161 @@
-<header class="flex align-items-center mb-2 p-0 py-2 mx-4">
-    <button class="btn text-btn small-btn mr-2" routerLink="">
-        <i class="material-symbols-rounded text-lg">
-            arrow_back
-        </i>
-    </button>
-    <h1 class="m-0 headline3 text-color font-regular">
-        Projects
-        <i class="material-symbols-rounded text-2xl">
-            chevron_right
-        </i>
-        {{ project.title }}
-    </h1>
-</header>
-
-<div *ngIf="!loading">
-    <div class="tabs-container my-2 mx-4">
-        <div (click)="currentTab = ProjectTabs.Kanban" class="tab" [class.active]="currentTab === ProjectTabs.Kanban">
-            <i class="material-symbols-rounded">view_kanban</i>
+<div class="grid grid-nogutter">
+    <div class="col-0 md:col-3 xl:col-2 hidden md:flex flex-column p-3 gap-3">
+        <div class="flex align-items-center gap-2">
+            <span class="subhead1">Projects List</span>
         </div>
-        <div class="tab" (click)="currentTab = ProjectTabs.Timeline"
-            [class.active]="currentTab === ProjectTabs.Timeline">
-            <i class="material-symbols-rounded">calendar_today</i>
-        </div>
-    </div>
+        <!-- Search projects -->
+        {{searchTerm}}
+        <mat-input [placeholder]="'Search...'" [(value)]="searchTerm"></mat-input>
+        <div class="overflow-y-auto flex flex-column gap-3" style="height: auto; max-height: 700px;">
+            <div class="card"
+                [class.hidden]="searchTerm !== null && searchTerm !== '' && !project.title.toLowerCase().includes(searchTerm.toLowerCase())"
+                [class.active]="projectId === project.id" *ngFor="let project of projects"
+                (click)="navigateToProject(project)">
+                <div class="card-header">
+                    <div class="title">
+                        {{ project.title }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="card-body flex align-items-center justify-content-between">
+                    <span class="fw-bold text-sm">
+                        Total Tasks
+                    </span>
 
-    <div [ngSwitch]="currentTab" class="px-3">
-        <div *ngSwitchCase="ProjectTabs.Kanban">
-            <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter gap-5 h-full"
-                *ngIf="project.columns.length > 0">
-                <!-- COLUMNS -->
-                <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 p-2"
-                    *ngFor="let column of project.columns; let i = index" [cdkDropListData]="column.tasks"
-                    (cdkDropListDropped)="drop($event)">
-                    <header class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
-                        <div class="left-container">
-                            <button class="btn text-btn small-btn" (click)="addTask(column.id)">
-                                <span class="material-symbols-rounded">add</span>
-                            </button>
-                            <span class="title text-color">{{ column.title }}</span>
-                            <span class="task-count">{{ column.tasks.length}}</span>
-                        </div>
-                    </header>
-                    <div class="dropzone">
-                        <i class="material-symbols-rounded text-2xl">arrow_drop_down_circle</i>
-                    </div>
-                    <!-- CARDS -->
-                    <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto" *ngIf="column.tasks.length > 0">
-                        <app-card class="col-12 drag-box" *ngFor="let task of column.tasks" [columnId]="column.id"
-                            [taskProjectId]="projectId" [task]="task" [index]="i" (updateKanban)="updateKanban()">
-                        </app-card>
-                    </div>
+                    <span class="fw-regular text-secondary">
+                        {{ project.columns[0].tasks.length + project.columns[1].tasks.length +
+                        project.columns[2].tasks.length }}
+                    </span>
                 </div>
             </div>
         </div>
-        <div *ngSwitchCase="ProjectTabs.Timeline" class="h-full">
-            <app-kanban-timeline [projectId]="projectId" class="h-full"></app-kanban-timeline>
-        </div>
     </div>
-</div>
+    <div class="col-12  md:col-9 xl:col-10 bg-color shadow-1 rounded">
+        <header class="flex align-items-center mb-2 p-0 py-2 mx-4">
+            <button class="btn text-btn small-btn mr-2" routerLink="">
+                <i class="material-symbols-rounded text-lg">
+                    arrow_back
+                </i>
+            </button>
+            <h1 class="m-0 headline3 text-color font-regular">
+                Projects
+                <i class="material-symbols-rounded text-2xl">
+                    chevron_right
+                </i>
+                {{ project.title }}
+            </h1>
+        </header>
 
-<div class="dialog-container" *ngIf="showEditColumnModal">
-    <div class="overlay" (click)="showEditColumnModal = false; columnEditTitle = ''"></div>
-    <div class="dialog">
-        <div class="dialog-header">
-            <header>
-                <button class="btn btn-icon" (click)="showEditColumnModal = false">
-                    <span class="material-symbols-rounded">
-                        close
-                    </span>
-                </button>
-                <span class="dialog-title">Edit Column</span>
-            </header>
-        </div>
-        <div class="dialog-content">
-            <div class="flex flex-column gap-2">
-                <label for="title">Column Title</label>
-                <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnEditTitle">
+        <div *ngIf="!loading">
+            <div class="tabs-container my-2 mx-4">
+                <div (click)="currentTab = ProjectTabs.Kanban" class="tab"
+                    [class.active]="currentTab === ProjectTabs.Kanban">
+                    <i class="material-symbols-rounded">view_kanban</i>
+                </div>
+                <div class="tab" (click)="currentTab = ProjectTabs.Timeline"
+                    [class.active]="currentTab === ProjectTabs.Timeline">
+                    <i class="material-symbols-rounded">calendar_today</i>
+                </div>
+            </div>
+
+            <div [ngSwitch]="currentTab" class="px-3">
+                <div *ngSwitchCase="ProjectTabs.Kanban">
+                    <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter gap-5 h-full"
+                        *ngIf="project.columns.length > 0">
+                        <!-- COLUMNS -->
+                        <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 p-2"
+                            *ngFor="let column of project.columns; let i = index" [cdkDropListData]="column.tasks"
+                            (cdkDropListDropped)="drop($event)">
+                            <header
+                                class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
+                                <div class="left-container">
+                                    <button class="btn text-btn small-btn" (click)="addTask(column.id)">
+                                        <span class="material-symbols-rounded">add</span>
+                                    </button>
+                                    <span class="title text-color">{{ column.title }}</span>
+                                    <span class="task-count">{{ column.tasks.length}}</span>
+                                </div>
+                            </header>
+                            <div class="dropzone">
+                                <i class="material-symbols-rounded text-2xl">arrow_drop_down_circle</i>
+                            </div>
+                            <!-- CARDS -->
+                            <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto"
+                                *ngIf="column.tasks.length > 0">
+                                <app-card class="col-12 drag-box" *ngFor="let task of column.tasks"
+                                    [columnId]="column.id" [taskProjectId]="projectId" [task]="task" [index]="i"
+                                    (updateKanban)="updateKanban()">
+                                </app-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="ProjectTabs.Timeline" class="h-full">
+                    <app-kanban-timeline [projectId]="projectId" class="h-full"></app-kanban-timeline>
+                </div>
             </div>
         </div>
-        <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" (click)="showEditColumnModal = false">
-                <span class="material-symbols-rounded">close</span>
-                Cancel
-            </button>
-            <button type="button" class="btn btn-primary" (click)="editColumn()">
-                <span class="material-symbols-rounded">edit</span>
-                Column
-            </button>
-        </div>
-    </div>
-</div>
 
-<div class="dialog-container" *ngIf="showAddColumnModal">
-    <div class="overlay" (click)="showAddColumnModal = false; columnTitle = ''"></div>
-    <div class="dialog">
-        <div class="dialog-header">
-            <span class="dialog-title">Add Column</span>
-            <button class="btn btn-icon" (click)="showAddColumnModal = false">
-                <span class="material-symbols-rounded">
-                    close
-                </span>
-            </button>
-        </div>
-        <div class="dialog-content">
-            <div class="flex flex-column gap-2">
-                <label for="title">Column Title</label>
-                <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnTitle">
+        <div class="dialog-container" *ngIf="showEditColumnModal">
+            <div class="overlay" (click)="showEditColumnModal = false; columnEditTitle = ''"></div>
+            <div class="dialog">
+                <div class="dialog-header">
+                    <header>
+                        <button class="btn btn-icon" (click)="showEditColumnModal = false">
+                            <span class="material-symbols-rounded">
+                                close
+                            </span>
+                        </button>
+                        <span class="dialog-title">Edit Column</span>
+                    </header>
+                </div>
+                <div class="dialog-content">
+                    <div class="flex flex-column gap-2">
+                        <label for="title">Column Title</label>
+                        <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnEditTitle">
+                    </div>
+                </div>
+                <div class="dialog-footer">
+                    <button type="button" class="btn btn-secondary" (click)="showEditColumnModal = false">
+                        <span class="material-symbols-rounded">close</span>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="editColumn()">
+                        <span class="material-symbols-rounded">edit</span>
+                        Column
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" (click)="showAddColumnModal = false">
-                <span class="material-symbols-rounded">close</span>
-                Cancel
-            </button>
-            <button type="button" class="btn btn-primary" (click)="addColumn()">
-                <span class="material-symbols-rounded">add</span>
-                Column
-            </button>
+
+        <div class="dialog-container" *ngIf="showAddColumnModal">
+            <div class="overlay" (click)="showAddColumnModal = false; columnTitle = ''"></div>
+            <div class="dialog">
+                <div class="dialog-header">
+                    <span class="dialog-title">Add Column</span>
+                    <button class="btn btn-icon" (click)="showAddColumnModal = false">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+                <div class="dialog-content">
+                    <div class="flex flex-column gap-2">
+                        <label for="title">Column Title</label>
+                        <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnTitle">
+                    </div>
+                </div>
+                <div class="dialog-footer">
+                    <button type="button" class="btn btn-secondary" (click)="showAddColumnModal = false">
+                        <span class="material-symbols-rounded">close</span>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="addColumn()">
+                        <span class="material-symbols-rounded">add</span>
+                        Column
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

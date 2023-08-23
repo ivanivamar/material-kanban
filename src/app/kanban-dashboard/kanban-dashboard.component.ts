@@ -21,6 +21,18 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class KanbanDashboardComponent implements OnInit {
     projects: any[] = [];
+    projectsTablePaginated: ProjectsTableHelper = {
+        records: [],
+        currentRecord: [],
+        totalRecordCount: 0,
+    };
+    currentPage = 0;
+    pageSize = 10;
+    pageSizes = [5, 10, 25];
+    showPageSizes = false;
+    sortHeader = '';
+    sortDirection = 'desc';
+
     showAddProjectModal: boolean = false;
 
     darkColorArray = ['#FFE8BC', '#E5C7F5', '#F8D4C7'];
@@ -40,6 +52,7 @@ export class KanbanDashboardComponent implements OnInit {
     showTasksFromProject: string = '';
 
     user: any;
+    firstTime: boolean = true;
 
     constructor(
         private kanbanService: KanbanService,
@@ -69,10 +82,103 @@ export class KanbanDashboardComponent implements OnInit {
                 return a.order - b.order;
             });
 
+            // paginate projects
+            this.projectsTablePaginated.records = [];
+            this.projectsTablePaginated.currentRecord = [];
+            this.projectsTablePaginated.totalRecordCount = 0;
+            this.projects.forEach((project: Project, index: number) => {
+                // put projects in groups of this.pageSize
+                if (index % this.pageSize === 0) {
+                    this.projectsTablePaginated.records.push([
+                        project,
+                    ]);
+                }
+                else {
+                    this.projectsTablePaginated.records[
+                        this.projectsTablePaginated.records.length - 1
+                    ].push(project);
+                }
+            });
+            this.projectsTablePaginated.totalRecordCount = this.projects.length;
+            this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[this.currentPage];
+
             this.loading = false;
             this.getCurrentWeekTasks();
             this.makeWeekTasksChart(this.projects);
         });
+    }
+
+    sorter(event: any) {
+        if (event !== this.sortHeader) {
+            this.sortDirection = 'desc';
+        }
+        this.sortHeader = event;
+        switch (event) {
+            case 'totalTasks':
+                switch (this.sortDirection) {
+                    case 'asc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksCount(a) - this.getTasksCount(b);
+                        });
+                        break;
+                    case 'desc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksCount(b) - this.getTasksCount(a);
+                        });
+                        break;
+                }
+                break;
+            case 'completedTasks':
+                switch (this.sortDirection) {
+                    case 'asc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksFromCompletedColumn(a) - this.getTasksFromCompletedColumn(b);
+                        });
+                        break;
+                    case 'desc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksFromCompletedColumn(b) - this.getTasksFromCompletedColumn(a);
+                        });
+                        break;
+                }
+                break;
+            case 'ongoingTasks':
+                switch (this.sortDirection) {
+                    case 'asc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksFromInProgressColumn(a) - this.getTasksFromInProgressColumn(b);
+                        });
+                        break;
+                    case 'desc':
+                        this.projects.sort((a: Project, b: Project) => {
+                            return this.getTasksFromInProgressColumn(b) - this.getTasksFromInProgressColumn(a);
+                        });
+                        break;
+                }
+        }
+        this.refreshTable();
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+
+    refreshTable() {
+        this.projectsTablePaginated.records = [];
+        this.projectsTablePaginated.currentRecord = [];
+        this.projectsTablePaginated.totalRecordCount = 0;
+        this.projects.forEach((project: Project, index: number) => {
+            // put projects in groups of this.pageSize
+            if (index % this.pageSize === 0) {
+                this.projectsTablePaginated.records.push([
+                    project,
+                ]);
+            }
+            else {
+                this.projectsTablePaginated.records[
+                    this.projectsTablePaginated.records.length - 1
+                ].push(project);
+            }
+        });
+        this.projectsTablePaginated.totalRecordCount = this.projects.length;
+        this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[this.currentPage];
     }
 
     getCurrentWeekTasks() {
@@ -92,11 +198,14 @@ export class KanbanDashboardComponent implements OnInit {
                     }
                 });
             });
-            let sendData = {
-                project: project.title,
-                tasks: tasksArray
+            if (tasksArray.length > 0) {
+                this.currentWeekTasks.push(
+                    {
+                        project: project.title,
+                        tasks: tasksArray
+                    }
+                );
             }
-            this.currentWeekTasks.push(sendData);
             tasksArray = [];
         });
 
@@ -183,6 +292,18 @@ export class KanbanDashboardComponent implements OnInit {
 
         this.kanbanService.addProject(project);
 
+        // add project to projectsTablePaginated
+        if (this.projectsTablePaginated.currentRecord.length < this.pageSize) {
+            this.projectsTablePaginated.records.push([project]);
+        } else {
+            this.projectsTablePaginated.records[
+                this.currentPage
+            ].push(project);
+        }
+        this.projectsTablePaginated.totalRecordCount = this.projects.length;
+        this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[0];
+        console.log('%c this.projectsTablePaginated', 'color: #00b300', this.projectsTablePaginated);
+
         this.showAddProjectModal = false;
         this.projectTitle = '';
         this.projectDescription = '';
@@ -223,6 +344,16 @@ export class KanbanDashboardComponent implements OnInit {
     async deleteProject(projectId: string, event: any) {
         event.stopPropagation();
         this.kanbanService.deleteProject(projectId);
+        // remove project from projectsTablePaginated
+        this.projectsTablePaginated.records.forEach((record: Project[], index: number) => {
+            record.forEach((project: Project, index: number) => {
+                if (project.id === projectId) {
+                    record.splice(index, 1);
+                }
+            });
+        });
+        this.projectsTablePaginated.totalRecordCount = this.projects.length;
+        this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[0];
     }
     //#endregion
 
@@ -256,6 +387,16 @@ export class KanbanDashboardComponent implements OnInit {
         let count = 0;
         project.columns.forEach((column: Column) => {
             if (column.title === 'Completed') {
+                count += column.tasks.length;
+            }
+        });
+        return count;
+    }
+
+    getTasksFromInProgressColumn(project: Project): number {
+        let count = 0;
+        project.columns.forEach((column: Column) => {
+            if (column.title === 'In Progress') {
                 count += column.tasks.length;
             }
         });
@@ -338,4 +479,10 @@ export class KanbanDashboardComponent implements OnInit {
         return new Date(d.setDate(diff));
     }
     //#endregion
+}
+
+interface ProjectsTableHelper {
+    records: Project[][];
+    currentRecord: Project[];
+    totalRecordCount: number;
 }
