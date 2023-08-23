@@ -5,7 +5,7 @@
         <span class="nav-breadcrumbs__separator" *ngIf="!user">/</span>
         <a class="nav-breadcrumbs__link" routerLink="/auth/register" *ngIf="!user">Register</a>
         <span class="nav-breadcrumbs__separator" *ngIf="projectName !== ''">/</span>
-        <div class="nav-breadcrumbs__link menu-container" [class.active]="showProjectsList">
+        <div class="nav-breadcrumbs__link menu-container" *ngIf="projectName !== ''" [class.active]="showProjectsList">
             <button class="btn text small-btn dropdown-toggle px-0 bg-transparent" type="button"
                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                     (click)="showProjectsList = !showProjectsList">

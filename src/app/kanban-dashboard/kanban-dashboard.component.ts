@@ -1,17 +1,15 @@
-import { KanbanService } from 'src/app/kanban-service.service';
-import { Component, OnInit } from '@angular/core';
-import { from, Observable, } from 'rxjs';
+import {KanbanService} from 'src/app/kanban-service.service';
+import {Component, OnInit} from '@angular/core';
+import {from} from 'rxjs';
 import {
     Project,
     Column,
-    Task,
-    Urgency,
-    Checkboxes,
+    Task
 } from '../interfaces/Kanban.interfaces';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { ConfirmationService } from 'primeng/api';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {Router} from '@angular/router';
+import {AuthService} from '../auth.service';
+import {ConfirmationService} from 'primeng/api';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-kanban-dashboard',
@@ -20,12 +18,14 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
     providers: [KanbanService, AuthService, ConfirmationService],
 })
 export class KanbanDashboardComponent implements OnInit {
-    projects: any[] = [];
+    projects: Project[] = [];
+    selectedProject: Project = {} as Project;
     projectsTablePaginated: ProjectsTableHelper = {
         records: [],
         currentRecord: [],
         totalRecordCount: 0,
     };
+    projectName: string = '';
     currentPage = 0;
     pageSize = 10;
     pageSizes = [5, 10, 25];
@@ -59,7 +59,8 @@ export class KanbanDashboardComponent implements OnInit {
         private router: Router,
         private authService: AuthService,
         private confirmationService: ConfirmationService,
-    ) { }
+    ) {
+    }
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
@@ -92,11 +93,10 @@ export class KanbanDashboardComponent implements OnInit {
                     this.projectsTablePaginated.records.push([
                         project,
                     ]);
-                }
-                else {
+                } else {
                     this.projectsTablePaginated.records[
-                        this.projectsTablePaginated.records.length - 1
-                    ].push(project);
+                    this.projectsTablePaginated.records.length - 1
+                        ].push(project);
                 }
             });
             this.projectsTablePaginated.totalRecordCount = this.projects.length;
@@ -170,11 +170,10 @@ export class KanbanDashboardComponent implements OnInit {
                 this.projectsTablePaginated.records.push([
                     project,
                 ]);
-            }
-            else {
+            } else {
                 this.projectsTablePaginated.records[
-                    this.projectsTablePaginated.records.length - 1
-                ].push(project);
+                this.projectsTablePaginated.records.length - 1
+                    ].push(project);
             }
         });
         this.projectsTablePaginated.totalRecordCount = this.projects.length;
@@ -260,19 +259,25 @@ export class KanbanDashboardComponent implements OnInit {
 
     navigateToProject(project: Project) {
         this.router.navigate(['/projects/kanban'], {
-            queryParams: { projectId: project.id },
+            queryParams: {projectId: project.id},
         });
+    }
+
+    createOrEditProject(project?: Project) {
+        this.selectedProject = project ? project : {} as Project;
+        this.selectedProject.columns[0].title = 'To Do';
+        this.selectedProject.columns[1].title = 'In Progress';
+        this.selectedProject.columns[2].title = 'Completed';
+        this.showAddProjectModal = true;
     }
 
     //#region Setters
     async addProject() {
-        let project: Project = {
-            title: this.projectTitle,
-            description: this.projectDescription,
-            columns: [
+        if (!this.selectedProject.id) {
+            this.selectedProject.columns = [
                 {
                     id: this.idGenerator(),
-                    title: 'To Do',
+                    title: this.selectedProject.columns[0].title,
                     tasks: [],
                 },
                 {
@@ -282,23 +287,23 @@ export class KanbanDashboardComponent implements OnInit {
                 },
                 {
                     id: this.idGenerator(),
-                    title: 'Completed',
+                    title: this.selectedProject.columns[2].title,
                     tasks: [],
                 },
-            ],
-            uid: this.user.uid,
-            order: this.projects.length + 1,
-        };
+            ];
+            this.selectedProject.uid = this.user.uid;
+            this.selectedProject.order = this.projects.length + 1;
+        }
 
-        this.kanbanService.addProject(project);
+        await this.kanbanService[this.selectedProject.id ? 'updateProject' : 'addProject'](this.selectedProject);
 
         // add project to projectsTablePaginated
         if (this.projectsTablePaginated.currentRecord.length < this.pageSize) {
-            this.projectsTablePaginated.records.push([project]);
+            this.projectsTablePaginated.records.push([this.selectedProject]);
         } else {
             this.projectsTablePaginated.records[
                 this.currentPage
-            ].push(project);
+                ].push(this.selectedProject);
         }
         this.projectsTablePaginated.totalRecordCount = this.projects.length;
         this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[0];
@@ -308,6 +313,7 @@ export class KanbanDashboardComponent implements OnInit {
         this.projectTitle = '';
         this.projectDescription = '';
     }
+
     //#endregion
 
     closeProjectModal() {
@@ -317,11 +323,9 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     setDisabled(): boolean {
-        if (this.isEmpty(this.projectTitle)) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.isEmpty(this.selectedProject.title) ||
+            this.isEmpty(this.selectedProject.columns[0].title) ||
+            this.isEmpty(this.selectedProject.columns[2].title);
     }
 
     //#region Deleters
@@ -345,7 +349,7 @@ export class KanbanDashboardComponent implements OnInit {
         event.stopPropagation();
         this.kanbanService.deleteProject(projectId);
         // remove project from projectsTablePaginated
-        this.projectsTablePaginated.records.forEach((record: Project[], index: number) => {
+        this.projectsTablePaginated.records.forEach((record: Project[]) => {
             record.forEach((project: Project, index: number) => {
                 if (project.id === projectId) {
                     record.splice(index, 1);
@@ -355,6 +359,7 @@ export class KanbanDashboardComponent implements OnInit {
         this.projectsTablePaginated.totalRecordCount = this.projects.length;
         this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[0];
     }
+
     //#endregion
 
     //#region Helpers
@@ -435,50 +440,7 @@ export class KanbanDashboardComponent implements OnInit {
         }
         return true;
     }
-
-    private isInvalidInput(input: any): boolean {
-        // check for string
-        switch (typeof input) {
-            case 'string':
-                if (
-                    input.length === 0 ||
-                    input === '' ||
-                    input === null ||
-                    input === undefined
-                ) {
-                    return true;
-                }
-                break;
-            case 'number':
-                if (isNaN(input) || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'boolean':
-                if (input === null) {
-                    return true;
-                }
-                break;
-            case 'undefined':
-                return true;
-            case 'object':
-                if (this.isEmpty(input)) {
-                    return true;
-                }
-                break;
-            default:
-                return true;
-        }
-        return false;
-    }
-
-    getMonday(d: any) {
-        d = new Date(d);
-        var day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-        return new Date(d.setDate(diff));
-    }
-    //#endregion
+//#endregion
 }
 
 interface ProjectsTableHelper {

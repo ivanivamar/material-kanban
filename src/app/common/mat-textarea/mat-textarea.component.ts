@@ -9,6 +9,7 @@ export class MatTextareaComponent {
     @ViewChild('textAreaRef') textAreaRef!: ElementRef<HTMLTextAreaElement>;
 
     @Input() value: any = '';
+    @Input() label: string = '';
     @Input() placeholder: string = '';
     @Input() disabled: boolean = false;
     @Input() icon: string = '';
@@ -44,10 +45,7 @@ export class MatTextareaComponent {
     }
 
     verifyTextarea() {
-        this.error = false;
-        if (this.required && this.value.trim().length === 0) {
-            this.error = true;
-        }
+        this.error = this.required && this.value.trim().length === 0;
 
         // check for max length
         if (this.maxLength !== 0 && this.textAreaRef.nativeElement.value.length >= this.maxLength) {

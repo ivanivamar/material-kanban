@@ -3,7 +3,7 @@
         <div class="flex flex-column" *ngIf="!loading">
             <div class="flex align-items-center justify-content-between mb-3">
                 <span class="headline5 line-height-4 text-color font-regular">Projects</span>
-                <button class="btn filled-btn" (click)="showAddProjectModal = true">
+                <button class="btn filled-btn" (click)="createOrEditProject()">
                     Add Project
                 </button>
             </div>
@@ -15,25 +15,31 @@
                         Name
                     </div>
                     <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'totalTasks'"
-                        (click)="sorter('totalTasks')">
+                         (click)="sorter('totalTasks')">
                         <i class="material-symbols-rounded">assignment</i>
                         Total Tasks
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'totalTasks' && sortDirection === 'asc'">arrow_drop_up</i>
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'totalTasks' && sortDirection === 'desc'">arrow_drop_down</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'totalTasks' && sortDirection === 'asc'">arrow_drop_up</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'totalTasks' && sortDirection === 'desc'">arrow_drop_down</i>
                     </div>
                     <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'completedTasks'"
-                    (click)="sorter('completedTasks')">
+                         (click)="sorter('completedTasks')">
                         <i class="material-symbols-rounded">check_circle</i>
                         Completed Tasks
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'completedTasks' && sortDirection === 'asc'">arrow_drop_up</i>
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'completedTasks' && sortDirection === 'desc'">arrow_drop_down</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'asc'">arrow_drop_up</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'desc'">arrow_drop_down</i>
                     </div>
                     <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'ongoingTasks'"
-                    (click)="sorter('ongoingTasks')">
+                         (click)="sorter('ongoingTasks')">
                         <i class="material-symbols-rounded">hourglass_empty</i>
                         Ongoing Tasks
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'asc'">arrow_drop_up</i>
-                        <i class="material-symbols-rounded sort-icon" *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'desc'">arrow_drop_down</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'asc'">arrow_drop_up</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'desc'">arrow_drop_down</i>
                     </div>
                     <div class="header-cell text-center">
                         <i class="material-symbols-rounded">settings</i>
@@ -47,7 +53,7 @@
                     </div>
                     <div class="table-cell justify-content-center">
                         {{ project.columns[0].tasks.length + project.columns[1].tasks.length +
-                        project.columns[2].tasks.length }}
+                    project.columns[2].tasks.length }}
                     </div>
                     <div class="table-cell justify-content-center">
                         {{ project.columns[2].tasks.length }}
@@ -57,17 +63,17 @@
                     </div>
                     <div class="table-cell justify-content-center">
                         <button class="icon-btn text-btn primary-color-only small-btn"
-                            (click)="navigateToProject(project)">
+                                (click)="navigateToProject(project)">
                             <span class="material-symbols-rounded">arrow_forward</span>
                         </button>
 
                         <button class="icon-btn text-btn warning-color-only small-btn"
-                            (click)="editProject($event, project)">
+                                (click)="createOrEditProject(project)">
                             <span class="material-symbols-rounded">edit</span>
                         </button>
 
                         <button class="icon-btn text-btn danger-color-only small-btn"
-                            (click)="confirmDeleteProject($event, project)">
+                                (click)="confirmDeleteProject($event, project)">
                             <span class="material-symbols-rounded">delete</span>
                         </button>
                     </div>
@@ -79,22 +85,22 @@
                             }} entries</span>
                     </div>
                     <div class="paginator-controls">
-                        <button class="btn outlined-btn small-btn" [disabled]="currentPage === 0"
-                            (click)="projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage - 1]; currentPage = currentPage - 1">
+                        <button class="btn outlined-btn small-btn font-bold" [disabled]="currentPage === 0"
+                                (click)="projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage - 1]; currentPage = currentPage - 1">
                             <span class="material-symbols-rounded">keyboard_arrow_left</span>
                             Prev
                         </button>
                         <div class="flex align-items-center gap-1">
                             <button class="btn small-btn text-btn shadow-1 px-1" style="min-width: 32px;"
-                                [class.bg-primary]="currentPage === i"
-                                *ngFor="let record of projectsTablePaginated.records; let i = index"
-                                (click)="currentPage = i; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
+                                    [class.bg-primary]="currentPage === i"
+                                    *ngFor="let record of projectsTablePaginated.records; let i = index"
+                                    (click)="currentPage = i; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
                                 {{ i + 1 }}
                             </button>
                         </div>
-                        <button class="btn outlined-btn small-btn"
-                            [disabled]="currentPage === projectsTablePaginated.records.length - 1"
-                            (click)=" currentPage = currentPage + 1; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
+                        <button class="btn outlined-btn small-btn font-bold"
+                                [disabled]="currentPage === projectsTablePaginated.records.length - 1"
+                                (click)=" currentPage = currentPage + 1; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
                             Next
                             <span class="material-symbols-rounded">keyboard_arrow_right</span>
                         </button>
@@ -102,19 +108,19 @@
                     <div class="divider-vertical dashed"></div>
                     <div class="menu-container" [class.active]="showPageSizes">
                         <button class="btn outlined-btn small-btn dropdown-toggle" type="button"
-                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            (click)="showPageSizes = !showPageSizes">
+                                id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                                (click)="showPageSizes = !showPageSizes">
                             {{ pageSize }}
                             <i class="material-symbols-rounded">expand_more</i>
                         </button>
                         <div class="menu-content" #menuPageSize aria-labelledby="dropdownMenuButton1">
                             <div *ngFor="let otherPageSize of pageSizes" class="menu-item"
-                                [class.active]="pageSize === otherPageSize"
-                                (click)="pageSize = otherPageSize; showPageSizes = false; refreshTable()">
+                                 [class.active]="pageSize === otherPageSize"
+                                 (click)="pageSize = otherPageSize; showPageSizes = false; refreshTable()">
                                 <i class="material-symbols-rounded primary-color"
-                                    *ngIf="pageSize === otherPageSize">check_box</i>
+                                   *ngIf="pageSize === otherPageSize">check_box</i>
                                 <i class="material-symbols-rounded"
-                                    *ngIf="pageSize !== otherPageSize">check_box_outline_blank</i>
+                                   *ngIf="pageSize !== otherPageSize">check_box_outline_blank</i>
                                 {{ otherPageSize }}
                             </div>
                         </div>
@@ -136,18 +142,18 @@
             <div *ngFor="let currentWeekTask of currentWeekTasks">
                 <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
                     <div class="card flex align-items-center gap-3 p-2 cursor-pointer mt-1"
-                        (click)="showTasksFromProject = currentWeekTask.project">
+                         (click)="showTasksFromProject = currentWeekTask.project">
                         <span class="material-symbols-rounded text-500"
-                            *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
+                              *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
                         <span class="material-symbols-rounded text-500"
-                            *ngIf="showTasksFromProject !== currentWeekTask.project">keyboard_arrow_up</span>
+                              *ngIf="showTasksFromProject !== currentWeekTask.project">keyboard_arrow_up</span>
                         <span class="font-bold">{{ currentWeekTask.project }}</span>
                         <span class="text-500">{{ currentWeekTask.tasks.length }} tasks</span>
                     </div>
 
                     <div *ngIf="showTasksFromProject === currentWeekTask.project">
                         <app-card class="col-12 p-0" *ngFor="let taskContainer of currentWeekTask.tasks"
-                            [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
+                                  [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
                         </app-card>
                     </div>
                 </div>
@@ -169,10 +175,40 @@
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-3">
-                <mat-input class="w-100" [label]="'Project Title'" [(value)]="projectTitle" [name]="'title'"
-                    [inputType]="'text'" [placeholder]="'Project Title'" [required]="true"></mat-input>
-                <mat-textarea class="w-100" [(value)]="projectDescription" [name]="'description'"
-                    [placeholder]="'Project Description'"></mat-textarea>
+                <mat-input class="w-100" [label]="'Project Title'" [(value)]="selectedProject.title" [name]="'title'"
+                           [inputType]="'text'" [placeholder]="'Project Title'" [required]="true"></mat-input>
+                <mat-textarea class="w-100" [label]="'Project Description'" [(value)]="selectedProject.description"
+                              [name]="'description'"
+                              [placeholder]="'Project Description'"></mat-textarea>
+            </div>
+
+            <div class="flex flex-column gap-1 mt-3">
+                <span class="font-bold">Columns:</span>
+                <div class="grid">
+                    <div class="col-12 md:col-3 lg:col-4" *ngFor="let column of selectedProject.columns">
+                        <div class="card">
+                            <div class="card-header mb-5">
+                                <mat-input class="w-100" [small]="true" *ngIf="column.title !== 'In Progress'"
+                                           [(value)]="column.title" [name]="'title'"
+                                           [inputType]="'text'" [showClear]="true"
+                                           [placeholder]="'Column Title'"></mat-input>
+                                <span class="font-bold w-100 mb-4"
+                                      *ngIf="column.title === 'In Progress'">{{ column.title }}</span>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="flex align-items-center gap-1">
+                            <span class="font-bold">
+                                Tasks:
+                            </span>
+                                    <span class="text-500">
+                                {{ column.tasks.length }}
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="dialog-footer">
@@ -180,7 +216,7 @@
                 Close
             </button>
             <button type="button" ripple class="btn filled-btn small-btn" (click)="addProject()"
-                [disabled]="setDisabled()">
+                    [disabled]="setDisabled()">
                 Save
             </button>
         </div>

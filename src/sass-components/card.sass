@@ -1,19 +1,19 @@
 .card
     background-color: $bg-color
     border-radius: $border-radius
-    border: 2px solid $border-color
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
+    border: 1px solid $border-color
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
     display: flex
     flex-direction: column
     padding: 16px
     cursor: pointer
     transition: all 0.2s ease-in-out
+    width: auto
 
     &:hover,
     &.active
-        box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
         border-color: $primary-color
-        border-width: 2px
 
     .card-header
         display: flex
