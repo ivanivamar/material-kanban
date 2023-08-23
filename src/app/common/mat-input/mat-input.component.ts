@@ -20,6 +20,7 @@ export class MatInputComponent {
     @Input() maxLength: number = 0;
     @Input() required: boolean = false;
     @Input() name: string = '';
+    @Input() small: boolean = false;
 
     @Output() valueChange = new EventEmitter();
 
@@ -42,10 +43,8 @@ export class MatInputComponent {
     }
 
     verifyInput() {
-        this.error = false;
-        if (this.required && this.value.trim().length === 0) {
-            this.error = true;
-        }
+
+        this.error = this.required && this.value.trim().length === 0;
 
         // check for max length
         if (this.maxLength !== 0 && this.inputRef.nativeElement.value.length >= this.maxLength) {

@@ -1,5 +1,5 @@
 <div class="grid grid-nogutter">
-    <div class="col-0 md:col-3 xl:col-2 hidden md:flex flex-column p-3 gap-3">
+    <div class="col-0 hidden flex-column p-3 gap-3">
         <div class="flex align-items-center gap-2">
             <span class="subhead1">Projects List</span>
         </div>
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12  md:col-9 xl:col-10 bg-color shadow-1 rounded">
+    <div class="col-12 bg-color shadow-1 rounded ml-3">
         <header class="flex align-items-center mb-2 p-0 py-2 mx-4">
             <button class="btn text-btn small-btn mr-2" routerLink="">
                 <i class="material-symbols-rounded text-lg">
@@ -112,7 +112,7 @@
                 <div class="dialog-content">
                     <div class="flex flex-column gap-2">
                         <label for="title">Column Title</label>
-                        <input type="text" id="title" placeholder="Enter a title..." [(ngModel)]="columnEditTitle">
+                        <input type="text" id="columnTitle" placeholder="Enter a title..." [(ngModel)]="columnEditTitle">
                     </div>
                 </div>
                 <div class="dialog-footer">

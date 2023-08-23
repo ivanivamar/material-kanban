@@ -3,29 +3,24 @@
         <a routerLink="/" class="flex justify-content-center align-items-center mb-3 p-1 border rounded" *ngIf="user">
             <img src="../../../assets/kanban_logo.png" style="width: 28px; height: 28px;" alt="User Avatar">
         </a>
-        <a routerLink="/account" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
-            <div class="link-content flex align-items-center">
-                <span class="material-symbols-rounded">logout</span>
-            </div>
-        </a>
     </header>
 
     <div class="divider"></div>
 
     <div class="section">
-        <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user == null">
+        <a routerLink="" routerLinkActive="active" *ngIf="user == null">
             <div class="link-content flex">
                 <span class="material-symbols-rounded">login</span>
             </div>
         </a>
-        <a routerLink="/auth/register" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user == null"
-            class="mt-2">
+        <a routerLink="/auth/register" routerLinkActive="active" *ngIf="user == null"
+           class="mt-2">
             <div class="link-content flex">
                 <span class="material-symbols-rounded">person_add</span>
             </div>
         </a>
 
-        <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="user">
+        <a routerLink="" routerLinkActive="active" *ngIf="user">
             <div class="link-content flex align-items-center">
                 <span class="material-symbols-rounded">folder</span>
             </div>

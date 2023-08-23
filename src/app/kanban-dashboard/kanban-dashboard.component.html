@@ -100,7 +100,6 @@
                         </button>
                     </div>
                     <div class="divider-vertical dashed"></div>
-                    <!-- page length dropdown -->
                     <div class="menu-container" [class.active]="showPageSizes">
                         <button class="btn outlined-btn small-btn dropdown-toggle" type="button"
                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -156,7 +155,7 @@
         </div>
     </div>
 </div>
-<p-confirmPopup appendTo="body"></p-confirmPopup>
+<p-confirmPopup></p-confirmPopup>
 
 <div class="dialog-container" *ngIf="showAddProjectModal">
     <div class="overlay" (click)="closeProjectModal()"></div>
@@ -171,7 +170,7 @@
         <div class="dialog-content">
             <div class="flex flex-column gap-3">
                 <mat-input class="w-100" [label]="'Project Title'" [(value)]="projectTitle" [name]="'title'"
-                    [type]="'text'" [placeholder]="'Project Title'" [required]="true"></mat-input>
+                    [inputType]="'text'" [placeholder]="'Project Title'" [required]="true"></mat-input>
                 <mat-textarea class="w-100" [(value)]="projectDescription" [name]="'description'"
                     [placeholder]="'Project Description'"></mat-textarea>
             </div>

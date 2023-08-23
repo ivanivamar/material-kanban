@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
@@ -14,8 +14,12 @@ import { KanbanService } from 'src/app/kanban-service.service';
 export class NavbarComponent implements OnInit {
     isLogin = false;
     isRegister = false;
+
+    projects: Project[] = [];
     projectName = '';
     projectId = '';
+    showProjectsList = false;
+    searchTerm = '';
 
     user: any;
     userImage = '';
@@ -30,8 +34,8 @@ export class NavbarComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.isLogin = window.location.pathname === '/auth/login' ? true : false;
-        this.isRegister = window.location.pathname === '/auth/register' ? true : false;
+        this.isLogin = window.location.pathname === '/auth/login';
+        this.isRegister = window.location.pathname === '/auth/register';
 
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
@@ -39,6 +43,20 @@ export class NavbarComponent implements OnInit {
                 this.user = user;
                 this.userImage = user.photoURL;
             }
+        });
+
+        from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
+            this.projects = projects;
+
+            // filter projects by user uid
+            this.projects = this.projects.filter((project: Project) => {
+                return project.uid === this.user.uid;
+            });
+
+            // order projects by order property
+            this.projects.sort((a: Project, b: Project) => {
+                return a.order - b.order;
+            });
         });
 
         // get project name by getting projectId from url and then call kanbanService.getProjectById(projectId)
@@ -67,5 +85,13 @@ export class NavbarComponent implements OnInit {
             }).catch((error) => {
                 console.log('error', error);
             });
+    }
+
+    navigateToProject(project: Project) {
+        this.showProjectsList = false;
+        this.searchTerm = '';
+        this.router.navigate(['/projects/kanban'], {
+            queryParams: {projectId: project.id},
+        }).then(); // empty then to avoid error
     }
 }
