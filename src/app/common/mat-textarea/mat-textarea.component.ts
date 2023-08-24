@@ -40,7 +40,6 @@ export class MatTextareaComponent {
         this.isFocused = true;
     }
 
-
     onBlur() {
         this.isFocused = false;
     }
