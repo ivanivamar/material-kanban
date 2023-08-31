@@ -264,10 +264,27 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     createOrEditProject(project?: Project) {
-        this.selectedProject = project ? project : {} as Project;
-        this.selectedProject.columns[0].title = 'To Do';
-        this.selectedProject.columns[1].title = 'In Progress';
-        this.selectedProject.columns[2].title = 'Completed';
+        this.selectedProject = project ? project : {
+            title: '',
+            description: '',
+        } as Project;
+        this.selectedProject.columns = project ? project.columns : [
+            {
+                id: this.idGenerator(),
+                title: 'To Do',
+                tasks: [],
+            },
+            {
+                id: this.idGenerator(),
+                title: 'In Progress',
+                tasks: [],
+            },
+            {
+                id: this.idGenerator(),
+                title: 'Completed',
+                tasks: [],
+            }
+        ] as Column[];
         this.showAddProjectModal = true;
     }
 

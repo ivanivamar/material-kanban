@@ -167,11 +167,13 @@
     <div class="overlay" (click)="closeProjectModal()"></div>
     <div class="dialog">
         <div class="dialog-header">
-            <header class="flex align-items-center justify-content-between">
-                <div class="flex align-items-center gap-2">
-                    <span class="dialog-title">Add Project</span>
-                </div>
-            </header>
+            <span class="dialog-title">
+                {{ selectedProject.id ? 'Edit Project' : 'Add Project' }}
+            </span>
+
+            <button class="icon-btn text-btn danger-color-only small-btn" (click)="closeProjectModal()">
+                <span class="material-symbols-rounded">close</span>
+            </button>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-3">
@@ -195,7 +197,6 @@
                                 <span class="font-bold w-100 mb-4"
                                       *ngIf="column.title === 'In Progress'">{{ column.title }}</span>
                             </div>
-
                             <div class="card-body">
                                 <div class="flex align-items-center gap-1">
                             <span class="font-bold">
