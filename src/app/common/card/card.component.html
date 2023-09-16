@@ -1,8 +1,8 @@
-<div [classList]="'col-12 card transition-all transition-duration-100 urgency-' + task.urgency.code"
-    (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
-    (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
+<div [classList]="'col-12 card transition-none'"
+     (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
+     (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
     <!-- HEADER -->
-    <header>
+    <header class="flex w-full justify-content-between mb-5 align-items-baseline">
         <div class="flex align-items-baseline gap-2">
             <button class="icon-btn text-btn relative" (click)="toggleTaskCompleted($event, task)" style="top:2px">
                 <span class="material-symbols-rounded text-base" *ngIf="!task.completed">
@@ -17,11 +17,12 @@
                     {{ task.title }}
                 </span>
                 <span class="font-medium text-500 title" *ngIf="task.title === '' || !task.title">Enter a title</span>
-                <div class="date-container">
-                    <span class="date text-xs font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
-                    |
-                    <span class="time-container">
-                        <span class="material-symbols-rounded time-icon">timer</span>
+                <div class="date-container text-secondary flex h-1rem flex align-items-center mt-1">
+                    <span class="date text-xs text-color font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
+                    <div class="divider-vertical"></div>
+                    <span class="time-container text-color">
+                        <span class="material-symbols-rounded time-icon text-base mr-2"
+                              style="position: relative; top: 2px">timer</span>
                         <span class="time text-xs font-medium">{{ task.creationDate | date: 'HH:mm' }}</span>
                     </span>
                 </div>
@@ -54,16 +55,16 @@
             </div>
         </div>
         <!-- /LABELS -->
-        <div class="flex align-items-center gap-1">
+        <div class="flex align-items-center gap-1 mt-2">
             <button class="btn text-btn small-btn flex aling-items-center gap-2"
-                (click)="showCheckbox($event, task.id)">
+                    (click)="showCheckbox($event, task.id)">
                 <span [classList]="!showCheckboxes ? 'text-sm font-regular' : 'text-sm font-regular'">{{
                     task.checkboxes.length }}</span>
                 <span
                     [classList]="!showCheckboxes ? 'material-symbols-rounded text-sm' : 'material-symbols-rounded text-sm'">checklist</span>
             </button>
             <button class="btn text-btn small-btn flex aling-items-center gap-2"
-                (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
+                    (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
                 <span [classList]="!showImages ? 'text-sm font-regular' : 'text-sm font-regular'">{{
                     task.images.length }}</span>
                 <span
@@ -73,12 +74,12 @@
     </div>
 
     <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" cdkDropList *ngIf="showCheckboxes"
-        [cdkDropListData]="task.checkboxes" (cdkDropListDropped)="drop($event, true)">
+         [cdkDropListData]="task.checkboxes" (cdkDropListDropped)="drop($event, true)">
         <div class="flex checkbox w-full flex-row align-items-center gap-2"
-            *ngFor="let checkbox of task.checkboxes; let i = index" cdkDrag>
+             *ngFor="let checkbox of task.checkboxes; let i = index" cdkDrag>
             <i class="material-symbols-rounded text-500 text-xs mr-2" cdkDragHandle>drag_indicator</i>
             <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
-                (click)="saveCheckbox(false, $event)">
+                   (click)="saveCheckbox(false, $event)">
                 <input type="checkbox" [(ngModel)]="checkbox.checked">
                 <span class="checkbox-helper"></span>
                 <span class="outline">
@@ -86,8 +87,8 @@
                 </span>
             </label>
             <input class="checkbox-input" type="text" placeholder="Enter text..."
-                (input)="saveCheckbox(false, $event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
-                [(ngModel)]="checkbox.title" />
+                   (input)="saveCheckbox(false, $event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
+                   [(ngModel)]="checkbox.title"/>
             <button class="icon-btn text-btn btn-small p-3" (click)="deleteCheckbox($event, checkbox)">
                 <span class="material-symbols-rounded text-red-500">delete</span>
             </button>
@@ -102,7 +103,7 @@
     <!-- IMAGES -->
     <div class="image-footer w-full transition-all transition-duration-150 fadein" *ngIf="showImages">
         <div class="flex image flex-wrap w-full flex-row align-items-center gap-2"
-            *ngFor="let image of task.images; let i = index">
+             *ngFor="let image of task.images; let i = index">
             <div class="attatchment-button cursor-pointer" (click)="showImage(image.url, $event)">
                 <div class="image-container">
                     <span class="material-symbols-rounded text-700 text-sm">image</span>
@@ -119,7 +120,7 @@
         </button>
 
         <input type="file" #fileInput (click)="manageClick($event)" (change)="uploadTaskImage($event)"
-            style="display: none" />
+               style="display: none"/>
     </div>
 </div>
 <!-- EDIT TASK MODAL -->
@@ -157,10 +158,10 @@
                         </span>
                     </button>
                     <div class="flex flex-column gap-2 w-full">
-                        <mat-input [inputType]="'text'" [(value)]="task.title" [placeholder]="'Enter a title...'"
-                            [required]="true" [name]="'taskTitle'"></mat-input>
-                        <mat-textarea [(value)]="task.description" [placeholder]="'Enter a description...'"
-                            [name]="'taskDescription'" [showCounter]="true" [maxLength]="500"></mat-textarea>
+                        <mat-input [inputType]="'text'" [label]="'Title'" [(value)]="task.title"
+                                   [required]="true" [name]="'taskTitle'"></mat-input>
+                        <mat-textarea [(value)]="task.description" [label]="'Description'"
+                                      [name]="'taskDescription'" [showCounter]="true" [maxLength]="500"></mat-textarea>
                     </div>
                 </div>
                 <div class="flex align-items-center justify-content-end gap-2 mt-2">
@@ -176,11 +177,11 @@
 
                 <div class="flex flex-column gap-2 mt-5 mb-2">
                     <div class="flex align-items-center gap-3 p-2 cursor-pointer"
-                        (click)="showModalCheckboxes = !showModalCheckboxes" style="border-bottom: 1px solid #E1E3E8">
+                         (click)="showModalCheckboxes = !showModalCheckboxes" style="border-bottom: 1px solid #E1E3E8">
                         <span class="material-symbols-rounded text-secondary"
-                            *ngIf="showModalCheckboxes">keyboard_arrow_down</span>
+                              *ngIf="showModalCheckboxes">keyboard_arrow_down</span>
                         <span class="material-symbols-rounded text-secondary"
-                            *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
+                              *ngIf="!showModalCheckboxes">keyboard_arrow_up</span>
                         <span class="font-bold">Subtasks</span>
                         <span class="text-secondary text-sm">{{getTotalCompletedTasks()}} /
                             {{task.checkboxes.length}}</span>
@@ -191,11 +192,11 @@
                     </div>
                     <div class="flex flex-column gap-2 mt-2 max-h-8rem overflow-y-auto" *ngIf="showModalCheckboxes">
                         <div *ngIf="task.checkboxes.length > 0" cdkDropList [cdkDropListData]="task.checkboxes"
-                            (cdkDropListDropped)="drop($event, false)">
+                             (cdkDropListDropped)="drop($event, false)">
                             <div class="flex checkbox flex-row align-items-center gap-2"
-                                *ngFor="let checkbox of task.checkboxes" cdkDrag>
+                                 *ngFor="let checkbox of task.checkboxes" cdkDrag>
                                 <i class="material-symbols-rounded text-color text-sm" style="cursor: grab"
-                                    cdkDragHandle>drag_indicator</i>
+                                   cdkDragHandle>drag_indicator</i>
                                 <label
                                     [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'">
                                     <input type="checkbox" [(ngModel)]="checkbox.checked">
@@ -205,9 +206,9 @@
                                     </span>
                                 </label>
                                 <input class="checkbox-input" placeholder="Enter subtask..." type="text"
-                                    [(ngModel)]="checkbox.title">
+                                       [(ngModel)]="checkbox.title">
                                 <button class="icon-btn text-btn btn-small opacity-0"
-                                    (click)="deleteCheckbox($event, checkbox)">
+                                        (click)="deleteCheckbox($event, checkbox)">
                                     <span class="material-symbols-rounded">delete</span>
                                 </button>
                             </div>
@@ -216,7 +217,7 @@
                 </div>
 
                 <div class="flex align-items-center gap-3 p-2 cursor-pointer" (click)="showModalFiles = !showModalFiles"
-                    style="border-bottom: 1px solid #E1E3E8">
+                     style="border-bottom: 1px solid #E1E3E8">
                     <span class="material-symbols-rounded text-500" *ngIf="showModalFiles">keyboard_arrow_down</span>
                     <span class="material-symbols-rounded text-500" *ngIf="!showModalFiles">keyboard_arrow_up</span>
                     <span class="font-bold">Attatchments</span>
@@ -227,7 +228,7 @@
                     </button>
 
                     <input class="custom-file p-0 hidden" #addFiles style="height: 24px;" type="file" id="images"
-                        (change)="uploadTaskImage($event)">
+                           (change)="uploadTaskImage($event)">
                 </div>
                 <div class="flex flex-column pt-2 gap-3" *ngIf="showModalFiles">
                     <div class="flex align-items-center flex-wrap gap-3" *ngIf="task.images.length > 0">
@@ -239,7 +240,7 @@
                                 {{image.name}}
                             </div>
                             <button class="icon-btn text-btn btn-small absolute" style="top:6px; right:8px"
-                                (click)="removeImage(image)">
+                                    (click)="removeImage(image)">
                                 <span class="material-symbols-rounded text-red-500">delete</span>
                             </button>
                         </div>
@@ -257,7 +258,8 @@
                     <div class="flex gap-2 align-items-center bg-color border-round-lg px-3 py-1">
                         <i class="material-symbols-rounded text-base text-color">calendar_today</i>
                         <p-calendar [(ngModel)]="task.dueDate" placeholder="Enter due date..." [showClear]="true"
-                            [showTime]="true" [showIcon]="true" appendTo="body" icon="pi pi-angle-down"></p-calendar>
+                                    [showTime]="true" [showIcon]="true" appendTo="body"
+                                    icon="pi pi-angle-down"></p-calendar>
                     </div>
                 </div>
 
@@ -266,7 +268,7 @@
                         Set Priority
                     </span>
                     <mat-dropdown [options]="urgencyDropdownOptions" [icon]="'flag'" [(value)]="task.urgency"
-                        [returnValue]="false" (valueChange)="editTask(false)"></mat-dropdown>
+                                  [returnValue]="false" (valueChange)="editTask(false)"></mat-dropdown>
                 </div>
 
                 <div class="section">
@@ -281,8 +283,8 @@
                     </div>
 
                     <mat-dropdown [options]="labelsList" [icon]="'label'" [(value)]="selectedLabel.value"
-                        [returnValue]="false" (valueChange)="onLabelSelect($event)"
-                        [placeholder]="'Select Labels...'"></mat-dropdown>
+                                  [returnValue]="false" (valueChange)="onLabelSelect($event)"
+                                  [placeholder]="'Select Labels...'"></mat-dropdown>
                 </div>
 
                 <div class="section border-bottom-0">

@@ -1,8 +1,7 @@
 export interface Organization {
     id: string;
     title: string;
-    description: string;
-    image: string;
+    icon: string;
     uid: string;
     users: any[];
     projects: Project[];

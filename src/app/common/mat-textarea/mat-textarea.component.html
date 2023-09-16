@@ -1,5 +1,5 @@
 <div class="textarea-container" [class.gap-0]="label === '' && icon === ''" [class.align-items-center]="label === ''"
-     [class.flex-row]="label === ''" [class.disabled]="disabled" [class.active]="isFocused || value.length !== 0"
+     [class.flex-row]="label === '' && !required" [class.disabled]="disabled" [class.active]="isFocused || value.length !== 0"
      [class.error]="error">
     <div class="label-container">
         <i class="material-symbols-rounded" *ngIf="icon.length > 0">{{ icon }}</i>

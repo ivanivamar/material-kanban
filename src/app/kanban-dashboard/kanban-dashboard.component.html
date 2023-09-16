@@ -141,7 +141,7 @@
 
             <div *ngFor="let currentWeekTask of currentWeekTasks">
                 <div class="flex flex-column gap-0 md:gap-2" *ngIf="currentWeekTask.tasks.length > 0 ">
-                    <div class="card flex align-items-center gap-3 p-2 cursor-pointer mt-1"
+                    <div class="card flex flex-row align-items-center gap-3 p-2 cursor-pointer mt-1"
                          (click)="showTasksFromProject = currentWeekTask.project">
                         <span class="material-symbols-rounded text-500"
                               *ngIf="showTasksFromProject === currentWeekTask.project">keyboard_arrow_down</span>
@@ -151,7 +151,7 @@
                         <span class="text-500">{{ currentWeekTask.tasks.length }} tasks</span>
                     </div>
 
-                    <div *ngIf="showTasksFromProject === currentWeekTask.project">
+                    <div class="flex flex-column gap-2" *ngIf="showTasksFromProject === currentWeekTask.project">
                         <app-card class="col-12 p-0" *ngFor="let taskContainer of currentWeekTask.tasks"
                                   [taskProjectId]="taskContainer.projectId" [task]="taskContainer.task">
                         </app-card>

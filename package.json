@@ -26,6 +26,7 @@
     "dayjs": "^1.11.7",
     "firebase": "^9.18.0",
     "firebase-tools": "^11.25.2",
+    "ngx-drag-scroll": "^16.0.0",
     "ngx-spinner": "^15.0.1",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
