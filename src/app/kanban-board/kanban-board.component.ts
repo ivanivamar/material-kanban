@@ -1,11 +1,11 @@
-import { KanbanService } from './../kanban-service.service';
-import { Checkboxes, Column, Labels, Project, Urgency, Task } from './../interfaces/Kanban.interfaces';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AuthService } from '../auth.service';
+import {KanbanService} from './../kanban-service.service';
+import {Checkboxes, Column, Labels, Project, Urgency, Task, Status} from './../interfaces/Kanban.interfaces';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {from, Observable} from 'rxjs';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {AuthService} from '../auth.service';
 
 @Component({
     selector: 'app-kanban-board',
@@ -35,17 +35,56 @@ export class KanbanBoardComponent implements OnInit {
 
     showCheckboxes: string = '';
 
+    statusList: Status[] = [
+        {
+            name: 'To Do',
+            icon: 'pause_circle',
+            iconColor: '#000000',
+            bgColor: '#F3F4F6',
+            borderColor: '#EAEBEF',
+        },
+        {
+            name: 'In Progress',
+            icon: 'clock_loader_40',
+            iconColor: '#045FF3',
+            bgColor: '#EFF6FF',
+            borderColor: '#C9E1FE',
+        },
+        {
+            name: 'Completed',
+            icon: 'verified',
+            iconColor: '#00B341',
+            bgColor: '#F0FFF0',
+            borderColor: '#C9F9C9',
+        },
+        {
+            name: 'Review',
+            icon: 'review',
+            iconColor: '#FFB800',
+            bgColor: '#FFF6E5',
+            borderColor: '#FFEACD',
+        },
+        {
+            name: 'Late',
+            icon: 'warning',
+            iconColor: '#FF0000',
+            bgColor: '#FFF0F0',
+            borderColor: '#FFD6D6',
+        }
+    ];
+
+
     labelsList = [
-        { name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend' },
-        { name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts' },
-        { name: 'TRANSLATIONS', color: '#FD6860', background: '#FFF6F7', code: 'translations' },
-        { name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix' },
+        {name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend'},
+        {name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts'},
+        {name: 'TRANSLATIONS', color: '#FD6860', background: '#FFF6F7', code: 'translations'},
+        {name: 'BUGFIX', color: '#2E7DFF', background: '#F2F7FD', code: 'bugfix'},
     ];
     urgencyList: Urgency[] = [
-        { title: 'Low', code: 0, color: '#DBDBDE' },
-        { title: 'Normal', code: 1, color: '#2E7DFF' },
-        { title: 'High', code: 2, color: '#FDC33E' },
-        { title: 'Urgent', code: 3, color: '#FC6252' },
+        {title: 'Low', code: 0, color: '#DBDBDE'},
+        {title: 'Normal', code: 1, color: '#2E7DFF'},
+        {title: 'High', code: 2, color: '#FDC33E'},
+        {title: 'Urgent', code: 3, color: '#FC6252'},
     ];
     draggedTask: any;
     startColumnId: any;
@@ -97,7 +136,7 @@ export class KanbanBoardComponent implements OnInit {
 
     navigateToProject(project: Project) {
         this.router.navigate(['/projects/kanban'], {
-            queryParams: { projectId: project.id },
+            queryParams: {projectId: project.id},
         });
     }
 
@@ -167,6 +206,7 @@ export class KanbanBoardComponent implements OnInit {
             id: this.idGenerator(),
             title: '',
             description: '',
+            status: this.statusList[0],
             urgency: this.urgencyList[0],
             labels: [],
             checkboxes: [],
@@ -175,6 +215,8 @@ export class KanbanBoardComponent implements OnInit {
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
             dueDate: new Date(),
+            owner: this.user,
+            assignee: this.user
         };
 
         // Add new task to column
@@ -220,6 +262,7 @@ export class KanbanBoardComponent implements OnInit {
 
         this.loading = false;
     }
+
     //#endregion
 
 
@@ -266,7 +309,7 @@ export class KanbanBoardComponent implements OnInit {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 50; i++) {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;
@@ -309,6 +352,7 @@ export class KanbanBoardComponent implements OnInit {
         }
         return false;
     }
+
     //#endregion
 }
 

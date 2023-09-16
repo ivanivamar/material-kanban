@@ -225,6 +225,16 @@ export class CardComponent implements OnInit {
         this.editTask(event ? true : false);
     }
 
+    getCurrentCheckboxName() {
+        // get the name of the first checkbox that is not checked
+        let checkbox = this.task.checkboxes.find(c => !c.checked);
+        if (checkbox) {
+            return checkbox.title;
+        }
+        // if all checkboxes are checked, return last checkbox name
+        return this.task.checkboxes[this.task.checkboxes.length - 1].title;
+    }
+
     deleteCheckbox(event?: any, checkbox?: Checkboxes) {
         event.stopPropagation();
         this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox!.id);

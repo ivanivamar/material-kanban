@@ -52,6 +52,10 @@ export class KanbanDashboardComponent implements OnInit {
     showTasksFromProject: string = '';
 
     user: any;
+    users: any[] = [];
+    userEmailToShare: string = '';
+    shareWithError: string = '';
+
     firstTime: boolean = true;
 
     constructor(
@@ -70,42 +74,61 @@ export class KanbanDashboardComponent implements OnInit {
             this.user = user;
         });
 
-        from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
-            this.projects = projects;
-
-            // filter projects by user uid
-            this.projects = this.projects.filter((project: Project) => {
-                return project.uid === this.user.uid;
+        // get users
+        from(this.kanbanService.getUsers()).subscribe((users: any[]) => {
+            this.users = users.filter((user: any) => {
+                return user.uid !== this.user.uid;
             });
+            console.log('%c this.users', 'color: #00b300', this.users);
+            from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
+                console.log('%c projects', 'color: #00b300', projects);
 
-            // order projects by order property
-            this.projects.sort((a: Project, b: Project) => {
-                return a.order - b.order;
+                // filter projects by user uid
+                this.projects = projects.filter((project: Project) => {
+                    if (project.uid === this.user.uid) {
+                        return true; // Include the project if the user owns it
+                    }
+                    if (project.sharedWith) {
+                        for (const user of project.sharedWith) {
+                            if (user.uid === this.user.uid) {
+                                return true; // Include the project if the user is shared with it
+                            }
+                        }
+                    }
+                    return false;
+                });
+                console.log('%c this.projects after', 'color: #00b300', this.projects);
+
+                // order projects by order property
+                this.projects.sort((a: Project, b: Project) => {
+                    return a.order - b.order;
+                });
+
+                // paginate projects
+                this.projectsTablePaginated.records = [];
+                this.projectsTablePaginated.currentRecord = [];
+                this.projectsTablePaginated.totalRecordCount = 0;
+                this.projects.forEach((project: Project, index: number) => {
+                    // put projects in groups of this.pageSize
+                    if (index % this.pageSize === 0) {
+                        this.projectsTablePaginated.records.push([
+                            project,
+                        ]);
+                    } else {
+                        this.projectsTablePaginated.records[
+                        this.projectsTablePaginated.records.length - 1
+                            ].push(project);
+                    }
+                });
+                this.projectsTablePaginated.totalRecordCount = this.projects.length;
+                this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[this.currentPage];
+
+                this.loading = false;
+                this.getCurrentWeekTasks();
+                this.makeWeekTasksChart(this.projects);
             });
-
-            // paginate projects
-            this.projectsTablePaginated.records = [];
-            this.projectsTablePaginated.currentRecord = [];
-            this.projectsTablePaginated.totalRecordCount = 0;
-            this.projects.forEach((project: Project, index: number) => {
-                // put projects in groups of this.pageSize
-                if (index % this.pageSize === 0) {
-                    this.projectsTablePaginated.records.push([
-                        project,
-                    ]);
-                } else {
-                    this.projectsTablePaginated.records[
-                    this.projectsTablePaginated.records.length - 1
-                        ].push(project);
-                }
-            });
-            this.projectsTablePaginated.totalRecordCount = this.projects.length;
-            this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[this.currentPage];
-
-            this.loading = false;
-            this.getCurrentWeekTasks();
-            this.makeWeekTasksChart(this.projects);
         });
+
     }
 
     sorter(event: any) {
@@ -288,6 +311,57 @@ export class KanbanDashboardComponent implements OnInit {
         this.showAddProjectModal = true;
     }
 
+    shareProject() {
+        // find user with this.userEmailToShare
+        const user = this.users.find((user: any) => {
+            return user.email === this.userEmailToShare;
+        });
+        if (user) {
+            // check if project is already shared with this user
+            if (this.selectedProject.sharedWith) {
+                if (this.selectedProject.sharedWith.includes(user.email)) {
+                    this.shareWithError = 'This project is already shared with this user';
+                    return;
+                }
+            }
+            // add user email to sharedWith property
+            if (this.selectedProject.sharedWith) {
+                this.selectedProject.sharedWith.push(user);
+            } else {
+                this.selectedProject.sharedWith = [user];
+            }
+            // update user
+            if (user.sharedProjects) {
+                user.sharedProjects.push(this.selectedProject.id);
+            } else {
+                user.sharedProjects = [this.selectedProject.id];
+            }
+            this.kanbanService.updateUser(user.uid, user);
+            // reset userEmailToShare
+            this.userEmailToShare = '';
+        } else {
+            this.shareWithError = 'User not found';
+        }
+    }
+
+    removeUserFromProject(user: any) {
+        // remove user from sharedWith property
+        // @ts-ignore
+        this.selectedProject.sharedWith.forEach((u: any, index: number) => {
+            if (u.email === user.email) {
+                // @ts-ignore
+                this.selectedProject.sharedWith.splice(index, 1);
+            }
+        });
+        // remove project from user
+        user.sharedProjects.forEach((projectId: string, index: number) => {
+            if (projectId === this.selectedProject.id) {
+                user.sharedProjects.splice(index, 1);
+            }
+        });
+        this.kanbanService.updateUser(user.uid, user);
+    }
+
     //#region Setters
     async addProject() {
         if (!this.selectedProject.id) {
@@ -311,6 +385,7 @@ export class KanbanDashboardComponent implements OnInit {
             this.selectedProject.uid = this.user.uid;
             this.selectedProject.order = this.projects.length + 1;
         }
+        console.log('%c this.selectedProject', 'color: #00b300', this.selectedProject);
 
         await this.kanbanService[this.selectedProject.id ? 'updateProject' : 'addProject'](this.selectedProject);
 

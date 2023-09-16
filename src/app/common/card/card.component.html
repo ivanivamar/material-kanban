@@ -2,125 +2,67 @@
      (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
      (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
     <!-- HEADER -->
-    <header class="flex w-full justify-content-between mb-5 align-items-baseline">
-        <div class="flex align-items-baseline gap-2">
-            <button class="icon-btn text-btn relative" (click)="toggleTaskCompleted($event, task)" style="top:2px">
-                <span class="material-symbols-rounded text-base" *ngIf="!task.completed">
-                    circle
-                </span>
-                <span class="material-symbols-rounded text-base" *ngIf="task.completed">
-                    check_circle
-                </span>
-            </button>
-            <div class="content-container">
-                <span class="title headline6" *ngIf="task.title !== '' || task.title">
-                    {{ task.title }}
-                </span>
-                <span class="font-medium text-500 title" *ngIf="task.title === '' || !task.title">Enter a title</span>
-                <div class="date-container text-secondary flex h-1rem flex align-items-center mt-1">
-                    <span class="date text-xs text-color font-medium">{{ task.creationDate | date: 'd/MM, yyyy' }}</span>
-                    <div class="divider-vertical"></div>
-                    <span class="time-container text-color">
-                        <span class="material-symbols-rounded time-icon text-base mr-2"
-                              style="position: relative; top: 2px">timer</span>
-                        <span class="time text-xs font-medium">{{ task.creationDate | date: 'HH:mm' }}</span>
-                    </span>
-                </div>
+    <header class="card-header flex flex-column gap-3 w-full mb-5 align-items-baseline">
+        <div class="flex align-items-center gap-3">
+            <span class="material-symbols-rounded text-base" *ngIf="!task.completed"
+                  (click)="toggleTaskCompleted($event, task)">
+                circle
+            </span>
+            <span class="material-symbols-rounded text-base text-primary" *ngIf="task.completed"
+                  (click)="toggleTaskCompleted($event, task)">
+                check_circle
+            </span>
+            <span class="text-base text-secondary">
+                #{{ task.id }}
+            </span>
+            <span class="text-base text-color font-bold">
+                {{ task.title }}
+            </span>
+            <div class="task-status" [style.border-color]="task.status.borderColor"
+                 [style.background-color]="task.status.bgColor">
+                <i class="material-symbols-rounded" [style.color]="task.status.iconColor">
+                    {{ task.status.icon }}
+                </i>
+                {{ task.status.name }}
             </div>
         </div>
-        <div class="flex align-items-center gap-2 md:gap-3" style="position: relative; top: 2.5px">
-            <button class="icon-btn text-btn" (click)="confirmDelete($event)">
-                <span class="material-symbols-rounded text-base">delete</span>
-            </button>
+        <div class="flex align-items-center gap-3">
+            <div class="flex gap-3 text-secondary" *ngIf="task.assignee">
+                <i class="material-symbols-rounded text-sm">
+                    person
+                </i>
+                <span class="text-sm">
+                    {{ task.assignee.displayName }}
+                </span>
+            </div>
+            <div class="flex gap-3 text-secondary" *ngIf="task.urgency">
+                <i class="material-symbols-rounded text-sm">
+                    flag
+                </i>
+                <span class="text-sm">
+                    {{ task.urgency.title }}
+                </span>
+            </div>
         </div>
     </header>
     <!-- /HEADER -->
 
-
-    <!-- BODY -->
-    <div class="body">
-
-        <!-- DESCRIPTION -->
-        <span class="description">{{ task.description }}</span>
-        <!-- /DESCRIPTION -->
-    </div>
-
-
-    <!-- CHECKBOXES -->
-    <div class="footer">
-        <!-- LABELS -->
-        <div class="label-container">
-            <div class="label" *ngFor="let label of task.labels">
-                {{ label.label }}
-            </div>
-        </div>
-        <!-- /LABELS -->
-        <div class="flex align-items-center gap-1 mt-2">
-            <button class="btn text-btn small-btn flex aling-items-center gap-2"
-                    (click)="showCheckbox($event, task.id)">
-                <span [classList]="!showCheckboxes ? 'text-sm font-regular' : 'text-sm font-regular'">{{
-                    task.checkboxes.length }}</span>
-                <span
-                    [classList]="!showCheckboxes ? 'material-symbols-rounded text-sm' : 'material-symbols-rounded text-sm'">checklist</span>
-            </button>
-            <button class="btn text-btn small-btn flex aling-items-center gap-2"
-                    (click)="showImagesFooter($event, task.id)" *ngIf="task.images">
-                <span [classList]="!showImages ? 'text-sm font-regular' : 'text-sm font-regular'">{{
-                    task.images.length }}</span>
-                <span
-                    [classList]="!showImages ? 'material-symbols-rounded text-sm' : 'material-symbols-rounded text-sm'">attach_file</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="checkbox-footer w-full transition-all transition-duration-150 fadein" cdkDropList *ngIf="showCheckboxes"
-         [cdkDropListData]="task.checkboxes" (cdkDropListDropped)="drop($event, true)">
-        <div class="flex checkbox w-full flex-row align-items-center gap-2"
-             *ngFor="let checkbox of task.checkboxes; let i = index" cdkDrag>
-            <i class="material-symbols-rounded text-500 text-xs mr-2" cdkDragHandle>drag_indicator</i>
-            <label [classList]="checkbox.checked ? 'checkbox-container is-checked' : 'checkbox-container'"
-                   (click)="saveCheckbox(false, $event)">
-                <input type="checkbox" [(ngModel)]="checkbox.checked">
-                <span class="checkbox-helper"></span>
-                <span class="outline">
-                    <span class="outline-tick"></span>
-                </span>
-            </label>
-            <input class="checkbox-input" type="text" placeholder="Enter text..."
-                   (input)="saveCheckbox(false, $event, true, checkbox)" (click)="manageInlineCheckboxEdit($event)"
-                   [(ngModel)]="checkbox.title"/>
-            <button class="icon-btn text-btn btn-small p-3" (click)="deleteCheckbox($event, checkbox)">
-                <span class="material-symbols-rounded text-red-500">delete</span>
-            </button>
-        </div>
-        <button class="btn tonal-btn small-btn font-regular mt-2" (click)="addCheckbox($event)">
-            <span class="material-symbols-rounded">add</span>
-            Add Subtask
-        </button>
-    </div>
-    <!-- /CHECKBOXES -->
-
-    <!-- IMAGES -->
-    <div class="image-footer w-full transition-all transition-duration-150 fadein" *ngIf="showImages">
-        <div class="flex image flex-wrap w-full flex-row align-items-center gap-2"
-             *ngFor="let image of task.images; let i = index">
-            <div class="attatchment-button cursor-pointer" (click)="showImage(image.url, $event)">
-                <div class="image-container">
-                    <span class="material-symbols-rounded text-700 text-sm">image</span>
-                </div>
-                <span class="image-title font-regular">{{ image.name }}</span>
-                <button class="btn btn-icon text p-3" (click)="removeImage(image)">
-                    <span class="material-symbols-rounded text-red-500">delete</span>
-                </button>
-            </div>
-        </div>
-        <button class="btn btn-text font-regular ml-2" (click)="fileInputClick($event)">
-            <span class="material-symbols-rounded text-500">add</span>
-            Add Image
-        </button>
-
-        <input type="file" #fileInput (click)="manageClick($event)" (change)="uploadTaskImage($event)"
-               style="display: none"/>
+    <div class="card-footer" *ngIf="task.checkboxes.length > 0">
+        <app-circular-progress-bar
+            [value]="getTotalCompletedTasks() / task.checkboxes.length * 100"></app-circular-progress-bar>
+        <!-- current checkbox name -->
+        <span class="text-sm text-color">
+            {{ getCurrentCheckboxName() }}
+        </span>
+        <!-- counter of completed/total -->
+        <span class="text-sm text-color">
+            {{ getTotalCompletedTasks() }} / {{ task.checkboxes.length }}
+        </span>
+        <!-- last time updated -->
+        <span class="text-sm text-secondary">
+            updated
+            {{ task.modificationDate | date: 'd MMM, y, h:mm a' : 'es-ES' }}
+        </span>
     </div>
 </div>
 <!-- EDIT TASK MODAL -->

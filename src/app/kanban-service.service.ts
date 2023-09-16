@@ -40,6 +40,23 @@ export class KanbanService {
             });
         });
     }
+
+    getUsers(): Observable<any[]> {
+        const usersRef = collection(this.firestore, 'users');
+        return collectionData(usersRef, { idField: 'id' }) as Observable<any[]>;
+    }
+
+    getUserById(userId: string): Observable<any> {
+        const userRef = doc(this.firestore, 'users', userId);
+        return new Observable<any>(observer => {
+            getDoc(userRef).then(user => {
+                observer.next(user.data());
+                observer.complete();
+            }).catch(error => {
+                observer.error(error);
+            });
+        });
+    }
     //#endregion
 
     //#region Setters
@@ -48,9 +65,19 @@ export class KanbanService {
         return addDoc(projectRef, project);
     }
 
+    addUser(userId: string, user: any) {
+        const userRef = collection(this.firestore, 'users');
+        return addDoc(userRef, user);
+    }
+
     updateProject(project: any) {
         const projectRef = collection(this.firestore, 'projects');
         return updateDoc(doc(projectRef, project.id), project);
+    }
+
+    updateUser(userId: string, user: any) {
+        const userRef = collection(this.firestore, 'users');
+        return updateDoc(doc(userRef, userId), user);
     }
 
     uploadImage(image: any): Promise<any> {
@@ -79,6 +106,11 @@ export class KanbanService {
         const projectRef = collection(this.firestore, 'projects');
         return deleteDoc(doc(projectRef, projectId));
     }
+
+    deleteUser(userId: string) {
+        const userRef = collection(this.firestore, 'users');
+        return deleteDoc(doc(userRef, userId));
+    }
     //#endregion
 
     //#region Helpers
@@ -86,7 +118,7 @@ export class KanbanService {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 5; i++) {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;

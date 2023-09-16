@@ -5,7 +5,7 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
     display: flex
     flex-direction: column
-    padding: 16px
+    padding: 24px
     cursor: pointer
     transition: all 0.2s ease-in-out
     width: auto
@@ -25,3 +25,23 @@
             font-style: normal
             font-weight: 500
             line-height: 24px
+
+        .task-status
+            border-radius: $border-radius
+            border-width: 1px
+            border-style: solid
+            display: flex
+            align-items: center
+            justify-content: center
+            gap: 4px
+            font-family: $font-family
+            font-weight: bold
+
+            i
+                font-size: 14px
+
+    .card-footer
+        border-top: 1px solid $border-color
+        padding-top: 8px
+        display: flex
+        gap: 4px

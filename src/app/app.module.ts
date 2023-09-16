@@ -30,20 +30,18 @@ import {ToastModule} from 'primeng/toast';
 import {PickListModule} from 'primeng/picklist';
 import {KanbanTimelineComponent} from './kanban-board/kanban-calendar/kanban-timeline.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
-import {ProjectsComponent} from './projects/projects.component';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import {MatInputComponent} from './common/mat-input/mat-input.component';
 import {MatTextareaComponent} from './common/mat-textarea/mat-textarea.component';
 import {DragScrollModule} from "ngx-drag-scroll";
-import { OrganizationsComponent } from './organizations/organizations.component';
+import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         SidebarComponent,
         KanbanDashboardComponent,
-        ProjectsComponent,
         KanbanBoardComponent,
         CardComponent,
         NavbarComponent,
@@ -54,7 +52,7 @@ import { OrganizationsComponent } from './organizations/organizations.component'
         MatDropdownComponent,
         MatInputComponent,
         MatTextareaComponent,
-        OrganizationsComponent
+        CircularProgressBarComponent,
     ],
     imports: [
         BrowserModule,

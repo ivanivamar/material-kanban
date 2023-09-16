@@ -1,3 +1,6 @@
+import firebase from "firebase/compat";
+import User = firebase.User;
+
 export interface Organization {
     id: string;
     title: string;
@@ -11,15 +14,26 @@ export interface Task {
     id: string;
     title: string;
     labels: any[];
+    status: Status;
     description: string;
     checkboxes: Checkboxes[];
-    urgency: any;
+    urgency: Urgency;
     creationDate: any;
     modificationDate: any;
     completed: boolean;
     images: Images[];
     dueDate: Date;
     dayDuration?: number;
+    owner?: User;
+    assignee?: User;
+}
+
+export interface Status {
+    name: string;
+    icon: string;
+    bgColor: string;
+    borderColor: string;
+    iconColor: string;
 }
 
 export interface Images {
@@ -54,7 +68,8 @@ export interface Project {
     columns: Column[];
     uid: string;
     order: number;
-    completed?: boolean;
+    completed: boolean;
+    sharedWith: User[];
 }
 export interface Urgency {
     title: string;
