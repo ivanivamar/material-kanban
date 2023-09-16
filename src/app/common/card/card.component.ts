@@ -337,8 +337,22 @@ export class CardComponent implements OnInit {
         // find user by email
         let user = this.users.find(u => u.email === this.taskAssigneeEmail);
         if (user) {
-            this.task.assignee.push(user.uid);
-            this.taskAssignee.push(user);
+            if (!this.task.assignee.includes(user.uid)) {
+                this.task.assignee.push(user.uid);
+                this.taskAssignee.push(user);
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'User already assigned',
+                    detail: 'Try with another email',
+                });
+            }
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'User not found',
+                detail: 'Try with another email',
+            });
         }
     }
 
