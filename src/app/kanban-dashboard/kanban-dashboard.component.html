@@ -23,15 +23,6 @@
                         <i class="material-symbols-rounded sort-icon"
                            *ngIf="sortHeader === 'totalTasks' && sortDirection === 'desc'">arrow_drop_down</i>
                     </div>
-                    <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'completedTasks'"
-                         (click)="sorter('completedTasks')">
-                        <i class="material-symbols-rounded">check_circle</i>
-                        Completed Tasks
-                        <i class="material-symbols-rounded sort-icon"
-                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'asc'">arrow_drop_up</i>
-                        <i class="material-symbols-rounded sort-icon"
-                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'desc'">arrow_drop_down</i>
-                    </div>
                     <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'ongoingTasks'"
                          (click)="sorter('ongoingTasks')">
                         <i class="material-symbols-rounded">hourglass_empty</i>
@@ -40,6 +31,15 @@
                            *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'asc'">arrow_drop_up</i>
                         <i class="material-symbols-rounded sort-icon"
                            *ngIf="sortHeader === 'ongoingTasks' && sortDirection === 'desc'">arrow_drop_down</i>
+                    </div>
+                    <div class="header-cell text-center sortable" [class.sorting]="sortHeader === 'completedTasks'"
+                         (click)="sorter('completedTasks')">
+                        <i class="material-symbols-rounded">check_circle</i>
+                        Completed Tasks
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'asc'">arrow_drop_up</i>
+                        <i class="material-symbols-rounded sort-icon"
+                           *ngIf="sortHeader === 'completedTasks' && sortDirection === 'desc'">arrow_drop_down</i>
                     </div>
                     <div class="header-cell text-center">
                         <i class="material-symbols-rounded">settings</i>
@@ -52,14 +52,13 @@
                         {{ project.title }}
                     </div>
                     <div class="table-cell justify-content-center">
-                        {{ project.columns[0].tasks.length + project.columns[1].tasks.length +
-                    project.columns[2].tasks.length }}
+                        {{ project.tasks.length }}
                     </div>
                     <div class="table-cell justify-content-center">
-                        {{ project.columns[2].tasks.length }}
+                        {{ getTasksOfStatus(statusList[1].name, project) }}
                     </div>
                     <div class="table-cell justify-content-center">
-                        {{ project.columns[1].tasks.length }}
+                        {{ getTasksOfStatus(statusList[3].name, project) }}
                     </div>
                     <div class="table-cell justify-content-center">
                         <button class="icon-btn text-btn primary-color-only small-btn"
@@ -72,7 +71,7 @@
                             <span class="material-symbols-rounded">edit</span>
                         </button>
 
-                        <button class="icon-btn text-btn danger-color-only small-btn"
+                        <button class="icon-btn text-btn danger-color-only small-btn" *ngIf="project.uid === user.uid"
                                 (click)="confirmDeleteProject($event, project)">
                             <span class="material-symbols-rounded">delete</span>
                         </button>
@@ -175,7 +174,7 @@
                 </div>
             </div>
 
-            <div class="divider"></div>
+            <div class="divider" *ngIf="selectedProject.id"></div>
 
             <!-- list of users shared -->
             <div class="flex flex-column gap-2">

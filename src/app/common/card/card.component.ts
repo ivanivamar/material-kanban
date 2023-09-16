@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Checkboxes, Column, IDropdownOption, Images, Labels, Project, Task, Urgency } from 'src/app/interfaces/Kanban.interfaces';
-import { KanbanService } from 'src/app/kanban-service.service';
-import { from } from 'rxjs';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    Checkboxes,
+    IDropdownOption,
+    Images,
+    Labels,
+    Project,
+    Task,
+    Urgency
+} from 'src/app/interfaces/Kanban.interfaces';
+import {KanbanService} from 'src/app/kanban-service.service';
+import {from} from 'rxjs';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-card',
@@ -32,18 +40,18 @@ export class CardComponent implements OnInit {
     newCheckbox = '';
     selectedImage: any = '';
     labelsList: IDropdownOption[] = [
-        { label: 'Frontend', value: 'frontend' },
-        { label: 'TypeScript', value: 'ts' },
-        { label: 'Translations', value: 'translations' },
-        { label: 'Bugfix', value: 'bugfix' },
+        {label: 'Frontend', value: 'frontend'},
+        {label: 'TypeScript', value: 'ts'},
+        {label: 'Translations', value: 'translations'},
+        {label: 'Bugfix', value: 'bugfix'},
     ];
     urgencyDropdownOptions: IDropdownOption[] = [
-        { label: 'Low', value: 0, icon: 'flag', iconColor: '#DBDBDE' },
-        { label: 'Normal', value: 1, icon: 'flag', iconColor: '#2E7DFF' },
-        { label: 'High', value: 2, icon: 'flag', iconColor: '#FDC33E' },
-        { label: 'Urgent', value: 3, icon: 'flag', iconColor: '#FC6252' },
+        {label: 'Low', value: 0, icon: 'flag', iconColor: '#DBDBDE'},
+        {label: 'Normal', value: 1, icon: 'flag', iconColor: '#2E7DFF'},
+        {label: 'High', value: 2, icon: 'flag', iconColor: '#FDC33E'},
+        {label: 'Urgent', value: 3, icon: 'flag', iconColor: '#FC6252'},
     ];
-    selectedLabel: IDropdownOption = { label: '', value: null };
+    selectedLabel: IDropdownOption = {label: '', value: null};
 
     showModalCheckboxes = true;
     showModalFiles = true;
@@ -62,37 +70,28 @@ export class CardComponent implements OnInit {
                 this.project = project;
                 // add projectId to project
                 this.project.id = this.taskProjectId;
-                // get column name of task
-                this.project.columns.forEach((column: Column) => {
-                    column.tasks.forEach((searchTask: any) => {
-                        if (searchTask.id === this.task.id) {
-                            this.columnName = column.title;
-                        }
-                    });
-                });
             });
         }
     }
 
-    editTask(hideModal?: boolean) {
+    async editTask(hideModal?: boolean) {
         if (hideModal === undefined) {
             hideModal = true;
         }
         // update task in column in project
-        this.project.columns.forEach((column: Column) => {
-            column.tasks = column.tasks.map((searchTask: any) => {
-                if (searchTask.id === this.task.id) {
-                    this.task.modificationDate = new Date().toUTCString();
-                    return this.task;
-                }
-                return searchTask;
-            });
+        this.project.tasks = this.project.tasks.map((task: Task) => {
+            if (task.id === this.task.id) {
+                this.task.modificationDate = new Date().toUTCString();
+                return this.task;
+            }
+            return task;
         });
 
+        console.log('this.project', this.project);
         // Update project
-        this.kanbanService.updateProject(this.project);
+        await this.kanbanService.updateProject(this.project);
 
-        this.messageService.add({ severity: 'success', summary: 'Task updated', detail: 'Task updated' });
+        this.messageService.add({severity: 'success', summary: 'Task updated', detail: 'Task updated'});
     }
 
     saveCheckbox(showModal: boolean, event?: any, isInput?: boolean, checkbox?: Checkboxes) {
@@ -101,22 +100,20 @@ export class CardComponent implements OnInit {
         });
         event.stopPropagation();
         // update task in column in project
-        this.project.columns.forEach((column: Column) => {
-            column.tasks = column.tasks.map((searchTask: any) => {
-                if (searchTask.id === this.task.id) {
-                    this.task.modificationDate = new Date().toUTCString();
-                    if (isInput) {
-                        this.task.checkboxes = this.task.checkboxes.map((searchCheckbox: Checkboxes) => {
-                            if (searchCheckbox.id === checkbox!.id) {
-                                checkbox!.title = event.target.value;
-                            }
-                            return searchCheckbox;
-                        });
-                    }
-                    return this.task;
+        this.project.tasks.forEach((task: Task) => {
+            if (task.id === this.task.id) {
+                this.task.modificationDate = new Date().toUTCString();
+                if (isInput) {
+                    this.task.checkboxes = this.task.checkboxes.map((searchCheckbox: Checkboxes) => {
+                        if (searchCheckbox.id === checkbox!.id) {
+                            checkbox!.title = event.target.value;
+                        }
+                        return searchCheckbox;
+                    });
                 }
-                return searchTask;
-            });
+                return this.task;
+            }
+            return task;
         });
 
         let tO = setTimeout(() => {
@@ -142,12 +139,12 @@ export class CardComponent implements OnInit {
 
     async deleteTask() {
         // remove task from column
-        this.project.columns.forEach((column: Column) => {
-            column.tasks = column.tasks.filter((searchTask: any) => searchTask.id !== this.task.id);
+        this.project.tasks = this.project.tasks.filter((task: Task) => {
+            return task.id !== this.task.id;
         });
 
         // Update project
-        this.kanbanService.updateProject(this.project);
+        await this.kanbanService.updateProject(this.project);
 
         this.updateKanban.emit();
     }
@@ -208,7 +205,7 @@ export class CardComponent implements OnInit {
         let newLabel = this.labelsList.find(l => l.value === event);
         // push event.value to task
         this.task.labels = [...this.task.labels, newLabel];
-        this.selectedLabel = { label: '', value: null };
+        this.selectedLabel = {label: '', value: null};
 
         this.editTask(false);
     }
@@ -320,5 +317,6 @@ export class CardComponent implements OnInit {
         }
         return autoId;
     }
+
     //#endregion
 }

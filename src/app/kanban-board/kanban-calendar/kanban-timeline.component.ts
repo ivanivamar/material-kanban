@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { from } from 'rxjs';
-import { Column, Project, Task } from 'src/app/interfaces/Kanban.interfaces';
+import { Project, Task } from 'src/app/interfaces/Kanban.interfaces';
 import { KanbanService } from 'src/app/kanban-service.service';
 
 @Component({
@@ -39,10 +39,8 @@ export class KanbanTimelineComponent implements OnInit {
     ngOnInit(): void {
         if (this.projectId) {
             from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
-                project.columns.forEach((column: Column) => {
-                    column.tasks.forEach((searchTask: any) => {
-                        this.tasksList.push(searchTask);
-                    });
+                project.tasks.forEach((task: Task) => {
+                    this.tasksList.push(task);
                 });
                 this.currentWeek = this.getWeek(new Date());
                 this.getTimelineRows();

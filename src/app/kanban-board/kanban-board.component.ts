@@ -1,5 +1,5 @@
 import {KanbanService} from './../kanban-service.service';
-import {Checkboxes, Column, Labels, Project, Urgency, Task, Status} from './../interfaces/Kanban.interfaces';
+import {Checkboxes, Labels, Project, Urgency, Task, Status} from './../interfaces/Kanban.interfaces';
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {from, Observable} from 'rxjs';
@@ -15,7 +15,7 @@ import {AuthService} from '../auth.service';
 export class KanbanBoardComponent implements OnInit {
     ProjectTabs = ProjectTabs;
     searchTerm: string = '';
-    currentTab: ProjectTabs = ProjectTabs.Kanban;
+    currentTab: ProjectTabs = ProjectTabs.List;
 
     projects: any[] = [];
     project: Project = {} as Project;
@@ -51,13 +51,6 @@ export class KanbanBoardComponent implements OnInit {
             borderColor: '#C9E1FE',
         },
         {
-            name: 'Completed',
-            icon: 'verified',
-            iconColor: '#00B341',
-            bgColor: '#F0FFF0',
-            borderColor: '#C9F9C9',
-        },
-        {
             name: 'Review',
             icon: 'review',
             iconColor: '#FFB800',
@@ -65,14 +58,14 @@ export class KanbanBoardComponent implements OnInit {
             borderColor: '#FFEACD',
         },
         {
-            name: 'Late',
-            icon: 'warning',
-            iconColor: '#FF0000',
-            bgColor: '#FFF0F0',
-            borderColor: '#FFD6D6',
-        }
+            name: 'Completed',
+            icon: 'verified',
+            iconColor: '#00B341',
+            bgColor: '#F0FFF0',
+            borderColor: '#C9F9C9',
+        },
     ];
-
+    currentListTab: string = 'all';
 
     labelsList = [
         {name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend'},
@@ -117,19 +110,6 @@ export class KanbanBoardComponent implements OnInit {
                 this.authService.isLoggedIn().then((user: any) => {
                     this.user = user;
                 });
-                from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
-                    this.projects = projects;
-
-                    // filter projects by user uid
-                    this.projects = this.projects.filter((project: Project) => {
-                        return project.uid === this.user.uid;
-                    });
-
-                    // order projects by order property
-                    this.projects.sort((a: Project, b: Project) => {
-                        return a.order - b.order;
-                    });
-                });
             }
         });
     }
@@ -163,50 +143,21 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     //#region Setters
-    async addColumn() {
-        this.loading = true;
-        let newColumn: Column = {
-            id: this.idGenerator(),
-            title: this.columnTitle,
-            tasks: [],
-        };
-
-        // Add new column to project
-        this.project.columns.push(newColumn);
-
-        // Update project
-        this.kanbanService.updateProject(this.project);
-
-        this.loading = false;
-        this.showAddColumnModal = false;
-    }
-
-    async editColumn() {
-        this.loading = true;
-
-        // Update existing column
-        this.project.columns.forEach((column: Column) => {
-            if (column.id === this.columnEditId) {
-                column.title = this.columnEditTitle;
-            }
-        });
-
-        // Update project
-        this.kanbanService.updateProject(this.project);
-
-        this.columnEditTitle = '';
-        this.loading = false;
-        this.showEditColumnModal = false;
-    }
-
-    async addTask(columnId: string) {
-        this.loading = true;
+    async addTask(statusName?: string) {
+        let statusFind: Status = this.statusList[0];
+        if (statusName !== undefined) {
+            this.statusList.forEach((status: Status) => {
+                if (status.name === statusName) {
+                    statusFind = status;
+                }
+            });
+        }
 
         let newTask: Task = {
             id: this.idGenerator(),
             title: '',
             description: '',
-            status: this.statusList[0],
+            status: statusFind,
             urgency: this.urgencyList[0],
             labels: [],
             checkboxes: [],
@@ -215,50 +166,32 @@ export class KanbanBoardComponent implements OnInit {
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
             dueDate: new Date(),
-            owner: this.user,
-            assignee: this.user
+            owner: this.user.uid,
+            assignee: this.user.uid,
         };
 
         // Add new task to column
-        this.project.columns.forEach((column: Column) => {
-            if (column.id === columnId) {
-                column.tasks.push(newTask);
-            }
-        });
+        this.project.tasks.push(newTask);
 
         console.log(this.project);
 
         // Update project
-        this.kanbanService.updateProject(this.project);
-
-        this.loading = false;
+        await this.kanbanService.updateProject(this.project);
     }
 
     //#endregion
 
     //#region Deleters
-    async deleteColumn(columnId: string) {
-        this.loading = true;
-
-        // remove column from project
-        this.project.columns = this.project.columns.filter((column: any) => column.id !== columnId);
-
-        // Update project
-        this.kanbanService.updateProject(this.project);
-
-        this.loading = false;
-    }
-
     async deleteTask(taskId: any) {
         this.loading = true;
 
         // remove task from column
-        this.project.columns.forEach((column: Column) => {
-            column.tasks = column.tasks.filter((task: any) => task.id !== taskId);
+        this.project.tasks = this.project.tasks.filter((task: Task) => {
+            return task.id !== taskId;
         });
 
         // Update project
-        this.kanbanService.updateProject(this.project);
+        await this.kanbanService.updateProject(this.project);
 
         this.loading = false;
     }
@@ -267,6 +200,18 @@ export class KanbanBoardComponent implements OnInit {
 
 
     //#region Helpers
+    getTasksOfStatus(statusName: string, project: Project) {
+        let count = 0;
+        if (project.tasks.length > 0) {
+            project.tasks.forEach((task: Task) => {
+                if (task.status.name === statusName) {
+                    count++;
+                }
+            });
+        }
+        return count;
+    }
+
     drop(event: CdkDragDrop<Task[]>) {
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -291,25 +236,11 @@ export class KanbanBoardComponent implements OnInit {
         audio.play();
     }
 
-    getConnectedLists(columnId: string): string[] {
-        // return the ids of all the other columns that aren't this one
-        return this.project.columns.filter(c => c.id !== columnId).map(c => 'column-' + c.id);
-    }
-
-    private async editColumnOnDrag(project: Project) {
-        this.loading = true;
-
-        // Update project
-        this.kanbanService.updateProject(project);
-
-        this.loading = false;
-    }
-
     private idGenerator(): string {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 5; i++) {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;
@@ -357,6 +288,7 @@ export class KanbanBoardComponent implements OnInit {
 }
 
 export enum ProjectTabs {
+    List,
     Kanban,
     Timeline,
 }

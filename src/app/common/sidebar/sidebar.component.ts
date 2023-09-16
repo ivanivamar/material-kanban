@@ -15,7 +15,6 @@ import {
 } from '@angular/fire/firestore';
 import {
     Project,
-    Column,
     Task,
     Urgency,
     Checkboxes,
@@ -38,6 +37,7 @@ export class SidebarComponent {
 
     user: any;
 
+    profileExpanded = false;
     constructor(
         private kanbanService: KanbanService,
         private router: Router,

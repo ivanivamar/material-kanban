@@ -24,8 +24,8 @@ export interface Task {
     images: Images[];
     dueDate: Date;
     dayDuration?: number;
-    owner?: User;
-    assignee?: User;
+    owner?: any;
+    assignee?: any;
 }
 
 export interface Status {
@@ -54,18 +54,12 @@ export interface Labels {
     code: string;
 }
 
-export interface Column {
-    id: string;
-    title: string;
-    tasks: Task[];
-}
-
 export interface Project {
     id?: string;
     title: string;
     description?: string;
     image?: string;
-    columns: Column[];
+    tasks: Task[];
     uid: string;
     order: number;
     completed: boolean;

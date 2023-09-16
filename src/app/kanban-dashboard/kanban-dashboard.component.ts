@@ -2,8 +2,7 @@ import {KanbanService} from 'src/app/kanban-service.service';
 import {Component, OnInit} from '@angular/core';
 import {from} from 'rxjs';
 import {
-    Project,
-    Column,
+    Project, Status,
     Task
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
@@ -55,6 +54,44 @@ export class KanbanDashboardComponent implements OnInit {
     users: any[] = [];
     userEmailToShare: string = '';
     shareWithError: string = '';
+
+    statusList: Status[] = [
+        {
+            name: 'To Do',
+            icon: 'pause_circle',
+            iconColor: '#000000',
+            bgColor: '#F3F4F6',
+            borderColor: '#EAEBEF',
+        },
+        {
+            name: 'In Progress',
+            icon: 'clock_loader_40',
+            iconColor: '#045FF3',
+            bgColor: '#EFF6FF',
+            borderColor: '#C9E1FE',
+        },
+        {
+            name: 'Completed',
+            icon: 'verified',
+            iconColor: '#00B341',
+            bgColor: '#F0FFF0',
+            borderColor: '#C9F9C9',
+        },
+        {
+            name: 'Review',
+            icon: 'review',
+            iconColor: '#FFB800',
+            bgColor: '#FFF6E5',
+            borderColor: '#FFEACD',
+        },
+        {
+            name: 'Late',
+            icon: 'warning',
+            iconColor: '#FF0000',
+            bgColor: '#FFF0F0',
+            borderColor: '#FFD6D6',
+        }
+    ];
 
     firstTime: boolean = true;
 
@@ -132,7 +169,7 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     sorter(event: any) {
-        if (event !== this.sortHeader) {
+        /*if (event !== this.sortHeader) {
             this.sortDirection = 'desc';
         }
         this.sortHeader = event;
@@ -180,7 +217,7 @@ export class KanbanDashboardComponent implements OnInit {
                 }
         }
         this.refreshTable();
-        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';*/
     }
 
     refreshTable() {
@@ -207,18 +244,15 @@ export class KanbanDashboardComponent implements OnInit {
         this.currentWeekTasks = [];
         let tasksArray: any[] = [];
         this.projects.forEach((project: Project) => {
-            project.columns.forEach((column: Column) => {
-                column.tasks.forEach((task: Task) => {
-                    if (!task.completed) {
-                        tasksArray.push(
-                            {
-                                projectId: project.id,
-                                columnId: column.id,
-                                task: task
-                            }
-                        );
-                    }
-                });
+            project.tasks.forEach((task: Task) => {
+                if (!task.completed) {
+                    tasksArray.push(
+                        {
+                            projectId: project.id,
+                            task: task
+                        }
+                    );
+                }
             });
             if (tasksArray.length > 0) {
                 this.currentWeekTasks.push(
@@ -255,7 +289,7 @@ export class KanbanDashboardComponent implements OnInit {
 
         projects.forEach((project: Project) => {
             this.data.labels.push(project.title);
-            this.data.datasets[0].data.push(this.getTasksCount(project));
+            this.data.datasets[0].data.push(project.tasks.length);
         });
 
         this.options = {
@@ -287,27 +321,19 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     createOrEditProject(project?: Project) {
-        this.selectedProject = project ? project : {
-            title: '',
-            description: '',
-        } as Project;
-        this.selectedProject.columns = project ? project.columns : [
-            {
-                id: this.idGenerator(),
-                title: 'To Do',
+        if (project) {
+            this.selectedProject = project;
+        } else {
+            this.selectedProject = {
+                title: '',
+                description: '',
                 tasks: [],
-            },
-            {
-                id: this.idGenerator(),
-                title: 'In Progress',
-                tasks: [],
-            },
-            {
-                id: this.idGenerator(),
-                title: 'Completed',
-                tasks: [],
-            }
-        ] as Column[];
+                uid: this.user.uid,
+                sharedWith: [],
+                completed: false,
+                order: this.projects.length + 1,
+            } as Project;
+        }
         this.showAddProjectModal = true;
     }
 
@@ -365,25 +391,9 @@ export class KanbanDashboardComponent implements OnInit {
     //#region Setters
     async addProject() {
         if (!this.selectedProject.id) {
-            this.selectedProject.columns = [
-                {
-                    id: this.idGenerator(),
-                    title: this.selectedProject.columns[0].title,
-                    tasks: [],
-                },
-                {
-                    id: this.idGenerator(),
-                    title: 'In Progress',
-                    tasks: [],
-                },
-                {
-                    id: this.idGenerator(),
-                    title: this.selectedProject.columns[2].title,
-                    tasks: [],
-                },
-            ];
             this.selectedProject.uid = this.user.uid;
             this.selectedProject.order = this.projects.length + 1;
+            this.selectedProject.tasks = [];
         }
         console.log('%c this.selectedProject', 'color: #00b300', this.selectedProject);
 
@@ -415,9 +425,7 @@ export class KanbanDashboardComponent implements OnInit {
     }
 
     setDisabled(): boolean {
-        return this.isEmpty(this.selectedProject.title) ||
-            this.isEmpty(this.selectedProject.columns[0].title) ||
-            this.isEmpty(this.selectedProject.columns[2].title);
+        return this.isEmpty(this.selectedProject.title);
     }
 
     //#region Deleters
@@ -472,29 +480,11 @@ export class KanbanDashboardComponent implements OnInit {
         return task.checkboxes.filter(t => t.checked).length;
     }
 
-    getTasksCount(project: Project): number {
+    getTasksOfStatus(statusName: string, project: Project) {
         let count = 0;
-        project.columns.forEach((column: Column) => {
-            count += column.tasks.length;
-        });
-        return count;
-    }
-
-    getTasksFromCompletedColumn(project: Project): number {
-        let count = 0;
-        project.columns.forEach((column: Column) => {
-            if (column.title === 'Completed') {
-                count += column.tasks.length;
-            }
-        });
-        return count;
-    }
-
-    getTasksFromInProgressColumn(project: Project): number {
-        let count = 0;
-        project.columns.forEach((column: Column) => {
-            if (column.title === 'In Progress') {
-                count += column.tasks.length;
+        project.tasks.forEach((task: Task) => {
+            if (task.status.name === statusName) {
+                count++;
             }
         });
         return count;
@@ -520,7 +510,7 @@ export class KanbanDashboardComponent implements OnInit {
         const chars =
             '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 5; i++) {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;

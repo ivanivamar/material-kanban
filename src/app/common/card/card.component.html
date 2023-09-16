@@ -1,8 +1,8 @@
-<div [classList]="'col-12 card transition-none'"
+<div [classList]="'col-12 card'"
      (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
      (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
     <!-- HEADER -->
-    <header class="card-header flex flex-column gap-3 w-full mb-5 align-items-baseline">
+    <header class="card-header flex flex-column gap-3 w-full align-items-baseline">
         <div class="flex align-items-center gap-3">
             <span class="material-symbols-rounded text-base" *ngIf="!task.completed"
                   (click)="toggleTaskCompleted($event, task)">
@@ -47,19 +47,19 @@
     </header>
     <!-- /HEADER -->
 
-    <div class="card-footer" *ngIf="task.checkboxes.length > 0">
+    <div class="card-footer mt-3" *ngIf="task.checkboxes.length > 0">
         <app-circular-progress-bar
             [value]="getTotalCompletedTasks() / task.checkboxes.length * 100"></app-circular-progress-bar>
         <!-- current checkbox name -->
-        <span class="text-sm text-color">
+        <span class="text-sm text-color font-semibold">
             {{ getCurrentCheckboxName() }}
         </span>
         <!-- counter of completed/total -->
-        <span class="text-sm text-color">
-            {{ getTotalCompletedTasks() }} / {{ task.checkboxes.length }}
+        <span class="text-sm text-color font-semibold">
+            ({{ getTotalCompletedTasks() }}/{{ task.checkboxes.length }})
         </span>
         <!-- last time updated -->
-        <span class="text-sm text-secondary">
+        <span class="text-sm text-secondary font-regular">
             updated
             {{ task.modificationDate | date: 'd MMM, y, h:mm a' : 'es-ES' }}
         </span>

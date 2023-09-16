@@ -1,13 +1,13 @@
 <nav>
     <header class="pt-3 flex flex-column">
-        <a routerLink="/" class="flex justify-content-center align-items-center p-1 border rounded" *ngIf="user">
-            <img src="../../../assets/kanban_logo.png" style="width: 28px; height: 28px;" alt="User Avatar">
+        <a routerLink="/" class="flex justify-content-center align-items-center p-1 border rounded">
+            <img src="../../../assets/kanban_logo.png" style="width: 28px; height: 28px;" alt="lOGO">
         </a>
     </header>
 
     <div class="divider"></div>
 
-    <div class="section">
+    <div class="section" *ngIf="!loading">
         <a routerLink="" routerLinkActive="active" *ngIf="user == null">
             <div class="link-content flex">
                 <span class="material-symbols-rounded">login</span>
@@ -25,5 +25,28 @@
                 <span class="material-symbols-rounded">folder</span>
             </div>
         </a>
+    </div>
+
+    <div class="section" style="position: absolute; bottom: 0;" *ngIf="user">
+        <div class="profile-dropdown" (click)="profileExpanded = !profileExpanded"
+             [class.expanded]="profileExpanded">
+            <img class="border-circle" style="width: 36px;" [src]="user.photoURL" alt="User Avatar">
+
+            <div class="profile-dropdown__content">
+                <div class="profile-info gap-3 align-items-start">
+                    <img class="border-circle" style="width: 46px;" [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
+                    <div class="flex flex-column gap-2">
+                        <span class="font-regular text-color">{{ user?.displayName }}</span>
+                        <span class="font-regular text-secondary">{{ user?.email }}</span>
+                        <button class="btn btn-outline btn-sm mt-2" routerLink="/auth/profile">Manage your profile</button>
+                    </div>
+                </div>
+                <a class="profile-dropdown__item text-color font-medium" routerLink="/auth/login" (click)="logout()">
+                    <i class="material-symbols-rounded text-color">logout</i>
+                    <span>Close this session</span>
+                </a>
+            </div>
+        </div>
+        <div class="overlay" style="background: transparent" *ngIf="profileExpanded" (click)="profileExpanded = !profileExpanded"></div>
     </div>
 </nav>

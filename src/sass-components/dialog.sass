@@ -67,6 +67,32 @@
         border-bottom-right-radius: 10px
         gap: 16px
 
+.dialog-full
+    height: 100%
+    width: calc(100% - 75px)
+    position: absolute
+    top: 0
+    left: 0
+    margin-left: 75px
+    border-radius: 0
+    border: none
+    box-shadow: none
+
+    .dialog-header
+        max-width: 1440px
+        margin: 0 auto
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background-color: $bg-color
+        padding: 12px
+        border-bottom: 1px solid $border-color
+
+    .dialog-content
+        background-color: $bg-color-secondary
+        max-width: 1440px
+        margin: 0 auto
+
 // mobile
 @media screen and (max-width: 768px)
     .dialog
