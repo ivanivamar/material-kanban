@@ -4,7 +4,7 @@ import {
     IDropdownOption,
     Images,
     Labels,
-    Project,
+    Project, Status,
     Task,
     Urgency
 } from 'src/app/interfaces/Kanban.interfaces';
@@ -12,6 +12,8 @@ import {KanbanService} from 'src/app/kanban-service.service';
 import {from} from 'rxjs';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import firebase from "firebase/compat";
+import User = firebase.User;
 
 @Component({
     selector: 'app-card',
@@ -39,6 +41,36 @@ export class CardComponent implements OnInit {
     showImages = false;
     newCheckbox = '';
     selectedImage: any = '';
+    statusList: Status[] = [
+        {
+            name: 'To Do',
+            icon: 'pause_circle',
+            iconColor: '#000000',
+            bgColor: '#F3F4F6',
+            borderColor: '#EAEBEF',
+        },
+        {
+            name: 'In Progress',
+            icon: 'clock_loader_40',
+            iconColor: '#045FF3',
+            bgColor: '#EFF6FF',
+            borderColor: '#C9E1FE',
+        },
+        {
+            name: 'Review',
+            icon: 'draw',
+            iconColor: '#FFB800',
+            bgColor: '#FFF6E5',
+            borderColor: '#FFEACD',
+        },
+        {
+            name: 'Completed',
+            icon: 'verified',
+            iconColor: '#00B341',
+            bgColor: '#F0FFF0',
+            borderColor: '#C9F9C9',
+        },
+    ];
     labelsList: IDropdownOption[] = [
         {label: 'Frontend', value: 'frontend'},
         {label: 'TypeScript', value: 'ts'},
@@ -57,10 +89,15 @@ export class CardComponent implements OnInit {
     showModalFiles = true;
     columnName = '';
 
+    users: any[] = [];
+    taskAssigneeEmail = '';
+    taskAssignee: User[] = [];
+    addAssignee = false;
+
     constructor(
         private kanbanService: KanbanService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
     ) {
     }
 
@@ -70,6 +107,17 @@ export class CardComponent implements OnInit {
                 this.project = project;
                 // add projectId to project
                 this.project.id = this.taskProjectId;
+                this.kanbanService.getUsers().subscribe((users: any) => {
+                    this.users = users;
+                    console.log('this.users', this.users);
+
+                    this.users.forEach((user: any) => {
+                        if (this.task.assignee.includes(user.uid)) {
+                            this.taskAssignee.push(user);
+                        }
+                    });
+                    console.log('this.task', this.task);
+                });
             });
         }
     }
@@ -90,8 +138,13 @@ export class CardComponent implements OnInit {
         console.log('this.project', this.project);
         // Update project
         await this.kanbanService.updateProject(this.project);
+        if (hideModal) {
+            this.showAddTaskModal = false;
+        } else {
+            this.showAddTaskModal = true;
+        }
 
-        this.messageService.add({severity: 'success', summary: 'Task updated', detail: 'Task updated'});
+        //this.messageService.add({severity: 'success', summary: 'Task updated', detail: 'Task updated'});
     }
 
     saveCheckbox(showModal: boolean, event?: any, isInput?: boolean, checkbox?: Checkboxes) {
@@ -274,9 +327,24 @@ export class CardComponent implements OnInit {
         this.task.checkboxes.push({
             id: this.idGenerator(),
             title: this.newCheckbox,
+            description: '',
             checked: false,
         });
         this.newCheckbox = '';
+    }
+
+    assignToTaskByEmail() {
+        // find user by email
+        let user = this.users.find(u => u.email === this.taskAssigneeEmail);
+        if (user) {
+            this.task.assignee.push(user.uid);
+            this.taskAssignee.push(user);
+        }
+    }
+
+    removeTaskAssignee(user: User) {
+        this.task.assignee = this.task.assignee.filter(u => u !== user.uid);
+        this.taskAssignee = this.taskAssignee.filter(u => u.uid !== user.uid);
     }
 
     uploadTaskImage(event: any) {
@@ -316,6 +384,25 @@ export class CardComponent implements OnInit {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;
+    }
+
+    getTextOfNumber(number: number) {
+        switch (number) {
+            case 1:
+                return 'one';
+            case 2:
+                return 'two';
+            case 3:
+                return 'three';
+            case 4:
+                return 'four';
+        }
+        return '';
+    }
+
+    getUserNameById(userId: string) {
+        let user = this.users.find(u => u.uid === userId);
+        return user ? user.username : '';
     }
 
     //#endregion

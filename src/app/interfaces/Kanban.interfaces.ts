@@ -24,8 +24,8 @@ export interface Task {
     images: Images[];
     dueDate: Date;
     dayDuration?: number;
-    owner?: any;
-    assignee?: any;
+    owner: any;
+    assignee: any[];
 }
 
 export interface Status {
@@ -44,6 +44,7 @@ export interface Images {
 export interface Checkboxes {
     id: string;
     title: string;
+    description: string;
     checked: boolean;
 }
 

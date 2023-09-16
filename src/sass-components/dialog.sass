@@ -73,25 +73,24 @@
     position: absolute
     top: 0
     left: 0
-    margin-left: 75px
+    margin-left: 72px
     border-radius: 0
     border: none
     box-shadow: none
 
     .dialog-header
-        max-width: 1440px
-        margin: 0 auto
         display: flex
         justify-content: space-between
         align-items: center
         background-color: $bg-color
-        padding: 12px
+        padding: 15px 64px
         border-bottom: 1px solid $border-color
 
     .dialog-content
         background-color: $bg-color-secondary
-        max-width: 1440px
-        margin: 0 auto
+        display: flex
+        height: auto
+        padding: 15px 64px
 
 // mobile
 @media screen and (max-width: 768px)
@@ -112,6 +111,11 @@
         .dialog-footer
             border-bottom-left-radius: 0
             border-bottom-right-radius: 0
+
+    .dialog-full
+        .dialog-header,
+        .dialog-content
+            padding: 15px
 
 @media screen and (min-width: 768px)
     .md\:max-h-40rem

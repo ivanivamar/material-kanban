@@ -7,11 +7,6 @@
                     <i class="material-symbols-rounded">view_stream</i>
                     List
                 </div>
-                <div (click)="currentTab = ProjectTabs.Kanban" class="tab"
-                     [class.active]="currentTab === ProjectTabs.Kanban">
-                    <i class="material-symbols-rounded">view_kanban</i>
-                    Kanban
-                </div>
                 <div class="tab" (click)="currentTab = ProjectTabs.Timeline"
                      [class.active]="currentTab === ProjectTabs.Timeline">
                     <i class="material-symbols-rounded">calendar_today</i>
@@ -21,7 +16,7 @@
 
             <div [ngSwitch]="currentTab">
                 <div *ngSwitchCase="ProjectTabs.List">
-                    <div class="bg-secondary p-3 pb-0 flex flex-column gap-3">
+                    <div class="bg-secondary px-7 p-3 pb-0 flex flex-column gap-1">
                         <div class="flex align-items-center justify-content-between">
                             <span class="text-color font-bold text-lg">Tasks</span>
 
@@ -43,7 +38,11 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-column gap-3">
+                    <button class="btn outlined-btn small-btn mt-3 mx-7 ">
+                        <span class="material-symbols-rounded">filter_alt</span>
+                        Add Filters
+                    </button>
+                    <div class="flex flex-column gap-3 px-6">
                         <div class="p-3" *ngFor="let task of project.tasks; let i = index">
                             <app-card *ngIf="currentListTab === 'all' || task.status.name === currentListTab"
                                       [taskProjectId]="projectId" [task]="task" [index]="i"

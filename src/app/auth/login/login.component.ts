@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
         password: '',
     };
 
+    users: any[] = [];
+
     constructor(
         private auth: AuthService,
         private router: Router,
@@ -28,6 +30,10 @@ export class LoginComponent implements OnInit {
             if (user) {
                 this.router.navigate(['']);
             }
+        });
+
+        this.kanbanService.getUsers().subscribe((users) => {
+            this.users = users;
         });
     }
 
@@ -45,13 +51,16 @@ export class LoginComponent implements OnInit {
 
     loginWithGoogle() {
         this.auth.googleLogin().then((user) => {
-            console.log('user', user);
-            this.kanbanService.addUser(user.user.uid, {
-                uid: user.user.uid,
-                username: user.user.displayName,
-                email: user.user.email,
-                photoURL: user.user.photoURL,
-            });
+            // check if user exists in database
+            const userExists = this.users.find((u) => u.uid === user.user.uid);
+            if (!userExists) {
+                this.kanbanService.addUser(user.user.uid, {
+                    uid: user.user.uid,
+                    username: user.user.displayName,
+                    email: user.user.email,
+                    photoURL: user.user.photoURL,
+                });
+            }
             this.router.navigate(['']);
             setTimeout(() => {
                 window.location.reload();

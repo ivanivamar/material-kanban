@@ -17,6 +17,8 @@ export class RegisterComponent implements OnInit {
         password: '',
     };
 
+    users: any[] = [];
+
     constructor(
         private auth: AuthService,
         private router: Router,
@@ -30,6 +32,10 @@ export class RegisterComponent implements OnInit {
                 this.router.navigate(['']);
             }
         });
+
+        this.kanbanService.getUsers().subscribe((users) => {
+            this.users = users;
+        });
     }
 
     register() {
@@ -38,14 +44,16 @@ export class RegisterComponent implements OnInit {
             email: this.registerForm.email,
             password: this.registerForm.password,
         }).then((user) => {
-            console.log('user', user);
-            // push user to collection
-            this.kanbanService.addUser(user.user.uid, {
-                uid: user.user.uid,
-                username: this.registerForm.username,
-                email: this.registerForm.email,
-                photoURL: user.user.photoURL,
-            });
+            // check if user exists in database
+            const userExists = this.users.find((u) => u.uid === user.user.uid);
+            if (!userExists) {
+                this.kanbanService.addUser(user.user.uid, {
+                    uid: user.user.uid,
+                    username: user.user.displayName,
+                    email: user.user.email,
+                    photoURL: user.user.photoURL,
+                });
+            }
             this.router.navigate(['/auth/login']);
         }).catch((error) => {
             console.log('error', error);

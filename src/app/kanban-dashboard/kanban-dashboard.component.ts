@@ -79,7 +79,7 @@ export class KanbanDashboardComponent implements OnInit {
         },
         {
             name: 'Review',
-            icon: 'review',
+            icon: 'draw',
             iconColor: '#FFB800',
             bgColor: '#FFF6E5',
             borderColor: '#FFEACD',
