@@ -1,4 +1,4 @@
-<header class="p-5 flex align-items-center justify-content-between">
+<header class="p-4 px-7 flex align-items-center justify-content-between bg-secondary">
     <span class="text-lg font-bold">Members</span>
 
     <div class="flex align-items-center gap-3">
@@ -14,10 +14,10 @@
     </div>
 </header>
 
-<div class="list p-3">
+<div class="list pb-3">
     <div class="list-item justify-content-between">
         <div class="flex align-items-center gap-2">
-            <img [src]="owner.photoURL" alt="owner Photo" width="25px" height="25px" class="border-circle">
+            <img [src]="owner.photoURL" alt="owner Photo" width="30px" height="30px" class="border-circle">
             <span class="text-base font-bold">{{ owner.username }}</span>
             <span class="text-sm text-color">{{ owner.email }}</span>
         </div>
@@ -34,7 +34,7 @@
     </div>
     <div class="list-item justify-content-between" *ngFor="let member of members">
         <div class="flex align-items-center gap-2">
-            <img [src]="member.photoURL" alt="owner Photo" width="25px" height="25px" class="border-circle">
+            <img [src]="member.photoURL" alt="owner Photo" width="30px" height="30px" class="border-circle">
             <span class="text-base font-bold">{{ member.username }}</span>
             <span class="text-sm text-color">{{ member.email }}</span>
         </div>
