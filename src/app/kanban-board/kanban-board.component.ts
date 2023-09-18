@@ -24,16 +24,9 @@ export class KanbanBoardComponent implements OnInit {
 
     user: any;
 
-    showAddColumnModal: boolean = false;
-    columnTitle: string = '';
-
     showEditColumnModal: boolean = false;
     columnEditId: string = '';
     columnEditTitle: string = '';
-
-    showAddTaskModal: boolean = false;
-
-    showCheckboxes: string = '';
 
     statusList: Status[] = [
         {
@@ -79,8 +72,6 @@ export class KanbanBoardComponent implements OnInit {
         {title: 'High', code: 2, color: '#FDC33E'},
         {title: 'Urgent', code: 3, color: '#FC6252'},
     ];
-    draggedTask: any;
-    startColumnId: any;
 
     constructor(
         private router: Router,
@@ -102,7 +93,6 @@ export class KanbanBoardComponent implements OnInit {
                         // add projectId to project object
                         this.project.id = this.projectId;
                         this.loading = false;
-                        console.log(this.project);
                     }, 200);
                 });
 
@@ -114,12 +104,6 @@ export class KanbanBoardComponent implements OnInit {
         });
     }
 
-    navigateToProject(project: Project) {
-        this.router.navigate(['/projects/kanban'], {
-            queryParams: {projectId: project.id},
-        });
-    }
-
     updateKanban() {
         from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
             setTimeout(() => {
@@ -127,19 +111,8 @@ export class KanbanBoardComponent implements OnInit {
                 // add projectId to project object
                 this.project.id = this.projectId;
                 this.loading = false;
-                console.log(this.project);
             }, 200);
         });
-    }
-
-    editColumnSetup(columnId: string, columnTitle: string) {
-        this.columnEditId = columnId;
-        this.columnEditTitle = columnTitle;
-        this.showEditColumnModal = true;
-    }
-
-    addTaskSetup() {
-
     }
 
     //#region Setters
@@ -166,14 +139,19 @@ export class KanbanBoardComponent implements OnInit {
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
             dueDate: new Date(),
-            owner: this.user.uid,
-            assignee: [],
+            owner: {
+                username: this.user.displayName,
+                email: this.user.email,
+                photoURL: this.user.photoURL,
+                uid: this.user.uid,
+                sharedProjectsIds: [],
+            },
+            assignees: [],
         };
+        console.log(newTask);
 
         // Add new task to column
         this.project.tasks.push(newTask);
-
-        console.log(this.project);
 
         // Update project
         await this.kanbanService.updateProject(this.project);

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { Login } from 'src/app/interfaces/Kanban.interfaces';
 import {KanbanService} from "../../kanban-service.service";
+import {from} from "rxjs";
 
 @Component({
     selector: 'app-login',
@@ -26,14 +27,14 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         // check if user is logged in
+
         this.auth.isLoggedIn().then((user: any) => {
             if (user) {
                 this.router.navigate(['']);
             }
-        });
-
-        this.kanbanService.getUsers().subscribe((users) => {
-            this.users = users;
+            from(this.kanbanService.getUsers()).subscribe((users: any[]) => {
+                this.users = users;
+            });
         });
     }
 
@@ -42,7 +43,6 @@ export class LoginComponent implements OnInit {
             email: this.loginForm.email,
             password: this.loginForm.password,
         }).then((user) => {
-            console.log('user', user);
             this.router.navigate(['']);
         }).catch((error) => {
             console.log('error', error);
@@ -52,13 +52,19 @@ export class LoginComponent implements OnInit {
     loginWithGoogle() {
         this.auth.googleLogin().then((user) => {
             // check if user exists in database
-            const userExists = this.users.find((u) => u.uid === user.user.uid);
+            let userExists = false;
+            this.users.forEach((u) => {
+                if (u.uid === user.user.uid) {
+                    userExists = true;
+                }
+            });
             if (!userExists) {
                 this.kanbanService.addUser(user.user.uid, {
                     uid: user.user.uid,
                     username: user.user.displayName,
                     email: user.user.email,
                     photoURL: user.user.photoURL,
+                    sharedProjectsIds: [],
                 });
             }
             this.router.navigate(['']);

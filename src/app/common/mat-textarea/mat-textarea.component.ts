@@ -55,7 +55,6 @@ export class MatTextareaComponent {
     }
 
     onInput(textArea: HTMLTextAreaElement) {
-        console.log('onInput', this.value);
         if (textArea) {
             textArea.style.overflow = 'hidden';
             textArea.style.height = 'auto';

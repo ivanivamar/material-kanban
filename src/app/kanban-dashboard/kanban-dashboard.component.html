@@ -71,7 +71,8 @@
                             <span class="material-symbols-rounded">edit</span>
                         </button>
 
-                        <button class="icon-btn text-btn danger-color-only small-btn" *ngIf="project.uid === user.uid"
+                        <button class="icon-btn text-btn danger-color-only small-btn"
+                                *ngIf="project.owner.uid === user.uid"
                                 (click)="confirmDeleteProject($event, project)">
                             <span class="material-symbols-rounded">delete</span>
                         </button>
@@ -177,16 +178,17 @@
             <div class="divider" *ngIf="selectedProject.id"></div>
 
             <!-- list of users shared -->
-            <div class="flex flex-column gap-2">
-                <div class="card px-2 p-1" *ngFor="let user of selectedProject.sharedWith">
+            <div class="flex flex-wrap gap-2">
+                <div class="card nohover px-2 p-1" style="width: auto; flex-grow: 1"
+                     *ngFor="let member of selectedProject.members">
                     <div class="card-header gap-2">
-                        <img [src]="user.photoURL" width="25px" height="25px" class="border-circle"
-                             [alt]="user.displayName + ' avatar'">
+                        <img [src]="member.photoURL" width="25px" height="25px" class="border-circle"
+                             [alt]="member.username + ' avatar'">
                         <div class="title w-full">
-                            {{ user.email }}
+                            {{ member.email }}
                         </div>
                         <button class="icon-btn text-btn danger-color-only small-btn"
-                                *ngIf="selectedProject.uid === user.uid" (click)="removeUserFromProject(user)">
+                                *ngIf="selectedProject.owner.uid === user.uid" (click)="removeUserFromProject(member)">
                             <span class="material-symbols-rounded">close</span>
                         </button>
                     </div>

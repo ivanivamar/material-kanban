@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
                     username: user.user.displayName,
                     email: user.user.email,
                     photoURL: user.user.photoURL,
+                    sharedProjectsIds: [],
                 });
             }
             this.router.navigate(['/auth/login']);

@@ -1,4 +1,4 @@
-<div [classList]="'col-12 card'" [class.surface-primary]="task.completed" [class.border-primary]="task.completed"
+<div [classList]="'col-12 card'"
      (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
      (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
     <!-- HEADER -->
@@ -15,7 +15,8 @@
                 {{ task.status.name }}
             </div>
             <div class="flex align-items-center absolute right-0">
-                <div class="relative assignee-container" style="top: 2px" *ngFor="let assignee of taskAssignee; let index = index">
+                <div class="relative assignee-container" style="top: 2px"
+                     *ngFor="let assignee of task.assignees; let index = index">
                     <img width="28px" height="28px" class="border-circle relative" [style.border]="'2px solid white'"
                          [style.left]="index > 0 ? '-10px' : '0'"
                          [src]="assignee.photoURL" alt="assignee image"/>
@@ -23,12 +24,12 @@
             </div>
         </div>
         <div class="flex align-items-center gap-3">
-            <div class="flex gap-2 text-color font-medium align-items-center" *ngIf="task.assignee">
+            <div class="flex gap-2 text-color font-medium align-items-center">
                 <i class="material-symbols-rounded text-sm">
                     person
                 </i>
                 <span class="text-sm">
-                    {{ getUserNameById(task.owner) }}
+                    {{ task.owner.username }}
                 </span>
             </div>
             <div class="flex gap-2 text-color font-medium align-items-center" *ngIf="task.urgency">
@@ -181,7 +182,7 @@
                     <div class="divider"></div>
                     <div class="card-body p-3 pt-0">
                         <div class="flex align-items-center gap-2 mb-2">
-                            <div class="relative assignee-container" *ngFor="let assignee of taskAssignee">
+                            <div class="relative assignee-container" *ngFor="let assignee of task.assignees">
                                 <img width="35px" height="35px" class="border-circle"
                                      [src]="assignee.photoURL" alt="assignee image"/>
                                 <div
@@ -199,17 +200,27 @@
                             </div>
                         </div>
                         <div *ngIf="addAssignee">
-                            <mat-input [inputType]="'text'" [label]="'Assignee'" [(value)]="taskAssigneeEmail"
-                                       [name]="'taskAssignee'"></mat-input>
+                            <div class="dropdown" [class.expanded]="showDropdown">
+                                <div class="dropbtn" (click)="showDropdown = !showDropdown">
+                                    Select assignees
+                                </div>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-item"
+                                         (click)="member.selected = !member.selected; assignUsers()"
+                                         *ngFor="let member of members">
+                                        <i class="material-symbols-rounded text-2xl">
+                                            {{ member.selected ? 'check_box' : 'check_box_outline_blank' }}
+                                        </i>
+                                        <img width="25px" height="25px" class="border-circle"
+                                             [src]="member.photoURL" alt="assignee image"/>
+                                        <span class="ml-2 w-full">
+                                            {{ member.username }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="flex flex-row-reverse align-items-center gap-2 w-full mt-2">
-                                <button class="btn filled-btn" [disabled]="taskAssigneeEmail.trim().length === 0"
-                                        (click)="assignToTaskByEmail(); addAssignee = false">
-                                    <span class="material-symbols-rounded text-base">
-                                        add
-                                    </span>
-                                    Assign to task
-                                </button>
-                                <button class="btn outlined-btn" (click)="taskAssigneeEmail = ''; addAssignee = false">
+                                <button class="btn outlined-btn" (click)="addAssignee = false">
                                     <span class="material-symbols-rounded text-base">
                                         close
                                     </span>

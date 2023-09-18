@@ -24,8 +24,16 @@ export interface Task {
     images: Images[];
     dueDate: Date;
     dayDuration?: number;
-    owner: any;
-    assignee: any[];
+    owner: UserLite;
+    assignees: UserLite[];
+}
+
+export interface UserLite {
+    username: string;
+    email: string;
+    photoURL: string;
+    uid: string;
+    sharedProjectsIds: string[];
 }
 
 export interface Status {
@@ -58,13 +66,13 @@ export interface Labels {
 export interface Project {
     id?: string;
     title: string;
-    description?: string;
+    description: string;
     image?: string;
     tasks: Task[];
-    uid: string;
     order: number;
     completed: boolean;
-    sharedWith: User[];
+    owner: UserLite;
+    members: UserLite[];
 }
 export interface Urgency {
     title: string;

@@ -46,8 +46,6 @@ export class KanbanTimelineComponent implements OnInit {
                 this.getTimelineRows();
             });
         }
-
-        console.log('%c Current week: ', 'color: #00ff00', this.currentWeek);
     }
 
     getWeek(date: Date): Week[] {

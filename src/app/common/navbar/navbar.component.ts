@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
 
             // filter projects by user uid
             this.projects = this.projects.filter((project: Project) => {
-                return project.uid === this.user.uid;
+                return project.owner.uid === this.user.uid;
             });
 
             // order projects by order property

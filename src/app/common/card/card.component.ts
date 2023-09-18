@@ -6,7 +6,7 @@ import {
     Labels,
     Project, Status,
     Task,
-    Urgency
+    Urgency, UserLite
 } from 'src/app/interfaces/Kanban.interfaces';
 import {KanbanService} from 'src/app/kanban-service.service';
 import {from} from 'rxjs';
@@ -27,8 +27,7 @@ export class CardComponent implements OnInit {
 
     @Input() task: Task = {} as Task;
     @Input() index: any = 0 as number;
-    @Input() taskProjectId: string | undefined;
-    @Input() columnId: string | undefined;
+    @Input() taskProject: Project = {} as Project;
 
     @Output() updateKanban: EventEmitter<any> = new EventEmitter<any>();
 
@@ -37,6 +36,7 @@ export class CardComponent implements OnInit {
     showAddTaskModal = false;
     draggedTask: any;
     project!: Project;
+    members: any[] = [];
     showCheckboxes = false;
     showImages = false;
     newCheckbox = '';
@@ -90,9 +90,8 @@ export class CardComponent implements OnInit {
     columnName = '';
 
     users: any[] = [];
-    taskAssigneeEmail = '';
-    taskAssignee: User[] = [];
     addAssignee = false;
+    showDropdown = false;
 
     constructor(
         private kanbanService: KanbanService,
@@ -102,22 +101,24 @@ export class CardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.taskProjectId) {
-            from(this.kanbanService.getProjectById(this.taskProjectId)).subscribe((project: Project) => {
-                this.project = project;
-                // add projectId to project
-                this.project.id = this.taskProjectId;
-                this.kanbanService.getUsers().subscribe((users: any) => {
-                    this.users = users;
-                    console.log('this.users', this.users);
-
-                    this.users.forEach((user: any) => {
-                        if (this.task.assignee.includes(user.uid)) {
-                            this.taskAssignee.push(user);
-                        }
-                    });
-                    console.log('this.task', this.task);
+        if (this.taskProject) {
+            this.project = this.taskProject;
+            this.members = JSON.parse(JSON.stringify(this.project.members));
+            // set members selected to false or true depending on if they are in the task assignees
+            this.members = this.members.map((member: any) => {
+                member.selected = this.task.assignees.find((assignee: any) => {
+                    return assignee.uid === member.uid;
                 });
+                return member;
+            });
+            // add project owner to members
+            this.members.push({
+                uid: this.project.owner.uid,
+                username: this.project.owner.username,
+                selected: this.task.assignees.find((assignee: any) => {
+                    return assignee.uid === this.project.owner.uid;
+                }),
+                photoURL: this.project.owner.photoURL,
             });
         }
     }
@@ -134,8 +135,7 @@ export class CardComponent implements OnInit {
             }
             return task;
         });
-
-        console.log('this.project', this.project);
+        console.log(this.task);
         // Update project
         await this.kanbanService.updateProject(this.project);
         if (hideModal) {
@@ -333,32 +333,23 @@ export class CardComponent implements OnInit {
         this.newCheckbox = '';
     }
 
-    assignToTaskByEmail() {
-        // find user by email
-        let user = this.users.find(u => u.email === this.taskAssigneeEmail);
-        if (user) {
-            if (!this.task.assignee.includes(user.uid)) {
-                this.task.assignee.push(user.uid);
-                this.taskAssignee.push(user);
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'User already assigned',
-                    detail: 'Try with another email',
-                });
-            }
-        } else {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'User not found',
-                detail: 'Try with another email',
-            });
-        }
+    assignUsers() {
+        console.log(this.members);
+        // add to assignees array in task the selected users in this.members
+        this.task.assignees = this.members.filter((member: any) => {
+            return member.selected;
+        });
     }
 
-    removeTaskAssignee(user: User) {
-        this.task.assignee = this.task.assignee.filter(u => u !== user.uid);
-        this.taskAssignee = this.taskAssignee.filter(u => u.uid !== user.uid);
+    removeTaskAssignee(user: UserLite) {
+        this.task.assignees = this.task.assignees.filter(u => u.uid !== user.uid);
+        // set member selected to false
+        this.members = this.members.map((member: any) => {
+            if (member.uid === user.uid) {
+                member.selected = false;
+            }
+            return member;
+        });
     }
 
     uploadTaskImage(event: any) {
@@ -366,7 +357,6 @@ export class CardComponent implements OnInit {
 
         if (image) {
             this.kanbanService.uploadImage(image).then((image: Images) => {
-                console.log('image', image);
                 let imageObject: Images = {
                     url: image.url,
                     name: image.name
