@@ -35,7 +35,7 @@ export class ProjectMembersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.membersList = JSON.parse(JSON.stringify(this.members));
+        this.membersList = this.members;
 
         this.kanbanService.getUsers().subscribe(users => {
             this.users = users;
@@ -53,9 +53,12 @@ export class ProjectMembersComponent implements OnInit {
     }
 
     searchMembers(): void {
+        this.membersList = [];
         if (this.searchMember.trim().length === 0) {
+            console.log('here');
             this.membersList = this.members;
         } else {
+            console.log('here2');
             this.membersList = this.members.filter(member => {
                 return member.username.toLowerCase().includes(this.searchMember.toLowerCase()) ||
                     member.email.toLowerCase().includes(this.searchMember.toLowerCase());
