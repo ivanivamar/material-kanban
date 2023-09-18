@@ -1,5 +1,5 @@
 <div class="grid grid-nogutter">
-    <div class="col-12 bg-color shadow-1 rounded ml-3">
+    <div class="col-12 bg-color shadow-1">
         <div *ngIf="!loading">
             <div class="tabs-container m-3">
                 <div (click)="currentTab = ProjectTabs.List" class="tab"
@@ -11,6 +11,11 @@
                      [class.active]="currentTab === ProjectTabs.Timeline">
                     <i class="material-symbols-rounded">calendar_today</i>
                     Timeline
+                </div>
+                <div class="tab" (click)="currentTab = ProjectTabs.Members"
+                     [class.active]="currentTab === ProjectTabs.Members">
+                    <i class="material-symbols-rounded">group</i>
+                    Members
                 </div>
             </div>
 
@@ -98,6 +103,10 @@
                 <!--<div *ngSwitchCase="ProjectTabs.Timeline" class="h-full">
                     <app-kanban-timeline [projectId]="projectId" class="h-full"></app-kanban-timeline>
                 </div>-->
+                <div *ngSwitchCase="ProjectTabs.Members" class="h-full">
+                    <app-project-members [owner]="project.owner" [isUserOwner]="project.owner.uid === user.uid" [members]="project.members"
+                                         (onChangeSubmit)="updateFromMembers($event)" class="h-full"></app-project-members>
+                </div>
             </div>
         </div>
     </div>

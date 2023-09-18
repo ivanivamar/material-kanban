@@ -11,9 +11,10 @@
     .table-header
         display: flex
         align-items: center
-        padding: 0 16px
-        background-color: white
-        border-bottom: 2px solid $border-color
+        padding: 0 8px
+        border-bottom: 1px solid $border-color
+        height: 41px
+        background-color: $background-secondary-color
 
         .header-cell
             align-items: center
@@ -26,7 +27,7 @@
             color: $text-color
             font-weight: 500
             font-family: $font-family
-            height: 55px
+            height: auto
             display: flex
 
             &.sortable,
@@ -51,12 +52,10 @@
         flex-direction: row
         align-items: center
         gap: 8px
-        padding: 16px
-        background-color: $background-secondary-color
+        padding: 0 8px
+        background-color: white
         transition: background-color 0.2s ease
-
-        &:nth-child(odd)
-            background-color: white
+        border-bottom: 1px solid $border-color
 
         &:hover
             background-color: $background-primary-color
@@ -95,3 +94,37 @@
         flex-direction: row
         align-items: center
         gap: 8px
+
+@media screen and (max-width: 768px)
+    .table
+        .table-header
+
+            .header-cell
+                font-size: 12px
+                line-height: 16px
+
+        .table-row
+            .table-cell
+                font-size: 12px
+                line-height: 16px
+                gap: 0
+
+    .paginator
+        flex-direction: column
+        align-items: flex-start
+        justify-content: initial
+        padding: 8px
+
+        .paginator-text
+            font-size: 12px
+            line-height: 16px
+            color: $text-color
+            font-weight: 500
+            font-family: $font-family
+            margin-bottom: 8px
+
+        .paginator-controls
+
+            .btn
+                height: 24px
+                padding: 2px 8px

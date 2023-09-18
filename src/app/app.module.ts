@@ -36,6 +36,7 @@ import {MatInputComponent} from './common/mat-input/mat-input.component';
 import {MatTextareaComponent} from './common/mat-textarea/mat-textarea.component';
 import {DragScrollModule} from "ngx-drag-scroll";
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
+import { ProjectMembersComponent } from './kanban-board/project-members/project-members.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { CircularProgressBarComponent } from './common/circular-progress-bar/cir
         MatInputComponent,
         MatTextareaComponent,
         CircularProgressBarComponent,
+        ProjectMembersComponent,
     ],
     imports: [
         BrowserModule,

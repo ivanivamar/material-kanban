@@ -1,0 +1,128 @@
+<header class="p-5 flex align-items-center justify-content-between bg-secondary">
+    <span class="text-lg font-bold">Members</span>
+
+    <div class="flex align-items-center gap-3">
+        <span class="text-base text-color">
+            {{ membersCount() }}
+        </span>
+        <mat-input [inputType]="'text'" class="bg-color rounded" [placeholder]="'Search...'" [(value)]="searchMember"
+                   (valueChange)="searchMembers()" [showClear]="true"></mat-input>
+        <button class="btn filled-btn" (click)="this.showModal = true">
+            <i class="material-symbols-rounded">add</i>
+            Add Member
+        </button>
+    </div>
+</header>
+
+<div class="list">
+    <div class="list-item justify-content-between">
+        <div class="flex align-items-center gap-2">
+            <img [src]="owner.photoURL" alt="owner Photo" width="25px" height="25px" class="border-circle">
+            <span class="text-base font-bold">{{ owner.username }}</span>
+            <span class="text-sm text-color">{{ owner.email }}</span>
+        </div>
+
+        <div class="flex align-items-center gap-2">
+            <div
+                class="p-2 px-3 bg-secondary text-color font-medium text-base flex align-items-center justify-content-center rounded pointer-events-none">
+                Owner
+            </div>
+            <button class="icon-btn text-btn opacity-100 pointer-events-none" [disabled]="true">
+                <i class="material-symbols-rounded">manage_accounts</i>
+            </button>
+        </div>
+    </div>
+    <div class="list-item justify-content-between" *ngFor="let member of members">
+        <div class="flex align-items-center gap-2">
+            <img [src]="member.photoURL" alt="owner Photo" width="25px" height="25px" class="border-circle">
+            <span class="text-base font-bold">{{ member.username }}</span>
+            <span class="text-sm text-color">{{ member.email }}</span>
+        </div>
+
+        <div class="flex align-items-center gap-2">
+            <div
+                class="p-2 px-3 bg-secondary flex align-items-center text-color font-medium text-base justify-content-center rounded pointer-events-none">
+                Member
+            </div>
+            <button class="icon-btn text-btn danger-color-only" [disabled]="!isUserOwner" (click)="showModalRemove = true; selectedMember = member">
+                <i class="material-symbols-rounded">person_remove</i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-container" *ngIf="showModal">
+    <div class="overlay" (click)="showModal = false; newMemberEmail = ''"></div>
+
+    <div class="dialog dialog-sm">
+        <button class="icon-btn text-btn close-btn" (click)="showModal = false; newMemberEmail = ''">
+            <i class="material-symbols-rounded">close</i>
+        </button>
+        <div class="dialog-header align-items-start">
+            <div class="flex flex-column gap-2">
+                <span class="text-lg font-bold text-color">Invite a team member</span>
+                <span class="text-sm text-secondary">Enter the email address of the person you want to invite.</span>
+            </div>
+        </div>
+
+        <div class="dialog-content">
+            <div class="flex align-items-end gap-2">
+                <mat-input class="w-full" [inputType]="'text'" [helperText]="addMemberErrorMessage"
+                           [label]="'Email address'"
+                           [(value)]="newMemberEmail"></mat-input>
+                <div style="padding: 10px 16px"
+                     class="bg-secondary flex align-items-center text-color font-medium text-base justify-content-center rounded pointer-events-none">
+                    Member
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-footer">
+            <button class="btn text-btn" (click)="showModal = false; newMemberEmail = ''">
+                <i class="material-symbols-rounded">close</i>
+                Cancel
+            </button>
+            <button class="btn filled-btn" (click)="addMember()" [disabled]="newMemberEmail.trim().length === 0">
+                <i class="material-symbols-rounded">person_add</i>
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-container" *ngIf="showModalRemove">
+    <div class="overlay" (click)="showModalRemove = false; selectedMember = null"></div>
+
+    <div class="dialog dialog-sm">
+        <button class="icon-btn text-btn close-btn" (click)="showModalRemove = false; selectedMember = null">
+            <i class="material-symbols-rounded">close</i>
+        </button>
+        <div class="dialog-header align-items-start">
+            <div class="flex flex-column gap-2">
+                <span class="text-lg font-bold text-color">Remove member</span>
+                <span class="text-sm text-secondary">The members access to this project will be removed.</span>
+            </div>
+        </div>
+
+        <div class="dialog-content">
+            <div class="flex align-items-center gap-2">
+                <img [src]="selectedMember.photoURL" alt="owner Photo" width="25px" height="25px" class="border-circle">
+                <div class="flex flex-column gap-1">
+                    <span class="text-base font-medium">{{ selectedMember.username }}</span>
+                    <span class="text-sm text-color">{{ selectedMember.email }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-footer">
+            <button class="btn text-btn" (click)="showModalRemove = false; selectedMember = null">
+                <i class="material-symbols-rounded">close</i>
+                Cancel
+            </button>
+            <button class="btn filled-btn danger" (click)="removeMember()">
+                <i class="material-symbols-rounded">person_remove</i>
+                Remove
+            </button>
+        </div>
+    </div>
+</div>

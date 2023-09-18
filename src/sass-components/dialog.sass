@@ -27,6 +27,7 @@
     z-index: 999
     border: 1px solid $border-color
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
+    position: relative
 
     &.dialog-sm
         width: 400px
@@ -34,11 +35,16 @@
     &.dialog-lg
         width: 1000px
 
+    .close-btn
+        position: absolute
+        top: 6px
+        right: 6px
+
     .dialog-header
         display: flex
         justify-content: space-between
         align-items: center
-        padding: 12px
+        padding: 24px
         padding-bottom: 6px
 
         .text-btn
@@ -54,7 +60,7 @@
             line-height: 32px
 
     .dialog-content
-        padding: 12px
+        padding: 24px
         max-height: 600px
         overflow-y: auto
 
@@ -62,7 +68,8 @@
         display: flex
         justify-content: flex-end
         align-items: center
-        padding: 12px
+        padding: 12px 24px
+        padding-bottom: 24px
         border-bottom-left-radius: 10px
         border-bottom-right-radius: 10px
         gap: 16px

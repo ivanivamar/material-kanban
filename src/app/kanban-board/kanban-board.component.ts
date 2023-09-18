@@ -1,5 +1,5 @@
 import {KanbanService} from './../kanban-service.service';
-import {Checkboxes, Labels, Project, Urgency, Task, Status} from './../interfaces/Kanban.interfaces';
+import {Checkboxes, Labels, Project, Urgency, Task, Status, UserLite} from './../interfaces/Kanban.interfaces';
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {from, Observable} from 'rxjs';
@@ -157,6 +157,11 @@ export class KanbanBoardComponent implements OnInit {
         await this.kanbanService.updateProject(this.project);
     }
 
+    updateFromMembers(members: UserLite []) {
+        this.project.members = members;
+        this.kanbanService.updateProject(this.project);
+    }
+
     //#endregion
 
     //#region Deleters
@@ -269,4 +274,5 @@ export enum ProjectTabs {
     List,
     Kanban,
     Timeline,
+    Members,
 }
