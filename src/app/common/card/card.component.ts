@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
     Checkboxes,
     IDropdownOption,
@@ -14,6 +14,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import firebase from "firebase/compat";
 import User = firebase.User;
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-card',
@@ -93,10 +94,16 @@ export class CardComponent implements OnInit {
     addAssignee = false;
     showDropdown = false;
 
+    showFileModal = false;
+    newImageObject: Images = {} as Images;
+    newFile: File = {} as File;
+    downloadFileElement: any;
+
     constructor(
         private kanbanService: KanbanService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
+        private sanitizer: DomSanitizer
     ) {
     }
 
@@ -120,6 +127,14 @@ export class CardComponent implements OnInit {
                 }),
                 photoURL: this.project.owner.photoURL,
             });
+        }
+
+        this.downloadFileElement = {
+            name: '',
+            url: '',
+            type: '',
+            extension: '',
+            color: '',
         }
     }
 
@@ -190,6 +205,18 @@ export class CardComponent implements OnInit {
         });
     }
 
+    confirmDeleteGlobal(event: any, method: string, object: any) {
+        this.confirmationService.confirm({
+            target: event.target,
+            message: 'Are you sure that you want to delete this?',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                // @ts-ignore
+                this[method](object);
+            },
+        });
+    }
+
     async deleteTask() {
         // remove task from column
         this.project.tasks = this.project.tasks.filter((task: Task) => {
@@ -232,26 +259,10 @@ export class CardComponent implements OnInit {
         this.editTask(false);
     }
 
-    fileInputClick(event: any) {
-        event.stopPropagation();
-
-        this.fileInput.nativeElement.click();
-        this.showAddTaskModal = false;
-    }
-
-    fileInputClickInside(event: any) {
-        event.stopPropagation();
-        this.addFiles.nativeElement.click();
-    }
-
     showImage(event: any, image: any) {
         event.stopPropagation();
 
         this.selectedImage = image;
-    }
-
-    manageClick(event: any) {
-        event.stopPropagation();
     }
 
     onLabelSelect(event: any) {
@@ -261,18 +272,6 @@ export class CardComponent implements OnInit {
         this.selectedLabel = {label: '', value: null};
 
         this.editTask(false);
-    }
-
-    toggleTaskCompleted(event?: Event, task?: Task) {
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-
-            this.showAddTaskModal = false;
-        }
-        this.task.completed = !this.task.completed;
-
-        this.editTask(event ? true : false);
     }
 
     getCurrentCheckboxName() {
@@ -294,30 +293,8 @@ export class CardComponent implements OnInit {
         }
     }
 
-    deleteCheckboxInline(event: any, checkbox: Checkboxes) {
-        event.stopPropagation();
-        this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox.id);
-        this.saveCheckbox(false);
-    }
-
     getTotalCompletedTasks() {
         return this.task.checkboxes.filter(t => t.checked).length;
-    }
-
-    manageInlineCheckboxEdit(event: any) {
-        event.stopPropagation();
-    }
-
-    showCheckbox(event: any, taskId: string) {
-        event.stopPropagation();
-        this.showCheckboxes = !this.showCheckboxes;
-        this.showImages = false;
-    }
-
-    showImagesFooter(event: any, taskId: string) {
-        event.stopPropagation();
-        this.showImages = !this.showImages;
-        this.showCheckboxes = false;
     }
 
     addCheckbox(event?: any) {
@@ -353,24 +330,120 @@ export class CardComponent implements OnInit {
     }
 
     uploadTaskImage(event: any) {
-        const image = event.target.files[0];
-
-        if (image) {
-            this.kanbanService.uploadImage(image).then((image: Images) => {
-                let imageObject: Images = {
-                    url: image.url,
-                    name: image.name
-                };
-                this.task.images.push(imageObject);
-            });
+        this.newFile = event.target.files[0];
+        let nameOfFile = '';
+        switch (this.newFile.type) {
+            case 'image/png':
+                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.PNG';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'PNG';
+                break;
+            case 'image/jpeg':
+                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.JPEG';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'JPEG';
+                break;
+            case 'image/jpg':
+                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.JPG';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'JPG';
+                break;
+            case 'file/pdf':
+                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.PDF';
+                this.newImageObject.type = 'file';
+                this.newImageObject.extension = 'PDF';
+                break;
+            case 'file/doc':
+                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.DOC';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'DOC';
+                break;
+            case 'file/docx':
+                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.DOCX';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'DOCX';
+                break;
+            case 'file/xls':
+                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.XLS';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'XLS';
+                break;
+            case 'file/xlsx':
+                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.XLSX';
+                this.newImageObject.type = 'image';
+                this.newImageObject.extension = 'XLSX';
+                break;
+            default:
+                nameOfFile = 'OTHER' + this.idNumbersGenerator() + '.OTHER';
+                this.newImageObject.type = 'other';
+                this.newImageObject.extension = 'OTHER';
+                break;
         }
+        this.newImageObject.name = nameOfFile;
+        this.newImageObject.trueType = this.newFile.type;
 
-        this.editTask(false);
+        this.showFileModal = true;
     }
 
-    removeImage(image: Images) {
-        this.task.images = this.task.images.filter(img => img.url !== image.url);
+    addFile() {
+        let sendData: Images = {
+            name: this.newImageObject.name.split('.')[0] + '.' + this.newImageObject.extension,
+            url: this.newImageObject.url,
+            type: this.newImageObject.type,
+            extension: this.newImageObject.extension,
+            color: '',
+            trueType: this.newImageObject.trueType,
+            updatedDate: new Date().toUTCString(),
+        };
 
+        if (sendData.url === '' || sendData.url === undefined) {
+            this.kanbanService.uploadImage(sendData, this.newFile).then((file: any) => {
+                sendData.url = file.url;
+                this.task.images.push(sendData);
+                this.editTask(false);
+
+                this.closeFileModal();
+            });
+        } else {
+            // replace the file in the task
+            this.task.images = this.task.images.map((img: Images) => {
+                if (img.url === sendData.url) {
+                    img = sendData;
+                }
+                return img;
+            });
+
+            this.editTask(false);
+            this.closeFileModal();
+        }
+    }
+
+    downloadFile(file: Images, anchor: any) {
+        this.kanbanService.downloadFile(file).then((url: any) => {
+            this.downloadFileElement = file;
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.onload = function (e) {
+                let urlCreator = window.URL || window.webkitURL;
+                let imageUrl = urlCreator.createObjectURL(this.response);
+                anchor.href = imageUrl;
+                anchor.download = file.name + '.' + file.extension.toLowerCase();
+                anchor.click();
+            };
+            xhr.send();
+        });
+    }
+
+    closeFileModal() {
+        this.newImageObject = {} as Images;
+        this.showFileModal = false;
+    }
+
+    removeFile(file: Images) {
+        this.task.images = this.task.images.filter(img => img.url !== file.url);
+
+        this.kanbanService.deleteImage(file);
         this.editTask(false);
     }
 
@@ -388,6 +461,16 @@ export class CardComponent implements OnInit {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;
+    }
+
+    private idNumbersGenerator(): number {
+        // numbers
+        const chars = '0123456789';
+        let autoId = '';
+        for (let i = 0; i < 5; i++) {
+            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return Number(autoId);
     }
 
     getTextOfNumber(number: number) {

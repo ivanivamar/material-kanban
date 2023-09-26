@@ -1,6 +1,5 @@
 <div [classList]="'col-12 card'"
-     (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);" cdkDrag
-     (cdkDragStarted)="playAudio('assets/drag.mp3', 0.2);">
+     (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);">
     <!-- HEADER -->
     <header class="card-header flex flex-column gap-3 w-full align-items-baseline relative">
         <div class="flex align-items-center gap-2">
@@ -172,7 +171,7 @@
                 </div>
             </div>
 
-            <div class="col-12 md:col-4 mt-6">
+            <div class="col-12 md:col-4 mt-6 flex flex-column gap-3">
                 <div class="card p-0 nohover">
                     <div class="card-header p-3 pb-0">
                         <span class="text-lg font-bold">
@@ -230,10 +229,60 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card p-0 nohover">
+                    <div class="card-header flex justify-content-between align-items-center p-3 pb-0">
+                        <span class="text-lg font-bold">
+                            Attatchments
+                        </span>
+
+                        <button class="btn filled-btn" (click)="attatchmentsInput.click()">
+                            <i class="material-symbols-rounded">
+                                add
+                            </i>
+                            New Attatchment
+                        </button>
+                    </div>
+                    <div class="divider mb-0"></div>
+                    <div class="card-body p-0 pb-2">
+                        <div class="file-container" [class.border-none]="(index+1) === task.images.length"
+                             *ngFor="let file of task.images; let index = index">
+                            <span class="fw-bolder text-color">
+                                {{ file.name }}
+                            </span>
+                            <div class="flex align-items-center gap-2">
+                                <div class="label">
+                                    {{ file.type }}
+                                </div>
+                            </div>
+
+                            <div class="file-actions">
+                                <button class="icon-btn text-btn warning-color-only"
+                                        (click)="newImageObject = file; showFileModal = true">
+                                    <i class="material-symbols-rounded text-base">
+                                        edit
+                                    </i>
+                                </button>
+                                <button class="icon-btn text-btn primary-color-only" (click)="downloadFile(file, downloadFileAnchor)">
+                                    <i class="material-symbols-rounded text-base">
+                                        download
+                                    </i>
+                                </button>
+                                <button class="icon-btn text-btn danger-color-only" (click)="confirmDeleteGlobal($event, 'removeFile', file)">
+                                    <i class="material-symbols-rounded text-base">
+                                        delete
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<input type="file" #attatchmentsInput class="hidden" (change)="uploadTaskImage($event)">
 
 <div class="dialog-container" *ngIf="selectedImage !== ''">
     <button class="btn btn-icon absolute" style="top: 138px; right: 22%" (click)="selectedImage = ''">
@@ -246,5 +295,42 @@
     </div>
 </div>
 
+<div class="dialog-container" *ngIf="showFileModal">
+    <div class="overlay" (click)="closeFileModal()"></div>
+
+    <div class="dialog dialog-sm">
+        <button class="icon-btn text-btn close-btn" (click)="closeFileModal()">
+            <i class="material-symbols-rounded">close</i>
+        </button>
+        <div class="dialog-header align-items-start">
+            <div class="flex flex-column gap-2">
+                <span class="text-lg font-bold text-color">
+                    {{ newImageObject.url !== '' ? 'Edit attachment' : 'Add new attachment' }}
+                </span>
+                <span class="text-sm text-secondary">You can replace the name of the attachment and select a color for it.</span>
+            </div>
+        </div>
+
+        <div class="dialog-content pt-3 pb-0">
+            <mat-input class="w-full" [inputType]="'text'" [helperText]="newImageObject.extension"
+                       [label]="'File name'" [(value)]="newImageObject.name.split('.')[0]"></mat-input>
+        </div>
+
+        <div class="dialog-footer">
+            <button class="btn text-btn" (click)="closeFileModal()">
+                <i class="material-symbols-rounded">close</i>
+                Cancel
+            </button>
+            <button class="btn filled-btn" (click)="addFile()" [disabled]="newImageObject.name.trim().length === 0">
+                <i class="material-symbols-rounded">cloud_upload</i>
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
+
 <p-toast></p-toast>
 <p-confirmPopup appendTo="body"></p-confirmPopup>
+<a #downloadFileAnchor [href]="downloadFileElement.url"
+   [download]="downloadFileElement.name.split('.')[0] + '.' + downloadFileElement.extension.toLowerCase()"
+   class="hidden">DownloadFile</a>

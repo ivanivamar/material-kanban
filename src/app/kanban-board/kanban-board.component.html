@@ -21,7 +21,7 @@
 
             <div [ngSwitch]="currentTab">
                 <div *ngSwitchCase="ProjectTabs.List">
-                    <div class="bg-secondary px-7 p-3 pb-0 flex flex-column gap-1">
+                    <div class="bg-secondary md:px-7 p-3 pb-0 flex flex-column gap-1">
                         <div class="flex align-items-center justify-content-between">
                             <span class="text-color font-bold text-lg">Tasks</span>
 
@@ -43,11 +43,11 @@
                         </div>
                     </div>
 
-                    <button class="btn outlined-btn small-btn mt-3 mx-7 ">
+                    <button class="btn outlined-btn small-btn mt-3 mx-3 md:mx-7">
                         <span class="material-symbols-rounded">filter_alt</span>
                         Add Filters
                     </button>
-                    <div class="flex flex-column gap-3 px-6">
+                    <div class="flex flex-column gap-3 md:px-6 pb-3 mt-3 gap-2">
                         <div class="p-3" *ngIf="project.tasks.length === 0">
                             <div
                                 class="p-3 gap-3 w-full flex flex-column surface-warning border-warning rounded">
@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="p-3" *ngFor="let task of project.tasks; let i = index">
+                        <div class="p-3 py-0" *ngFor="let task of project.tasks; let i = index">
                             <app-card *ngIf="currentListTab === 'all' || task.status.name === currentListTab"
                                       [taskProject]="project" [task]="task" [index]="i"
                                       (updateKanban)="updateKanban()">

@@ -47,6 +47,11 @@ export interface Status {
 export interface Images {
     name: string;
     url: string;
+    type: string;
+    extension: string;
+    color: string;
+    trueType: string;
+    updatedDate: any;
 }
 
 export interface Checkboxes {

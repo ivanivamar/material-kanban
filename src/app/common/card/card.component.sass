@@ -5,3 +5,28 @@
     &:hover
         div
             display: flex
+
+.file-container
+    padding: 12px
+    border-bottom: 1px solid #E8E8E8
+    position: relative
+    display: flex
+    flex-direction: column
+    gap: 4px
+
+    .file-actions
+        position: absolute
+        right: 16px
+        top: 0
+        height: 100%
+        align-items: center
+        justify-content: center
+        gap: 8px
+        display: none
+        background: #E5F3FF
+
+    &:hover
+        background-color: #E5F3FF
+
+        .file-actions
+            display: flex

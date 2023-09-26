@@ -1,6 +1,6 @@
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Project } from './interfaces/Kanban.interfaces';
+import {Images, Project} from './interfaces/Kanban.interfaces';
 import {
     Firestore,
     collectionData,
@@ -12,7 +12,8 @@ import {
     updateDoc,
     getDoc,
 } from '@angular/fire/firestore';
-import { getDownloadURL, getMetadata, ref, Storage, uploadBytes } from '@angular/fire/storage';
+import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,8 @@ export class KanbanService {
 
     constructor(
         private firestore: Firestore,
-        private storage: Storage) { }
+        private storage: Storage,
+        private sanitizer: DomSanitizer) { }
 
     //#region Getters
     getProjects(): Observable<Project[]> {
@@ -80,9 +82,21 @@ export class KanbanService {
         return updateDoc(doc(userRef, userId), user);
     }
 
-    uploadImage(image: any): Promise<any> {
-        const imageRef = ref(this.storage, 'images/' + this.idGenerator());
-        return uploadBytes(imageRef, image)
+    uploadImage(image: Images, file: File): Promise<any> {
+        let folderName = '';
+        switch (image.type) {
+            case 'image':
+                folderName = 'images/';
+                break;
+            case 'file':
+                folderName = 'files/';
+                break;
+            default:
+                folderName = 'others/';
+        }
+
+        const imageRef = ref(this.storage, folderName + image.name);
+        return uploadBytes(imageRef, file)
             .then(response => {
                 // return the download url and the image name
                 return combineLatest([
@@ -111,9 +125,19 @@ export class KanbanService {
         const userRef = collection(this.firestore, 'users');
         return deleteDoc(doc(userRef, userId));
     }
+
+    deleteImage(image: any) {
+        const imageRef = ref(this.storage, image.url);
+        return deleteObject(imageRef);
+    }
     //#endregion
 
     //#region Helpers
+    downloadFile(file: Images) {
+        const imageRef = ref(this.storage, file.url);
+        return getDownloadURL(imageRef);
+    }
+
     private idGenerator(): string {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -122,6 +146,16 @@ export class KanbanService {
             autoId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return autoId;
+    }
+
+    idNumbersGenerator(): number {
+        // numbers
+        const chars = '0123456789';
+        let autoId = '';
+        for (let i = 0; i < 5; i++) {
+            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return Number(autoId);
     }
 
     private isEmpty(obj: any) {
