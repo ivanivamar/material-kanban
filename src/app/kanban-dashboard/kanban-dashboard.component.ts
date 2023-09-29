@@ -1,4 +1,4 @@
-import {KanbanService} from 'src/app/kanban-service.service';
+import {KanbanService} from 'src/shared/services/kanban-service.service';
 import {Component, OnInit} from '@angular/core';
 import {from} from 'rxjs';
 import {
@@ -6,9 +6,10 @@ import {
     Task
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {ConfirmationService} from 'primeng/api';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {TableHelper} from "../../shared/helpers/tableHelper";
 
 @Component({
     selector: 'app-kanban-dashboard',
@@ -18,6 +19,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 })
 export class KanbanDashboardComponent implements OnInit {
     projects: Project[] = [];
+    projectsTable: TableHelper<Project> = new TableHelper<Project>();
     selectedProject: Project = {} as Project;
     projectsTablePaginated: ProjectsTableHelper = {
         records: [],
@@ -109,103 +111,27 @@ export class KanbanDashboardComponent implements OnInit {
             this.users = users.filter((user: any) => {
                 return user.uid !== this.user.uid;
             });
-            from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
 
-                // filter projects by user uid
-                this.projects = projects.filter((project: Project) => {
-                    if (project.owner.uid === this.user.uid) {
-                        return true; // Include the project if the user owns it
-                    }
-                    for (const user of project.members) {
-                        if (user.uid === this.user.uid) {
-                            return true; // Include the project if the user is shared with it
-                        }
-                    }
-                    return false;
-                });
-
-                // order projects by order property
-                this.projects.sort((a: Project, b: Project) => {
-                    return a.order - b.order;
-                });
-
-                // paginate projects
-                this.projectsTablePaginated.records = [];
-                this.projectsTablePaginated.currentRecord = [];
-                this.projectsTablePaginated.totalRecordCount = 0;
-                this.projects.forEach((project: Project, index: number) => {
-                    // put projects in groups of this.pageSize
-                    if (index % this.pageSize === 0) {
-                        this.projectsTablePaginated.records.push([
-                            project,
-                        ]);
-                    } else {
-                        this.projectsTablePaginated.records[
-                        this.projectsTablePaginated.records.length - 1
-                            ].push(project);
-                    }
-                });
-                this.projectsTablePaginated.totalRecordCount = this.projects.length;
-                this.projectsTablePaginated.currentRecord = this.projectsTablePaginated.records[this.currentPage];
-
-                this.loading = false;
-                this.getCurrentWeekTasks();
-                this.makeWeekTasksChart(this.projects);
-            });
+            this.getProjects();
         });
 
     }
 
-    sorter(event: any) {
-        /*if (event !== this.sortHeader) {
-            this.sortDirection = 'desc';
+    getProjects() {
+        const sendData = {
+            uid: this.user.uid,
+            maxResultsCount: this.projectsTable.countsPerPage,
+            skipCount: this.projectsTable.countsPerPage * this.projectsTable.currentPage
         }
-        this.sortHeader = event;
-        switch (event) {
-            case 'totalTasks':
-                switch (this.sortDirection) {
-                    case 'asc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksCount(a) - this.getTasksCount(b);
-                        });
-                        break;
-                    case 'desc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksCount(b) - this.getTasksCount(a);
-                        });
-                        break;
-                }
-                break;
-            case 'completedTasks':
-                switch (this.sortDirection) {
-                    case 'asc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksFromCompletedColumn(a) - this.getTasksFromCompletedColumn(b);
-                        });
-                        break;
-                    case 'desc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksFromCompletedColumn(b) - this.getTasksFromCompletedColumn(a);
-                        });
-                        break;
-                }
-                break;
-            case 'ongoingTasks':
-                switch (this.sortDirection) {
-                    case 'asc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksFromInProgressColumn(a) - this.getTasksFromInProgressColumn(b);
-                        });
-                        break;
-                    case 'desc':
-                        this.projects.sort((a: Project, b: Project) => {
-                            return this.getTasksFromInProgressColumn(b) - this.getTasksFromInProgressColumn(a);
-                        });
-                        break;
-                }
-        }
-        this.refreshTable();
-        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';*/
+
+        from(this.kanbanService.getProjects(sendData)).subscribe((projects: any[]) => {
+            this.projectsTable.totalRecords = projects.length;
+            this.projectsTable.items = projects;
+
+            this.getCurrentWeekTasks();
+            this.makeWeekTasksChart(this.projects);
+            this.loading = false;
+        });
     }
 
     refreshTable() {
@@ -318,8 +244,8 @@ export class KanbanDashboardComponent implements OnInit {
                 tasks: [],
                 owner: this.user,
                 members: [],
+                membersIds: [],
                 completed: false,
-                order: this.projects.length + 1,
             } as Project;
         }
         this.showAddProjectModal = true;
@@ -388,9 +314,9 @@ export class KanbanDashboardComponent implements OnInit {
                 uid: this.user.uid,
                 sharedProjectsIds: [],
             };
-            this.selectedProject.order = this.projects.length + 1;
             this.selectedProject.tasks = [];
             this.selectedProject.members = [];
+            this.selectedProject.membersIds = [];
             this.selectedProject.completed = false;
         }
 
@@ -496,7 +422,6 @@ export class KanbanDashboardComponent implements OnInit {
         moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
 
         this.projects.forEach((project: Project, index: number) => {
-            project.order = index;
             this.kanbanService.updateProject(project);
         });
     }

@@ -8,7 +8,7 @@ import {
     Task,
     Urgency, UserLite
 } from 'src/app/interfaces/Kanban.interfaces';
-import {KanbanService} from 'src/app/kanban-service.service';
+import {KanbanService} from 'src/shared/services/kanban-service.service';
 import {from} from 'rxjs';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';

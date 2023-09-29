@@ -1,11 +1,11 @@
-import {KanbanService} from './../kanban-service.service';
+import {KanbanService} from '../../shared/services/kanban-service.service';
 import {Checkboxes, Labels, Project, Urgency, Task, Status, UserLite} from './../interfaces/Kanban.interfaces';
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {from, Observable} from 'rxjs';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
     selector: 'app-kanban-board',
@@ -15,7 +15,7 @@ import {AuthService} from '../auth.service';
 export class KanbanBoardComponent implements OnInit {
     ProjectTabs = ProjectTabs;
     searchTerm: string = '';
-    currentTab: ProjectTabs = ProjectTabs.List;
+    currentTab: ProjectTabs = ProjectTabs.Tasks;
 
     projects: any[] = [];
     project: Project = {} as Project;
@@ -271,8 +271,6 @@ export class KanbanBoardComponent implements OnInit {
 }
 
 export enum ProjectTabs {
-    List,
-    Kanban,
-    Timeline,
+    Tasks,
     Members,
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/shared/services/auth.service';
 import { Project } from 'src/app/interfaces/Kanban.interfaces';
-import { KanbanService } from 'src/app/kanban-service.service';
+import { KanbanService } from 'src/shared/services/kanban-service.service';
 
 @Component({
     selector: 'app-navbar',

@@ -1,4 +1,4 @@
-import { KanbanService } from 'src/app/kanban-service.service';
+import { KanbanService } from 'src/shared/services/kanban-service.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import {
     Urgency,
     Checkboxes,
 } from '../../interfaces/Kanban.interfaces';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-sidebar',

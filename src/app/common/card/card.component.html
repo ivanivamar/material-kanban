@@ -280,6 +280,12 @@
             </div>
         </div>
     </div>
+
+    <p-toast></p-toast>
+    <p-confirmPopup appendTo="body"></p-confirmPopup>
+    <a #downloadFileAnchor [href]="downloadFileElement.url"
+       [download]="downloadFileElement.name.split('.')[0] + '.' + downloadFileElement.extension.toLowerCase()"
+       class="hidden">DownloadFile</a>
 </div>
 
 <input type="file" #attatchmentsInput class="hidden" (change)="uploadTaskImage($event)">
@@ -328,9 +334,3 @@
         </div>
     </div>
 </div>
-
-<p-toast></p-toast>
-<p-confirmPopup appendTo="body"></p-confirmPopup>
-<a #downloadFileAnchor [href]="downloadFileElement.url"
-   [download]="downloadFileElement.name.split('.')[0] + '.' + downloadFileElement.extension.toLowerCase()"
-   class="hidden">DownloadFile</a>

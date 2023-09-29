@@ -74,10 +74,10 @@ export interface Project {
     description: string;
     image?: string;
     tasks: Task[];
-    order: number;
     completed: boolean;
     owner: UserLite;
     members: UserLite[];
+    membersIds: string[];
 }
 export interface Urgency {
     title: string;

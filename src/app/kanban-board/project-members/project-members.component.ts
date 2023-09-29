@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserLite} from "../../interfaces/Kanban.interfaces";
 import {count} from "rxjs";
-import {KanbanService} from "../../kanban-service.service";
+import {KanbanService} from "../../../shared/services/kanban-service.service";
 
 @Component({
     selector: 'app-project-members',

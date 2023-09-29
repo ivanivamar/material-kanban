@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { from } from 'rxjs';
 import { Project, Task } from 'src/app/interfaces/Kanban.interfaces';
-import { KanbanService } from 'src/app/kanban-service.service';
+import { KanbanService } from 'src/shared/services/kanban-service.service';
 
 @Component({
     selector: 'app-kanban-timeline',

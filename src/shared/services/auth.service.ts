@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
-import { Login, Register } from './interfaces/Kanban.interfaces';
+import { Login, Register } from '../../app/interfaces/Kanban.interfaces';
 import { signOut } from 'firebase/auth';
 
 @Injectable({

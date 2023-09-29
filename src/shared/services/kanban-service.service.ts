@@ -1,6 +1,6 @@
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import {Images, Project} from './interfaces/Kanban.interfaces';
+import {Images, Project} from '../../app/interfaces/Kanban.interfaces';
 import {
     Firestore,
     collectionData,
@@ -10,7 +10,7 @@ import {
     doc,
     DocumentData,
     updateDoc,
-    getDoc,
+    getDoc, query, where,
 } from '@angular/fire/firestore';
 import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import {DomSanitizer} from "@angular/platform-browser";
@@ -26,8 +26,11 @@ export class KanbanService {
         private sanitizer: DomSanitizer) { }
 
     //#region Getters
-    getProjects(): Observable<Project[]> {
-        const projectRef = collection(this.firestore, 'projects');
+    getProjects(getDataObject: any): Observable<Project[]> {
+        const projectRef = query(collection(this.firestore, 'projects'),
+            where('owner.uid', '==', getDataObject.uid),
+            where('membersIds', 'array-contains', getDataObject.uid),
+        );
         return collectionData(projectRef, { idField: 'id' }) as Observable<Project[]>;
     }
 

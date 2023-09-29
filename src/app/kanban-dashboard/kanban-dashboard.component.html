@@ -7,7 +7,7 @@
             </button>
         </div>
 
-        <div class="table" *ngIf="projects.length > 0">
+        <div class="table" *ngIf="projectsTable.items.length > 0">
             <div class="table-header">
                 <div class="header-cell justify-content-start">
                     <i class="material-symbols-rounded hidden md:block">title</i>
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="table-row" *ngFor="let project of projectsTablePaginated.currentRecord">
+            <div class="table-row" *ngFor="let project of projectsTable.items">
                 <div class="table-cell">
                     {{ project.title }}
                 </div>

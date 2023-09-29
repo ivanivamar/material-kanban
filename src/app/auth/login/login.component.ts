@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/shared/services/auth.service';
 import { Login } from 'src/app/interfaces/Kanban.interfaces';
-import {KanbanService} from "../../kanban-service.service";
+import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {from} from "rxjs";
 
 @Component({
