@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 import {environment} from 'src/environments/environment';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {FormsModule} from '@angular/forms';
 import {KanbanBoardComponent} from './kanban-board/kanban-board.component';
 import {KanbanDashboardComponent} from './kanban-dashboard/kanban-dashboard.component';
@@ -34,7 +33,6 @@ import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import {MatInputComponent} from './common/mat-input/mat-input.component';
 import {MatTextareaComponent} from './common/mat-textarea/mat-textarea.component';
-import {DragScrollModule} from "ngx-drag-scroll";
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
 import { ProjectMembersComponent } from './kanban-board/project-members/project-members.component';
 import { LocalizePipe } from './localize.pipe';
@@ -63,7 +61,6 @@ import { LocalizePipe } from './localize.pipe';
         AppRoutingModule,
         FormsModule,
         ChartModule,
-        DragDropModule,
         AuthModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
@@ -80,7 +77,6 @@ import { LocalizePipe } from './localize.pipe';
         ToastModule,
         PickListModule,
         SelectButtonModule,
-        DragScrollModule
     ],
     providers: [],
     bootstrap: [AppComponent],

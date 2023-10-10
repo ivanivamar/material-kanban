@@ -125,6 +125,7 @@ export class KanbanDashboardComponent implements OnInit {
         }
 
         from(this.kanbanService.getProjects(sendData)).subscribe((projects: any[]) => {
+			console.log(projects);
             this.projectsTable.totalRecords = projects.length;
             this.projectsTable.items = projects;
 
@@ -243,6 +244,7 @@ export class KanbanDashboardComponent implements OnInit {
                 description: '',
                 tasks: [],
                 owner: this.user,
+				ownerId: this.user.uid,
                 members: [],
                 membersIds: [],
                 completed: false,

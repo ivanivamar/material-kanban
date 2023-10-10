@@ -14,6 +14,7 @@ import {
 } from '@angular/fire/firestore';
 import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import {DomSanitizer} from "@angular/platform-browser";
+import { limit, orderBy, startAt } from 'firebase/firestore';
 
 @Injectable({
     providedIn: 'root'
@@ -26,11 +27,15 @@ export class KanbanService {
         private sanitizer: DomSanitizer) { }
 
     //#region Getters
-    getProjects(getDataObject: any): Observable<Project[]> {
+    getProjects(getData: any): Observable<Project[]> {
         const projectRef = query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', getDataObject.uid),
-            where('membersIds', 'array-contains', getDataObject.uid),
+            where('owner.uid', '==', getData.uid),
+			orderBy('title'),
+			startAt(getData.skipCount),
+			limit(getData.maxResultsCount)
         );
+		console.log(projectRef);
+		console.log(getData);
         return collectionData(projectRef, { idField: 'id' }) as Observable<Project[]>;
     }
 

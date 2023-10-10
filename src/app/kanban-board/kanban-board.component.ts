@@ -92,6 +92,10 @@ export class KanbanBoardComponent implements OnInit {
                         this.project = project;
                         // add projectId to project object
                         this.project.id = this.projectId;
+						// order tasks by creationDate
+						this.project.tasks.sort((a, b) => {
+							return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+						});
                         this.loading = false;
                     }, 200);
                 });

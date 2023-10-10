@@ -52,12 +52,8 @@ export class SidebarComponent {
             if (user) {
                 this.user = user;
 
-                from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
+                from(this.kanbanService.getProjects(user.uid)).subscribe((projects: any[]) => {
                     this.projects = projects;
-                    // filter projects by user uid
-                    this.projects = this.projects.filter((project) => {
-                        return project.uid === this.user.uid;
-                    });
                     this.loading = false;
                 });
             }

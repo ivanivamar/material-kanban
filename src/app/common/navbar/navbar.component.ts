@@ -45,20 +45,6 @@ export class NavbarComponent implements OnInit {
             }
         });
 
-        from(this.kanbanService.getProjects()).subscribe((projects: any[]) => {
-            this.projects = projects;
-
-            // filter projects by user uid
-            this.projects = this.projects.filter((project: Project) => {
-                return project.owner.uid === this.user.uid;
-            });
-
-            // order projects by order property
-            this.projects.sort((a: Project, b: Project) => {
-                return a.order - b.order;
-            });
-        });
-
         // get project name by getting projectId from url and then call kanbanService.getProjectById(projectId)
         this.route.queryParams.subscribe(params => {
             if (params != null || params['projectId'] != null) {

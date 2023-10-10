@@ -76,6 +76,7 @@ export interface Project {
     tasks: Task[];
     completed: boolean;
     owner: UserLite;
+	ownerId: string;
     members: UserLite[];
     membersIds: string[];
 }
