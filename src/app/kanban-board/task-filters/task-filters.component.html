@@ -1,0 +1,49 @@
+<div class="flex align-items-center gap-3">
+    <div class="rounded border p-3 flex align-items-center justify-content-between gap-2 bg-secondary"
+         (click)="addFilter($event, filters)"
+         *ngFor="let filters of filtersData">
+        {{ filters.name | textTransform: 'capitalize' }}
+        is
+        <span class="font-medium" *ngFor="let filter of filters.values">
+            {{ filter }}
+        </span>
+
+        <button class="icon-btn text-btn">
+            <i class="material-symbols-rounded">close</i>
+        </button>
+    </div>
+    <button class="btn outlined-btn small-btn" (click)="addFilter($event)">
+        <span class="material-symbols-rounded">filter_alt</span>
+        {{ filtersData.length === 0 ? 'Add Filters' : '' }}
+    </button>
+</div>
+<div class="flex gap-3">
+    <div class="shadow rounded border filter-select mt-3 w-full" *ngIf="selectedFilter != null">
+        <header class="p-3 py-1 font-bold flex align-items-center justify-content-between">
+            Filters
+
+            <button class="icon-btn text-btn" (click)="selectedFilter = null">
+                <i class="material-symbols-rounded">close</i>
+            </button>
+        </header>
+        <div class="py-1 flex flex-column">
+            <div class="filter-item" [class.selected]="selectedFilter.name === filterItem.name"
+                 (click)="updateFilter('name', filterItem)" *ngFor="let filterItem of filtersList">
+                <i class="text-base material-symbols-rounded">
+                    {{ filterItem.icon }}
+                </i>
+                {{ filterItem.label }}
+            </div>
+        </div>
+    </div>
+    <div class="shadow rounded border filter-select mt-3 w-full" *ngIf="selectedFilter !== null && selectedFilter.name !== ''">
+        <div class="py-1 flex flex-column" *ngIf="selectedFilter.name === 'status'">
+            <div class="filter-item" *ngFor="let statusItem of filtersList[3].values">
+                <i class="text-base material-symbols-rounded" [style.color]="statusItem.iconColor">
+                    {{ statusItem.icon }}
+                </i>
+                {{ statusItem.name }}
+            </div>
+        </div>
+    </div>
+</div>

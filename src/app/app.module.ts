@@ -36,6 +36,9 @@ import {MatTextareaComponent} from './common/mat-textarea/mat-textarea.component
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
 import { ProjectMembersComponent } from './kanban-board/project-members/project-members.component';
 import { LocalizePipe } from './localize.pipe';
+import { TaskFiltersComponent } from './kanban-board/task-filters/task-filters.component';
+import { TextTransformPipe } from './pipe/text-transform.pipe';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -55,8 +58,11 @@ import { LocalizePipe } from './localize.pipe';
         CircularProgressBarComponent,
         ProjectMembersComponent,
         LocalizePipe,
+        TaskFiltersComponent,
+        TextTransformPipe,
     ],
     imports: [
+        CommonModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,

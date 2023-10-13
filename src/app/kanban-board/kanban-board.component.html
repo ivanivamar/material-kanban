@@ -38,10 +38,7 @@
                         </div> -->
 					</div>
 
-					<button class="btn outlined-btn small-btn mt-3 mx-3 md:mx-7">
-						<span class="material-symbols-rounded">filter_alt</span>
-						Add Filters
-					</button>
+					<app-task-filters class="block mt-3 mx-3 md:mx-7 w-30rem"></app-task-filters>
 					<div class="flex flex-column md:px-7 pb-3 mt-3">
 						<div class="p-3" *ngIf="project.tasks.length === 0">
 							<div class="p-3 gap-3 w-full flex flex-column surface-warning border-warning rounded">
