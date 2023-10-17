@@ -6,6 +6,7 @@ import {from, Observable} from 'rxjs';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
+import {TaskFilters} from "./task-filters/task-filters.component";
 
 @Component({
     selector: 'app-kanban-board',
@@ -19,14 +20,18 @@ export class KanbanBoardComponent implements OnInit {
 
     projects: any[] = [];
     project: Project = {} as Project;
+    tasksOg: Task[] = [];
     projectId: string = '';
     loading: boolean = false;
+    membersList: UserLite[] = [];
 
     user: any;
 
     showEditColumnModal: boolean = false;
     columnEditId: string = '';
     columnEditTitle: string = '';
+
+    filtersData: TaskFilters[] = [];
 
     statusList: Status[] = [
         {
@@ -96,6 +101,9 @@ export class KanbanBoardComponent implements OnInit {
 						this.project.tasks.sort((a, b) => {
 							return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
 						});
+                        this.tasksOg = this.project.tasks;
+                        this.membersList = JSON.parse(JSON.stringify(this.project.members));
+                        this.membersList.push(this.project.owner);
                         this.loading = false;
                     }, 200);
                 });
@@ -114,6 +122,8 @@ export class KanbanBoardComponent implements OnInit {
                 this.project = project;
                 // add projectId to project object
                 this.project.id = this.projectId;
+                this.tasksOg = this.project.tasks;
+                this.filterTasks(this.filtersData);
                 this.loading = false;
             }, 200);
         });
@@ -156,6 +166,8 @@ export class KanbanBoardComponent implements OnInit {
 
         // Add new task to column
         this.project.tasks.push(newTask);
+        this.tasksOg = this.project.tasks;
+        this.filterTasks(this.filtersData);
 
         // Update project
         await this.kanbanService.updateProject(this.project);
@@ -197,6 +209,95 @@ export class KanbanBoardComponent implements OnInit {
             });
         }
         return count;
+    }
+
+    filterTasks(filters: TaskFilters[]) {
+        this.filtersData = filters;
+        this.tasksOg = JSON.parse(JSON.stringify(this.project.tasks));
+        console.log(this.filtersData);
+        console.log(this.tasksOg);
+
+        if (filters.length > 0) {
+            filters.forEach((filter: TaskFilters) => {
+                if (filter.name === 'status' && filter.values.length > 0) {
+                    this.tasksOg = this.tasksOg.filter((task: Task) => {
+                        return filter.values.includes(task.status.name);
+                    });
+
+                    // orderby status
+                    if (filter.order === 'asc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return a.status.name.localeCompare(b.status.name);
+                        });
+                    } else if (filter.order === 'desc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return b.status.name.localeCompare(a.status.name);
+                        });
+                    }
+                }
+                if (filter.name === 'dueDate' && filter.value !== null) {
+                    this.tasksOg = this.tasksOg.filter((task: Task) => {
+                        return task.dueDate <= filter.value;
+                    });
+
+                    // orderby dueDate
+                    if (filter.order === 'asc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+                        });
+                    } else if (filter.order === 'desc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+                        });
+                    }
+                }
+                if (filter.name === 'dateRange' && filter.values.length > 0) {
+                    this.tasksOg = this.tasksOg.filter((task: Task) => {
+                        return task.dueDate >= filter.values[0] && task.dueDate <= filter.values[1];
+                    });
+
+                    // orderby dueDate
+                    if (filter.order === 'asc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+                        });
+                    } else if (filter.order === 'desc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+                        });
+                    }
+                }
+                if (filter.name === 'urgency' && filter.values.length > 0) {
+                    this.tasksOg = this.tasksOg.filter((task: Task) => {
+                        return filter.values.includes(task.urgency.title);
+                    });
+                }
+                if (filter.name === 'assignedTo' && filter.values.length > 0) {
+                    this.tasksOg = this.tasksOg.filter((task: Task) => {
+                        let found = false;
+                        task.assignees.forEach((assignee: UserLite) => {
+                            filter.values.forEach((filterValue: UserLite) => {
+                                if (assignee.uid === filterValue.uid) {
+                                    found = true;
+                                }
+                            });
+                        });
+                        return found;
+                    });
+
+                    // orderby assignees
+                    if (filter.order === 'asc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return a.assignees.length - b.assignees.length;
+                        });
+                    } else if (filter.order === 'desc') {
+                        this.tasksOg.sort((a: Task, b: Task) => {
+                            return b.assignees.length - a.assignees.length;
+                        });
+                    }
+                }
+            });
+        }
     }
 
     drop(event: CdkDragDrop<Task[]>) {

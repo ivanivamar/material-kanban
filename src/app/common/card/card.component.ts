@@ -153,6 +153,8 @@ export class CardComponent implements OnInit {
         console.log(this.task);
         // Update project
         await this.kanbanService.updateProject(this.project);
+
+        this.updateKanban.emit();
         if (hideModal) {
             this.showAddTaskModal = false;
         } else {

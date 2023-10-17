@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { IDropdownOption } from 'src/app/interfaces/Kanban.interfaces';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {IDropdownOption} from 'src/app/interfaces/Kanban.interfaces';
 
 @Component({
     host: {
@@ -10,29 +10,49 @@ import { IDropdownOption } from 'src/app/interfaces/Kanban.interfaces';
     styleUrls: ['./mat-dropdown.component.sass']
 })
 export class MatDropdownComponent implements OnInit {
-    @Input() options: IDropdownOption[] = [];
+    @Input() options: any[] = [];
+    @Input() optionLabel: string = 'label';
+    @Input() optionValue: string = 'value';
+    @Input() optionIcon: string = 'icon';
     @Input() placeholder: string = 'Select an Option';
     @Input() value: any = null;
     @Input() disabled: boolean = false;
     @Input() icon: string = '';
     @Input() showClear: boolean = false;
     @Input() returnValue: boolean = false;
+    @Input() multiple: boolean = false;
 
     @Output() valueChange = new EventEmitter();
 
     expanded: boolean = false;
     ngModelLabel: string = '';
 
-    constructor(private _eref: ElementRef) { }
+    constructor(private _eref: ElementRef) {
+    }
 
     ngOnInit() {
-        if (this.value !== null) {
-            this.options.forEach((item: IDropdownOption) => {
-                if (item.value === this.value) {
-                    item.selected = true;
-                    this.ngModelLabel = item.label;
-                }
+        if ((!this.multiple && this.value !== null) || (this.multiple && this.value.length !== 0)) {
+            if (this.multiple) {
+                this.options.forEach((item: any) => {
+                    this.value.forEach((value: any) => {
+                        if (item[this.optionValue] === value[this.optionValue]) {
+                            item.selected = true;
+                        }
+                    });
+                });
+                this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
+            } else {
+                this.options.forEach((item: any) => {
+                    item.selected = item[this.optionValue] === this.value;
+                });
+                this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
+            }
+        } else {
+            console.log(this.value.length !== 0);
+            this.options.forEach((item: any) => {
+                item.selected = false;
             });
+            this.ngModelLabel = this.placeholder;
         }
     }
 
@@ -44,19 +64,32 @@ export class MatDropdownComponent implements OnInit {
         }
     }
 
-    selectItem(option: IDropdownOption) {
-        this.value = option.value;
-        this.ngModelLabel = option.label;
-        this.valueChange.emit(this.value);
-        option.selected = true;
+    selectItem(option: any) {
+        this.value = option[this.optionValue];
+        this.ngModelLabel = option[this.optionLabel];
 
-        this.options.forEach((item: IDropdownOption) => {
-            if (item.value !== option.value) {
+        this.options.forEach((item: any) => {
+            if (this.multiple) {
+                if (item.value === option[this.optionValue]) {
+                    item.selected = !item.selected;
+                }
+            } else {
                 item.selected = false;
             }
         });
+        if (this.multiple) {
+            option.selected = !option.selected;
+        }
+        console.log(option);
 
-        this.expanded = false;
+        if (this.multiple) {
+            this.value = this.options.filter((item: any) => item.selected).map((item: any) => item);
+            this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
+            let arrayOfOptionLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]);
+            this.valueChange.emit(this.value);
+        }
+
+        this.expanded = this.multiple;
     }
 
     clear(event: Event) {

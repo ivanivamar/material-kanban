@@ -45,7 +45,23 @@
         pointer-events: none
 
 .filter-select
-    max-width: 200px
+    min-width: 200px
+    background-color: $bg-color
+    height: fit-content
 
     header
         border-bottom: 1px solid $border-color
+
+.filter-element
+    background-color: $background-secondary-color
+    border: 1px solid $border-color
+    border-radius: $border-radius
+    padding: 8px
+    display: flex
+    align-items: center
+    gap: 6px
+    cursor: pointer
+
+    &:hover
+        background-color: $background-primary-color
+        border-color: $border-primary-color

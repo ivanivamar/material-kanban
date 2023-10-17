@@ -1,23 +1,35 @@
 <div class="flex align-items-center gap-3">
-    <div class="rounded border p-3 flex align-items-center justify-content-between gap-2 bg-secondary"
+    <div class="filter-element py-0 justify-content-between" [class.hidden]="filters.name === ''"
          (click)="addFilter($event, filters)"
          *ngFor="let filters of filtersData">
-        {{ filters.name | textTransform: 'capitalize' }}
+        {{ filters.label }}
         is
-        <span class="font-medium" *ngFor="let filter of filters.values">
-            {{ filter }}
+        <span class="font-medium" *ngIf="filters.value !== null && filters.name === 'dueDate'">
+            {{ filters.value | date: 'dd/MM/yyyy HH:mm' }}
         </span>
+        <span class="font-medium" *ngIf="filters.name === 'dateRange'">
+            <span *ngFor="let filter of filters.values;">
+                {{ filter | date: 'dd/MM/yyyy HH:mm' }}
+                {{ filters.values.indexOf(filter) !== filters.values.length - 1 ? 'to' : '' }}
+            </span>
+        </span>
+        <div *ngIf="filters.name === 'assignedTo' || filters.name === 'status'">
+            <span class="font-medium" *ngFor="let filter of filters.values; let i = index">
+                {{ filters.name === 'assignedTo' ? filter.username : filter }}
+                {{ filters.values.indexOf(filter) !== filters.values.length - 1 ? ',' : '' }}
+            </span>
+        </div>
 
-        <button class="icon-btn text-btn">
+        <button class="icon-btn text-btn danger-color-only" (click)="removeFilter(filters)">
             <i class="material-symbols-rounded">close</i>
         </button>
     </div>
     <button class="btn outlined-btn small-btn" (click)="addFilter($event)">
-        <span class="material-symbols-rounded">filter_alt</span>
-        {{ filtersData.length === 0 ? 'Add Filters' : '' }}
+        <span class="material-symbols-rounded text-lg">filter_alt</span>
+        Add Filters
     </button>
 </div>
-<div class="flex gap-3">
+<div class="flex gap-3 absolute" style="top: 32px">
     <div class="shadow rounded border filter-select mt-3 w-full" *ngIf="selectedFilter != null">
         <header class="p-3 py-1 font-bold flex align-items-center justify-content-between">
             Filters
@@ -26,23 +38,67 @@
                 <i class="material-symbols-rounded">close</i>
             </button>
         </header>
-        <div class="py-1 flex flex-column">
-            <div class="filter-item" [class.selected]="selectedFilter.name === filterItem.name"
-                 (click)="updateFilter('name', filterItem)" *ngFor="let filterItem of filtersList">
-                <i class="text-base material-symbols-rounded">
-                    {{ filterItem.icon }}
-                </i>
-                {{ filterItem.label }}
+
+        <div class="flex">
+            <div class="py-1 flex flex-column w-full"
+                 [class.border-right]="selectedFilter !== null && selectedFilter.name !== ''">
+                <div class="filter-item" [class.disabled]="usedFilterNames.includes(filterItem.name)"
+                     [class.pointer-events-none]="usedFilterNames.includes(filterItem.name)"
+                     [class.selected]="selectedFilter.name === filterItem.name"
+                     (click)="updateFilter('name', filterItem)" *ngFor="let filterItem of filtersList">
+                    <i class="text-base material-symbols-rounded">
+                        {{ filterItem.icon }}
+                    </i>
+                    {{ filterItem.label }}
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="shadow rounded border filter-select mt-3 w-full" *ngIf="selectedFilter !== null && selectedFilter.name !== ''">
-        <div class="py-1 flex flex-column" *ngIf="selectedFilter.name === 'status'">
-            <div class="filter-item" *ngFor="let statusItem of filtersList[3].values">
-                <i class="text-base material-symbols-rounded" [style.color]="statusItem.iconColor">
-                    {{ statusItem.icon }}
-                </i>
-                {{ statusItem.name }}
+            <div *ngIf="selectedFilter !== null && selectedFilter.name !== ''" class="min-w-max">
+
+                <div class="tabs-container m-1">
+                    <div (click)="updateOrder('asc'); updateFilters()" class="tab p-1"
+                         [class.active]="selectedFilter.order === 'asc'">
+                        <i class="material-symbols-rounded rotate-90">switch_right</i>
+                        Asc
+                    </div>
+                    <div class="tab p-1" (click)="updateOrder('desc'); updateFilters()"
+                         [class.active]="selectedFilter.order === 'desc'">
+                        <i class="material-symbols-rounded -rotate-90">switch_right</i>
+                        Desc
+                    </div>
+                </div>
+                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dueDate'">
+                    <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.value" dateFormat="dd/mm/yy"
+                                placeholder="Due Date"
+                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                </div>
+
+                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dateRange'">
+                    <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.values" selectionMode="range"
+                                placeholder="Date Range"
+                                [readonlyInput]="true" dateFormat="dd/mm/yy"
+                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                </div>
+
+                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'assignedTo'">
+                    <mat-dropdown style="width: 200px" [placeholder]="'Select Members'" [options]="members"
+                                  [value]="selectedFilter.values"
+                                  [optionLabel]="'username'"
+                                  [optionValue]="'uid'" [multiple]="true"
+                                  (valueChange)="selectedFilter.values = $event; updateFilters()"></mat-dropdown>
+                </div>
+
+                <div class="py-1 flex flex-column" *ngIf="selectedFilter.name === 'status'">
+                    <div class="filter-item" *ngFor="let statusItem of filtersList[3].values"
+                         (click)="updateStatusFilter(statusItem)">
+                        <i class="text-base material-symbols-rounded">
+                            {{ selectedFilter.values.includes(statusItem.name) ? 'check_circle' : 'radio_button_unchecked' }}
+                        </i>
+                        <i class="text-base material-symbols-rounded" [style.color]="statusItem.iconColor">
+                            {{ statusItem.icon }}
+                        </i>
+                        {{ statusItem.name }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

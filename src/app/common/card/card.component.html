@@ -18,7 +18,7 @@
                      *ngFor="let assignee of task.assignees; let index = index">
                     <img width="28px" height="28px" class="border-circle relative" [style.border]="'2px solid white'"
                          [style.left]="index > 0 ? '-10px' : '0'"
-                         [src]="assignee.photoURL" alt="assignee image"/>
+                         [src]="assignee.photoURL"/>
                 </div>
             </div>
         </div>
@@ -183,7 +183,7 @@
                         <div class="flex align-items-center gap-2 mb-2">
                             <div class="relative assignee-container" *ngFor="let assignee of task.assignees">
                                 <img width="35px" height="35px" class="border-circle"
-                                     [src]="assignee.photoURL" alt="assignee image"/>
+                                     [src]="assignee.photoURL"/>
                                 <div
                                     class="absolute top-0 left-0 h-full w-full bg-secondary opacity-60 border-circle cursor-pointer justify-content-center align-items-center"
                                     (click)="removeTaskAssignee(assignee)">

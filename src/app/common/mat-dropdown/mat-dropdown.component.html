@@ -4,7 +4,7 @@
             <!-- <i class="material-symbols-rounded" *ngIf="icon !== ''">{{ icon }}</i> -->
             <div class="flex flex-column gap-1">
                 <!-- <label class="floating-label">{{ placeholder }}</label> -->
-                <span class="selected-value" *ngIf="value !== null">{{ ngModelLabel }}</span>
+                <span class="selected-value">{{ ngModelLabel }}</span>
             </div>
         </div>
         <div class="dropdown-actions flex gap-2">
@@ -16,9 +16,11 @@
     </div>
 
     <div class="dropdown-content" *ngIf="expanded">
-        <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option.value == value">
-            <i class="material-symbols-rounded" *ngIf="option.icon !== ''" [style.color]="option.iconColor">{{ option.icon }}</i>
-            {{ option.label }}
+        <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option.selected">
+            <i class="material-symbols-rounded" *ngIf="multiple && option.selected">check</i>
+            <i class="material-symbols-rounded" *ngIf="multiple && !option.selected">check_box_outline_blank</i>
+            <i class="material-symbols-rounded" *ngIf="option[optionIcon] !== ''">{{ option[optionIcon] }}</i>
+            {{ option[optionLabel] }}
         </div>
     </div>
 </div>
