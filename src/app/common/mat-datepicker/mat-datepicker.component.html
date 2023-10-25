@@ -1,3 +1,5 @@
+<div class="overlay" [class.o-active]="active" (click)="active = false"></div>
+
 <div class="date-parent">
 	<div class="datepicker-container" [class.active]="active" (click)="active = !active">
 		<i class="material-symbols-rounded" *ngIf="!isStringNullOrEmpty(icon)">{{ icon }}</i>
@@ -21,26 +23,25 @@
 		</header>
 
 		<main>
-			<div class="date-value">
+			<div class="date-value pb-2">
 				{{ value | date: 'EEE, MMM dd' }}
 
-				<button class="icon-btn text-btn">
+				<button class="icon-btn text-btn bg-hover-primary" (click)="showHour = !showHour">
 					<i class="material-symbols-rounded text-xl">schedule</i>
 				</button>
 			</div>
 
-			<div class="datepicker">
+			<div class="datepicker" *ngIf="!showHour">
 				<div class="month-navigation">
-					{{currentMonth}}
 					<mat-dropdown [options]="monthArrayOptions" [(value)]="currentMonth" [small]="true"
-						(valueChange)="selectMonth($event)"></mat-dropdown>
+						(valueChange)="selectMonth($event)" style="width: 112px"></mat-dropdown>
 
 					<div class="next-prev flex align-items-center gap-2">
-						<button class="icon-btn text-btn" (click)="getPreviousMonthDays()">
+						<button class="icon-btn text-btn bg-hover-primary" (click)="getPreviousMonthDays()">
 							<i class="material-symbols-rounded text-xl">chevron_left</i>
 						</button>
 
-						<button class="icon-btn text-btn" (click)="getNextMonthDays()">
+						<button class="icon-btn text-btn bg-hover-primary" (click)="getNextMonthDays()">
 							<i class="material-symbols-rounded text-xl">chevron_right</i>
 						</button>
 					</div>
@@ -54,17 +55,44 @@
 					</div>
 
 					<div class="flex flex-wrap">
-						<span class="font-medium text-base text-center" style="color: transparent; flex: 1 1 45px;"
+						<span class="font-medium text-base text-center mb-1" style="color: transparent; flex: 1 1 45px;"
 							*ngFor="let empty of emptySpaceInMonthArray">
 							E
 						</span>
-						<span class="font-medium text-base text-center" style="flex: 1 1 45px;"
+						<span class="day-btn font-medium text-base text-center mb-1" style="flex: 1 1 45px;"
+							(click)="selectDate(day)" [class.day-selected]="day.selected" [class.today]="day.isToday"
 							*ngFor="let day of monthDaysArray">
 							{{ day.day }}
 						</span>
+						<span class="font-medium text-base text-center mb-1" style="color: transparent; flex: 1 1 45px;"
+							*ngFor="let empty of emptySpaceAfterMonthArray">
+							E
+						</span>
+					</div>
+				</div>
+
+				
+			</div>
+
+			<div class="hourpicker" *ngIf="showHour">
+				<div class="clock">
+					<div class="hour-element" *ngFor="let hour of hourArray" [class.hour-selected]="hour === selectedHour">
+						<span>{{ hour }}</span>
 					</div>
 				</div>
 			</div>
 		</main>
+
+		<footer class="w-full flex justify-content-between align-items-center px-3">
+			<button class="btn text-btn bg-hover-primary" (click)="goToday()">
+				<span class="material-symbols-rounded">today</span>
+				Today
+			</button>
+
+			<button class="btn text-btn bg-hover-primary" (click)="active = false">
+				<span class="material-symbols-rounded">close</span>
+				Close
+			</button>
+		</footer>
 	</div>
 </div>

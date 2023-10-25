@@ -235,11 +235,7 @@
 					</div>
 					<div class="divider"></div>
 					<div class="card-body p-3 pt-0">
-						<p-calendar [(ngModel)]="task.dueDate" (ngModelChange)="formatToDate()" dateFormat="dd/mm/yyyy" [showIcon]="true" placeholder="Select a date"
-							[showTime]="true" [hourFormat]="'24'" [showSeconds]="false" [showOnFocus]="false"
-							[showButtonBar]="true" [readonlyInput]="true" [showTransitionOptions]="'0ms'"
-							[hideTransitionOptions]="'0ms'"></p-calendar>
-						<mat-datepicker [label]="'Due Date'" [value]="task.dueDate"></mat-datepicker>
+						<mat-datepicker [label]="'Due Date'" [value]="task.dueDate" (onDateSelected)="task.dueDate = $event"></mat-datepicker>
 					</div>
 				</div>
 

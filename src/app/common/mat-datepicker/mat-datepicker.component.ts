@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from 'src/app/app-component-base';
 import { IDropdownOption } from 'src/app/interfaces/Kanban.interfaces';
 
@@ -6,9 +6,6 @@ import { IDropdownOption } from 'src/app/interfaces/Kanban.interfaces';
 	selector: 'mat-datepicker',
 	templateUrl: './mat-datepicker.component.html',
 	styleUrls: ['./mat-datepicker.component.sass'],
-    host: {
-        '(document:click)': 'onClick($event)',
-    },
 })
 export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	@Input() label: string = '';
@@ -20,6 +17,8 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	@Input() required: boolean = false;
 	@Input() disabled: boolean = false;
 	@Input() readonly: boolean = false;
+
+	@Output() onDateSelected: EventEmitter<Date> = new EventEmitter<Date>();
 
 	active = false;
 
@@ -46,7 +45,18 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	currentMonth: string = '';
 	emptySpaceInMonth = 0;
 	emptySpaceInMonthArray: number[] = [];
+	emptySpaceAfterMonth = 0;
+	emptySpaceAfterMonthArray: number[] = [];
 	currentYear = new Date().getFullYear();
+	selectedDate: Date = new Date();
+
+	showHour = false;
+	showMinute = false;
+
+	hourArray: number[] = [
+		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+	];
+	selectedHour = 0;
 
 	constructor(
 		injector: Injector,
@@ -63,6 +73,7 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 			console.log("Date: ", date);
 			const currentMonth = new Date(date).getMonth();
 			this.currentMonth = this.monthArray[currentMonth];
+			this.selectedDate = new Date(this.value);
 		} else {
 			// Get current month:
 			const date = new Date();
@@ -84,6 +95,16 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	selectMonth(month: string): void {
 		this.getMonthDays();
 	}
+	getPreviousMonthDays(): void {
+		this.currentMonth = this.monthArray[this.monthArray.indexOf(this.currentMonth)-1];
+		
+		this.getMonthDays();
+	}
+	getNextMonthDays(): void {
+		this.currentMonth = this.monthArray[this.monthArray.indexOf(this.currentMonth)+1];
+		
+		this.getMonthDays();
+	}
 	getMonthDays(): void {
 		console.log("currentMonth: ", this.currentMonth);
 		this.monthDaysArray = [];
@@ -98,27 +119,26 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 		for (let i = 1; i <= totalDays; i++) {
 			this.monthDaysArray.push({
 				day: i,
-				correspondingWeekDay: new Date(currentYear, currentMonth, i).getDay()
+				correspondingWeekDay: new Date(currentYear, currentMonth, i).getDay(),
+				isToday: new Date(currentYear, currentMonth, i).toDateString() === new Date().toDateString(),
+				selected: this.selectedDate.toDateString() === new Date(currentYear, currentMonth, i).toDateString()
 			});
 		}
-		var now = new Date();
+		var now = new Date(`${this.currentMonth} 1, ${this.currentYear}`);
 		this.emptySpaceInMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDay();
 		this.emptySpaceInMonthArray = [];
 		// fill this.emptySpaceInMonthArray
 		for (let i = 0; i < this.emptySpaceInMonth; i++) {
 			this.emptySpaceInMonthArray.push(i);
 		}
-	}
 
-	getPreviousMonthDays(): void {
-		this.currentMonth = this.monthArray[this.monthArray.indexOf(this.currentMonth)-1];
-		
-		this.getMonthDays();
-	}
-	getNextMonthDays(): void {
-		this.currentMonth = this.monthArray[this.monthArray.indexOf(this.currentMonth)+1];
-		
-		this.getMonthDays();
+		var finalDate = new Date(`${this.currentMonth} ${totalDays}, ${this.currentYear}`);
+		this.emptySpaceAfterMonth = 7 - new Date(finalDate.getFullYear(), finalDate.getMonth(), totalDays).getDay();
+		this.emptySpaceAfterMonthArray = [];
+		// fill this.emptySpaceAfterMonthArray
+		for (let i = 0; i < this.emptySpaceAfterMonth; i++) {
+			this.emptySpaceAfterMonthArray.push(i);
+		}
 	}
 
 	checkIfDayCorrespondsToIndex(day: MonthDays, index: number): boolean {
@@ -131,13 +151,20 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	}
 
 	// Date selection
-	selectDate(day: number): void {
-		const date = new Date();
-		const currentMonth = date.getMonth();
-		const currentYear = date.getFullYear();
-		const selectedDate = new Date(currentYear, currentMonth, day);
+	goToday(): void {
+		this.currentMonth = this.monthArray[new Date().getMonth()];
+		this.getMonthDays();
+	}
+	selectDate(day: MonthDays): void {
+		this.selectedDate = new Date(`${this.currentMonth} ${day.day}, ${this.currentYear}`);
+		this.save();
+	}
 
-		this.value = selectedDate;
+	save() {
+		this.value = new Date(this.selectedDate);
+		this.getMonthDays();
+		this.onDateSelected.emit(this.selectedDate);
+		console.log(this.active);
 	}
 
 	// Date formatting
@@ -173,4 +200,6 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 export interface MonthDays {
 	day: number;
 	correspondingWeekDay: number;
+	isToday: boolean;
+	selected: boolean;
 }
