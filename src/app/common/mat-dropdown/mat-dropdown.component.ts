@@ -10,6 +10,7 @@ import {IDropdownOption} from 'src/app/interfaces/Kanban.interfaces';
     styleUrls: ['./mat-dropdown.component.sass']
 })
 export class MatDropdownComponent implements OnInit {
+	@Input() small: boolean = false;
     @Input() options: any[] = [];
     @Input() optionLabel: string = 'label';
     @Input() optionValue: string = 'value';
@@ -87,7 +88,9 @@ export class MatDropdownComponent implements OnInit {
             this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
             let arrayOfOptionLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]);
             this.valueChange.emit(this.value);
-        }
+        } else {
+			this.valueChange.emit(this.value);
+		}
 
         this.expanded = this.multiple;
     }

@@ -6,16 +6,24 @@
     overflow: hidden
 
     .dropbtn
-        background-color: $bg-color
-        border: 1px solid $border-color
-        border-radius: $border-radius
+        background-color: transparent
+        border: 2px solid $border-color
+        border-radius: 4px
         display: flex
         align-items: center
         justify-content: space-between
-        padding: 6px 12px
+        padding: 16px 12px
         cursor: pointer
         transition: all 0.2s ease-in-out
-        height: 36px
+        height: 42px
+
+        &.small
+            height: 36px
+            border: 0
+            border-radius: 25px 25px 25px 25px
+
+            &:hover
+                background-color: $background-primary-color
 
         &:hover
             border-color: $border-primary-color
@@ -100,7 +108,7 @@
                 cursor: not-allowed
                 pointer-events: none
 
-    &.expanded
+    &.d-expanded
         overflow: initial
 
         .dropbtn
@@ -109,7 +117,7 @@
                     font-size: 11px
 
             .expand-arrow
-                transform: scale(0)
+                transform: rotate(180deg)
 
         .dropdown-content
             height: auto

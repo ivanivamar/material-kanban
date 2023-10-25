@@ -1,5 +1,5 @@
-<div class="grid grid-nogutter">
-    <div class="col-12 bg-color shadow-1">
+<div class="grid grid-nogutter p-3">
+    <div class="col-12 bg-color shadow-1 rounded">
         <div *ngIf="!loading">
             <div class="tabs-container m-3">
                 <div (click)="currentTab = ProjectTabs.Tasks" class="tab"
@@ -16,7 +16,7 @@
 
             <div [ngSwitch]="currentTab">
                 <div *ngSwitchCase="ProjectTabs.Tasks">
-                    <div class="bg-secondary md:px-7 p-3 flex flex-column gap-1">
+                    <div class="md:px-7 p-3 flex flex-column gap-1 border-bottom">
                         <div class="flex align-items-center justify-content-between">
                             <span class="text-color font-bold text-lg">Tasks</span>
 

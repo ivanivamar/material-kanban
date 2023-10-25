@@ -39,6 +39,7 @@ import { LocalizePipe } from './localize.pipe';
 import { TaskFiltersComponent } from './kanban-board/task-filters/task-filters.component';
 import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
+import { MatDatepickerComponent } from './common/mat-datepicker/mat-datepicker.component';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import {CommonModule} from "@angular/common";
         LocalizePipe,
         TaskFiltersComponent,
         TextTransformPipe,
+        MatDatepickerComponent,
     ],
     imports: [
         CommonModule,

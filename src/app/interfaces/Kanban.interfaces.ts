@@ -22,7 +22,7 @@ export interface Task {
     modificationDate: any;
     completed: boolean;
     images: Images[];
-    dueDate: Date;
+    dueDate: any;
     dayDuration?: number;
     owner: UserLite;
     assignees: UserLite[];

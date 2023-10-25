@@ -148,6 +148,7 @@ export class CardComponent implements OnInit {
                 this.task.modificationDate = new Date().toUTCString();
                 return this.task;
             }
+			this.task.dueDate = new Date(this.task.dueDate);
             return task;
         });
         console.log(this.task);
@@ -333,50 +334,41 @@ export class CardComponent implements OnInit {
 
     uploadTaskImage(event: any) {
         this.newFile = event.target.files[0];
-        let nameOfFile = '';
+        let nameOfFile = this.newFile.name;
         switch (this.newFile.type) {
             case 'image/png':
-                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.PNG';
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'PNG';
                 break;
             case 'image/jpeg':
-                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.JPEG';
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'JPEG';
                 break;
             case 'image/jpg':
-                nameOfFile = 'IMG' + this.idNumbersGenerator() + '.JPG';
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'JPG';
                 break;
-            case 'file/pdf':
-                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.PDF';
+            case 'application/pdf':
                 this.newImageObject.type = 'file';
                 this.newImageObject.extension = 'PDF';
                 break;
-            case 'file/doc':
-                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.DOC';
+            case 'application/doc':
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'DOC';
                 break;
-            case 'file/docx':
-                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.DOCX';
+            case 'application/docx':
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'DOCX';
                 break;
-            case 'file/xls':
-                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.XLS';
+            case 'application/xls':
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'XLS';
                 break;
-            case 'file/xlsx':
-                nameOfFile = 'FILE' + this.idNumbersGenerator() + '.XLSX';
+            case 'application/xlsx':
                 this.newImageObject.type = 'image';
                 this.newImageObject.extension = 'XLSX';
                 break;
             default:
-                nameOfFile = 'OTHER' + this.idNumbersGenerator() + '.OTHER';
                 this.newImageObject.type = 'other';
                 this.newImageObject.extension = 'OTHER';
                 break;
@@ -389,7 +381,7 @@ export class CardComponent implements OnInit {
 
     addFile() {
         let sendData: Images = {
-            name: this.newImageObject.name.split('.')[0] + '.' + this.newImageObject.extension,
+            name: this.newImageObject.name,
             url: this.newImageObject.url,
             type: this.newImageObject.type,
             extension: this.newImageObject.extension,
@@ -420,20 +412,14 @@ export class CardComponent implements OnInit {
         }
     }
 
-    downloadFile(file: Images, anchor: any) {
-        this.kanbanService.downloadFile(file).then((url: any) => {
-            this.downloadFileElement = file;
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', url);
-            xhr.responseType = 'blob';
-            xhr.onload = function (e) {
-                let urlCreator = window.URL || window.webkitURL;
-                let imageUrl = urlCreator.createObjectURL(this.response);
-                anchor.href = imageUrl;
-                anchor.download = file.name + '.' + file.extension.toLowerCase();
-                anchor.click();
-            };
-            xhr.send();
+    viewFile(file: Images) {
+        this.kanbanService.getUrlOfFile(file).then((url: any) => {
+			if (file.type === 'image') {
+				this.selectedImage = url;
+			} else {
+				// open file in new tab
+				window.open(url, '_blank');
+			}
         });
     }
 
@@ -493,6 +479,10 @@ export class CardComponent implements OnInit {
         let user = this.users.find(u => u.uid === userId);
         return user ? user.username : '';
     }
+
+	formatToDate() {
+		this.task.dueDate = new Date(this.task.dueDate).toUTCString();
+	}
 
     //#endregion
 }

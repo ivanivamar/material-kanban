@@ -1,0 +1,102 @@
+.date-parent
+	position: relative
+	.datepicker-container
+		position: relative
+		display: flex
+		align-items: center
+		gap: 0.5rem
+
+		border: 2px solid $border-color
+		border-radius: 4px
+		background-color: transparent
+		padding: 16px 12px
+		cursor: pointer
+		transition: all 0.2s ease-in-out
+
+		i
+			font-size: 1.5rem
+			color: $text-color
+
+		.input-container
+			height: 100%
+
+			.floating-label
+				position: absolute
+				top: 50%
+				left: 12px
+				transform: translateY(-50%)
+				font-size: 0.80rem
+				color: $text-secondary
+				transition: all 0.2s ease-in-out
+				font-family: $font-family
+				font-weight: 500
+
+				&.active
+					top: -7px
+					transform: translateY(0)
+					font-size: 0.71rem
+					color: $primary-color
+					background-color: $bg-color
+
+		&:focus,
+		&:hover
+			border-color: $primary-color
+
+		&.active
+
+			.input-container
+				.floating-label
+					top: -7px
+					transform: translateY(0)
+					font-size: 0.71rem
+					color: $primary-color
+					background-color: $bg-color
+
+	.date-dropdown
+		position: absolute
+		width: 100%
+		top: calc(100% + 12px)
+		display: flex
+		flex-direction: column
+		background-color: $bg-color-secondary
+		border-radius: $border-radius
+		height: 0
+		opacity: 0
+		padding: 0
+		transition: all 0.2s ease-in-out
+
+		&.d-expanded
+			height: auto
+			padding: 12px 0
+			opacity: 1
+			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
+
+		header
+			padding: 0 18px
+			font-family: $font-family
+			font-weight: 600
+			font-size: 0.80rem
+			margin-bottom: 32px
+			color: $text-color
+
+		main
+			.date-value
+				font-size: 24px
+				font-weight: 500
+				color: $text-color
+				padding: 0 18px
+				display: flex
+				align-items: center
+				justify-content: space-between
+				border-bottom: 1px solid $border-color
+
+			.datepicker
+				display: flex
+				flex-direction: column
+				padding: 0 18px
+
+				.month-navigation
+					display: flex
+					align-items: center
+					justify-content: space-between
+					margin-bottom: 12px
