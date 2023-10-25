@@ -75,6 +75,7 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 			const currentMonth = new Date(date).getMonth();
 			this.currentMonth = this.monthArray[currentMonth];
 			this.selectedDate = new Date(this.value);
+			this.selectedHour = this.selectedDate.getHours();
 		} else {
 			// Get current month:
 			const date = new Date();
@@ -158,6 +159,7 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	}
 	selectDate(day: MonthDays): void {
 		this.selectedDate = new Date(`${this.currentMonth} ${day.day}, ${this.currentYear}`);
+		this.selectedDate.setHours(this.selectedHour);
 		this.save();
 	}
 	selectHour(hour: number): void {
