@@ -57,6 +57,7 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 	];
 	selectedHour = 0;
+	hourPeriod = 'AM';
 
 	constructor(
 		injector: Injector,
@@ -157,6 +158,12 @@ export class MatDatepickerComponent extends AppComponentBase implements OnInit {
 	}
 	selectDate(day: MonthDays): void {
 		this.selectedDate = new Date(`${this.currentMonth} ${day.day}, ${this.currentYear}`);
+		this.save();
+	}
+	selectHour(hour: number): void {
+		this.selectedHour = hour;
+		// add hour to selectedDate
+		this.selectedDate.setHours(hour);
 		this.save();
 	}
 

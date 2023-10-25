@@ -1,250 +1,263 @@
 .date-parent
-	position: relative
-	.datepicker-container
-		position: relative
-		display: flex
-		align-items: center
-		gap: 0.5rem
+    position: relative
+    .datepicker-container
+        position: relative
+        display: flex
+        align-items: center
+        gap: 0.5rem
 
-		border: 2px solid $border-color
-		border-radius: 4px
-		background-color: transparent
-		padding: 16px 12px
-		cursor: pointer
-		transition: all 0.2s ease-in-out
+        border: 2px solid $border-color
+        border-radius: 4px
+        background-color: transparent
+        padding: 16px 12px
+        cursor: pointer
+        transition: all 0.2s ease-in-out
 
-		i
-			font-size: 1.5rem
-			color: $text-color
+        i
+            font-size: 1.5rem
+            color: $text-color
 
-		.input-container
-			height: 100%
+        .input-container
+            height: 100%
 
-			.floating-label
-				position: absolute
-				top: 50%
-				left: 12px
-				transform: translateY(-50%)
-				font-size: 0.80rem
-				color: $text-secondary
-				transition: all 0.2s ease-in-out
-				font-family: $font-family
-				font-weight: 500
+            .floating-label
+                position: absolute
+                top: 50%
+                left: 12px
+                transform: translateY(-50%)
+                font-size: 0.80rem
+                color: $text-secondary
+                transition: all 0.2s ease-in-out
+                font-family: $font-family
+                font-weight: 500
 
-				&.active
-					top: -7px
-					transform: translateY(0)
-					font-size: 0.71rem
-					color: $primary-color
-					background-color: $bg-color
+                &.active
+                    top: -7px
+                    transform: translateY(0)
+                    font-size: 0.71rem
+                    color: $primary-color
+                    background-color: $bg-color
 
-		&:focus,
-		&:hover
-			border-color: $primary-color
+        &:focus,
+        &:hover
+            border-color: $primary-color
 
-		&.active
+        &.active
 
-			.input-container
-				.floating-label
-					top: -7px
-					transform: translateY(0)
-					font-size: 0.71rem
-					color: $primary-color
-					background-color: $bg-color
+            .input-container
+                .floating-label
+                    top: -7px
+                    transform: translateY(0)
+                    font-size: 0.71rem
+                    color: $primary-color
+                    background-color: $bg-color
 
-	.date-dropdown
-		position: absolute
-		width: 100%
-		top: calc(100% + 12px)
-		display: flex
-		flex-direction: column
-		background-color: $bg-color-secondary
-		border-radius: $border-radius
-		height: 0
-		opacity: 0
-		padding: 0
-		transition: all 0.2s ease-in-out
-		pointer-events: none
+    .date-dropdown
+        position: absolute
+        width: 100%
+        top: calc(100% + 12px)
+        display: flex
+        flex-direction: column
+        background-color: $bg-color-secondary
+        border-radius: $border-radius
+        height: 0
+        opacity: 0
+        padding: 0
+        transition: all 0.2s ease-in-out
+        pointer-events: none
 
-		&.d-expanded
-			height: auto
-			padding: 12px 0
-			opacity: 1
-			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
-			pointer-events: all
-			z-index: 9999
+        &.d-expanded
+            height: auto
+            padding: 12px 0
+            opacity: 1
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
+            pointer-events: all
+            z-index: 9999
 
-		header
-			padding: 0 18px
-			font-family: $font-family
-			font-weight: 600
-			font-size: 0.80rem
-			margin-bottom: 32px
-			color: $text-color
+        header
+            padding: 0 18px
+            font-family: $font-family
+            font-weight: 600
+            font-size: 0.80rem
+            margin-bottom: 32px
+            color: $text-color
 
-		main
-			.date-value
-				font-size: 24px
-				font-weight: 500
-				color: $text-color
-				padding: 0 18px
-				display: flex
-				align-items: center
-				justify-content: space-between
-				border-bottom: 1px solid $border-color
+        main
+            .date-value
+                font-size: 24px
+                font-weight: 500
+                color: $text-color
+                padding: 0 18px
+                display: flex
+                align-items: center
+                justify-content: space-between
+                border-bottom: 1px solid $border-color
 
-			.datepicker
-				display: flex
-				flex-direction: column
-				padding: 0 18px
+            .datepicker
+                display: flex
+                flex-direction: column
+                padding: 0 18px
 
-				.month-navigation
-					display: flex
-					align-items: center
-					justify-content: space-between
-					margin: 16px 0
+                .month-navigation
+                    display: flex
+                    align-items: center
+                    justify-content: space-between
+                    margin: 16px 0
 
-				.day-btn
-					height: 45px
-					width: 45px
-					display: flex
-					align-items: center
-					justify-content: center
-					border-radius: 50%
-					font-size: 0.80rem
-					font-weight: 500
-					font-family: $font-family
-					color: $text-color
-					border: 1px solid transparent
-					cursor: pointer
-					transition: all 0.2s ease-in-out
+                .day-btn
+                    height: 45px
+                    width: 45px
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                    border-radius: 50%
+                    font-size: 0.80rem
+                    font-weight: 500
+                    font-family: $font-family
+                    color: $text-color
+                    border: 1px solid transparent
+                    cursor: pointer
+                    transition: all 0.2s ease-in-out
 
-					&.day-selected
-						background-color: $primary-color
-						color: white
+                    &.day-selected
+                        background-color: $primary-color
+                        color: white
 
-					&.disabled
-						opacity: 0.5
-						cursor: not-allowed
-					
-					&:hover
-						background-color: $primary-color
-						color: white
+                    &.disabled
+                        opacity: 0.5
+                        cursor: not-allowed
+                    
+                    &:hover
+                        background-color: $primary-color
+                        color: white
 
-					&.today
-						border: 1px solid $primary-color
+                    &.today
+                        border: 1px solid $primary-color
 
 .overlay
-	position: fixed
-	top: 0
-	left: 0
-	width: 100%
-	height: 100%
-	z-index: 9999
-	transition: all 0.2s ease-in-out
-	display: none
-	background-color: transparent
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 9999
+    transition: all 0.2s ease-in-out
+    display: none
+    background-color: transparent
 
-	&.o-active
-		display: block
+    &.o-active
+        display: block
 
 .clock
-	position: relative
-	width: 200px
-	height: 200px
-	border-radius: 50%
-	background-color: $background-secondary-color
+    position: relative
+    width: 200px
+    height: 200px
+    border-radius: 50%
+    top: -17px
+    left: -17px
 
-	.hour-element
-		position: absolute
-		top: 50%
-		left: 50%
-		transform: translate(-50%, -50%)
-		height: 40px
-		width: 40px
-		border-radius: 50%
-		display: flex
-		align-items: center
-		justify-content: center
-		font-size: 0.80rem
-		font-weight: 500
-		font-family: $font-family
-		color: $text-color
-		cursor: pointer
-		transition: all 0.2s ease-in-out
-		z-index: 1
+    &:before
+        content: ' '
+        position: absolute
+        top: 60%
+        left: 60%
+        transform: translate(-50%, -50%)
+        height: 200px
+        width: 200px
+        border-radius: 50%
+        border: 1px solid $border-color
+        z-index: -1
 
-		&:before
-			content: ' '
-			position: absolute
-			top: 50%
-			left: 50%
-			transform: translate(-50%, -50%)
-			height: 24px
-			width: 24px
-			border-radius: 50%
-			background-color: transparent
-			z-index: -1
+    .hour-element
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        height: 40px
+        width: 40px
+        border-radius: 50%
+        display: flex
+        align-items: center
+        justify-content: center
+        font-size: 0.80rem
+        font-weight: 500
+        font-family: $font-family
+        color: $text-color
+        cursor: pointer
+        transition: all 0.2s ease-in-out
+        z-index: 1
 
-		&.hour-selected
-			background-color: $primary-color
-			color: white
+        &:before
+            content: ' '
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            background-color: transparent
+            z-index: -1
 
-		&.disabled
-			opacity: 0.5
-			cursor: not-allowed
-		
-		&:hover
-			color: white
+        &.hour-selected
+            background-color: $primary-color
+            color: white
 
-			&:before
-				background-color: $primary-color
+        &.disabled
+            opacity: 0.5
+            cursor: not-allowed
+        
+        &:hover
+            color: white
 
-		&:nth-child(1)
-			transform: rotate(300deg) translate(80px) rotate(-300deg)
-			span
-				transform: rotate(-300deg) translate(0px) rotate(300deg)
-		&:nth-child(2)
-			transform: rotate(330deg) translate(80px) rotate(-330deg)
-			span
-				transform: rotate(-330deg) translate(0px) rotate(330deg)
-		&:nth-child(3)
-			transform: rotate(0deg) translate(80px) rotate(0deg)
-			span
-				transform: rotate(-0deg) translate(0px) rotate(0deg)
-		&:nth-child(4)
-			transform: rotate(30deg) translate(80px) rotate(-30deg)
-			span
-				transform: rotate(-30deg) translate(0px) rotate(30deg)
-		&:nth-child(5)
-			transform: rotate(60deg) translate(80px) rotate(-60deg)
-			span
-				transform: rotate(-60deg) translate(0px) rotate(60deg)
-		&:nth-child(6)
-			transform: rotate(90deg) translate(80px) rotate(-90deg)
-			span
-				transform: rotate(-90deg) translate(0px) rotate(90deg)
-		&:nth-child(7)
-			transform: rotate(120deg) translate(80px) rotate(-120deg)
-			span
-				transform: rotate(-120deg) translate(0px) rotate(120deg)
-		&:nth-child(8)
-			transform: rotate(150deg) translate(80px) rotate(-150deg)
-			span
-				transform: rotate(-150deg) translate(0px) rotate(150deg)
-		&:nth-child(9)
-			transform: rotate(180deg) translate(80px) rotate(-180deg)
-			span
-				transform: rotate(-180deg) translate(0px) rotate(180deg)
-		&:nth-child(10)
-			transform: rotate(210deg) translate(80px) rotate(-210deg)
-			span
-				transform: rotate(-210deg) translate(0px) rotate(210deg)
-		&:nth-child(11)
-			transform: rotate(240deg) translate(80px) rotate(-240deg)
-			span
-				transform: rotate(-240deg) translate(0px) rotate(240deg)
-		&:nth-child(12)
-			transform: rotate(270deg) translate(80px) rotate(-270deg)
-			span
-				transform: rotate(-270deg) translate(0px) rotate(270deg)
+            &:before
+                background-color: $primary-color
+
+        &:nth-child(1)
+            transform: rotate(300deg) translate(80px) rotate(-300deg)
+            span
+                transform: rotate(-300deg) translate(0px) rotate(300deg)
+        &:nth-child(2)
+            transform: rotate(330deg) translate(80px) rotate(-330deg)
+            span
+                transform: rotate(-330deg) translate(0px) rotate(330deg)
+        &:nth-child(3)
+            transform: rotate(0deg) translate(80px) rotate(0deg)
+            span
+                transform: rotate(-0deg) translate(0px) rotate(0deg)
+        &:nth-child(4)
+            transform: rotate(30deg) translate(80px) rotate(-30deg)
+            span
+                transform: rotate(-30deg) translate(0px) rotate(30deg)
+        &:nth-child(5)
+            transform: rotate(60deg) translate(80px) rotate(-60deg)
+            span
+                transform: rotate(-60deg) translate(0px) rotate(60deg)
+        &:nth-child(6)
+            transform: rotate(90deg) translate(80px) rotate(-90deg)
+            span
+                transform: rotate(-90deg) translate(0px) rotate(90deg)
+        &:nth-child(7)
+            transform: rotate(120deg) translate(80px) rotate(-120deg)
+            span
+                transform: rotate(-120deg) translate(0px) rotate(120deg)
+        &:nth-child(8)
+            transform: rotate(150deg) translate(80px) rotate(-150deg)
+            span
+                transform: rotate(-150deg) translate(0px) rotate(150deg)
+        &:nth-child(9)
+            transform: rotate(180deg) translate(80px) rotate(-180deg)
+            span
+                transform: rotate(-180deg) translate(0px) rotate(180deg)
+        &:nth-child(10)
+            transform: rotate(210deg) translate(80px) rotate(-210deg)
+            span
+                transform: rotate(-210deg) translate(0px) rotate(210deg)
+        &:nth-child(11)
+            transform: rotate(240deg) translate(80px) rotate(-240deg)
+            span
+                transform: rotate(-240deg) translate(0px) rotate(240deg)
+        &:nth-child(12)
+            transform: rotate(270deg) translate(80px) rotate(-270deg)
+            span
+                transform: rotate(-270deg) translate(0px) rotate(270deg)

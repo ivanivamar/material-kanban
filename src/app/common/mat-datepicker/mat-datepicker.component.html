@@ -19,7 +19,7 @@
 
 	<div class="date-dropdown" [class.d-expanded]="active">
 		<header>
-			Select date
+			{{ showHour ? 'Select a time' : 'Select a date' }}
 		</header>
 
 		<main>
@@ -71,20 +71,37 @@
 					</div>
 				</div>
 
-				
+
 			</div>
 
-			<div class="hourpicker" *ngIf="showHour">
+			<div class="hourpicker flex gap-2 p-3" *ngIf="showHour">
 				<div class="clock">
-					<div class="hour-element" *ngFor="let hour of hourArray" [class.hour-selected]="hour === selectedHour">
+					<div class="hour-element" *ngFor="let hour of hourArray"
+						[class.hour-selected]="hour === selectedHour" (click)="selectHour(hour)">
 						<span>{{ hour }}</span>
+					</div>
+				</div>
+
+				<div class="flex flex-column gap-3">
+					<div class="flex align-items-center gap-2">
+						<div class="bg-primary rounded p-3 flex justify-content-center align-items-center">
+							<span class="font-bold text-xl">
+								{{ selectedHour < 10 ? '0' + selectedHour : selectedHour }} </span>
+						</div>
+						<span class="text-color text-xl">:</span>
+						<div class="bg-white rounded p-3 flex justify-content-center align-items-center">
+							<span class="font-bold text-xl">
+								00
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</main>
 
-		<footer class="w-full flex justify-content-between align-items-center px-3">
-			<button class="btn text-btn bg-hover-primary" (click)="goToday()">
+		<footer class="w-full flex align-items-center px-3" [class.justify-content-between]="!showHour"
+			[class.justify-content-end]="showHour">
+			<button class="btn text-btn bg-hover-primary" (click)="goToday()" *ngIf="!showHour">
 				<span class="material-symbols-rounded">today</span>
 				Today
 			</button>
