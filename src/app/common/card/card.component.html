@@ -1,336 +1,340 @@
-<div [classList]="'col-12 card'"
-     (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);">
-    <!-- HEADER -->
-    <header class="card-header flex flex-column gap-3 w-full align-items-baseline relative">
-        <div class="flex align-items-center gap-2">
-            <div class="text-base text-secondary flex align-items-center">
-                #{{ task.id }} <span class="text-color ml-1 font-bold">- {{ task.title }}</span>
-            </div>
-            <div class="task-status" [style.border-color]="task.status.borderColor"
-                 [style.background-color]="task.status.bgColor">
-                <i class="material-symbols-rounded" [style.color]="task.status.iconColor">
-                    {{ task.status.icon }}
-                </i>
-                {{ task.status.name }}
-            </div>
-            <div class="flex align-items-center absolute right-0">
-                <div class="relative assignee-container" style="top: 2px"
-                     *ngFor="let assignee of task.assignees; let index = index">
-                    <img width="28px" height="28px" class="border-circle relative" [style.border]="'2px solid white'"
-                         [style.left]="index > 0 ? '-10px' : '0'"
-                         [src]="assignee.photoURL"/>
-                </div>
-            </div>
-        </div>
-        <div class="flex align-items-center gap-3">
-            <div class="flex gap-2 text-color font-medium align-items-center">
-                <i class="material-symbols-rounded text-sm">
-                    person
-                </i>
-                <span class="text-sm">
-                    {{ task.owner.username }}
-                </span>
-            </div>
-            <div class="flex gap-2 text-color font-medium align-items-center" *ngIf="task.urgency">
-                <i class="material-symbols-rounded text-sm">
-                    flag
-                </i>
-                <span class="text-sm">
-                    {{ task.urgency.title }}
-                </span>
-            </div>
-        </div>
-    </header>
-    <!-- /HEADER -->
+<div [classList]="'col-12 card'" (click)="showAddTaskModal = true;playAudio('assets/drop.mp3', 0.5);">
+	<!-- HEADER -->
+	<header class="card-header flex flex-column gap-3 w-full align-items-baseline relative">
+		<div class="flex align-items-center gap-2">
+			<div class="text-base text-secondary flex align-items-center">
+				#{{ task.id }} <span class="text-color ml-1 font-bold">- {{ task.title }}</span>
+			</div>
+			<div class="task-status" [style.border-color]="task.status.borderColor"
+				[style.background-color]="task.status.bgColor">
+				<i class="material-symbols-rounded" [style.color]="task.status.iconColor">
+					{{ task.status.icon }}
+				</i>
+				{{ task.status.name }}
+			</div>
+			<div class="flex align-items-center absolute right-0">
+				<div class="relative assignee-container" style="top: 2px"
+					*ngFor="let assignee of task.assignees; let index = index">
+					<img width="28px" height="28px" class="border-circle relative" [style.border]="'2px solid white'"
+						[style.left]="index > 0 ? '-10px' : '0'" [src]="assignee.photoURL" />
+				</div>
+			</div>
+		</div>
+		<div class="flex align-items-center gap-3">
+			<div class="flex gap-2 text-color font-medium align-items-center">
+				<i class="material-symbols-rounded text-sm">
+					person
+				</i>
+				<span class="text-sm">
+					{{ task.owner.username }}
+				</span>
+			</div>
+			<div class="flex gap-2 text-color font-medium align-items-center" *ngIf="task.urgency">
+				<i class="material-symbols-rounded text-sm">
+					flag
+				</i>
+				<span class="text-sm">
+					{{ task.urgency.title }}
+				</span>
+			</div>
+		</div>
+	</header>
+	<!-- /HEADER -->
 
-    <div class="card-footer mt-3" *ngIf="task.checkboxes.length > 0">
-        <app-circular-progress-bar
-            [value]="getTotalCompletedTasks() / task.checkboxes.length * 100"></app-circular-progress-bar>
-        <!-- current checkbox name -->
-        <span class="text-sm text-color font-semibold">
-            {{ getCurrentCheckboxName() }}
-        </span>
-        <!-- counter of completed/total -->
-        <span class="text-sm text-color font-semibold">
-            ({{ getTotalCompletedTasks() }}/{{ task.checkboxes.length }})
-        </span>
-        <!-- last time updated -->
-        <span class="text-sm text-secondary font-regular">
-            updated
-            {{ task.modificationDate | date: 'd MMM, y, h:mm a' : 'es-ES' }}
-        </span>
-    </div>
+	<div class="card-footer mt-3" *ngIf="task.checkboxes.length > 0">
+		<app-circular-progress-bar
+			[value]="getTotalCompletedTasks() / task.checkboxes.length * 100"></app-circular-progress-bar>
+		<!-- current checkbox name -->
+		<span class="text-sm text-color font-semibold">
+			{{ getCurrentCheckboxName() }}
+		</span>
+		<!-- counter of completed/total -->
+		<span class="text-sm text-color font-semibold">
+			({{ getTotalCompletedTasks() }}/{{ task.checkboxes.length }})
+		</span>
+		<!-- last time updated -->
+		<span class="text-sm text-secondary font-regular">
+			updated
+			{{ task.modificationDate | date: 'd MMM, y, h:mm a' : 'es-ES' }}
+		</span>
+	</div>
 </div>
 <!-- EDIT TASK MODAL -->
 <div class="dialog-full" *ngIf="showAddTaskModal">
-    <div class="dialog-header">
-        <button class="btn text-btn" (click)="hideModal()">
-            <i class="material-symbols-rounded">
-                arrow_back
-            </i>
-            Back to projects
-        </button>
-        <div class="flex align-items-center gap-2">
-            <button [ngClass]="task.status.name === status.name ? 'btn filled-btn' : 'btn outlined-btn'"
-                    *ngFor="let status of statusList; let index = index"
-                    (click)="task.status = status; index === 3 ? task.completed = true : task.completed = false">
-                <span class="material-symbols-rounded text-base" *ngIf="status.name === 'To Do'">
-                    looks_one
-                </span>
-                <span class="material-symbols-rounded text-base" *ngIf="status.name === 'In Progress'">
-                    looks_two
-                </span>
-                <span class="material-symbols-rounded text-base" *ngIf="status.name === 'Review'">
-                    looks_3
-                </span>
-                <span class="material-symbols-rounded text-base" *ngIf="status.name === 'Completed'">
-                    looks_4
-                </span>
-                {{ status.name }}
-            </button>
-        </div>
-        <div class="flex align-items-center gap-2">
-            <button type="button" class="btn outlined-btn" (click)="hideModal()">
-                <span class="material-symbols-rounded text-base">close</span>
-                Cancel
-            </button>
-            <button type="button" class="btn filled-btn" (click)="editTask(true)">
-                <span class="material-symbols-rounded text-base">save</span>
-                Save
-            </button>
-        </div>
-    </div>
+	<div class="dialog-header">
+		<button class="btn text-btn" (click)="hideModal()">
+			<i class="material-symbols-rounded">
+				arrow_back
+			</i>
+			Back to projects
+		</button>
+		<div class="flex align-items-center gap-2">
+			<button [ngClass]="task.status.name === status.name ? 'btn filled-btn' : 'btn outlined-btn'"
+				*ngFor="let status of statusList; let index = index"
+				(click)="task.status = status; index === 3 ? task.completed = true : task.completed = false">
+				<span class="material-symbols-rounded text-base" *ngIf="status.name === 'To Do'">
+					looks_one
+				</span>
+				<span class="material-symbols-rounded text-base" *ngIf="status.name === 'In Progress'">
+					looks_two
+				</span>
+				<span class="material-symbols-rounded text-base" *ngIf="status.name === 'Review'">
+					looks_3
+				</span>
+				<span class="material-symbols-rounded text-base" *ngIf="status.name === 'Completed'">
+					looks_4
+				</span>
+				{{ status.name }}
+			</button>
+		</div>
+		<div class="flex align-items-center gap-2">
+			<button type="button" class="btn outlined-btn" (click)="hideModal()">
+				<span class="material-symbols-rounded text-base">close</span>
+				Cancel
+			</button>
+			<button type="button" class="btn filled-btn" (click)="editTask(true)">
+				<span class="material-symbols-rounded text-base">save</span>
+				Save
+			</button>
+		</div>
+	</div>
 
-    <div class="dialog-content">
+	<div class="dialog-content">
 
-        <div class="grid w-full">
-            <div class="col-12 md:col-8">
-                <div class="flex gap-3 align-items-center p-2 mb-2">
-                    <span class="text-xl font-bold">
-                        {{ task.id ? 'Edit task' : 'Add task' }}
-                    </span>
-                </div>
+		<div class="grid w-full">
+			<div class="col-12 md:col-8">
+				<div class="flex gap-3 align-items-center p-2 mb-2">
+					<span class="text-xl font-bold">
+						{{ task.id ? 'Edit task' : 'Add task' }}
+					</span>
+				</div>
 
-                <div class="card nohover">
-                    <div class="flex flex-column gap-2 w-full">
-                        <mat-input [inputType]="'text'" [label]="'Title'" [(value)]="task.title"
-                                   [name]="'taskTitle'"></mat-input>
-                        <mat-textarea [(value)]="task.description" [label]="'Description'"
-                                      [name]="'taskDescription'"></mat-textarea>
+				<div class="card nohover card-filled">
+					<div class="flex flex-column gap-2 w-full">
+						<mat-input [inputType]="'text'" [label]="'Title'" [(value)]="task.title"
+							[name]="'taskTitle'"></mat-input>
+						<mat-textarea [(value)]="task.description" [label]="'Description'"
+							[name]="'taskDescription'"></mat-textarea>
 
-                        <div class="flex gap-2 align-items-center mt-2 mb-2">
-                            <span class="font-medium text-sm text-color">Subtasks</span>
-                            <div class="w-full border" style="height: 1px"></div>
-                        </div>
+						<div class="flex gap-2 align-items-center mt-2 mb-2">
+							<span class="font-medium text-sm text-color">Subtasks</span>
+							<div class="w-full border" style="height: 1px"></div>
+						</div>
 
-                        <div class="flex flex-column">
-                            <div class="flex flex-column subtask" [class.checked]="subtask.checked"
-                                 [class.border-round-top]="index === 0"
-                                 *ngFor="let subtask of task.checkboxes; let index = index">
-                                <div class="flex align-items-center gap-2">
-                                    <i class="material-symbols-rounded cursor-pointer"
-                                       (click)="subtask.checked = !subtask.checked"
-                                       [class.text-primary]="subtask.checked">
-                                        {{ subtask.checked ? 'check_box' : 'check_box_outline_blank' }}
-                                    </i>
-                                    <input [(ngModel)]="subtask.title" placeholder="Enter title..."
-                                           [class.text-primary]="subtask.checked"
-                                           class="bg-transparent w-full border-none outline-none font-medium"/>
-                                    <button class="icon-btn text-btn danger-color-only"
-                                            (click)="deleteCheckbox($event, subtask)">
-                                        <span class="material-symbols-rounded text-base">
-                                            close
-                                        </span>
-                                    </button>
-                                </div>
-                                <mat-textarea class="pl-5" [(value)]="subtask.description" [label]="'Description'"
-                                              [name]="'subtaskDescription'"></mat-textarea>
-                            </div>
-                            <div class="subtask border-round-bottom"
-                                 [class.border-round-top]="task.checkboxes.length === 0">
-                                <button class="btn btn-icon" (click)="addCheckbox($event)">
-                                    <span class="material-symbols-rounded text-base">
-                                        add
-                                    </span>
-                                    New Subtask
-                                </button>
-                            </div>
-                        </div>
+						<div class="flex flex-column">
+							<div class="flex flex-column subtask" [class.checked]="subtask.checked"
+								[class.border-round-top]="index === 0"
+								*ngFor="let subtask of task.checkboxes; let index = index">
+								<div class="flex align-items-center gap-2">
+									<i class="material-symbols-rounded cursor-pointer"
+										(click)="subtask.checked = !subtask.checked"
+										[class.text-primary]="subtask.checked">
+										{{ subtask.checked ? 'check_box' : 'check_box_outline_blank' }}
+									</i>
+									<input [(ngModel)]="subtask.title" placeholder="Enter title..."
+										[class.text-primary]="subtask.checked"
+										class="bg-transparent w-full border-none outline-none font-medium" />
+									<button class="icon-btn text-btn danger-color-only"
+										(click)="deleteCheckbox($event, subtask)">
+										<span class="material-symbols-rounded text-base">
+											close
+										</span>
+									</button>
+								</div>
+								<mat-textarea class="pl-5" [(value)]="subtask.description" [label]="'Description'"
+									[name]="'subtaskDescription'"></mat-textarea>
+							</div>
+							<div class="subtask border-round-bottom"
+								[class.border-round-top]="task.checkboxes.length === 0">
+								<button class="btn btn-icon" (click)="addCheckbox($event)">
+									<span class="material-symbols-rounded text-base">
+										add
+									</span>
+									New Subtask
+								</button>
+							</div>
+						</div>
 
-                        <div class="divider mb-2"></div>
+						<div class="divider mb-2"></div>
 
-                        <div class="flex flex-row-reverse w-full">
-                            <button class="btn filled-btn danger" (click)="confirmDelete($event)">
-                                <i class="material-symbols-rounded">
-                                    delete
-                                </i>
-                                Delete task
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+						<div class="flex flex-row-reverse w-full">
+							<button class="btn filled-btn danger" (click)="confirmDelete($event)">
+								<i class="material-symbols-rounded">
+									delete
+								</i>
+								Delete task
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="col-12 md:col-4 mt-6 flex flex-column gap-3">
-                <div class="card p-0 nohover">
-                    <div class="card-header p-3 pb-0">
-                        <span class="text-lg font-bold">
-                            Assignees
-                        </span>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="card-body p-3 pt-0">
-                        <div class="flex align-items-center gap-2 mb-2">
-                            <div class="relative assignee-container" *ngFor="let assignee of task.assignees">
-                                <img width="35px" height="35px" class="border-circle"
-                                     [src]="assignee.photoURL"/>
-                                <div
-                                    class="absolute top-0 left-0 h-full w-full bg-secondary opacity-60 border-circle cursor-pointer justify-content-center align-items-center"
-                                    (click)="removeTaskAssignee(assignee)">
-                                    <i class="material-symbols-rounded text-color text-2xl">
-                                        close
-                                    </i>
-                                </div>
-                            </div>
-                            <div class="icon-btn outlined-btn border-dashed" (click)="addAssignee = true">
-                                <span class="material-symbols-rounded text-base">
-                                    add
-                                </span>
-                            </div>
-                        </div>
-                        <div *ngIf="addAssignee">
-                            <div class="dropdown" [class.expanded]="showDropdown">
-                                <div class="dropbtn" (click)="showDropdown = !showDropdown">
-                                    Select assignees
-                                </div>
-                                <div class="dropdown-content">
-                                    <div class="dropdown-item"
-                                         (click)="member.selected = !member.selected; assignUsers()"
-                                         *ngFor="let member of members">
-                                        <i class="material-symbols-rounded text-2xl">
-                                            {{ member.selected ? 'check_box' : 'check_box_outline_blank' }}
-                                        </i>
-                                        <img width="25px" height="25px" class="border-circle"
-                                             [src]="member.photoURL" alt="assignee image"/>
-                                        <span class="ml-2 w-full">
-                                            {{ member.username }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-row-reverse align-items-center gap-2 w-full mt-2">
-                                <button class="btn outlined-btn" (click)="addAssignee = false">
-                                    <span class="material-symbols-rounded text-base">
-                                        close
-                                    </span>
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+			<div class="col-12 md:col-4 mt-6 flex flex-column gap-3">
+				<div class="card p-0 nohover card-filled">
+					<div class="card-header p-3 pb-0">
+						<span class="text-lg font-bold">
+							Assignees
+						</span>
+					</div>
+					<div class="divider"></div>
+					<div class="card-body p-3 pt-0">
+						<div class="flex align-items-center gap-2 mb-2">
+							<div class="relative assignee-container" *ngFor="let assignee of task.assignees">
+								<img width="35px" height="35px" class="border-circle" [src]="assignee.photoURL" />
+								<div class="absolute top-0 left-0 h-full w-full bg-secondary opacity-60 border-circle cursor-pointer justify-content-center align-items-center"
+									(click)="removeTaskAssignee(assignee)">
+									<i class="material-symbols-rounded text-color text-2xl">
+										close
+									</i>
+								</div>
+							</div>
+							<div class="icon-btn outlined-btn border-dashed" (click)="addAssignee = true">
+								<span class="material-symbols-rounded text-base">
+									add
+								</span>
+							</div>
+						</div>
+						<div *ngIf="addAssignee">
+							<div class="dropdown" [class.expanded]="showDropdown">
+								<div class="dropbtn" (click)="showDropdown = !showDropdown">
+									Select assignees
+								</div>
+								<div class="dropdown-content">
+									<div class="dropdown-item"
+										(click)="member.selected = !member.selected; assignUsers()"
+										*ngFor="let member of members">
+										<i class="material-symbols-rounded text-2xl">
+											{{ member.selected ? 'check_box' : 'check_box_outline_blank' }}
+										</i>
+										<img width="25px" height="25px" class="border-circle" [src]="member.photoURL"
+											alt="assignee image" />
+										<span class="ml-2 w-full">
+											{{ member.username }}
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="flex flex-row-reverse align-items-center gap-2 w-full mt-2">
+								<button class="btn outlined-btn" (click)="addAssignee = false">
+									<span class="material-symbols-rounded text-base">
+										close
+									</span>
+									Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                <div class="card p-0 nohover">
-                    <div class="card-header flex justify-content-between align-items-center p-3 pb-0">
-                        <span class="text-lg font-bold">
-                            Attatchments
-                        </span>
 
-                        <button class="btn filled-btn" (click)="attatchmentsInput.click()">
-                            <i class="material-symbols-rounded">
-                                add
-                            </i>
-                            New Attatchment
-                        </button>
-                    </div>
-                    <div class="divider mb-0"></div>
-                    <div class="card-body p-0 pb-2">
-                        <div class="file-container" [class.border-none]="(index+1) === task.images.length"
-                             *ngFor="let file of task.images; let index = index">
-                            <span class="fw-bolder text-color">
-                                {{ file.name }}
-                            </span>
-                            <div class="flex align-items-center gap-2">
-                                <div class="label">
-                                    {{ file.type }}
-                                </div>
-                            </div>
+				<div class="card p-0 nohover card-filled">
+					<div class="card-header p-3 pb-0">
+						<span class="text-lg font-bold">
+							Due date
+						</span>
+					</div>
+					<div class="divider"></div>
+					<div class="card-body p-3 pt-0">
+						<mat-datepicker [label]="'Due Date'" [value]="task.dueDate" (onDateSelected)="task.dueDate = $event"></mat-datepicker>
+					</div>
+				</div>
 
-                            <div class="file-actions">
-                                <button class="icon-btn text-btn warning-color-only"
-                                        (click)="newImageObject = file; showFileModal = true">
-                                    <i class="material-symbols-rounded text-base">
-                                        edit
-                                    </i>
-                                </button>
-                                <button class="icon-btn text-btn primary-color-only" (click)="downloadFile(file, downloadFileAnchor)">
-                                    <i class="material-symbols-rounded text-base">
-                                        download
-                                    </i>
-                                </button>
-                                <button class="icon-btn text-btn danger-color-only" (click)="confirmDeleteGlobal($event, 'removeFile', file)">
-                                    <i class="material-symbols-rounded text-base">
-                                        delete
-                                    </i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="card p-0 nohover card-filled">
+					<div class="card-header flex justify-content-between align-items-center p-3 pb-0">
+						<span class="text-lg font-bold">
+							Attatchments
+						</span>
 
-    <p-toast></p-toast>
-    <p-confirmPopup appendTo="body"></p-confirmPopup>
-    <a #downloadFileAnchor [href]="downloadFileElement.url"
-       [download]="downloadFileElement.name.split('.')[0] + '.' + downloadFileElement.extension.toLowerCase()"
-       class="hidden">DownloadFile</a>
+						<button class="btn filled-btn" (click)="attatchmentsInput.click()">
+							<i class="material-symbols-rounded">
+								add
+							</i>
+							New Attatchment
+						</button>
+					</div>
+					<div class="divider mb-0"></div>
+					<div class="card-body p-0 pb-2" style="max-height: 300px; overflow-y: auto;">
+						<div class="file-container" [class.border-none]="(index+1) === task.images.length"
+							*ngFor="let file of task.images; let index = index">
+							<span class="fw-bolder text-color">
+								{{ file.name }}
+							</span>
+							<div class="flex align-items-center gap-2">
+								<div class="label">
+									{{ file.type }}
+								</div>
+							</div>
+
+							<div class="file-actions">
+								<button class="icon-btn text-btn warning-color-only"
+									(click)="newImageObject = file; showFileModal = true">
+									<i class="material-symbols-rounded text-base">
+										edit
+									</i>
+								</button>
+								<button class="icon-btn text-btn primary-color-only" (click)="viewFile(file)">
+									<i class="material-symbols-rounded text-base">
+										visibility
+									</i>
+								</button>
+								<button class="icon-btn text-btn danger-color-only"
+									(click)="confirmDeleteGlobal($event, 'removeFile', file)">
+									<i class="material-symbols-rounded text-base">
+										delete
+									</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<p-toast></p-toast>
+	<p-confirmPopup appendTo="body"></p-confirmPopup>
 </div>
 
 <input type="file" #attatchmentsInput class="hidden" (change)="uploadTaskImage($event)">
 
 <div class="dialog-container" *ngIf="selectedImage !== ''">
-    <button class="btn btn-icon absolute" style="top: 138px; right: 22%" (click)="selectedImage = ''">
-        <span class="material-symbols-rounded">
-            close
-        </span>
-    </button>
-    <div class="dialog">
-        <img [src]="selectedImage" class="w-full h-full shadow-1 pointer-events-none">
-    </div>
+	<div class="overlay" (click)="selectedImage = ''"></div>
+	<div class="dialog bg-transparent shadow-none border-none flex justify-content-center">
+		<img [src]="selectedImage" class="shadow-1 pointer-events-none rounded">
+	</div>
 </div>
 
 <div class="dialog-container" *ngIf="showFileModal">
-    <div class="overlay" (click)="closeFileModal()"></div>
+	<div class="overlay" (click)="closeFileModal()"></div>
 
-    <div class="dialog dialog-sm">
-        <button class="icon-btn text-btn close-btn" (click)="closeFileModal()">
-            <i class="material-symbols-rounded">close</i>
-        </button>
-        <div class="dialog-header align-items-start">
-            <div class="flex flex-column gap-2">
-                <span class="text-lg font-bold text-color">
-                    {{ newImageObject.url !== '' ? 'Edit attachment' : 'Add new attachment' }}
-                </span>
-                <span class="text-sm text-secondary">You can replace the name of the attachment and select a color for it.</span>
-            </div>
-        </div>
+	<div class="dialog dialog-sm">
+		<button class="icon-btn text-btn close-btn" (click)="closeFileModal()">
+			<i class="material-symbols-rounded">close</i>
+		</button>
+		<div class="dialog-header align-items-start">
+			<div class="flex flex-column gap-2">
+				<span class="text-lg font-bold text-color">
+					{{ newImageObject.url !== '' ? 'Edit attachment' : 'Add new attachment' }}
+				</span>
+				<span class="text-sm text-secondary">You can replace the name of the attachment and select a color for
+					it.</span>
+			</div>
+		</div>
 
-        <div class="dialog-content pt-3 pb-0">
-            <mat-input class="w-full" [inputType]="'text'" [helperText]="newImageObject.extension"
-                       [label]="'File name'" [(value)]="newImageObject.name.split('.')[0]"></mat-input>
-        </div>
+		<div class="dialog-content pt-3 pb-0">
+			<mat-input class="w-full" [inputType]="'text'" [helperText]="newImageObject.extension" [label]="'File name'"
+				[(value)]="newImageObject.name"></mat-input>
+		</div>
 
-        <div class="dialog-footer">
-            <button class="btn text-btn" (click)="closeFileModal()">
-                <i class="material-symbols-rounded">close</i>
-                Cancel
-            </button>
-            <button class="btn filled-btn" (click)="addFile()" [disabled]="newImageObject.name.trim().length === 0">
-                <i class="material-symbols-rounded">cloud_upload</i>
-                Submit
-            </button>
-        </div>
-    </div>
+		<div class="dialog-footer">
+			<button class="btn text-btn" (click)="closeFileModal()">
+				<i class="material-symbols-rounded">close</i>
+				Cancel
+			</button>
+			<button class="btn filled-btn" (click)="addFile()" [disabled]="newImageObject.name.trim().length === 0">
+				<i class="material-symbols-rounded">cloud_upload</i>
+				Submit
+			</button>
+		</div>
+	</div>
 </div>

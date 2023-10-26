@@ -1,8 +1,6 @@
 .card
-    background-color: $bg-color
+    background-color: $bg-color-secondary
     border-radius: $border-radius
-    border: 1px solid $border-color
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
     display: flex
     flex-direction: column
     padding: 18px
@@ -22,6 +20,9 @@
             box-shadow: none
             background-color: $bg-color
             border-color: $border-color
+
+    &.card-filled
+        background-color: $background-primary-color !important
 
     .card-header
         display: flex

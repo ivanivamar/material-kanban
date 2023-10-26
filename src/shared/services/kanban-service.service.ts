@@ -141,7 +141,7 @@ export class KanbanService {
     //#endregion
 
     //#region Helpers
-    downloadFile(file: Images) {
+    getUrlOfFile(file: Images) {
         const imageRef = ref(this.storage, file.url);
         return getDownloadURL(imageRef);
     }
