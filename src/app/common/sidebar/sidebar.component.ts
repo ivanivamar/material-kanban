@@ -31,7 +31,6 @@ import { AuthService } from '../../../shared/services/auth.service';
     providers: [KanbanService, AuthService],
 })
 export class SidebarComponent {
-    projects: any[] = [];
     loading = false;
     currentProjectId: string = '';
 
@@ -39,7 +38,6 @@ export class SidebarComponent {
 
     profileExpanded = false;
     constructor(
-        private kanbanService: KanbanService,
         private router: Router,
         private authService: AuthService,
         ) { }
@@ -51,17 +49,7 @@ export class SidebarComponent {
         this.authService.isLoggedIn().then((user: any) => {
             if (user) {
                 this.user = user;
-
-                from(this.kanbanService.getProjects(user.uid)).subscribe((projects: any[]) => {
-                    this.projects = projects;
-                    this.loading = false;
-                });
             }
-        });
-
-        // get current project id from url
-        this.router.routerState.root.queryParams.subscribe((params) => {
-            this.currentProjectId = params['projectId'];
         });
     }
 
