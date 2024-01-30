@@ -40,6 +40,7 @@ import { TaskFiltersComponent } from './kanban-board/task-filters/task-filters.c
 import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { MatDatepickerComponent } from './common/mat-datepicker/mat-datepicker.component';
+import {MatMenuComponent} from "./common/mat-menu/mat-menu.component";
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { MatDatepickerComponent } from './common/mat-datepicker/mat-datepicker.c
         TaskFiltersComponent,
         TextTransformPipe,
         MatDatepickerComponent,
+        MatMenuComponent,
     ],
     imports: [
         CommonModule,

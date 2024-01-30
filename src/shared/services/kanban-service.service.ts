@@ -28,12 +28,18 @@ export class KanbanService {
 
     //#region Getters
     getProjects(getData: any): Observable<Project[]> {
-        const projectRef = query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', getData.uid),
-			orderBy('title'),
-			startAt(getData.skipCount),
-			limit(getData.maxResultsCount)
-        );
+        let projectRef;
+        if (getData.search.trim().length > 0) {
+            projectRef = query(collection(this.firestore, 'projects'),
+                where('owner.uid', '==', getData.uid),
+                orderBy('title'),
+            );
+        } else {
+            projectRef = query(collection(this.firestore, 'projects'),
+                where('owner.uid', '==', getData.uid),
+                orderBy('title'),
+            );
+        }
 		console.log(projectRef);
 		console.log(getData);
         return collectionData(projectRef, { idField: 'id' }) as Observable<Project[]>;

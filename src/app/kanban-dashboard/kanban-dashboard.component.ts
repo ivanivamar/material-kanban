@@ -120,8 +120,7 @@ export class KanbanDashboardComponent implements OnInit {
     getProjects() {
         const sendData = {
             uid: this.user.uid,
-            maxResultsCount: this.projectsTable.countsPerPage,
-            skipCount: this.projectsTable.countsPerPage * this.projectsTable.currentPage
+            search: this.projectsTable.search,
         }
 
         from(this.kanbanService.getProjects(sendData)).subscribe((projects: any[]) => {

@@ -1,24 +1,24 @@
 .card
     background-color: $bg-color-secondary
     border-radius: $border-radius
+    border: 1px solid $border-color
     display: flex
     flex-direction: column
-    padding: 18px
     cursor: pointer
     transition: all 0.2s ease-in-out
     width: auto
 
     &:hover,
     &.active
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
-        background-color: $background-primary-color
         border-color: $primary-color
+
+        .card-body
+            background-color: $background-primary-color
 
     &.nohover
         cursor: default
         &:hover
             box-shadow: none
-            background-color: $bg-color
             border-color: $border-color
 
     &.card-filled
@@ -27,6 +27,9 @@
     .card-header
         display: flex
         align-items: center
+        border-top-left-radius: $border-radius
+        border-top-right-radius: $border-radius
+        background-color: $content-2
 
         .title
             color: $text-color
@@ -50,6 +53,12 @@
 
             i
                 font-size: 14px
+
+    .card-body
+        padding: 8px 12px
+        background-color: $content-1
+        border-bottom-left-radius: $border-radius
+        border-bottom-right-radius: $border-radius
 
     .card-footer
         border-top: 1px solid $border-color

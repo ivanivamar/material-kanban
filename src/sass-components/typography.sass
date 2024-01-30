@@ -1,3 +1,69 @@
+@font-face
+    src: url("../assets/fonts/ProductSans-Light.woff") format("woff")
+    font-family: "Google Sans Light"
+    font-style: normal
+    font-weight: 300
+
+@font-face
+    src: url("../assets/fonts/ProductSans-LightItalic.woff") format("woff")
+    font-family: "Google Sans Light Italic"
+    font-style: italic
+    font-weight: 300
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Regular.woff") format("woff")
+    font-family: "Google Sans"
+    font-style: normal
+    font-weight: 400
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Medium.woff") format("woff")
+    font-family: "Google Sans Medium"
+    font-style: normal
+    font-weight: 500
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Bold.woff") format("woff")
+    font-family: "Google Sans Bold"
+    font-style: normal
+    font-weight: 700
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Italic.woff") format("woff")
+    font-family: "Google Sans Italic"
+    font-style: italic
+    font-weight: 400
+
+@font-face
+    src: url("../assets/fonts/ProductSans-BoldItalic.woff") format("woff")
+    font-family: "Google Sans Bold Italic"
+    font-style: italic
+    font-weight: 700
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Black.woff") format("woff")
+    font-family: "Google Sans Black"
+    font-style: normal
+    font-weight: 900
+
+@font-face
+    src: url("../assets/fonts/ProductSans-BlackItalic.woff") format("woff")
+    font-family: "Google Sans Black Italic"
+    font-style: italic
+    font-weight: 900
+
+@font-face
+    src: url("../assets/fonts/ProductSans-Thin.woff") format("woff")
+    font-family: "Google Sans Thin"
+    font-style: normal
+    font-weight: 100
+
+@font-face
+    src: url("../assets/fonts/ProductSans-ThinItalic.woff") format("woff")
+    font-family: "Google Sans Thin Italic"
+    font-style: italic
+    font-weight: 100
+
 .display-lg
     font-family: $font-family
     font-size: 57px
@@ -5,6 +71,7 @@
     font-weight: 400
     line-height: 64px
     letter-spacing: -0.25px
+    margin: 0
 
 .display-md
     font-family: $font-family
@@ -12,6 +79,7 @@
     font-style: normal
     font-weight: 400
     line-height: 52px
+    margin: 0
 
 .display-sm
     font-family: $font-family
@@ -19,6 +87,7 @@
     font-style: normal
     font-weight: 400
     line-height: 44px
+    margin: 0
 
 .headline-lg
     font-family: $font-family
@@ -26,6 +95,7 @@
     font-style: normal
     font-weight: 400
     line-height: 40px
+    margin: 0
 
 .headline-md
     font-family: $font-family
@@ -33,6 +103,7 @@
     font-style: normal
     font-weight: 400
     line-height: 36px
+    margin: 0
 
 .headline-sm
     font-family: $font-family
@@ -40,6 +111,7 @@
     font-style: normal
     font-weight: 400
     line-height: 32px
+    margin: 0
 
 .title-lg
     font-family: $font-family
@@ -47,46 +119,25 @@
     font-style: normal
     font-weight: 400
     line-height: 28px
+    margin: 0
 
 .title-md
-    font-family: $font-family
+    font-family: $font-family-medium
     font-size: 16px
     font-style: normal
     font-weight: 500
     line-height: 24px
-    letter-spacing: 0.15px
+    letter-spacing: 0.1px
+    margin: 0
 
 .title-sm
-    font-family: $font-family
+    font-family: $font-family-medium
     font-size: 14px
     font-style: normal
     font-weight: 500
     line-height: 20px
     letter-spacing: 0.1px
-
-.label-lg
-    font-family: $font-family
-    font-size: 14px
-    font-style: normal
-    font-weight: 500
-    line-height: 20px
-    letter-spacing: 0.1px
-
-.label-md
-    font-family: $font-family
-    font-size: 12px
-    font-style: normal
-    font-weight: 500
-    line-height: 16px
-    letter-spacing: 0.5px
-
-.label-sm
-    font-family: $font-family
-    font-size: 11px
-    font-style: normal
-    font-weight: 500
-    line-height: 16px
-    letter-spacing: 0.1px
+    margin: 0
 
 .body-lg
     font-family: $font-family
@@ -102,28 +153,50 @@
     font-style: normal
     font-weight: 400
     line-height: 20px
-    letter-spacing: 0.25px
+    letter-spacing: 0.5px
 
 .body-sm
     font-family: $font-family
     font-size: 12px
     font-style: normal
     font-weight: 400
-    line-height: 16px
+    line-height: 28px
+    letter-spacing: 0.5px
+    margin: 12px 0
+    color: $text-secondary
 
-.font-bold
-    font-weight: 700 !important
-    font-family: $font-family
+.font-light
+    font-family: $font-family-light
+    font-weight: 300
 .font-regular
-    font-weight: 400 !important
     font-family: $font-family
+    font-weight: 400
 .font-medium
-    font-weight: 500 !important
-    font-family: $font-family
+    font-family: $font-family-medium
+    font-weight: 500
+.font-bold
+    font-family: $font-family-bold
+    font-weight: 700
+.font-black
+    font-family: $font-family-black
+    font-weight: 900
 
+button
+    font-family: $font-family-medium
+    font-size: 14px
+    font-style: normal
+    font-weight: 500
+    line-height: 20px
+    letter-spacing: 0.1px
 
-.primary-color
-    color: $primary-color
+i, em
+    display: inline
+    font-style: italic
+    font-family: $font-family-light-italic
+    font-weight: 400
 
-.secondary-color
-    color: $background-secondary-color
+.indent
+    text-indent: 1em
+
+.font-color-secondary
+    color: $text-secondary

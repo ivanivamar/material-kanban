@@ -9,8 +9,8 @@ export class MatInputComponent {
     @ViewChild('inputRef') inputRef!: ElementRef;
 
     @Input() value: any = null;
-    @Input() label: string = '';
     @Input() placeholder: string = '';
+    @Input() label: string = '';
     @Input() disabled: boolean = false;
     @Input() icon: string = '';
     @Input() showClear: boolean = false;
@@ -20,31 +20,57 @@ export class MatInputComponent {
     @Input() maxLength: number = 0;
     @Input() required: boolean = false;
     @Input() name: string = '';
-    @Input() small: boolean = false;
+    @Input() showPassword: boolean = false;
+    @Input() autofocus: boolean = false;
 
     @Output() valueChange = new EventEmitter();
+    @Output() onClear = new EventEmitter();
 
     error: boolean = false;
     isFocused: boolean = false;
+    showingPassword: boolean = false;
 
-    constructor() { }
+    constructor() {}
 
     clear() {
-        this.value = '';
+        this.value = this.inputType === 'number' ? 0 : '';
         this.valueChange.emit(this.value);
+        this.onClear.emit();
     }
 
     onFocus() {
         this.isFocused = true;
+        console.log(this.label)
     }
 
     onBlur() {
         this.isFocused = false;
     }
 
-    verifyInput() {
+    isFocus(): boolean {
+        let hasValue = false;
 
-        this.error = this.required && this.value.trim().length === 0;
+        if (this.value !== null && this.value !== undefined) {
+            hasValue = this.value.toString().trim().length > 0;
+        }
+
+        return this.isFocused || hasValue;
+    }
+
+    togglePassword() {
+        this.showingPassword = !this.showingPassword;
+        if (this.showingPassword) {
+            this.inputType = 'text';
+        } else {
+            this.inputType = 'password';
+        }
+    }
+
+    verifyInput() {
+        this.error = false;
+        if (this.required && this.value.trim().length === 0) {
+            this.error = true;
+        }
 
         // check for max length
         if (this.maxLength !== 0 && this.inputRef.nativeElement.value.length >= this.maxLength) {
@@ -62,6 +88,14 @@ export class MatInputComponent {
                 // check for valid password
                 if (!this.validatePassword(this.value)) {
                     this.error = true;
+                }
+                break;
+            case 'text':
+                // check for valid password
+                if (this.showingPassword) {
+                    if (!this.validatePassword(this.value)) {
+                        this.error = true;
+                    }
                 }
                 break;
             default:

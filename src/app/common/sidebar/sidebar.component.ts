@@ -49,6 +49,7 @@ export class SidebarComponent {
         this.authService.isLoggedIn().then((user: any) => {
             if (user) {
                 this.user = user;
+                this.loading = false;
             }
         });
     }

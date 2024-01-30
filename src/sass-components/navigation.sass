@@ -1,12 +1,13 @@
 nav
-    background-color: $bg-color
+    background-color: $bg-color-secondary
     height: 100%
     position: fixed
     top: 0
     left: 0
     width: 72px
     z-index: 10
-    border-right: 2px solid #F1F1F1
+    border-top-right-radius: $border-radius
+    border-bottom-right-radius: $border-radius
 
     header
         margin-bottom: 0
@@ -35,7 +36,7 @@ nav
     flex-direction: column
     align-items: center
     transition: background-color 0.2s ease
-    font-family: 'Readex Pro', sans-serif
+    font-family: $font-family
     justify-content: center
     min-height: 36px
     position: relative
@@ -46,13 +47,10 @@ nav
     .material-symbols-rounded
         font-size: 24px
 
-    &:hover
-        background-color: $background-primary-color
-        color: $primary-color
-
-a.active .link-content
-    background-color: $background-primary-color
-    color: $primary-color
+    &:hover,
+    &.active
+        background-color: $secondary-color
+        color: $text-color
 
 // mobile
 @media screen and (max-width: 768px)
