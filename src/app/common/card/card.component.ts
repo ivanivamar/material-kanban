@@ -286,12 +286,14 @@ export class CardComponent implements OnInit {
         return this.task.checkboxes[this.task.checkboxes.length - 1].title;
     }
 
-    deleteCheckbox(event?: any, checkbox?: Checkboxes) {
-        event.stopPropagation();
+    deleteCheckbox(checkbox: Checkboxes, event?: any) {
+        if (event) {
+            event.stopPropagation();
+        }
         this.task.checkboxes = this.task.checkboxes.filter(c => c.id !== checkbox!.id);
 
         if (event) {
-            this.editTask(false);
+            this.editTask(true);
         }
     }
 
