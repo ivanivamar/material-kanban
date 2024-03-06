@@ -7,67 +7,42 @@
             </button>
         </div>
 
-        <div class="table" *ngIf="projectsTable.items.length > 0">
-            <div class="table-header">
-                <div class="header-cell justify-content-start">
-                    <i class="material-symbols-rounded hidden md:block">title</i>
-                    Name
-                </div>
-                <div class="header-cell text-center sortable">
-                    <i class="material-symbols-rounded hidden md:block">assignment</i>
-                    Total Tasks
-                </div>
-                <div class="header-cell text-center sortable">
-                    <i class="material-symbols-rounded hidden md:block">hourglass_empty</i>
-                    Ongoing Tasks
-                </div>
-                <div class="header-cell text-center sortable">
-                    <i class="material-symbols-rounded hidden md:block">check_circle</i>
-                    Completed Tasks
-                </div>
-                <div class="header-cell text-center">
-                    <i class="material-symbols-rounded hidden md:block">settings</i>
-                    Actions
-                </div>
+        <div class="project-card" *ngFor="let project of projectsTable.items">
+            <div class="card-header">
+                    <span class="title-md">
+                        {{ project.title }}
+                    </span>
+
+                <button class="icon-btn text-btn"
+                        (click)="navigateToProject(project)">
+                    <span class="material-symbols-rounded">arrow_forward</span>
+                </button>
             </div>
 
-            <div class="table-row" *ngFor="let project of projectsTable.items">
-                <div class="table-cell font-medium">
-                    {{ project.title }}
+            <div class="card-content">
+                <div class="flex gap-2">
+                    <i class="material-symbols-rounded">assignment</i>
+                    <span>{{ project.tasks.length }}</span>
                 </div>
-                <div class="table-cell justify-content-center">
-                    {{ project.tasks.length }}
+                <div class="flex gap-2">
+                    <i class="material-symbols-rounded">hourglass_empty</i>
+                    <span>{{ getTasksOfStatus(statusList[1].name, project) }}</span>
                 </div>
-                <div class="table-cell justify-content-center">
-                    {{ getTasksOfStatus(statusList[1].name, project) }}
+                <div class="flex gap-2">
+                    <i class="material-symbols-rounded">check_circle</i>
+                    <span>{{ getTasksOfStatus(statusList[3].name, project) }}</span>
                 </div>
-                <div class="table-cell justify-content-center">
-                    {{ getTasksOfStatus(statusList[3].name, project) }}
-                </div>
-                <div class="table-cell justify-content-center">
-                    <button class="icon-btn text-btn small-btn"
-                            (click)="navigateToProject(project)">
-                        <span class="material-symbols-rounded">arrow_forward</span>
-                    </button>
-
-                    <button class="icon-btn text-btn small-btn"
-                            (click)="createOrEditProject(project)">
-                        <span class="material-symbols-rounded">edit</span>
-                    </button>
-
-                    <button class="icon-btn text-btn small-btn"
-                            *ngIf="project.owner.uid === user.uid"
-                            (click)="confirmDeleteProject($event, project)">
-                        <span class="material-symbols-rounded">delete</span>
-                    </button>
-                </div>
+                <button class="icon-btn text-btn"
+                        (click)="createOrEditProject(project)">
+                    <span class="material-symbols-rounded">edit</span>
+                </button>
             </div>
         </div>
     </div>
 </div>
 <p-confirmPopup></p-confirmPopup>
 
-<div class="dialog-container" *ngIf="showAddProjectModal">
+<div class="dialog-container" [class.open]="showAddProjectModal">
     <div class="overlay" (click)="closeProjectModal()"></div>
     <div class="dialog">
         <div class="dialog-header">
@@ -75,25 +50,29 @@
                 {{ selectedProject.id ? 'Edit Project' : 'Add Project' }}
             </span>
 
-            <button class="icon-btn text-btn danger-color-only small-btn" (click)="closeProjectModal()">
-                <span class="material-symbols-rounded">close</span>
-            </button>
+            <div class="dialog-actions">
+                <button type="button" ripple class="icon-btn text-btn" (click)="closeProjectModal()">
+                    <i class="material-symbols-rounded">close</i>
+                </button>
+                <button type="button" ripple class="icon-btn text-btn" (click)="addProject()"
+                        [disabled]="setDisabled()">
+                    <i class="material-symbols-rounded">save</i>
+                </button>
+            </div>
         </div>
         <div class="dialog-content">
             <div class="flex flex-column gap-3">
-                <mat-input class="w-100" [label]="'Project Title'" [(value)]="selectedProject.title" [name]="'title'"
-                           [inputType]="'text'" [placeholder]="'Project Title'" [required]="true"></mat-input>
-                <mat-textarea class="w-100" [label]="'Project Description'" [(value)]="selectedProject.description"
-                              [name]="'description'"
-                              [placeholder]="'Project Description'"></mat-textarea>
+                <input type="text" [(ngModel)]="selectedProject.title" class="w-100" placeholder="Project Title"
+                       required>
+
+                <textarea [(ngModel)]="selectedProject.description" class="w-100" placeholder="Project Description"
+                          required></textarea>
                 <div class="flex flex-column gap-3" *ngIf="selectedProject.id">
-                    <mat-input [label]="'Share with'" [(value)]="userEmailToShare" [helperText]="shareWithError"
-                               [name]="'shareWith'"
-                               [inputType]="'text'" [placeholder]="'Email of user'"></mat-input>
+                    <input type="text" [(ngModel)]="userEmailToShare" class="w-100" placeholder="Share with... (email)">
 
                     <div class="flex flex-row-reverse w-full">
-                        <button class="btn filled-btn small-btn" (click)="shareProject()">
-                            Share
+                        <button class="icon-btn filled-btn small-btn" (click)="shareProject()">
+                            <i class="material-symbols-rounded">share</i>
                         </button>
                     </div>
                 </div>
@@ -118,15 +97,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="dialog-footer">
-            <button type="button" ripple class="btn tonal-btn small-btn" (click)="closeProjectModal()">
-                Close
-            </button>
-            <button type="button" ripple class="btn filled-btn small-btn" (click)="addProject()"
-                    [disabled]="setDisabled()">
-                Save
-            </button>
         </div>
     </div>
 </div>

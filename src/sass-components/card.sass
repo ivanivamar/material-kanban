@@ -71,3 +71,27 @@
     text-transform: capitalize
     background-color: $color-primary
     color: white
+
+
+.project-card
+    display: flex
+    flex-direction: column
+    border-radius: $border-radius
+    background-color: $color-surface-1
+
+    &:hover
+        background-color: $color-secondary-container
+
+    .card-header
+        border-bottom-left-radius: $border-radius
+        border-bottom-right-radius: $border-radius
+        background-color: $color-primary-container
+        padding: 12px
+        display: flex
+        align-items: center
+        justify-content: space-between
+
+    .card-content
+        padding: 12px
+        display: flex
+        gap: 8px

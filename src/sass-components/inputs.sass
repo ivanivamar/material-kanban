@@ -2,11 +2,11 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 textarea
-    border: 2px solid #ddd
-    border-radius: 4px
+    border: 2px solid $color-utility-outline
+    border-radius: $border-radius
     padding: 12px 16px
     font-size: 16px
-    font-family: $font-family
+    font-family: $font-family-medium
     background-color: transparent
     color: $color-on-surface
     width: 100%
@@ -14,11 +14,16 @@ textarea
     transition: border-color 0.2s ease
     outline: none !important
 
+    &::placeholder
+        color: $color-on-surface-variant
+
     &:focus,
     &:hover,
     &:active
         border-color: $color-primary
         outline: none !important
+
+
 
 .checkbox-container
     position: relative
