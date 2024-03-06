@@ -31,8 +31,6 @@ export class KanbanService {
         const projectRef = query(collection(this.firestore, 'projects'),
             where('owner.uid', '==', getData.uid),
 			orderBy('title'),
-			startAt(getData.skipCount),
-			limit(getData.maxResultsCount)
         );
 		console.log(projectRef);
 		console.log(getData);

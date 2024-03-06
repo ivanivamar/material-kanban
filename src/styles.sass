@@ -1,50 +1,63 @@
-$bg-color: #FFFFFF
-$bg-color-secondary: #F7F7F7
+$color-background: #1F1F1F
+$color-on-background: #E3E3E3
 
-$primary-color: #0085FF
-$primary-color-hover: #339DFF
-$primary-color-active: #1272CC
-$border-primary-color: #CCE7FF
-$background-primary-color: #E5F3FF
+$color-surface-0: #1F1F1F
+$color-surface-1: #28292A
+$color-surface-2: #2D2F31
+$color-surface-3: #333438
+$color-surface-4: #34363A
+$color-surface-5: #383A3E
+$color-surface-variant: #444746
+$color-inverse-surface: #E3E3E3
+$color-inverse-on-surface: #303030
+$color-on-surface: #E3E3E3
+$color-on-surface-variant: #C4C7C5
 
-$content-1: #1C1C1C
-$content-2: #585757
-$content-3: #969696
-$border-secondary-color: #E8E8E8
-$background-secondary-color: #F7F7F7
+$color-primary: #A8C7FA
+$color-primary-80: #A8C7FA80
+$color-primary-60: #A8C7FA60
+$color-primary-40: #A8C7FA40
+$color-primary-20: #A8C7FA20
 
-$warning-color: #FACC15
-$warning-color-hover: #FBD644
-$warning-color-active: #C8A311
-$border-warning-color: #FEF5D0
-$background-warning-color: #FFFAE8
-$danger-color: #E92C2C
-$danger-color-hover: #ED5656
-$danger-color-active: #BA2323
-$border-danger-color: #FBD5D5
-$background-danger-color: #FFECEC
-$success-color: #00BA34
-$success-color-hover: #33C85D
-$success-color-active: #00952A
-$border-success-color: #CCF1D6
-$background-success-color: #E5F8EB
+$color-on-primary: #062E6F
+$color-primary-container: #0842A0
+$color-on-primary-container: #D3E3FD
 
-$border-color: #E8E8E8
-$border-primary-color: #CCE7FF
-$text-color: #1C1C1C
-$text-secondary: #969696
+$color-secondary: #7FCFFF
+$color-on-secondary: #003355
+$color-secondary-container: #004A77
+$color-on-secondary-container: #D3E3FD
+
+$color-tertiary: #0F5223
+$color-on-tertiary: #C4EED0
+
+$color-utility-error: #F2B8B5
+$color-utility-on-error: #601410
+$color-utility-outline: #8E918F
+$color-utility-warning: #F2D8B5
+$color-utility-on-warning: #604B10
+$color-utility-success: #B5F2B8
+$color-utility-on-success: #106014
+
+$elevation-1: 0px 1px 2px 0px rgb(0 0 0 / 30%), 0px 1px 3px 1px rgb(0 0 0 / 15%)
+$elevation-2: 0px 1px 2px 0px rgb(0 0 0 / 30%), 0px 2px 6px 2px rgb(0 0 0 / 15%)
+$elevation-3: 0px 1px 3px 0px rgb(0 0 0 / 30%), 0px 4px 8px 3px rgb(0 0 0 / 15%)
+
 $border-radius: 8px
 
-$font-family: 'Inter', sans-serif
+$font-family: 'Google Sans', sans-serif
+$font-family-light: 'Google Sans Light', sans-serif
+$font-family-medium: 'Google Sans Medium', sans-serif
+$font-family-bold: 'Google Sans Bold', sans-serif
 
 $shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1)
 .shadow
-    box-shadow: $shadow
+    box-shadow: $elevation-1
 
 body
     font-family: $font-family
-    background-color: $bg-color-secondary
-    color: $text-color
+    background-color: $color-background
+    color: $color-on-background
     margin: 0
 
 ::-webkit-scrollbar
@@ -59,60 +72,69 @@ body
 
 /* Handle */
 ::-webkit-scrollbar-thumb
-    background: #9F9F9F
+    background: $color-surface-2
     border-radius: 5px 5px 5px 5px
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover
-    background: #9F9F9F
+    background: $color-surface-3
 
 .text-color
-    color: $text-color !important
+    color: $color-on-surface !important
 .text-secondary
-    color: $text-secondary !important
+    color: $color-on-surface-variant !important
 .text-primary
-    color: $primary-color !important
+    color: $color-primary !important
 
 .bg-color
-    background-color: $bg-color !important
+    background-color: $color-background !important
 .bg-primary
-    background-color: $primary-color !important
+    background-color: $color-primary !important
 .bg-secondary
-    background-color: $bg-color-secondary !important
+    background-color: $color-secondary !important
 
 .surface-primary
-    background-color: $background-primary-color !important
+    background-color: $color-primary-container !important
 .surface-secondary
-    background-color: $background-secondary-color !important
+    background-color: $color-secondary-container !important
 .surface-warning
-    background-color: $background-warning-color !important
+    background-color: $color-utility-warning
 .surface-danger
-    background-color: $background-danger-color !important
+    background-color: $color-utility-error
 .surface-success
-    background-color: $background-success-color !important
+    background-color: $color-utility-success
+
+.surface-0
+    background-color: $color-surface-0 !important
+.surface-1
+    background-color: $color-surface-1 !important
+.surface-2
+    background-color: $color-surface-2 !important
+.surface-3
+    background-color: $color-surface-3 !important
 
 .border
-    border: 1px solid $border-color !important
+    border: 1px solid $color-utility-outline !important
 .border-top
-    border-top: 1px solid $border-color !important
+    border-top: 1px solid $color-utility-outline !important
 .border-bottom
-    border-bottom: 1px solid $border-color !important
+    border-bottom: 1px solid $color-utility-outline !important
 .border-left
-    border-left: 1px solid $border-color !important
+    border-left: 1px solid $color-utility-outline !important
 .border-right
-    border-right: 1px solid $border-color !important
+    border-right: 1px solid $color-utility-outline !important
 
 .border-primary
-    border: 1px solid $primary-color !important
+    border: 1px solid $color-primary !important
 
 .border-secondary
-    border: 1px solid $border-secondary-color !important
+    border: 1px solid $color-secondary !important
 
 .border-warning
-    border: 1px solid $warning-color !important
+    border: 1px solid $color-utility-warning !important
 
 .border-danger
-    border: 1px solid $danger-color !important
+    border: 1px solid $color-utility-error !important
 
 .rounded
     border-radius: $border-radius !important

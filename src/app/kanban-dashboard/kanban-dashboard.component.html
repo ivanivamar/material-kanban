@@ -1,7 +1,7 @@
 <div class="h-full bg-color">
     <div class="flex flex-column" *ngIf="!loading">
         <div class="flex align-items-center justify-content-between p-3">
-            <span class="headline5 line-height-4 text-color font-regular">Projects</span>
+            <span class="headline-md line-height-4 text-color font-medium">Projects</span>
             <button class="btn filled-btn" (click)="createOrEditProject()">
                 Add Project
             </button>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="table-row" *ngFor="let project of projectsTable.items">
-                <div class="table-cell">
+                <div class="table-cell font-medium">
                     {{ project.title }}
                 </div>
                 <div class="table-cell justify-content-center">
@@ -45,69 +45,21 @@
                     {{ getTasksOfStatus(statusList[3].name, project) }}
                 </div>
                 <div class="table-cell justify-content-center">
-                    <button class="icon-btn text-btn primary-color-only small-btn"
+                    <button class="icon-btn text-btn small-btn"
                             (click)="navigateToProject(project)">
                         <span class="material-symbols-rounded">arrow_forward</span>
                     </button>
 
-                    <button class="icon-btn text-btn warning-color-only small-btn"
+                    <button class="icon-btn text-btn small-btn"
                             (click)="createOrEditProject(project)">
                         <span class="material-symbols-rounded">edit</span>
                     </button>
 
-                    <button class="icon-btn text-btn danger-color-only small-btn"
+                    <button class="icon-btn text-btn small-btn"
                             *ngIf="project.owner.uid === user.uid"
                             (click)="confirmDeleteProject($event, project)">
                         <span class="material-symbols-rounded">delete</span>
                     </button>
-                </div>
-            </div>
-            <div class="paginator">
-                <div class="paginator-info">
-                        <span class="paginator-text">Showing {{ projectsTablePaginated.currentRecord.length }} to
-                            {{ projectsTablePaginated.totalRecordCount }} of {{ projectsTablePaginated.totalRecordCount
-                            }} entries</span>
-                </div>
-                <div class="paginator-controls">
-                    <button class="btn outlined-btn small-btn font-bold" [disabled]="currentPage === 0"
-                            (click)="projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage - 1]; currentPage = currentPage - 1">
-                        <span class="material-symbols-rounded">keyboard_arrow_left</span>
-                        Prev
-                    </button>
-                    <div class="flex align-items-center gap-1">
-                        <button class="btn small-btn text-btn shadow-1 px-1" style="min-width: 32px;"
-                                [class.bg-primary]="currentPage === i"
-                                *ngFor="let record of projectsTablePaginated.records; let i = index"
-                                (click)="currentPage = i; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
-                            {{ i + 1 }}
-                        </button>
-                    </div>
-                    <button class="btn outlined-btn small-btn font-bold"
-                            [disabled]="currentPage === projectsTablePaginated.records.length - 1"
-                            (click)=" currentPage = currentPage + 1; projectsTablePaginated.currentRecord = projectsTablePaginated.records[currentPage];">
-                        Next
-                        <span class="material-symbols-rounded">keyboard_arrow_right</span>
-                    </button>
-                </div>
-                <div class="divider-vertical dashed"></div>
-                <div class="menu-container" [class.active]="showPageSizes">
-                    <button class="btn outlined-btn small-btn dropdown-toggle" type="button"
-                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                            (click)="showPageSizes = !showPageSizes">
-                        {{ pageSize }}
-                        <i class="material-symbols-rounded">expand_more</i>
-                    </button>
-                    <div class="menu-content" #menuPageSize aria-labelledby="dropdownMenuButton1">
-                        <div *ngFor="let otherPageSize of pageSizes" class="menu-item"
-                             [class.active]="pageSize === otherPageSize"
-                             (click)="pageSize = otherPageSize; showPageSizes = false; refreshTable()">
-                            <i class="material-symbols-rounded primary-color"
-                               *ngIf="pageSize === otherPageSize">check_box</i>
-                            <i class="material-symbols-rounded"
-                               *ngIf="pageSize !== otherPageSize">check_box_outline_blank</i>
-                            {{ otherPageSize }}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

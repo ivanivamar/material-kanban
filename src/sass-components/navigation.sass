@@ -1,12 +1,15 @@
 nav
-    background-color: $bg-color
+    background-color: transparent
     height: 100%
     position: fixed
     top: 0
     left: 0
-    width: 72px
+    width: 88px
     z-index: 10
-    border-right: 2px solid #F1F1F1
+    gap: 16px
+    display: flex
+    flex-direction: column
+    justify-content: space-between
 
     header
         margin-bottom: 0
@@ -14,8 +17,7 @@ nav
         align-items: center
 
     .section
-        padding: 16px
-        padding-top: 0
+        padding: 0 16px 16px
         display: flex
         flex-direction: column
         justify-content: center
@@ -25,7 +27,7 @@ nav
 .link-content
     text-decoration: none
     background-color: transparent
-    color: #969696
+    color: $color-on-surface-variant
     font-weight: 500
     padding: 12px
     font-size: 14px
@@ -35,24 +37,24 @@ nav
     flex-direction: column
     align-items: center
     transition: background-color 0.2s ease
-    font-family: 'Readex Pro', sans-serif
+    font-family: $font-family
     justify-content: center
     min-height: 36px
     position: relative
     height: 48px
     width: 48px
-    border-radius: $border-radius
+    border-radius: 50%
 
     .material-symbols-rounded
         font-size: 24px
 
     &:hover
-        background-color: $background-primary-color
-        color: $primary-color
+        background-color: $color-secondary-container
+        color: $color-on-secondary-container
 
 a.active .link-content
-    background-color: $background-primary-color
-    color: $primary-color
+    background-color: $color-secondary-container
+    color: $color-on-secondary-container
 
 // mobile
 @media screen and (max-width: 768px)
@@ -69,8 +71,8 @@ a.active .link-content
                 padding-left: 0
 
 .navbar
-    background-color: $background-secondary-color
-    border-bottom: 1px solid #F1F1F1
+    background-color: $color-surface-2
+    border-bottom: 1px solid $color-utility-outline
     padding: 0 32px
     height: 64px
     display: flex
@@ -87,7 +89,7 @@ a.active .link-content
 
         .nav-breadcrumbs__link
             font-size: 14px
-            color: #1a1a1a
+            color: $color-on-surface-variant
             text-decoration: none
             display: flex
             align-items: center
@@ -95,14 +97,14 @@ a.active .link-content
 
             i
                 font-size: 10px
-                color: #1a1a1a
+                color: $color-on-surface-variant
 
             &:hover
-                border-bottom: 1px solid #1a1a1a
+                border-bottom: 1px solid $color-utility-outline
 
         .nav-breadcrumbs__separator
             font-size: 18px
-            color: #1a1a1a
+            color: $color-on-surface-variant
 
     .search-container
         gap: 8px
@@ -117,7 +119,7 @@ a.active .link-content
             padding: 0
 
             &::placeholder
-                color: #B5B7BE
+                color: $color-on-surface-variant
                 font-size: 16px
 
 .profile-dropdown
@@ -135,7 +137,7 @@ a.active .link-content
         bottom: 100%
         width: 350px
         left: 0
-        background-color: #F3F6FC
+        background-color: $color-surface-2
         border-radius: 28px
         box-shadow: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3)
         overflow-x: auto
@@ -146,12 +148,11 @@ a.active .link-content
             display: flex
             align-items: center
             gap: 12px
-            padding: 12px 16px
             font-size: 14px
             margin: 8px 8px 0
             border-radius: 28px
             background-color: white
-            padding-bottom: 20px
+            padding: 12px 16px 20px
 
         .profile-dropdown__item
             display: flex
@@ -168,10 +169,10 @@ a.active .link-content
                 margin-left: 18px
 
             &:hover
-                background-color: #E0E9F8
+                background-color: $color-on-secondary-container
 
     &:hover
-        background-color: #F5F7F9
+        background-color: $color-secondary-container
 
     &.expanded
         .profile-dropdown__content

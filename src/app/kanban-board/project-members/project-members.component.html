@@ -1,4 +1,4 @@
-<header class="p-4 px-7 flex align-items-center justify-content-between bg-secondary">
+<header class="p-4 px-7 flex align-items-center justify-content-between">
     <span class="text-lg font-bold">Members</span>
 
     <div class="flex align-items-center gap-3">
@@ -41,7 +41,7 @@
 
         <div class="flex align-items-center gap-2">
             <div
-                class="p-2 px-3 bg-secondary flex align-items-center text-color font-medium text-base justify-content-center rounded pointer-events-none">
+                class="p-2 px-3 bg-secondary flex align-items-center font-medium text-base justify-content-center rounded pointer-events-none">
                 Member
             </div>
             <button class="icon-btn text-btn danger-color-only" [disabled]="!isUserOwner" (click)="showModalRemove = true; selectedMember = member">

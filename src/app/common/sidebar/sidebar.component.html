@@ -1,11 +1,9 @@
 <nav>
     <header class="pt-3 flex flex-column">
-        <a routerLink="/" class="flex justify-content-center align-items-center p-1 border rounded">
+        <a routerLink="/" class="flex justify-content-center align-items-center p-1">
             <img src="../../../assets/kanban_logo.png" style="width: 28px; height: 28px;" alt="lOGO">
         </a>
     </header>
-
-    <div class="divider"></div>
 
     <div class="section" *ngIf="!loading">
         <a routerLink="" routerLinkActive="active" *ngIf="user == null">
@@ -27,7 +25,7 @@
         </a>
     </div>
 
-    <div class="section" style="position: absolute; bottom: 0;" *ngIf="user">
+    <div class="section" *ngIf="user">
         <div class="profile-dropdown" (click)="profileExpanded = !profileExpanded"
              [class.expanded]="profileExpanded">
             <img class="border-circle" style="width: 36px;" [src]="user.photoURL" alt="User Avatar">

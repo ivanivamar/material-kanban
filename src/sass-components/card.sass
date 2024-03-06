@@ -1,8 +1,6 @@
 .card
-    background-color: $bg-color
+    background-color: $color-surface-1
     border-radius: $border-radius
-    border: 1px solid $border-color
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
     display: flex
     flex-direction: column
     padding: 18px
@@ -12,30 +10,26 @@
 
     &:hover,
     &.active
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.10)
-        background-color: $background-primary-color
-        border-color: $primary-color
+        background-color: $color-secondary-container
 
     &.nohover
         cursor: default
         &:hover
-            box-shadow: none
-            background-color: $bg-color
-            border-color: $border-color
+            background-color: $color-surface-1
 
     .card-header
         display: flex
         align-items: center
 
         .title
-            color: $text-color
+            color: $color-on-surface
             font-size: 16px
             font-style: normal
             font-weight: 500
             line-height: 24px
 
         .task-status
-            border-radius: $border-radius
+            border-radius: 8px
             border-width: 1px
             border-style: solid
             padding: 4px
@@ -51,19 +45,19 @@
                 font-size: 14px
 
     .card-footer
-        border-top: 1px solid $border-color
+        border-top: 1px solid $color-utility-outline
         padding-top: 12px
         display: flex
         align-items: center
         gap: 8px
 
 .subtask
-    border: 1px solid $border-color
+    border: 1px solid $color-utility-outline
     padding: 12px
 
     &.checked
-        background-color: $background-primary-color
-        border-color: $primary-color
+        background-color: $color-secondary-container
+        border-color: $color-secondary-container
 
 .label
     padding: 4px 10px
@@ -75,5 +69,5 @@
     gap: 4px
     font-weight: 700
     text-transform: capitalize
-    background-color: $primary-color
+    background-color: $color-primary
     color: white

@@ -51,6 +51,7 @@ export class SidebarComponent {
         this.authService.isLoggedIn().then((user: any) => {
             if (user) {
                 this.user = user;
+                this.loading = false;
 
                 from(this.kanbanService.getProjects(user.uid)).subscribe((projects: any[]) => {
                     this.projects = projects;

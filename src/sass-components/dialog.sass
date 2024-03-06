@@ -21,11 +21,11 @@
         cursor: pointer
 
 .dialog
-    background-color: $bg-color
+    background-color: $color-background
     border-radius: $border-radius
     width: 800px
     z-index: 999
-    border: 1px solid $border-color
+    border: 1px solid $color-utility-outline
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08), 0px 2px 1px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)
     position: relative
 
@@ -49,14 +49,14 @@
 
         .text-btn
             span
-                color: $text-color !important
+                color: $color-on-surface !important
 
         .dialog-title
             font-size: 24px
             font-weight: 500
             line-height: 28px
             font-family: $font-family
-            color: $text-color
+            color: $color-on-surface
             line-height: 32px
 
     .dialog-content
@@ -68,8 +68,7 @@
         display: flex
         justify-content: flex-end
         align-items: center
-        padding: 12px 24px
-        padding-bottom: 24px
+        padding: 12px 24px 24px
         border-bottom-left-radius: 10px
         border-bottom-right-radius: 10px
         gap: 16px
@@ -90,12 +89,12 @@
         display: flex
         justify-content: space-between
         align-items: center
-        background-color: $bg-color
+        background-color: $color-secondary
         padding: 15px 64px
-        border-bottom: 1px solid $border-color
+        border-bottom: 1px solid $color-utility-outline
 
     .dialog-content
-        background-color: $bg-color-secondary
+        background-color: $color-background
         display: flex
         padding: 15px 64px
         height: calc(100% - 75px)
