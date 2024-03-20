@@ -1,16 +1,14 @@
 .card
-    background-color: $color-surface-1
-    border-radius: $border-radius
     display: flex
     flex-direction: column
-    padding: 18px
-    cursor: pointer
-    transition: all 0.2s ease-in-out
-    width: auto
-
-    &:hover,
-    &.active
-        background-color: $color-secondary-container
+    min-width: 0
+    color: $color-on-surface
+    word-wrap: break-word
+    background-color: $color-surface
+    background-clip: border-box
+    border: 1px solid $color-utility-outline
+    border-radius: $border-radius
+    box-shadow: $elevation-1
 
     &.nohover
         cursor: default
@@ -19,11 +17,22 @@
 
     .card-header
         display: flex
-        align-items: center
+        justify-content: space-between
+        align-items: stretch
+        flex-wrap: wrap
+        min-height: 70px
+        padding: 0 2.25rem
+        color: $color-on-surface
+        background-color: transparent
+        border-bottom: 1px solid $color-utility-outline
+        margin-bottom: 0
+
+        &:first-child
+            border-radius: calc(0.625rem - 1px) calc(0.625rem - 1px)
 
         .title
             color: $color-on-surface
-            font-size: 16px
+            font-size: 1.275rem
             font-style: normal
             font-weight: 500
             line-height: 24px
@@ -43,6 +52,11 @@
 
             i
                 font-size: 14px
+
+
+    .card-body
+        padding: 2rem 2.25rem
+        flex: 1 1 auto
 
     .card-footer
         border-top: 1px solid $color-utility-outline
@@ -78,13 +92,13 @@
     flex-direction: column
     border-radius: $border-radius
     background-color: $color-surface-1
+    box-shadow: $elevation-1
 
     &:hover
-        background-color: $color-secondary-container
+        background-color: $color-surface-5
 
     .card-header
-        border-bottom-left-radius: $border-radius
-        border-bottom-right-radius: $border-radius
+        border-radius: $border-radius
         background-color: $color-primary-container
         padding: 12px
         display: flex
@@ -92,6 +106,8 @@
         justify-content: space-between
 
     .card-content
-        padding: 12px
+        padding: 4px 12px
         display: flex
+        align-items: center
+        justify-content: space-between
         gap: 8px

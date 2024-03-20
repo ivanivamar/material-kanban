@@ -1,105 +1,76 @@
-.btn
+.btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline)
     border: 0
-    border-radius: $border-radius
-    padding: 12px 16px
-    font-size: 14px
-    font-family: $font-family-medium
-    font-weight: 400
-    line-height: 20px
-    letter-spacing: 0.1px
+    padding: calc(0.775rem + 1px) calc(1.5rem + 1px)
+
+.btn:not(.btn-shadow):not(.shadow):not(.shadow-sm):not(.shadow-lg):not(.shadow-xs)
+    box-shadow: none
+
+.btn
+    display: inline-block
+    padding: 0.775rem 1.5rem
+    font-size: 1.1rem
+    font-weight: 500
+    line-height: 1.5
+    color: $color-on-surface
+    text-align: center
+    vertical-align: middle
     cursor: pointer
-    transition: all 0.2s ease-in-out
-    display: flex
-    align-items: center
-    justify-content: center
-    height: 40px
-    min-width: 66px
-    gap: 8px
+    user-select: none
+    border: 1px solid transparent
+    border-radius: $border-radius-sm
+    background-color: transparent
+    box-shadow: none
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 
     .material-symbols-rounded
-        font-size: 16px
+        display: inline-flex
+        font-size: 1rem
+        padding-right: .35rem
+        vertical-align: middle
+        color: inherit
 
-    &.small-btn
-        height: 32px
-        min-width: 56px
+    &.btn-sm
+        padding: 0.55rem 1rem
+        font-size: 0.95rem
 
-        .material-symbols-rounded
-            font-size: 12px
-
-    &.thin-btn
-        height: 32px
-        min-width: 32px
-
-        .material-symbols-rounded
-            font-size: 12px
-
-    &.filled-btn
+    &.btn-primary
         background-color: $color-primary
         color: $color-on-primary
 
         &:hover
-            background-color: $color-on-primary-container
+            background-color: $color-primary-active
 
         &:active
-            background-color: $color-on-primary-container
+            background-color: $color-primary-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
-        &.danger
-            background-color: $color-utility-error
-
-            &:hover
-                background-color: $color-utility-error
-                filter: brightness(1.1)
-
-            &:active
-                background-color: $color-utility-error
-                filter: brightness(0.8)
-
-    &.tonal-btn
+    &.btn-secondary
         background-color: $color-secondary
         color: $color-on-secondary
 
         &:hover
-            background-color: $color-on-secondary-container
+            background-color: $color-secondary-active
 
         &:active
-            background-color: $color-on-secondary-container
-            outline: solid 2px $color-on-background
+            background-color: $color-secondary-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
-    &.outlined-btn
+    &.btn-outline
         background-color: transparent
         border: 1px solid $color-utility-outline
-        color: $color-primary
+        color: $color-on-surface
 
         &:hover
-            background-color: $color-primary-container
+            background-color: $color-secondary
 
         &:active
-            background-color: $color-primary-container
-            outline: solid 2px $color-primary
-
-        &:disabled
-            opacity: 0.5
-            cursor: not-allowed
-
-    &.elevated-btn
-        background-color: $color-primary
-        color: $color-on-primary
-        box-shadow: $elevation-1
-
-        &:hover
-            background-color: $color-on-primary-container
-            box-shadow: $elevation-2
-
-        &:active
-            background-color: $color-on-primary-container
+            background-color: $color-secondary
 
         &:disabled
             opacity: 0.5
@@ -110,11 +81,25 @@
         color: $color-on-surface
 
         &:hover
-            background-color: $color-surface-2
+            background-color: $color-secondary
 
         &:active
             background-color: $color-surface-2
             outline: solid 2px $color-primary
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light
+        background-color: $color-surface
+        color: $color-on-surface
+
+        &:hover
+            color: $color-primary
+
+        &:active
+            color: $color-primary
 
         &:disabled
             opacity: 0.5
@@ -141,10 +126,10 @@
     color: #fff
 
     &:hover
-        background-color: $color-on-primary-container
+        background-color: $color-primary-active
 
     &:active
-        background-color: $color-on-primary-container
+        background-color: $color-primary-active
 
     &:disabled
         opacity: 0.5
@@ -189,10 +174,10 @@
     box-shadow: $elevation-1
 
     &:hover
-        background-color: $color-on-primary-container
+        background-color: $color-primary-active
 
     &:active
-        background-color: $color-on-primary-container
+        background-color: $color-primary-active
 
     &:disabled
         opacity: 0.5
@@ -202,96 +187,79 @@
         font-size: 16px
 
 .icon-btn
-    border: 0
-    border-radius: $border-radius
-    padding: 0
-    font-size: 16px
-    font-family: $font-family
-    font-weight: 500
-    line-height: 20px
-    letter-spacing: 0.1px
-    cursor: pointer
-    transition: background-color 0.2s ease
-    display: flex
+    display: inline-flex
     align-items: center
     justify-content: center
-    height: 40px
-    width: 40px
+    padding: 0
+    font-size: 1.1rem
+    font-weight: 500
+    line-height: 1
+    color: $color-on-surface
+    text-align: center
+    vertical-align: middle
+    cursor: pointer
+    user-select: none
+    border: 1px solid transparent
+    border-radius: $border-radius-sm
+    background-color: transparent
+    box-shadow: none
+    height: calc(1.5em + 1.55rem + 2px)
+    width: calc(1.5em + 1.55rem + 2px)
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 
     .material-symbols-rounded
-        font-size: 18px
+        display: inline-flex
+        font-size: 1rem
+        padding-right: .35rem
+        vertical-align: middle
+        color: inherit
 
     &.btn-small
-        height: 32px
-        width: 32px
-
-        .material-symbols-rounded
-            font-size: 14px
+        height: calc(1.5em + 1.1rem + 2px)
+        width: calc(1.5em + 1.1rem + 2px)
 
     &.btn-large
-        height: 48px
-        width: 48px
+        height: calc(1.5em + 1.9rem + 2px)
+        width: calc(1.5em + 1.9rem + 2px)
 
-        .material-symbols-rounded
-            font-size: 20px
-
-    &.filled-btn
+    &.btn-primary
         background-color: $color-primary
-        color: white
+        color: $color-on-primary
 
         &:hover
-            background-color: $color-on-primary-container
+            background-color: $color-primary-active
 
         &:active
-            background-color: $color-on-primary-container
+            background-color: $color-primary-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
-    &.tonal-btn
+    &.btn-secondary
         background-color: $color-secondary
         color: $color-on-secondary
 
         &:hover
-            background-color: $color-on-secondary-container
-            color: white
+            background-color: $color-secondary-active
 
         &:active
-            background-color: $color-on-secondary-container
-            outline: solid 2px $color-on-background
+            background-color: $color-secondary-active
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
-    &.outlined-btn
+    &.btn-outline
         background-color: transparent
         border: 1px solid $color-utility-outline
-        color: $color-primary
+        color: $color-on-surface
 
         &:hover
-            background-color: $color-on-primary-container
+            background-color: $color-secondary
 
         &:active
-            background-color: $color-on-primary-container
-            outline: solid 2px $color-primary
-
-        &:disabled
-            opacity: 0.5
-            cursor: not-allowed
-
-    &.elevated-btn
-        background-color: $color-primary
-        color: $color-on-primary
-        box-shadow: $elevation-1
-
-        &:hover
-            background-color: $color-on-primary-container
-            box-shadow: $elevation-2
-
-        &:active
-            background-color: $color-on-primary-container
+            background-color: $color-secondary
 
         &:disabled
             opacity: 0.5
@@ -302,53 +270,34 @@
         color: $color-on-surface
 
         &:hover
-            background-color: $color-surface-2
+            background-color: $color-secondary
 
         &:active
             background-color: $color-surface-2
-
-        &.primary
-            color: $color-primary
-
-            &:hover
-                background-color: $color-on-primary-container
-
-            &:active
-                background-color: $color-on-primary-container
-
-        &.primary-color-only
-            color: $color-primary
-
-            &:hover
-                color: $color-on-primary-container
-                background-color: transparent
-
-            &:active
-                color: $color-on-primary-container
-                background-color: transparent
-
-        &.warning-color-only
-            color: $color-utility-warning
-
-            &:hover
-                color: $color-utility-on-warning
-                background-color: transparent
-
-            &:active
-                color: $color-utility-on-warning
-                background-color: transparent
-
-        &.danger-color-only
-            color: $color-utility-error
-
-            &:hover
-                color: $color-utility-on-error
-                background-color: transparent
-
-            &:active
-                color: $color-utility-on-error
-                background-color: transparent
+            outline: solid 2px $color-primary
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
+
+    &.btn-light
+        background-color: $color-surface
+        color: $color-on-surface
+
+        &:hover
+            color: $color-primary
+
+        &:active
+            color: $color-primary
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+a
+    color: $color-primary
+    text-decoration: none
+
+    &:hover
+        color: rgb(73,157,255)
+        transition: color .2s ease

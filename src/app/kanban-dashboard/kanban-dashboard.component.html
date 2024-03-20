@@ -7,35 +7,41 @@
             </button>
         </div>
 
-        <div class="project-card" *ngFor="let project of projectsTable.items">
-            <div class="card-header">
-                    <span class="title-md">
+        <div class="grid">
+            <div class="col-12 md:col-4 lg:col-3" *ngFor="let project of projectsTable.items">
+                <div class="project-card">
+                    <div class="card-header">
+                    <span class="title-md font-medium">
                         {{ project.title }}
                     </span>
 
-                <button class="icon-btn text-btn"
-                        (click)="navigateToProject(project)">
-                    <span class="material-symbols-rounded">arrow_forward</span>
-                </button>
-            </div>
+                        <button class="icon-btn text-btn"
+                                (click)="navigateToProject(project)">
+                            <span class="material-symbols-rounded">arrow_forward</span>
+                        </button>
+                    </div>
 
-            <div class="card-content">
-                <div class="flex gap-2">
-                    <i class="material-symbols-rounded">assignment</i>
-                    <span>{{ project.tasks.length }}</span>
+                    <div class="card-content">
+                        <div class="flex align-items-center gap-2">
+                            <div class="flex gap-2">
+                                <i class="material-symbols-rounded">assignment</i>
+                                <span>{{ project.tasks.length }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <i class="material-symbols-rounded">hourglass_empty</i>
+                                <span>{{ getTasksOfStatus(statusList[1].name, project) }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <i class="material-symbols-rounded">check_circle</i>
+                                <span>{{ getTasksOfStatus(statusList[3].name, project) }}</span>
+                            </div>
+                        </div>
+                        <button class="icon-btn text-btn"
+                                (click)="createOrEditProject(project)">
+                            <span class="material-symbols-rounded">edit</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="flex gap-2">
-                    <i class="material-symbols-rounded">hourglass_empty</i>
-                    <span>{{ getTasksOfStatus(statusList[1].name, project) }}</span>
-                </div>
-                <div class="flex gap-2">
-                    <i class="material-symbols-rounded">check_circle</i>
-                    <span>{{ getTasksOfStatus(statusList[3].name, project) }}</span>
-                </div>
-                <button class="icon-btn text-btn"
-                        (click)="createOrEditProject(project)">
-                    <span class="material-symbols-rounded">edit</span>
-                </button>
             </div>
         </div>
     </div>
@@ -71,8 +77,9 @@
                     <input type="text" [(ngModel)]="userEmailToShare" class="w-100" placeholder="Share with... (email)">
 
                     <div class="flex flex-row-reverse w-full">
-                        <button class="icon-btn filled-btn small-btn" (click)="shareProject()">
+                        <button class="btn filled-btn small-btn" (click)="shareProject()">
                             <i class="material-symbols-rounded">share</i>
+                            Share
                         </button>
                     </div>
                 </div>
