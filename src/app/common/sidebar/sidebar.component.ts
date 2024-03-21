@@ -1,24 +1,6 @@
 import { KanbanService } from 'src/shared/services/kanban-service.service';
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import { Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
-import {
-    Firestore,
-    collectionData,
-    collection,
-    addDoc,
-    deleteDoc,
-    doc,
-    DocumentData,
-    updateDoc,
-    arrayUnion,
-} from '@angular/fire/firestore';
-import {
-    Project,
-    Task,
-    Urgency,
-    Checkboxes,
-} from '../../interfaces/Kanban.interfaces';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -31,37 +13,33 @@ import { AuthService } from '../../../shared/services/auth.service';
     providers: [KanbanService, AuthService],
 })
 export class SidebarComponent {
-    projects: any[] = [];
-    loading = false;
-    currentProjectId: string = '';
     showUserMenu = false;
 
     user: any;
     constructor(
-        private kanbanService: KanbanService,
         private router: Router,
         private authService: AuthService,
         ) { }
 
+    // check when scroll down
+    @HostListener('window:scroll', ['$event.target'])
+    onScroll(event: any) {
+        if (event.scrollingElement.scrollTop > 170) {
+            // @ts-ignore
+            document.getElementById('navbar').classList.add('navbar-fixed');
+        } else {
+            // @ts-ignore
+            document.getElementById('navbar').classList.remove('navbar-fixed');
+        }
+    }
+
     async ngOnInit(): Promise<void> {
-        this.loading = true;
 
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
             if (user) {
                 this.user = user;
-                this.loading = false;
-
-                from(this.kanbanService.getProjects(user.uid)).subscribe((projects: any[]) => {
-                    this.projects = projects;
-                    this.loading = false;
-                });
             }
-        });
-
-        // get current project id from url
-        this.router.routerState.root.queryParams.subscribe((params) => {
-            this.currentProjectId = params['projectId'];
         });
     }
 

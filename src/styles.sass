@@ -43,8 +43,15 @@ $shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px
 .shadow
     box-shadow: $elevation-1
 
-body
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
     font-family: $font-family
+    -webkit-font-smoothing: antialiased
+
+body
+    font-family: $font-family !important
     background-color: $color-background
     color: $color-on-background
     background-image: url("assets/images/header-bg.jpg")
@@ -139,3 +146,5 @@ body
 @import 'sass-components/progress-bars'
 @import 'sass-components/dropdowns'
 @import 'sass-components/lists'
+@import 'sass-components/breadcrumbs'
+@import 'sass-components/pagination'

@@ -37,6 +37,7 @@ import { TaskFiltersComponent } from './kanban-board/task-filters/task-filters.c
 import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
+import { PaginationComponent } from './common/pagination/pagination.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { RouterLinkActive } from '@angular/router';
         LocalizePipe,
         TaskFiltersComponent,
         TextTransformPipe,
+        PaginationComponent,
     ],
     imports: [
         CommonModule,

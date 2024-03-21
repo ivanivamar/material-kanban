@@ -1,18 +1,13 @@
-<nav class="mb-3 lg:mb-5" *ngIf="loading">
+<nav class="mb-2 lg:mb-5" id="navbar">
     <div class="container flex align-items-center">
-        <div id="header-logo" class="p-0 flex align-items-center mr-5 md:mr-8 flex-grow-1 lg:flex-grow-0">
+        <div id="header-logo" class="p-0 flex align-items-center mr-3 md:mr-5 flex-grow-0">
             <a routerLink="/">
-                <i class="ki-duotone ki-data text-large">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                    <span class="path3"></span>
-                    <span class="path4"></span>
-                    <span class="path5"></span>
-                </i>
+                <img src="assets/images/demo2.png" height="25" class="not-sticky">
+                <img src="assets/images/demo2-sticky.png" height="25" class="sticky">
             </a>
         </div>
 
-        <div class="flex align-items-stretch justify-content-between lg:flex-grow-1" id="topbar-links">
+        <div class="flex align-items-stretch justify-content-between flex-grow-1" id="topbar-links">
             <div class="flex align-items-stretch gap-2">
                 <a routerLink="/auth/login" routerLinkActive="active" class="menu-link" *ngIf="user == null">
                     Login
@@ -25,10 +20,10 @@
                 </a>
             </div>
             <div class="topbar flex align-items-stretch flex-shrink-0">
-                <div class="flex align-items-center lg:mr-n2 ml-1 lg:ml-3" id="user_menu_toggle" *ngIf="user">
-                    <div class="btn-icon btn-custom-active h-30px w-30px h-md-40px w-md-40px"
+                <div class="flex align-items-center lg:mr-n2 ml-1 lg:ml-3 relative" id="user_menu_toggle" *ngIf="user">
+                    <div class="btn-icon btn-custom-active h-30px w-30px h-md-40px w-md-40px" [class.show]="showUserMenu"
                          (click)="showUserMenu = !showUserMenu">
-                        <img class="h-30px w-30px rounded" [src]="user.photoURL" alt="User Avatar"
+                        <img class="h-30px w-30px border-round-sm" [src]="user.photoURL" alt="User Avatar"
                              *ngIf="user.photoURL">
                         <i class="ki-duotone ki-user-square text-large" *ngIf="!user.photoURL">
                             <span class="path1"></span>
@@ -38,25 +33,26 @@
                     </div>
                     <div [class.overlay]="showUserMenu" (click)="showUserMenu = false"></div>
                     <div class="menu-account" [class.show]="showUserMenu">
-                        <div class="menu-item px-3 border-bottom mb-2">
-                            <div class="menu-content px-3">
+                        <div class="menu-item px-1 border-bottom mb-2">
+                            <div class="menu-content">
                                 <img [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
                                 <div class="flex flex-column">
                                     <span class="fw-bold flex align-items-center text-base">
                                         {{ user.displayName }}
                                     </span>
                                     <a class="text-secondary" href="mailto:{{ user.email }}"
-                                       target="_blank">{{ user.email }}</a>
+                                       target="_blank">{{ user.email }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="menu-item px-5">
-                            <a class="menu-content" routerLink="/auth/profile">
+                        <div class="menu-item px-3">
+                            <a class="menu-link" routerLink="/auth/profile">
                                 My Profile
                             </a>
                         </div>
-                        <div class="menu-item px-5">
-                            <a class="menu-content" (click)="logout()">
+                        <div class="menu-item px-3">
+                            <a class="menu-link" (click)="logout()">
                                 Logout
                             </a>
                         </div>
