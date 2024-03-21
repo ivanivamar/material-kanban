@@ -4,14 +4,15 @@
     list-style: none
 
     .list-item
-        border-top: 1px solid $color-surface-variant
-        padding: 8px
+        border-bottom: 1px dashed $color-utility-outline
+        padding: 1rem
         display: flex
         align-items: center
         width: 100%
+        border-radius: $border-radius
 
         &:last-child
-            border-bottom: 1px solid $color-surface-variant
+            border-bottom: none
 
 .filter-item
     padding: 6px 12px
@@ -31,13 +32,13 @@
     border-radius: 0
 
     &:hover
-        background-color: $color-primary-container
+        background-color: $color-primary-light
 
     &:active
-        background-color: $color-primary-container
+        background-color: $color-primary-light
 
     &.selected
-        background-color: $color-primary-container
+        background-color: $color-primary-light
 
     &.disabled
         opacity: 0.5
@@ -46,14 +47,14 @@
 
 .filter-select
     min-width: 200px
-    background-color: $color-surface-2
+    background-color: $color-secondary
     height: fit-content
 
     header
         border-bottom: 1px solid $color-utility-outline
 
 .filter-element
-    background-color: $color-surface-2
+    background-color: $color-secondary
     border: 1px solid $color-utility-outline
     border-radius: $border-radius
     padding: 8px
@@ -63,5 +64,5 @@
     cursor: pointer
 
     &:hover
-        background-color: $color-on-primary-container
-        border-color: $color-primary-container
+        background-color: $color-primary-light
+        border-color: $color-primary-light

@@ -16,50 +16,29 @@
         cursor: pointer
         transition: all 0.2s ease-in-out
         height: 36px
+        color: $color-on-surface
 
         &:hover
-            border-color: $color-primary
+            background-color: $color-secondary-active
 
         &:active
-            border-color: $color-primary
+            background-color: $color-secondary-active
 
-        .text-container
-            display: flex
-            align-items: center
+        .placeholder
+            color: $color-on-surface-variant
+            font-size: inherit
+            font-weight: 500
 
-            i
-                margin-right: 8px
-                font-size: 20px
-                color: $color-on-surface
-
-            .floating-label
-                color: $color-on-surface
-                font-family: $font-family
-                font-size: 14px
-                font-weight: 400
-                transition: all 0.2s ease-in-out
-                margin-bottom: 0
-
-            .selected-value
-                color: $color-on-surface
-                font-size: 14px
-                font-weight: 300
-                line-height: 20px
-                letter-spacing: 0.25px
-                transition: all 0.2s ease-in-out
-                font-family: $font-family
-
-        .expand-arrow
-            color: $color-on-surface
-            font-size: 24px
+        i
+            font-size: 20px
+            color: $color-on-surface-variant
             transition: all 0.2s ease-in-out
 
     .dropdown-content
-        border-radius: 6px
-        background-color: $color-surface-2
-        border: 1px solid $color-utility-outline
+        border-radius: $border-radius
+        background-color: $color-surface
         position: absolute
-        top: calc(100% + 8px)
+        top: 100%
         left: 0
         right: 0
         z-index: 1
@@ -68,9 +47,10 @@
         display: flex
         flex-direction: column
         box-shadow: $elevation-1
+        scrollbar-width: thin
 
         .dropdown-item
-            padding: 6px 12px
+            padding: .75rem 1.25rem
             color: $color-on-surface
             font-size: 14px
             font-weight: 400
@@ -86,14 +66,11 @@
             height: 36px
             border-radius: 0
 
-            &:hover
-                background-color: $color-primary-container
-
+            &:hover,
+            &.selected,
             &:active
-                background-color: $color-primary-container
-
-            &.selected
-                background-color: $color-primary-container
+                background-color: $color-secondary
+                color: $color-primary
 
             &.disabled
                 opacity: 0.5
@@ -103,16 +80,8 @@
     &.expanded
         overflow: initial
 
-        .dropbtn
-            .text-container
-                .floating-label
-                    font-size: 11px
-
-            .expand-arrow
-                transform: scale(0)
-
         .dropdown-content
             height: auto
             max-height: 300px
-            padding: 4px 0
+            padding: 1rem 0
             overflow-y: auto

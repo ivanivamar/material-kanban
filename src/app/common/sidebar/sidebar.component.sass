@@ -1,0 +1,79 @@
+@import "../../../styles"
+
+.w-30px
+    width: 30px
+.h-30px
+    height: 30px
+
+.btn-icon.btn-custom-active.show
+    background-color: rgba(255,255,255,.1) !important
+
+.menu-account
+    display: none
+    margin: 0
+    list-style: none
+    flex-direction: column
+    padding: 1rem 0
+    width: 275px
+
+    &.show
+        display: flex
+        will-change: transform
+        animation: menu-sub-dropdown-animation-fade-in .3s ease 1, menu-sub-dropdown-animation-move-up .3s ease 1
+        border-radius: $border-radius-sm
+        background-color: $color-surface
+        box-shadow: $elevation-1
+        z-index: 107
+        position: fixed
+        inset: 0 0 auto auto
+        margin: 0
+        transform: translate(-104px, 61px)
+
+    .menu-item
+        display: block
+        padding: .15rem 0
+
+        .menu-content
+            padding: .65rem 1rem
+            display: flex
+            align-items: center
+            gap: 6px
+
+            img
+                width: 50px
+                height: 50px
+                border-radius: $border-radius
+                object-fit: cover
+                display: inline-block
+
+        .menu-link
+            cursor: pointer
+            display: flex
+            align-items: center
+            padding: .65rem 1rem
+            transition: none
+            outline: 0 !important
+            border-radius: $border-radius-sm
+            color: $color-on-surface
+
+            &:hover
+                background-color: $color-secondary
+                color: $color-primary
+
+@keyframes menu-sub-dropdown-animation-fade-in
+    0%
+        opacity: 0
+    100%
+        opacity: 1
+
+@keyframes menu-sub-dropdown-animation-move-up
+    0%
+        margin-top: 0.75rem
+    100%
+        margin-top: 0
+
+@media screen and (min-width: 768px)
+    .w-md-40px
+        width: 40px !important
+    .h-md-40px
+        height: 40px !important

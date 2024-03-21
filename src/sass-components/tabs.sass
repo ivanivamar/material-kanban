@@ -1,49 +1,26 @@
 .tabs-container
     display: flex
-    align-items: center
-    gap: 16px
+    flex-wrap: wrap
+    padding: 0
+    list-style: none
+    align-items: stretch
 
     .tab
         display: flex
-        padding: 8px 12px
+        padding: .5rem 0
+        margin: 0 1rem
         align-items: center
         gap: 8px
-        font-family: $font-family-medium
         font-size: 16px
-        line-height: 24px
-        border-radius: $border-radius
         cursor: pointer
         transition: all 0.2s ease-in-out
-        -webkit-font-smoothing: antialiased
-        -moz-osx-font-smoothing: grayscale
+        border-bottom: 2px solid transparent
+        color: $color-surface-variant
+        font-weight: 600
 
-        &.underline
-            border-bottom: 2px solid transparent
-            position: relative
-            text-decoration: none !important
+        &:hover
+            border-color: $color-primary
 
-            &:after
-                content: ''
-                position: absolute
-                bottom: -2px
-                left: 50%
-                display: block
-                width: 50%
-                height: 4px
-                border-top-left-radius: 2px
-                border-top-right-radius: 2px
-                background-color: $color-primary
-                transform: scaleX(0) translateX(-50%)
-                transition: transform 0.2s ease-in-out
-                transform-origin: left
-
-        &:hover,
         &.active
-            color: $color-on-primary-container
-            background-color: $color-primary-60
-
-            &.underline
-                border-color: transparent
-                background-color: transparent
-                &:after
-                    transform: scaleX(1) translateX(-50%)
+            color: $color-primary
+            border-color: $color-primary

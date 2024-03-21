@@ -10,11 +10,6 @@
     border-radius: $border-radius
     box-shadow: $elevation-1
 
-    &.nohover
-        cursor: default
-        &:hover
-            background-color: $color-surface-1
-
     .card-header
         display: flex
         justify-content: space-between
@@ -27,15 +22,14 @@
         border-bottom: 1px solid $color-utility-outline
         margin-bottom: 0
 
-        &:first-child
-            border-radius: calc(0.625rem - 1px) calc(0.625rem - 1px)
 
         .title
             color: $color-on-surface
             font-size: 1.275rem
-            font-style: normal
             font-weight: 500
-            line-height: 24px
+            margin: .5rem
+            display: flex
+            align-items: center
 
         .task-status
             border-radius: 8px
@@ -60,18 +54,23 @@
 
     .card-footer
         border-top: 1px solid $color-utility-outline
-        padding-top: 12px
+        padding: 2rem 2.25rem
         display: flex
         align-items: center
         gap: 8px
+
+    &.card-flush
+        .card-header,
+        .card-footer
+            border-bottom: none
 
 .subtask
     border: 1px solid $color-utility-outline
     padding: 12px
 
     &.checked
-        background-color: $color-secondary-container
-        border-color: $color-secondary-container
+        background-color: $color-secondary
+        border-color: $color-secondary
 
 .label
     padding: 4px 10px
@@ -85,29 +84,3 @@
     text-transform: capitalize
     background-color: $color-primary
     color: white
-
-
-.project-card
-    display: flex
-    flex-direction: column
-    border-radius: $border-radius
-    background-color: $color-surface-1
-    box-shadow: $elevation-1
-
-    &:hover
-        background-color: $color-surface-5
-
-    .card-header
-        border-radius: $border-radius
-        background-color: $color-primary-container
-        padding: 12px
-        display: flex
-        align-items: center
-        justify-content: space-between
-
-    .card-content
-        padding: 4px 12px
-        display: flex
-        align-items: center
-        justify-content: space-between
-        gap: 8px

@@ -5,8 +5,8 @@
         <span class="text-base text-color">
             {{ membersCount() }}
         </span>
-        <mat-input [inputType]="'text'" class="bg-color rounded" [placeholder]="'Search...'" [(value)]="searchMember"
-                   (valueChange)="searchMembers()" [showClear]="true"></mat-input>
+        <input type="text" placeholder="Search..." [(ngModel)]="searchMember"
+               (ngModelChange)="searchMembers()">
         <button class="btn filled-btn" (click)="this.showModal = true">
             <i class="material-symbols-rounded">add</i>
             Add Member
@@ -55,7 +55,7 @@
     <div class="overlay" (click)="showModal = false; newMemberEmail = ''"></div>
 
     <div class="dialog dialog-sm">
-        <button class="icon-btn text-btn close-btn" (click)="showModal = false; newMemberEmail = ''">
+        <button class="btn-icon btn-text close-btn" (click)="showModal = false; newMemberEmail = ''">
             <i class="material-symbols-rounded">close</i>
         </button>
         <div class="dialog-header align-items-start">
@@ -67,9 +67,7 @@
 
         <div class="dialog-content">
             <div class="flex align-items-end gap-2">
-                <mat-input class="w-full" [inputType]="'text'" [helperText]="addMemberErrorMessage"
-                           [label]="'Email address'"
-                           [(value)]="newMemberEmail"></mat-input>
+                <input type="text" placeholder="Email address..." [(ngModel)]="newMemberEmail">
                 <div style="padding: 10px 16px"
                      class="bg-secondary flex align-items-center text-color font-medium text-base justify-content-center rounded pointer-events-none">
                     Member
@@ -78,11 +76,11 @@
         </div>
 
         <div class="dialog-footer">
-            <button class="btn text-btn" (click)="showModal = false; newMemberEmail = ''">
+            <button class="btn btn-text" (click)="showModal = false; newMemberEmail = ''">
                 <i class="material-symbols-rounded">close</i>
                 Cancel
             </button>
-            <button class="btn filled-btn" (click)="addMember()" [disabled]="newMemberEmail.trim().length === 0">
+            <button class="btn btn-primary" (click)="addMember()" [disabled]="newMemberEmail.trim().length === 0">
                 <i class="material-symbols-rounded">person_add</i>
                 Submit
             </button>
@@ -115,11 +113,11 @@
         </div>
 
         <div class="dialog-footer">
-            <button class="btn text-btn" (click)="showModalRemove = false; selectedMember = null">
+            <button class="btn btn-text" (click)="showModalRemove = false; selectedMember = null">
                 <i class="material-symbols-rounded">close</i>
                 Cancel
             </button>
-            <button class="btn filled-btn danger" (click)="removeMember()">
+            <button class="btn btn-danger" (click)="removeMember()">
                 <i class="material-symbols-rounded">person_remove</i>
                 Remove
             </button>

@@ -64,14 +64,14 @@
 <!-- EDIT TASK MODAL -->
 <div class="dialog-full" *ngIf="showAddTaskModal">
     <div class="dialog-header">
-        <button class="btn text-btn" (click)="hideModal()">
+        <button class="btn btn-text" (click)="hideModal()">
             <i class="material-symbols-rounded">
                 arrow_back
             </i>
             Back to projects
         </button>
         <div class="flex align-items-center gap-2">
-            <button [ngClass]="task.status.name === status.name ? 'btn filled-btn' : 'btn outlined-btn'"
+            <button [ngClass]="task.status.name === status.name ? 'btn btn-primary' : 'btn outlined-btn'"
                     *ngFor="let status of statusList; let index = index"
                     (click)="task.status = status; index === 3 ? task.completed = true : task.completed = false">
                 <span class="material-symbols-rounded text-base" *ngIf="status.name === 'To Do'">
@@ -94,7 +94,7 @@
                 <span class="material-symbols-rounded text-base">close</span>
                 Cancel
             </button>
-            <button type="button" class="btn filled-btn" (click)="editTask(true)">
+            <button type="button" class="btn btn-primary" (click)="editTask(true)">
                 <span class="material-symbols-rounded text-base">save</span>
                 Save
             </button>
@@ -113,10 +113,9 @@
 
                 <div class="card nohover">
                     <div class="flex flex-column gap-2 w-full">
-                        <mat-input [inputType]="'text'" [label]="'Title'" [(value)]="task.title"
-                                   [name]="'taskTitle'"></mat-input>
-                        <mat-textarea [(value)]="task.description" [label]="'Description'"
-                                      [name]="'taskDescription'"></mat-textarea>
+                        <input type="text" [(ngModel)]="task.title" placeholder="Enter title..." [name]="'taskTitle'"/>
+                        <textarea [(ngModel)]="task.description" placeholder="Enter description..."
+                                  [name]="'taskDescription'"></textarea>
 
                         <div class="flex gap-2 align-items-center mt-2 mb-2">
                             <span class="font-medium text-sm text-color">Subtasks</span>
@@ -135,16 +134,15 @@
                                     </i>
                                     <input [(ngModel)]="subtask.title" placeholder="Enter title..."
                                            [class.text-primary]="subtask.checked"
-                                           class="bg-transparent w-full border-none outline-none font-medium"/>
-                                    <button class="icon-btn text-btn danger-color-only"
+                                           class="bg-transparent w-full border-none outline-none fw-medium"/>
+                                    <button class="btn-icon btn-light-danger"
                                             (click)="deleteCheckbox(subtask)">
                                         <span class="material-symbols-rounded text-base">
                                             close
                                         </span>
                                     </button>
                                 </div>
-                                <mat-textarea class="pl-5" [(value)]="subtask.description" [label]="'Description'"
-                                              [name]="'subtaskDescription'"></mat-textarea>
+                                <textarea [(ngModel)]="subtask.description" placeholder="Enter description..."></textarea>
                             </div>
                             <div class="subtask border-round-bottom"
                                  [class.border-round-top]="task.checkboxes.length === 0">
@@ -160,7 +158,7 @@
                         <div class="divider mb-2"></div>
 
                         <div class="flex flex-row-reverse w-full">
-                            <button class="btn filled-btn danger" (click)="confirmDelete($event)">
+                            <button class="btn btn-danger" (click)="confirmDelete($event)">
                                 <i class="material-symbols-rounded">
                                     delete
                                 </i>
@@ -192,7 +190,7 @@
                                     </i>
                                 </div>
                             </div>
-                            <div class="icon-btn outlined-btn border-dashed" (click)="addAssignee = true">
+                            <div class="btn-icon outlined-btn border-dashed" (click)="addAssignee = true">
                                 <span class="material-symbols-rounded text-base">
                                     add
                                 </span>
@@ -236,7 +234,7 @@
                             Attatchments
                         </span>
 
-                        <button class="btn filled-btn" (click)="attatchmentsInput.click()">
+                        <button class="btn btn-primary" (click)="attatchmentsInput.click()">
                             <i class="material-symbols-rounded">
                                 add
                             </i>
@@ -257,18 +255,20 @@
                             </div>
 
                             <div class="file-actions">
-                                <button class="icon-btn text-btn warning-color-only"
+                                <button class="btn-icon btn-text warning-color-only"
                                         (click)="newImageObject = file; showFileModal = true">
                                     <i class="material-symbols-rounded text-base">
                                         edit
                                     </i>
                                 </button>
-                                <button class="icon-btn text-btn primary-color-only" (click)="downloadFile(file, downloadFileAnchor)">
+                                <button class="btn-icon btn-text primary-color-only"
+                                        (click)="downloadFile(file, downloadFileAnchor)">
                                     <i class="material-symbols-rounded text-base">
                                         download
                                     </i>
                                 </button>
-                                <button class="icon-btn text-btn danger-color-only" (click)="confirmDeleteGlobal($event, 'removeFile', file)">
+                                <button class="btn-icon btn-text danger-color-only"
+                                        (click)="confirmDeleteGlobal($event, 'removeFile', file)">
                                     <i class="material-symbols-rounded text-base">
                                         delete
                                     </i>
@@ -305,7 +305,7 @@
     <div class="overlay" (click)="closeFileModal()"></div>
 
     <div class="dialog dialog-sm">
-        <button class="icon-btn text-btn close-btn" (click)="closeFileModal()">
+        <button class="btn-icon btn-text close-btn" (click)="closeFileModal()">
             <i class="material-symbols-rounded">close</i>
         </button>
         <div class="dialog-header align-items-start">
@@ -318,16 +318,15 @@
         </div>
 
         <div class="dialog-content pt-3 pb-0">
-            <mat-input class="w-full" [inputType]="'text'" [helperText]="newImageObject.extension"
-                       [label]="'File name'" [(value)]="newImageObject.name.split('.')[0]"></mat-input>
+            <input type="text" [(ngModel)]="newImageObject.name" class="hidden" #colorInput>
         </div>
 
         <div class="dialog-footer">
-            <button class="btn text-btn" (click)="closeFileModal()">
+            <button class="btn btn-text" (click)="closeFileModal()">
                 <i class="material-symbols-rounded">close</i>
                 Cancel
             </button>
-            <button class="btn filled-btn" (click)="addFile()" [disabled]="newImageObject.name.trim().length === 0">
+            <button class="btn btn-primary" (click)="addFile()" [disabled]="newImageObject.name.trim().length === 0">
                 <i class="material-symbols-rounded">cloud_upload</i>
                 Submit
             </button>

@@ -34,10 +34,9 @@ export class SidebarComponent {
     projects: any[] = [];
     loading = false;
     currentProjectId: string = '';
+    showUserMenu = false;
 
     user: any;
-
-    profileExpanded = false;
     constructor(
         private kanbanService: KanbanService,
         private router: Router,

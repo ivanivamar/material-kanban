@@ -1,37 +1,34 @@
-<div class="h-full w-full flex align-items-center justify-content-center">
-    <div class="page-dialog border-1 border-200">
-        <div class="page-dialog__title border-bottom-1 pb-3 border-300">
-            <span class="title font-medium text-color">Login</span>
-            <button class="icon-btn outlined-btn" routerLink="/auth/register">
-                <span class="material-symbols-rounded">person_add</span>
+<div class="card mx-auto w-6 card-flush py-3">
+    <form #loginFormulario="ngForm">
+        <div class="card-header">
+            <span class="title">
+                <h2>Login</h2>
+            </span>
+        </div>
+
+        <div class="card-body pt-0">
+            <div class="form-group mb-3">
+                <input type="email" [(ngModel)]="loginForm.email" name="email" placeholder="Enter email..." required>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="password" [(ngModel)]="loginForm.password" name="password" placeholder="Enter password..."
+                    required>
+            </div>
+
+            <div class="form-group mb-3">
+            </div>
+        </div>
+
+        <div class="card-footer justify-content-end gap-2">
+            <button class="btn btn-secondary" (click)="loginWithGoogle()">
+                <img width="20" class="mr-2" src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                     alt="Google Logo">
+                Login with Google
             </button>
-        </div>
-
-        <div class="page-dialog__content">
-            <div class="form-group mb-3">
-                <mat-input [(value)]="loginForm.email" [name]="'email'" [inputType]="'email'"
-                    [placeholder]="'Enter email...'"></mat-input>
-            </div>
-
-            <div class="form-group mb-3">
-                <mat-input class="w-100" [(value)]="loginForm.password" [name]="'password'" [inputType]="'password'"
-                    [placeholder]="'Enter password...'"></mat-input>
-            </div>
-
-            <div class="form-group mb-3">
-                <button class="btn tonal-btn" (click)="loginWithGoogle()">
-                    <img class="h-1 w-1 mr-2" src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-                        alt="Google Logo">
-                    Login with Google
-                </button>
-            </div>
-        </div>
-
-        <div class="page-dialog__actions border-top-1 pt-3 border-300">
-            <button class="btn filled-btn" (click)="login()">
-                <i class="material-symbols-rounded">login</i>
+            <button class="btn btn-primary" (click)="login()" [disabled]="!loginFormulario.form.valid">
                 Register
             </button>
         </div>
-    </div>
+    </form>
 </div>

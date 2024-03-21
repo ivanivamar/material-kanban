@@ -1,17 +1,15 @@
-input[type="text"],
-input[type="password"],
-input[type="email"],
+input,
 textarea
-    border: 2px solid $color-utility-outline
+    border: none
     border-radius: $border-radius
-    padding: 12px 16px
-    font-size: 16px
-    font-family: $font-family-medium
-    background-color: transparent
+    padding: .775rem 1rem
+    font-size: 1.1rem
+    appearance: none
+    background-color: $color-secondary
     color: $color-on-surface
     width: 100%
     box-sizing: border-box
-    transition: border-color 0.2s ease
+    transition: all 0.2s ease
     outline: none !important
 
     &::placeholder
@@ -20,8 +18,7 @@ textarea
     &:focus,
     &:hover,
     &:active
-        border-color: $color-primary
-        outline: none !important
+        background-color: #F1F1F4
 
 
 
@@ -89,12 +86,11 @@ textarea
     &:hover
         .outline
             .outline-tick
-                background: $color-on-primary-container
+                background: $color-primary
                 opacity: .8
 
     &.is-checked
         .outline
-
             .outline-tick
                 background: $color-primary
 
@@ -162,148 +158,4 @@ p-calendar.p-calendar-clearable .p-calendar-clear-icon
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item
     padding: 12px 24px !important
     border-bottom: 1px solid $color-utility-outline !important
-
-.textarea-container,
-.input-container
-    display: flex
-    flex-direction: column
-    gap: 8px
-    align-items: flex-start
-
-    .label-container
-        display: flex
-        align-items: center
-        gap: 4px
-
-        i
-            color: $color-on-surface
-            font-size: 20px
-
-        label
-            font-size: 14px
-            color: $color-on-surface
-            font-weight: 500
-            font-family: $font-family
-
-        .required-asterisk
-            color: $color-utility-error
-            font-size: 16px
-
-
-    .input-container,
-    .textarea-text-container
-        position: relative
-        display: flex
-        align-items: center
-        width: 100%
-
-        &.small
-            height: 32px
-            font-size: 14px
-
-
-        textarea
-            display: flex
-            height: auto
-            padding-right: 0
-            align-items: center
-            align-self: stretch
-            border-radius: $border-radius
-            border: 1px solid $color-utility-outline
-            background-color: transparent
-            color: $color-on-surface
-            font-weight: 400
-            line-height: 24px
-            z-index: 1
-            text-overflow: clip
-
-            &::placeholder
-                color: $color-on-surface-variant
-
-        input
-            display: flex
-            height: 40px
-            padding-right: 0
-            align-items: center
-            align-self: stretch
-            border-radius: $border-radius
-            border: 1px solid $color-utility-outline
-            background-color: transparent
-            color: $color-on-surface
-            font-weight: 400
-            line-height: 24px
-
-            &:hover,
-            &:focus,
-            &:active
-                border-color: $color-primary
-                box-shadow: 0 0 2px 2px rgba(0, 133, 255, 0.15)
-
-            &::placeholder
-                color: $color-on-surface-variant
-
-
-        .input-actions,
-        .textarea-actions
-            display: flex
-            align-items: center
-            gap: 4px
-
-            position: absolute
-            right: 4px
-            top: 50%
-            transform: translateY(-50%)
-
-            button
-                background-color: transparent
-                height: 24px
-                width: 24px
-                border-radius: 50%
-
-                i
-                    font-size: 16px
-                    color: $color-on-surface
-                    font-weight: bold
-
-                &:hover
-                    background-color: $color-on-primary-container
-
-
-    &.error
-        input,
-        label
-            border-color: $color-utility-error
-
-    .input-helpers,
-    .textarea-helpers
-        display: flex
-        align-items: center
-        justify-content: space-between
-        padding: 4px
-
-        &.error
-            .helper-text
-                color: $color-utility-error
-
-        .helper-text
-            color: $color-on-surface-variant
-            font-size: 12px
-            font-weight: 400
-            line-height: 16px
-            letter-spacing: 0.4px
-            font-family: monospace, sans-serif
-
-        .counter-container
-            display: flex
-            justify-content: end
-            align-items: center
-            gap: 4px
-
-            .counter-text
-                color: $color-on-surface-variant
-                font-size: 12px
-                font-weight: 400
-                line-height: 16px
-                letter-spacing: 0.4px
-                font-family: monospace, sans-serif
 

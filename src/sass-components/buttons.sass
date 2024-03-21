@@ -1,6 +1,6 @@
 .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline)
     border: 0
-    padding: calc(0.775rem + 1px) calc(1.5rem + 1px)
+    padding: calc(0.475rem + 1px) calc(1.5rem + 1px)
 
 .btn:not(.btn-shadow):not(.shadow):not(.shadow-sm):not(.shadow-lg):not(.shadow-xs)
     box-shadow: none
@@ -47,6 +47,22 @@
             opacity: 0.5
             cursor: not-allowed
 
+    &.btn-light-primary
+        background-color: $color-primary-light
+        color: $color-primary
+
+        &:hover
+            background-color: $color-primary
+            color: $color-on-primary
+
+        &:active
+            background-color: $color-primary
+            color: $color-on-primary
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
     &.btn-secondary
         background-color: $color-secondary
         color: $color-on-secondary
@@ -76,7 +92,7 @@
             opacity: 0.5
             cursor: not-allowed
 
-    &.text-btn
+    &.btn-text
         background-color: transparent
         color: $color-on-surface
 
@@ -84,8 +100,97 @@
             background-color: $color-secondary
 
         &:active
-            background-color: $color-surface-2
-            outline: solid 2px $color-primary
+            background-color: $color-secondary
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-danger
+        background-color: $color-utility-error
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-error-active
+
+        &:active
+            background-color: $color-utility-error-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-danger
+        background-color: $color-utility-error-light
+        color: $color-utility-error
+
+        &:hover
+            background-color: $color-utility-error-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-error-active
+            color: $color-surface
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-warning
+        background-color: $color-utility-warning
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-warning-active
+
+        &:active
+            background-color: $color-utility-warning-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-warning
+        background-color: $color-utility-warning-light
+        color: $color-utility-warning
+
+        &:hover
+            background-color: $color-utility-warning-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-warning-active
+            color: $color-surface
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-success
+        background-color: $color-utility-success
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-success-active
+
+        &:active
+            background-color: $color-utility-success-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-success
+        background-color: $color-utility-success-light
+        color: $color-utility-success
+
+        &:hover
+            background-color: $color-utility-success-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-success-active
+            color: $color-surface
 
         &:disabled
             opacity: 0.5
@@ -186,7 +291,7 @@
     i
         font-size: 16px
 
-.icon-btn
+.btn-icon
     display: inline-flex
     align-items: center
     justify-content: center
@@ -210,7 +315,6 @@
     .material-symbols-rounded
         display: inline-flex
         font-size: 1rem
-        padding-right: .35rem
         vertical-align: middle
         color: inherit
 
@@ -231,6 +335,22 @@
 
         &:active
             background-color: $color-primary-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-primary
+        background-color: $color-primary-light
+        color: $color-primary
+
+        &:hover
+            background-color: $color-primary
+            color: $color-on-primary
+
+        &:active
+            background-color: $color-primary
+            color: $color-on-primary
 
         &:disabled
             opacity: 0.5
@@ -265,7 +385,7 @@
             opacity: 0.5
             cursor: not-allowed
 
-    &.text-btn
+    &.btn-text
         background-color: transparent
         color: $color-on-surface
 
@@ -273,8 +393,98 @@
             background-color: $color-secondary
 
         &:active
-            background-color: $color-surface-2
+            background-color: $color-secondary
             outline: solid 2px $color-primary
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-danger
+        background-color: $color-utility-error
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-error-active
+
+        &:active
+            background-color: $color-utility-error-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-danger
+        background-color: $color-utility-error-light
+        color: $color-utility-error
+
+        &:hover
+            background-color: $color-utility-error-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-error-active
+            color: $color-surface
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-warning
+        background-color: $color-utility-warning
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-warning-active
+
+        &:active
+            background-color: $color-utility-warning-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-warning
+        background-color: $color-utility-warning-light
+        color: $color-utility-warning
+
+        &:hover
+            background-color: $color-utility-warning-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-warning-active
+            color: $color-surface
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-success
+        background-color: $color-utility-success
+        color: $color-surface
+
+        &:hover
+            background-color: $color-utility-success-active
+
+        &:active
+            background-color: $color-utility-success-active
+
+        &:disabled
+            opacity: 0.5
+            cursor: not-allowed
+
+    &.btn-light-success
+        background-color: $color-utility-success-light
+        color: $color-utility-success
+
+        &:hover
+            background-color: $color-utility-success-active
+            color: $color-surface
+
+        &:active
+            background-color: $color-utility-success-active
+            color: $color-surface
 
         &:disabled
             opacity: 0.5
