@@ -21,7 +21,7 @@ export interface ControllerInputDto {
 @Component({
     selector: 'app-kanban-dashboard',
     templateUrl: './projects.component.html',
-    styleUrls: ['./kanban-dashboard.component.sass'],
+    styleUrls: ['./projects.component.sass'],
     providers: [KanbanService, AuthService, ConfirmationService],
 })
 export class ProjectsComponent implements OnInit {

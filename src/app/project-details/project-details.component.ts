@@ -7,6 +7,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
+import {ProjectDetails} from "../../shared/helpers/projectClasses";
 
 @Component({
     selector: 'app-project-details',
@@ -46,7 +47,7 @@ export class ProjectDetailsComponent implements OnInit {
     currentTab = this.tabs[0];
 
     projects: any[] = [];
-    project: Project = {} as Project;
+    project: ProjectDetails = new ProjectDetails();
     tasksOg: Task[] = [];
     projectId: string = '';
     loading: boolean = false;
@@ -108,12 +109,13 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe(params => {
-            if (params == null || params['projectId'] == null) {
+        // get project id from url
+        this.route.url.subscribe((url: any) => {
+            if (url.length === 0) {
                 this.router.navigate(['']);
             } else {
                 this.loading = true;
-                this.projectId = params['projectId'];
+                this.projectId = url[1].path;
                 from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
                     setTimeout(() => {
                         this.project = project;

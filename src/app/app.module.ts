@@ -38,6 +38,9 @@ import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
 import { PaginationComponent } from './common/pagination/pagination.component';
 import {RippleModule} from "primeng/ripple";
+import { ProjectDetailsOverviewComponent } from './project-details/project-details-overview/project-details-overview.component';
+import {BusyIfDirective} from "./busyif.directive";
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
     declarations: [
@@ -56,6 +59,8 @@ import {RippleModule} from "primeng/ripple";
         TaskFiltersComponent,
         TextTransformPipe,
         PaginationComponent,
+        ProjectDetailsOverviewComponent,
+        BusyIfDirective
     ],
     imports: [
         CommonModule,
@@ -80,7 +85,8 @@ import {RippleModule} from "primeng/ripple";
         PickListModule,
         SelectButtonModule,
         RouterLinkActive,
-        RippleModule
+        RippleModule,
+        CountUpModule
     ],
     providers: [],
     bootstrap: [AppComponent],

@@ -149,6 +149,52 @@ body
 .rounded
     border-radius: $border-radius !important
 
+.la-ball-clip-rotate.la-2x
+    width: 64px
+    height: 64px
+.la-ball-clip-rotate
+    width: 32px
+    height: 32px
+.la-ball-clip-rotate
+    display: block
+    font-size: 0
+    color: #fff
+.la-ball-clip-rotate, .la-ball-clip-rotate>div
+    position: relative
+    box-sizing: border-box
+
+.la-ball-clip-rotate.la-2x>div
+    width: 64px
+    height: 64px
+    border-width: 4px
+
+.la-ball-clip-rotate>div
+    display: inline-block
+    float: none
+    background-color: currentColor
+    border: 0 solid currentColor
+
+.la-ball-clip-rotate>div
+    width: 32px
+    height: 32px
+    background: transparent
+    border-width: 2px
+    border-bottom-color: transparent
+    border-radius: 100%
+    animation: ball-clip-rotate .75s linear infinite
+
+.la-ball-clip-rotate, .la-ball-clip-rotate>div
+    position: relative
+    box-sizing: border-box
+
+@keyframes ball-clip-rotate
+    0%
+        transform: rotate(0)
+    50%
+        transform: rotate(180deg)
+    100%
+        transform: rotate(360deg)
+
 @import 'sass-components/typography'
 @import 'sass-components/dialog'
 @import 'sass-components/buttons'
