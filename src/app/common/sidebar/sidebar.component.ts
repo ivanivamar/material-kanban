@@ -1,24 +1,6 @@
 import { KanbanService } from 'src/shared/services/kanban-service.service';
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import { Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
-import {
-    Firestore,
-    collectionData,
-    collection,
-    addDoc,
-    deleteDoc,
-    doc,
-    DocumentData,
-    updateDoc,
-    arrayUnion,
-} from '@angular/fire/firestore';
-import {
-    Project,
-    Task,
-    Urgency,
-    Checkboxes,
-} from '../../interfaces/Kanban.interfaces';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -31,25 +13,36 @@ import { AuthService } from '../../../shared/services/auth.service';
     providers: [KanbanService, AuthService],
 })
 export class SidebarComponent {
-    loading = false;
-    currentProjectId: string = '';
+    showUserMenu = false;
 
     user: any;
-
-    profileExpanded = false;
     constructor(
         private router: Router,
         private authService: AuthService,
         ) { }
 
+    // check when scroll down
+    @HostListener('window:scroll', ['$event.target'])
+    onScroll(event: any) {
+        if (event.scrollingElement.scrollTop >= 200) {
+            // @ts-ignore
+            document.getElementById('navbar').classList.add('navbar-fixed');
+            // @ts-ignore
+            document.querySelector('main').setAttribute('style', 'margin-top: 80px');
+        } else {
+            // @ts-ignore
+            document.getElementById('navbar').classList.remove('navbar-fixed');
+            // @ts-ignore
+            document.querySelector('main').setAttribute('style', 'margin-top: 0');
+        }
+    }
+
     async ngOnInit(): Promise<void> {
-        this.loading = true;
 
         // check if user is logged in
         this.authService.isLoggedIn().then((user: any) => {
             if (user) {
                 this.user = user;
-                this.loading = false;
             }
         });
     }

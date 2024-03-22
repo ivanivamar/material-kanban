@@ -2,31 +2,13 @@
     position: relative
     display: flex
     flex-direction: column
-    position: relative
 
-    .menubtn
-        border-radius: 50%
-        width: 36px
-        height: 36px
-        display: flex
-        align-items: center
-        justify-content: center
-
-        i
-            font-size: 18px
-            color: $text-color
-            transition: all 0.2s ease-in-out
-
-        &:hover
-            background-color: $background-secondary-color
-
-    > div:last-child
-        border-radius: 8px
-        background-color: $bg-color
-        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.08)
-        border: 1px solid $border-color
+    .menu-content
+        border-radius: $border-radius
+        background-color: $color-surface
+        box-shadow: $elevation-1
         position: absolute
-        top: 100%
+        top: 103%
         right: 0
         width: 150px
         z-index: 1
@@ -37,8 +19,8 @@
         gap: 4px
 
         .menu-item
-            padding: 8px 24px
-            color: $text-color
+            padding: 6px 12px
+            color: $color-on-surface
             font-size: 14px
             font-weight: 500
             line-height: 20px
@@ -56,10 +38,10 @@
                 font-size: 18px
 
             &:hover
-                background-color: $background-primary-color
+                background-color: $color-primary-light
 
             &.active
-                background-color: $background-primary-color
+                background-color: $color-primary-light
 
     &.active
         > div:last-child

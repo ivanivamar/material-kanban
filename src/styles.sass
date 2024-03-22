@@ -1,139 +1,150 @@
-$bg-color: #FFFFFF
-$bg-color-secondary: #F1F3FC
+$color-background: #F9F9F9
+$color-on-background: #071437
 
-$primary-color: #0656CF
-$primary-color-hover: #0D7AE8
-$primary-color-active: #0D7AE8
-$border-primary-color: #0656CF
-$background-primary-color: #E5F0FF
+$color-surface: #FFFFFF
+$color-surface-variant: #F9F9F9
+$color-on-surface: #071437
+$color-on-surface-variant: #252F4A
 
-$secondary-color: #D9E1FF
-$secondary-color-hover: #EEF0FF
-$secondary-color-active: #BAC5E8
-$border-secondary-color: #F1EFF5
-$background-secondary-color: #F1F3FC
+$color-primary: #1B84FF
+$color-primary-active: #056EE9
+$color-on-primary: #FFFFFF
+$color-primary-light: #E9F3FF
 
-$tertiary-color: #FFD6FA
-$tertiary-color-hover: #FFE8FC
-$tertiary-color-active: #E8C5E8
-$border-tertiary-color: #FBD5F5
-$background-tertiary-color: #FFE8FC
+$color-secondary: #F9F9F9
+$color-secondary-active: #C4CADA
+$color-on-secondary: #252F4A
 
-$content-1: #FBF8FF
-$content-2: #F1F0F9
-$content-3: #FFFFFF
-$border-secondary-color: #F6F7F7
+$color-utility-error: #F8285A
+$color-utility-error-active: #D81A48
+$color-utility-error-light: #FFEEF3
+$color-utility-on-error: #FFFFFF
+$color-utility-outline: #F1F1F4
+$color-utility-warning: #F6C000
+$color-utility-warning-active: #DEAD00
+$color-utility-warning-light: #FFF8DD
+$color-utility-on-warning: #FFFFFF
+$color-utility-success: #17C653
+$color-utility-success-active: #04B440
+$color-utility-success-light: #DFFFEA
+$color-utility-on-success: #FFFFFF
 
-$warning-color: #FFDAD6
-$warning-color-hover: #FFEBE8
-$warning-color-active: #E8C5C2
-$border-warning-color: #FBD5D5
-$background-warning-color: #FFECEC
-$danger-color: #E92C2C
-$danger-color-hover: #ED5656
-$danger-color-active: #BA2323
-$border-danger-color: #FBD5D5
-$background-danger-color: #FFECEC
-$success-color: #00BA34
-$success-color-hover: #33C85D
-$success-color-active: #00952A
-$border-success-color: #CCF1D6
-$background-success-color: #E5F8EB
+$elevation-1: 0px 3px 4px 0px rgba(0, 0, 0, 0.03)
+$elevation-2: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
+$elevation-3: 0px 6px 12px 0px rgba(0, 0, 0, 0.1)
 
-$border-color: #F2EFF5
-$text-color: #000000
-$text-secondary: #5F6368
-$border-radius: 12px
+$border-radius: 0.625rem
+$border-radius-sm: 0.475rem
+$border-radius-lg: 0.75rem
 
-$font-family-thin: 'Google Sans Thin', sans-serif
-$font-family-light: 'Google Sans Light', sans-serif
-$font-family-light-italic: 'Google Sans Light Italic', sans-serif
-$font-family: 'Google Sans', sans-serif
-$font-family-medium: 'Google Sans Medium', sans-serif
-$font-family-bold: 'Google Sans Bold', sans-serif
-$font-family-italic: 'Google Sans Italic', sans-serif
-$font-family-bold-italic: 'Google Sans Bold Italic', sans-serif
-$font-family-black: 'Google Sans Black', sans-serif
-$font-family-black-italic: 'Google Sans Black Italic', sans-serif
+$font-family: Inter, Helvetica, sans-serif
 
-$shadow: 0px 1px 2px 0px rgb(0 0 0 / 30%), 0px 1px 3px 1px rgb(0 0 0 / 15%)
-$elevation-2: 0px 1px 2px 0px rgb(0 0 0 / 30%), 0px 2px 6px 2px rgb(0 0 0 / 15%)
-$elevation-3: 0px 1px 3px 0px rgb(0 0 0 / 30%), 0px 4px 8px 3px rgb(0 0 0 / 15%)
+$shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1)
 .shadow
-    box-shadow: $shadow
+    box-shadow: $elevation-1
+
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+    font-family: $font-family
+    -webkit-font-smoothing: antialiased
+
+i
+    font-family: "Font Awesome 6 Duotone" !important
 
 body
-    font-family: $font-family
-    background-color: $bg-color-secondary
-    color: $text-color
+    font-family: $font-family !important
+    background-color: $color-background
+    color: $color-on-background
+    background-image: url("assets/images/header-bg.jpg")
+    background-repeat: no-repeat
+    background-position: center top
+    background-size: 100% 350px
     margin: 0
+    font-size: 13px
+    font-weight: 400
+    -webkit-font-smoothing: antialiased
 
 ::-webkit-scrollbar
     width: 5px
     height: 5px
-    border-radius: 5px 5px 5px 5px
 
 /* Track */
 ::-webkit-scrollbar-track
     background: transparent
-    border-radius: 5px 5px 5px 5px
 
 /* Handle */
 ::-webkit-scrollbar-thumb
-    background: #9F9F9F
-    border-radius: 5px 5px 5px 5px
+    background: $color-utility-outline
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover
-    background: #9F9F9F
+    background: #DBDFE9
 
 .text-color
-    color: $text-color !important
+    color: $color-on-surface !important
 .text-secondary
-    color: $text-secondary !important
+    color: $color-on-surface-variant !important
 .text-primary
-    color: $primary-color !important
+    color: $color-primary !important
+.text-danger
+    color: $color-utility-error !important
+.text-warning
+    color: $color-utility-warning !important
+.text-success
+    color: $color-utility-success !important
+
+.text-active-primary:hover
+    color: $color-primary !important
+.text-active-secondary:hover
+    color: $color-secondary !important
+.text-active-danger:hover
+    color: $color-utility-error !important
 
 .bg-color
-    background-color: $bg-color !important
+    background-color: $color-background !important
 .bg-primary
-    background-color: $primary-color !important
+    background-color: $color-primary !important
 .bg-secondary
-    background-color: $bg-color-secondary !important
+    background-color: $color-secondary !important
 
 .surface-primary
-    background-color: $background-primary-color !important
+    background-color: $color-primary !important
 .surface-secondary
-    background-color: $background-secondary-color !important
+    background-color: $color-secondary !important
 .surface-warning
-    background-color: $background-warning-color !important
+    background-color: $color-utility-warning
 .surface-danger
-    background-color: $background-danger-color !important
+    background-color: $color-utility-error
 .surface-success
-    background-color: $background-success-color !important
+    background-color: $color-utility-success
+
+.surface-0
+    background-color: $color-surface !important
 
 .border
-    border: 1px solid $border-color !important
+    border: 1px solid $color-utility-outline !important
 .border-top
-    border-top: 1px solid $border-color !important
+    border-top: 1px solid $color-utility-outline !important
 .border-bottom
-    border-bottom: 1px solid $border-color !important
+    border-bottom: 1px solid $color-utility-outline !important
 .border-left
-    border-left: 1px solid $border-color !important
+    border-left: 1px solid $color-utility-outline !important
 .border-right
-    border-right: 1px solid $border-color !important
+    border-right: 1px solid $color-utility-outline !important
 
 .border-primary
-    border: 1px solid $primary-color !important
+    border: 1px solid $color-primary !important
 
 .border-secondary
-    border: 1px solid $border-secondary-color !important
+    border: 1px solid $color-secondary !important
 
 .border-warning
-    border: 1px solid $warning-color !important
+    border: 1px solid $color-utility-warning !important
 
 .border-danger
-    border: 1px solid $danger-color !important
+    border: 1px solid $color-utility-error !important
 
 .rounded
     border-radius: $border-radius !important
@@ -155,4 +166,5 @@ body
 @import 'sass-components/progress-bars'
 @import 'sass-components/dropdowns'
 @import 'sass-components/lists'
-@import 'sass-components/datepicker'
+@import 'sass-components/breadcrumbs'
+@import 'sass-components/pagination'

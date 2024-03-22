@@ -1,22 +1,85 @@
-<div class="grid grid-nogutter p-3">
-    <div class="col-12 bg-color shadow-1 rounded">
-        <div *ngIf="!loading">
-            <div class="tabs-container m-3">
-                <div (click)="currentTab = ProjectTabs.Tasks" class="tab"
-                     [class.active]="currentTab === ProjectTabs.Tasks">
-                    <i class="material-symbols-rounded">view_stream</i>
-                    Tasks
+<div class="toolbar pb-3 pt-0 md:pt-4">
+    <div class="container flex align-items-center justify-content-between flex-wrap">
+        <div class="page-title flex flex-column mr-2">
+            <h1 class="flex text-white fw-bold my-1 text-lg">
+                {{ currentTab.breadcrumb }}
+            </h1>
+            <div class="breadcrumb">
+                <a routerLink="/" class="breadcrumb-item">Home</a>
+                <span class="breadcrumb-item">-</span>
+                <span class="breadcrumb-item">Project</span>
+                <span class="breadcrumb-item">-</span>
+                <span class="breadcrumb-item">{{ currentTab.breadcrumb }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container flex flex-1 align-items-start">
+    <div class="min-w-0" style="flex: 1 auto;">
+        <div class="card mb-5">
+            <div class="card-body p-3 md:px-5 md:pt-5 pb-0">
+                <div class="flex flex-wrap sm:flex-nowrap mb-4">
+                    <div
+                        class="flex align-items-center justify-content-center flex-shrink-0 bg-secondary rounded w-6rem h-6rem lg:w-9rem lg:h-9rem mr-4 mb-2">
+                        <img [src]="project.image" alt="Project Image" class="project-logo"
+                             *ngIf="project.image.length > 0">
+                        <i class="fa-duotone fa-folder-image text-6xl" *ngIf="project.image.length === 0"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="flex justify-content-between align-items-start flex-wrap mb-2">
+                            <div class="flex flex-column w-full md:w-auto">
+                                <span class="text-800 text-hover-primary fs-2 fw-bold mr-3">
+                                    {{ project.title }}
+                                </span>
+                                <span
+                                    class="flex flex-wrap text-500 text-lg fw-semibold mb-3">{{ project.description }}</span>
+                            </div>
+
+                            <div class="flex mb-3 gap-2">
+                                <button class="btn btn-sm btn-secondary">
+                                    Add Member
+                                </button>
+                                <button class="btn btn-sm btn-primary">
+                                    Add Task
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-content-start">
+                            <div class="flex flex-wrap">
+                                <div class="border-1 border-300 border-dashed rounded mr-5 mb-3"
+                                     style="padding: 9.7px 13px;">
+                                    <div class="flex align-items-center gap-2 mb-2">
+                                        <i class="fa-duotone fa-arrow-down text-base text-danger"></i>
+                                        <span class="text-base fw-bold">
+                                            {{ project.tasks.length }}
+                                        </span>
+                                    </div>
+                                    <span class="fw-semibold text-sm text-500">
+                                        Pending Tasks
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab" (click)="currentTab = ProjectTabs.Members"
-                     [class.active]="currentTab === ProjectTabs.Members">
-                    <i class="material-symbols-rounded">group</i>
-                    Members
+                <div class="divider m-0"></div>
+                <div class="tabs-container fw-bold">
+                    <div class="tab" (click)="currentTab = tab" [class.active]="currentTab.value == tab.value" *ngFor="let tab of tabs">
+                        {{ tab.title }}
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
+<div class="grid grid-nogutter">
+    <div class="col-12 bg-color shadow-1">
+        <div *ngIf="!loading">
             <div [ngSwitch]="currentTab">
                 <div *ngSwitchCase="ProjectTabs.Tasks">
-                    <div class="md:px-7 p-3 flex flex-column gap-1 border-bottom">
+                    <div class="md:px-7 p-3 flex flex-column gap-1">
                         <div class="flex align-items-center justify-content-between">
                             <span class="text-color font-bold text-lg">Tasks</span>
 
@@ -38,7 +101,8 @@
                         </div> -->
                     </div>
 
-                    <app-task-filters class="block mt-3 mx-3 md:mx-7 relative" style="z-index: 1;" [members]="membersList"
+                    <app-task-filters class="block mt-3 mx-3 md:mx-7 relative" style="z-index: 1;"
+                                      [members]="membersList"
                                       (filters)="filterTasks($event)"></app-task-filters>
                     <div class="flex flex-column md:px-7 pb-3 mt-3">
                         <div *ngIf="project.tasks.length === 0">

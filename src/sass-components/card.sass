@@ -1,45 +1,41 @@
 .card
-    background-color: $bg-color-secondary
-    border-radius: $border-radius
-    border: 1px solid $border-color
     display: flex
     flex-direction: column
-    cursor: pointer
-    transition: all 0.2s ease-in-out
-    width: auto
+    min-width: 0
+    color: $color-on-surface
+    word-wrap: break-word
+    background-color: $color-surface
+    background-clip: border-box
+    border: 1px solid $color-utility-outline
+    border-radius: $border-radius
+    box-shadow: $elevation-1
 
-    &:hover,
-    &.active
-        border-color: $primary-color
-
-        .card-body
-            background-color: $background-primary-color
-
-    &.nohover
-        cursor: default
-        &:hover
-            box-shadow: none
-            border-color: $border-color
-
-    &.card-filled
-        background-color: $background-primary-color !important
+    &.border-hover-primary:hover
+        border-color: $color-primary
 
     .card-header
         display: flex
-        align-items: center
-        border-top-left-radius: $border-radius
-        border-top-right-radius: $border-radius
-        background-color: $content-2
+        justify-content: space-between
+        align-items: stretch
+        flex-wrap: wrap
+        min-height: 70px
+        padding: 0 2.25rem
+        color: $color-on-surface
+        background-color: transparent
+        border-bottom: 1px solid $color-utility-outline
+        margin-bottom: 0
+
 
         .title
-            color: $text-color
-            font-size: 16px
-            font-style: normal
+            color: $color-on-surface
+            font-size: 1.275rem
             font-weight: 500
-            line-height: 24px
+            margin: .5rem
+            display: flex
+            align-items: center
 
         .task-status
-            border-radius: $border-radius
+            border-radius: 8px
             border-width: 1px
             border-style: solid
             padding: 4px
@@ -54,26 +50,30 @@
             i
                 font-size: 14px
 
+
     .card-body
-        padding: 8px 12px
-        background-color: $content-1
-        border-bottom-left-radius: $border-radius
-        border-bottom-right-radius: $border-radius
+        padding: 2rem 2.25rem
+        flex: 1 1 auto
 
     .card-footer
-        border-top: 1px solid $border-color
-        padding-top: 12px
+        border-top: 1px solid $color-utility-outline
+        padding: 2rem 2.25rem
         display: flex
         align-items: center
         gap: 8px
 
+    &.card-flush
+        .card-header,
+        .card-footer
+            border-bottom: none
+
 .subtask
-    border: 1px solid $border-color
+    border: 1px solid $color-utility-outline
     padding: 12px
 
     &.checked
-        background-color: $background-primary-color
-        border-color: $primary-color
+        background-color: $color-secondary
+        border-color: $color-secondary
 
 .label
     padding: 4px 10px
@@ -85,5 +85,5 @@
     gap: 4px
     font-weight: 700
     text-transform: capitalize
-    background-color: $primary-color
+    background-color: $color-primary
     color: white

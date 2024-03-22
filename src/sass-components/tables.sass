@@ -2,47 +2,27 @@
     display: flex
     flex-direction: column
     width: 100%
-    border-radius: 2px
-    border-top: 1px solid $border-color
-    border-bottom: 1px solid $border-color
     margin-bottom: 16px
     height: 100%
 
     .table-header
         display: flex
         align-items: center
-        padding: 0 8px
-        border-bottom: 1px solid $border-color
-        height: 41px
-        background-color: $background-secondary-color
+        padding: 0 16px
+        height: 56px
 
         .header-cell
             align-items: center
             justify-content: center
             gap: 8px
             flex: 1
-            font-size: 14px
+            height: 100%
+            font-size: 16px
             line-height: 20px
             letter-spacing: 0.1px
-            color: $text-color
+            color: $color-on-surface
             font-weight: 500
-            font-family: $font-family
-            height: auto
             display: flex
-
-            &.sortable,
-            &.sorting
-                cursor: pointer
-
-                &:hover
-                    background-color: $background-secondary-color
-
-            &.sorting
-                background-color: $background-secondary-color
-
-                .sort-icon
-                    display: flex
-                    color: $text-color
 
             .material-symbols-rounded
                 font-size: 16px
@@ -52,16 +32,11 @@
         flex-direction: row
         align-items: center
         gap: 8px
-        padding: 0 8px
-        background-color: white
+        padding: 0 16px
+        height: 56px
+        background-color: transparent
         transition: background-color 0.2s ease
-        border-bottom: 1px solid $border-color
-
-        &:hover
-            background-color: $background-primary-color
-
-        &:active
-            background-color: $background-primary-color
+        border-radius: $border-radius
 
         .table-cell
             display: flex
@@ -69,12 +44,17 @@
             align-items: center
             gap: 8px
             flex: 1
-            font-size: 14px
+            font-size: 16px
             line-height: 20px
             letter-spacing: 0.1px
-            color: $text-color
+            color: $color-on-surface
             font-weight: 500
-            font-family: $font-family
+
+        &:hover
+            background-color: $color-primary-light
+
+        &:active
+            background-color: $color-primary-light
 
             .material-symbols-rounded
                 font-size: 16px
@@ -86,8 +66,8 @@
     justify-content: flex-end
     gap: 8px
     padding: 12px 16px
-    background-color: white
-    border-top: 2px solid $border-color
+    background-color: transparent
+    border-top: 2px solid $color-utility-outline
 
     .paginator-controls
         display: flex
@@ -118,9 +98,8 @@
         .paginator-text
             font-size: 12px
             line-height: 16px
-            color: $text-color
+            color: $color-on-surface
             font-weight: 500
-            font-family: $font-family
             margin-bottom: 8px
 
         .paginator-controls

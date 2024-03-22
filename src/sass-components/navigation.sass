@@ -1,179 +1,64 @@
-nav
-    background-color: $bg-color-secondary
-    height: 100%
-    position: fixed
-    top: 0
-    left: 0
-    width: 72px
+#navbar
+    height: 80px
+    width: 100%
     z-index: 10
-    border-top-right-radius: $border-radius
-    border-bottom-right-radius: $border-radius
-
-    header
-        margin-bottom: 0
-        display: flex
-        align-items: center
-
-    .section
-        padding: 16px
-        padding-top: 0
-        display: flex
-        flex-direction: column
-        justify-content: center
-        align-items: center
-        gap: 8px
-
-.link-content
-    text-decoration: none
-    background-color: transparent
-    color: #969696
-    font-weight: 500
-    padding: 12px
-    font-size: 14px
-    line-height: 20px
-    letter-spacing: 0.1px
+    gap: 16px
     display: flex
-    flex-direction: column
-    align-items: center
-    transition: background-color 0.2s ease
-    font-family: $font-family
-    justify-content: center
-    min-height: 36px
-    position: relative
-    height: 48px
-    width: 48px
-    border-radius: $border-radius
+    align-items: stretch
+    justify-content: space-between
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1)
 
-    .material-symbols-rounded
-        font-size: 24px
+    img.sticky
+        display: none
+    img.not-sticky
+        display: block
 
-    &:hover,
-    &.active
-        background-color: $secondary-color
-        color: $text-color
+    &.navbar-fixed
+        position: fixed
+        top: 0
+        left: 0
+        right: 0
+        background-color: $color-surface
+        box-shadow: $elevation-3
+        border-bottom: 0
+        padding: 0
+        height: 65px
+        z-index: 97
+        animation-duration: 0.3s
+
+        img.sticky
+            display: block
+        img.not-sticky
+            display: none
+
+        #topbar-links > div:first-child
+            .menu-link
+                color: $color-on-surface
+
+                &:hover,
+                &.active
+                    background-color: $color-secondary
+                    color: $color-primary
+
+    #topbar-links > div:first-child
+        .menu-link
+            border-radius: $border-radius-sm
+            cursor: pointer
+            display: flex
+            align-items: center
+            padding: .75rem 1rem
+            transition: background-color 0.2s ease
+            color: $color-surface
+            font-weight: 500
+
+            &:hover,
+            &.active
+                background-color: rgba(255, 255, 255, .1)
 
 // mobile
 @media screen and (max-width: 768px)
     nav
-        width: 75px
-
-        header
-            display: none
-
-        .section
-            padding: 16px
-
-            .section-title
-                padding-left: 0
-
-.navbar
-    background-color: $background-secondary-color
-    border-bottom: 1px solid #F1F1F1
-    padding: 0 32px
-    height: 64px
-    display: flex
-    align-items: center
-    justify-content: space-between
-    width: 100%
-    z-index: 99
-
-    .nav-breadcrumbs
-        display: flex
-        align-items: center
-        justify-content: flex-start
-        gap: 6px
-
-        .nav-breadcrumbs__link
-            font-size: 14px
-            color: #1a1a1a
-            text-decoration: none
-            display: flex
-            align-items: center
-            border-bottom: 1px solid transparent
-
-            i
-                font-size: 10px
-                color: #1a1a1a
-
-            &:hover
-                border-bottom: 1px solid #1a1a1a
-
-        .nav-breadcrumbs__separator
-            font-size: 18px
-            color: #1a1a1a
-
-    .search-container
-        gap: 8px
-
-        i
-            font-size: 20px
-
-        input
-            border: 0
-            border-radius: 0
-            font-size: 16px
-            padding: 0
-
-            &::placeholder
-                color: #B5B7BE
-                font-size: 16px
-
-.profile-dropdown
-    display: flex
-    align-items: center
-    justify-content: flex-end
-    border-radius: 50%
-    cursor: pointer
-    padding: 4px
-    transition: background-color 0.2s ease-in-out
-    position: relative
-
-    .profile-dropdown__content
-        position: absolute
-        bottom: 100%
-        width: 350px
-        left: 0
-        background-color: #F3F6FC
-        border-radius: 28px
-        box-shadow: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3)
-        overflow-x: auto
-        display: none
-        z-index: 999999
-
-        .profile-info
-            display: flex
-            align-items: center
-            gap: 12px
-            padding: 12px 16px
-            font-size: 14px
-            margin: 8px 8px 0
-            border-radius: 28px
-            background-color: white
-            padding-bottom: 20px
-
-        .profile-dropdown__item
-            display: flex
-            align-items: center
-            text-decoration: none
-            padding: 0 23px 0 39px
-
-            i
-                font-size: 20px
-                padding: 11px 4px
-                width: 32px
-
-            span
-                margin-left: 18px
-
-            &:hover
-                background-color: #E0E9F8
-
-    &:hover
-        background-color: #F5F7F9
-
-    &.expanded
-        .profile-dropdown__content
-            display: block
+        width: 65px
 
 .overlay
     position: fixed
@@ -181,18 +66,6 @@ nav
     left: 0
     width: 100%
     height: 100%
-    background-color: rgba(0,0,0,0.5)
-    z-index: 9999
+    background-color: rgba(0, 0, 0, 0.5)
+    z-index: 1050
     cursor: pointer
-
-// mobile
-@media screen and (max-width: 768px)
-    nav
-        margin-left: 0
-        padding: 16px
-        overflow: hidden
-        width: 75px
-        transition: left 0.2s ease-in-out
-
-        &.open
-            left: 0

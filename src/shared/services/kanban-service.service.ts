@@ -1,25 +1,28 @@
-import { combineLatest, map, Observable, switchMap } from 'rxjs';
-import { Injectable } from '@angular/core';
+import {combineLatest, map, Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
 import {Images, Project} from '../../app/interfaces/Kanban.interfaces';
 import {
-    Firestore,
-    collectionData,
-    collection,
     addDoc,
+    collection,
+    collectionData,
     deleteDoc,
     doc,
-    DocumentData,
+    Firestore,
+    getDoc,
+    getDocs,
+    query, startAfter,
     updateDoc,
-    getDoc, query, where,
+    where,
 } from '@angular/fire/firestore';
 import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import {DomSanitizer} from "@angular/platform-browser";
-import { limit, orderBy, startAt } from 'firebase/firestore';
-
+import {getCountFromServer, limit, orderBy, startAt} from 'firebase/firestore';
+import {ControllerInputDto, PaginatedResult} from "../../app/projects/projects.component";
 @Injectable({
     providedIn: 'root'
 })
 export class KanbanService {
+    db = this.firestore;
 
     constructor(
         private firestore: Firestore,
@@ -27,22 +30,26 @@ export class KanbanService {
         private sanitizer: DomSanitizer) { }
 
     //#region Getters
-    getProjects(getData: any): Observable<Project[]> {
-        let projectRef;
-        if (getData.search.trim().length > 0) {
-            projectRef = query(collection(this.firestore, 'projects'),
-                where('owner.uid', '==', getData.uid),
-                orderBy('title'),
-            );
-        } else {
-            projectRef = query(collection(this.firestore, 'projects'),
-                where('owner.uid', '==', getData.uid),
-                orderBy('title'),
-            );
-        }
-		console.log(projectRef);
-		console.log(getData);
-        return collectionData(projectRef, { idField: 'id' }) as Observable<Project[]>;
+    async getProjects(uid: string): Promise<PaginatedResult<Project>> {
+        const snapshot = await getCountFromServer(query(collection(this.firestore, 'projects'),
+            where('owner.uid', '==', uid),
+            orderBy('title'),
+        ));
+        let projectRef = query(collection(this.firestore, 'projects'),
+            where('owner.uid', '==', uid)
+        );
+        const projects = await getDocs(projectRef).then(querySnapshot => {
+            return querySnapshot.docs.map(doc => {
+                return {
+                    id: doc.id,
+                    ...doc.data()
+                } as Project;
+            });
+        });
+        return {
+            records: projects,
+            totalRecordCount: snapshot.data().count
+        };
     }
 
     getProjectById(projectId: string): Observable<Project> {

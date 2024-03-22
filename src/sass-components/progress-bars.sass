@@ -10,12 +10,12 @@
 
         .progress-background
             fill: none
-            stroke: $background-primary-color
+            stroke: $color-secondary
             stroke-width: 14
 
         .progress-circle
             fill: none
-            stroke: $primary-color
+            stroke: $color-primary
             stroke-width: 14
             transition: stroke-dashoffset 0.3s
 
@@ -25,3 +25,18 @@
         left: 50%
         transform: translate(-50%, -50%)
         font-size: 8px
+
+.progress-bar
+    display: flex
+    align-items: center
+    border-radius: 8px
+    width: 100%
+    position: relative
+    height: 4px
+    background-color: $color-utility-outline
+
+    .progress
+        height: 100%
+        border-radius: 8px
+        background-color: $color-primary
+        transition: width 0.3s

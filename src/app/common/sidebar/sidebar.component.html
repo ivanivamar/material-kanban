@@ -1,50 +1,66 @@
-<nav>
-    <header class="pt-3 flex flex-column">
-        <a routerLink="/" class="flex justify-content-center align-items-center p-1 border rounded">
-            <img src="../../../assets/kanban_logo.png" style="width: 28px; height: 28px;" alt="lOGO">
-        </a>
-    </header>
+<nav class="mb-2 lg:mb-5" id="navbar">
+    <div class="container flex align-items-center">
+        <div id="header-logo" class="p-0 flex align-items-center mr-3 md:mr-5 flex-grow-0">
+            <a routerLink="/">
+                <img src="assets/images/demo2.png" height="25" class="not-sticky">
+                <img src="assets/images/demo2-sticky.png" height="25" class="sticky">
+            </a>
+        </div>
 
-    <div class="divider"></div>
-
-    <div class="section" *ngIf="!loading">
-        <a routerLink="" routerLinkActive="active" *ngIf="user == null">
-            <div class="link-content flex">
-                <span class="material-symbols-rounded">login</span>
-            </div>
-        </a>
-        <a routerLink="/auth/register" routerLinkActive="active" *ngIf="user == null"
-           class="mt-2">
-            <div class="link-content flex">
-                <span class="material-symbols-rounded">person_add</span>
-            </div>
-        </a>
-
-        <a class="link-content" routerLink="" routerLinkActive="active" *ngIf="user">
-            <span class="material-symbols-rounded">home</span>
-        </a>
-    </div>
-
-    <div class="section" style="position: absolute; bottom: 0;" *ngIf="user">
-        <div class="profile-dropdown" (click)="profileExpanded = !profileExpanded"
-             [class.expanded]="profileExpanded">
-            <img class="border-circle" style="width: 36px;" [src]="user.photoURL" alt="User Avatar">
-
-            <div class="profile-dropdown__content">
-                <div class="profile-info gap-3 align-items-start">
-                    <img class="border-circle" style="width: 46px;" [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
-                    <div class="flex flex-column gap-2">
-                        <span class="font-regular text-color">{{ user?.displayName }}</span>
-                        <span class="font-regular text-secondary">{{ user?.email }}</span>
-                        <button class="btn btn-outline btn-sm mt-2" routerLink="/auth/profile">Manage your profile</button>
-                    </div>
-                </div>
-                <a class="profile-dropdown__item text-color font-medium" routerLink="/auth/login" (click)="logout()">
-                    <i class="material-symbols-rounded text-color">logout</i>
-                    <span>Close this session</span>
+        <div class="flex align-items-stretch justify-content-between flex-grow-1" id="topbar-links">
+            <div class="flex align-items-stretch gap-2">
+                <a routerLink="/auth/login" routerLinkActive="active" class="menu-link" *ngIf="user == null">
+                    Login
+                </a>
+                <a routerLink="/auth/register" routerLinkActive="active" class="menu-link" *ngIf="user == null">
+                    Register
+                </a>
+                <a routerLink="" routerLinkActive="active" class="menu-link" *ngIf="user">
+                    Projects
                 </a>
             </div>
+            <div class="topbar flex align-items-stretch flex-shrink-0">
+                <div class="flex align-items-center lg:mr-n2 ml-1 lg:ml-3 relative" id="user_menu_toggle" *ngIf="user">
+                    <div class="btn-icon btn-custom-active h-30px w-30px h-md-40px w-md-40px" [class.show]="showUserMenu"
+                         (click)="showUserMenu = !showUserMenu">
+                        <img class="h-30px w-30px border-round-sm" [src]="user.photoURL" alt="User Avatar"
+                             *ngIf="user.photoURL">
+                        <i class="ki-duotone ki-user-square text-large" *ngIf="!user.photoURL">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                        </i>
+                    </div>
+                    <div [class.overlay]="showUserMenu" class="bg-transparent" (click)="showUserMenu = false"></div>
+                    <div class="menu-account" [class.show]="showUserMenu">
+                        <div class="menu-item px-1 border-bottom mb-2">
+                            <div class="menu-content">
+                                <img [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
+                                <div class="flex flex-column">
+                                    <span class="fw-bold flex align-items-center text-base">
+                                        {{ user.displayName }}
+                                    </span>
+                                    <a class="text-secondary" href="mailto:{{ user.email }}"
+                                       target="_blank">{{ user.email }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-item px-3">
+                            <a class="menu-link" routerLink="/auth/profile">
+                                <i class="fa-duotone fa-user"></i>
+                                My Profile
+                            </a>
+                        </div>
+                        <div class="menu-item px-3">
+                            <a class="menu-link text-active-danger" (click)="logout()">
+                                <i class="fa-duotone fa-right-from-bracket text-danger"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="overlay" style="background: transparent" *ngIf="profileExpanded" (click)="profileExpanded = !profileExpanded"></div>
     </div>
 </nav>
