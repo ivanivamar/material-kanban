@@ -26,14 +26,13 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {ChipModule} from 'primeng/chip';
 import {ToastModule} from 'primeng/toast';
 import {PickListModule} from 'primeng/picklist';
-import {KanbanTimelineComponent} from './kanban-board/kanban-calendar/kanban-timeline.component';
+import {KanbanTimelineComponent} from './project-details/kanban-calendar/kanban-timeline.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
-import { ProjectMembersComponent } from './kanban-board/project-members/project-members.component';
-import { LocalizePipe } from './localize.pipe';
-import { TaskFiltersComponent } from './kanban-board/task-filters/task-filters.component';
+import { ProjectMembersComponent } from './project-details/project-members/project-members.component';
+import { TaskFiltersComponent } from './project-details/task-filters/task-filters.component';
 import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
@@ -54,7 +53,6 @@ import {RippleModule} from "primeng/ripple";
         MatDropdownComponent,
         CircularProgressBarComponent,
         ProjectMembersComponent,
-        LocalizePipe,
         TaskFiltersComponent,
         TextTransformPipe,
         PaginationComponent,

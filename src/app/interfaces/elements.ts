@@ -1,5 +1,5 @@
 import {Status, Urgency} from "./Kanban.interfaces";
-import {ProjectTabs} from "../kanban-board/project-details.component";
+import {ProjectTabs} from "../project-details/project-details.component";
 
 export class Project implements Project {
     statusList: Status[];

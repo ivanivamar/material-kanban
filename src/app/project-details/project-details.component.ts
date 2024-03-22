@@ -9,9 +9,9 @@ import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
 
 @Component({
-    selector: 'app-kanban-board',
+    selector: 'app-project-details',
     templateUrl: './project-details.component.html',
-    styleUrls: ['./kanban-board.component.sass'],
+    styleUrls: ['./project-details.component.sass'],
 })
 export class ProjectDetailsComponent implements OnInit {
     ProjectTabs = ProjectTabs;
