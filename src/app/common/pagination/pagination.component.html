@@ -1,9 +1,9 @@
-<div class="flex align-items-center justify-content-between py-5 gap-3">
+<div class="flex flex-column md:flex-row md:align-items-center justify-content-between py-5 gap-3">
     <div class="text-base fw-semibold text-700">
         Showing {{ firstItemNumber }} to {{ lastItemNumber }} of {{ totalRecordCount }} entries
     </div>
 
-    <div class="pagination flex flex-wrap justify-content-center m-0">
+    <div class="pagination flex flex-wrap md:justify-content-center m-0">
         <button class="page-item previous" [disabled]="currentPage == 1">
             <a class="page-link" (click)="onPageClicked(currentPage-1)">
                 <i class="material-symbols-rounded">chevron_left</i>

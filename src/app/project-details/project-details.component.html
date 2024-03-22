@@ -1,0 +1,168 @@
+<div class="toolbar pb-3 pt-0 md:pt-4">
+    <div class="container flex align-items-center justify-content-between flex-wrap">
+        <div class="page-title flex flex-column mr-2">
+            <h1 class="flex text-white fw-bold my-1 text-lg">
+                {{ currentTab.breadcrumb }}
+            </h1>
+            <div class="breadcrumb">
+                <a routerLink="/" class="breadcrumb-item">Home</a>
+                <span class="breadcrumb-item">-</span>
+                <span class="breadcrumb-item">Project</span>
+                <span class="breadcrumb-item">-</span>
+                <span class="breadcrumb-item">{{ currentTab.breadcrumb }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container flex flex-1 align-items-start">
+    <div class="min-w-0" style="flex: 1 auto;">
+        <div class="card mb-5">
+            <div class="card-body p-3 md:px-5 md:pt-5 pb-0">
+                <div class="flex flex-wrap sm:flex-nowrap mb-4">
+                    <div
+                        class="flex align-items-center justify-content-center flex-shrink-0 bg-secondary rounded w-6rem h-6rem lg:w-9rem lg:h-9rem mr-4 mb-2">
+                        <img [src]="project.image" alt="Project Image" class="project-logo"
+                             *ngIf="project.image.length > 0">
+                        <i class="fa-duotone fa-folder-image text-6xl" *ngIf="project.image.length === 0"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="flex justify-content-between align-items-start flex-wrap mb-2">
+                            <div class="flex flex-column w-full md:w-auto">
+                                <span class="text-800 text-hover-primary fs-2 fw-bold mr-3">
+                                    {{ project.title }}
+                                </span>
+                                <span
+                                    class="flex flex-wrap text-500 text-lg fw-semibold mb-3">{{ project.description }}</span>
+                            </div>
+
+                            <div class="flex mb-3 gap-2">
+                                <button class="btn btn-sm btn-secondary">
+                                    Add Member
+                                </button>
+                                <button class="btn btn-sm btn-primary">
+                                    Add Task
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-content-start">
+                            <div class="flex flex-wrap">
+                                <div class="border-1 border-300 border-dashed rounded mr-5 mb-3"
+                                     style="padding: 9.7px 13px;">
+                                    <div class="flex align-items-center gap-2 mb-2">
+                                        <i class="fa-duotone fa-arrow-down text-base text-danger"></i>
+                                        <span class="text-base fw-bold">
+                                            {{ project.tasks.length }}
+                                        </span>
+                                    </div>
+                                    <span class="fw-semibold text-sm text-500">
+                                        Pending Tasks
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider m-0"></div>
+                <div class="tabs-container fw-bold">
+                    <div class="tab" (click)="currentTab = tab" [class.active]="currentTab.value == tab.value" *ngFor="let tab of tabs">
+                        {{ tab.title }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-nogutter">
+    <div class="col-12 bg-color shadow-1">
+        <div *ngIf="!loading">
+            <div [ngSwitch]="currentTab">
+                <div *ngSwitchCase="ProjectTabs.Tasks">
+                    <div class="md:px-7 p-3 flex flex-column gap-1">
+                        <div class="flex align-items-center justify-content-between">
+                            <span class="text-color font-bold text-lg">Tasks</span>
+
+                            <button class="btn filled-btn" (click)="addTask()">
+                                <span class="material-symbols-rounded">add</span>
+                                New Task
+                            </button>
+                        </div>
+                        <!-- <div class="tabs-container">
+                            <div (click)="currentListTab = 'all'" class="tab underline"
+                                 [class.active]="currentListTab === 'all'">
+                                All
+                            </div>
+                            <div (click)="currentListTab = status.name" *ngFor="let status of statusList"
+                                 class="tab underline"
+                                 [class.active]="currentListTab === status.name">
+                                {{ status.name }}
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <app-task-filters class="block mt-3 mx-3 md:mx-7 relative" style="z-index: 1;"
+                                      [members]="membersList"
+                                      (filters)="filterTasks($event)"></app-task-filters>
+                    <div class="flex flex-column md:px-7 pb-3 mt-3">
+                        <div *ngIf="project.tasks.length === 0">
+                            <div class="p-3 gap-3 w-full flex flex-column surface-warning border-warning rounded">
+                                <div class="flex align-items-center gap-2">
+                                    <span class="material-symbols-rounded text-2xl">warning</span>
+                                    <span class="text-color text-lg">No tasks found</span>
+                                </div>
+
+                                <span class="text-color text-sm">Click on the button above to add a new task</span>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let task of tasksOg; let i = index">
+                            <app-card class="block mb-3" [taskProject]="project" [task]="task" [index]="i"
+                                      (updateKanban)="updateKanban()">
+                            </app-card>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="false">
+                    <div cdkDropListGroup class="flex md:grid flex-column md:flex-row grid-nogutter gap-5 h-full">
+                        <!-- COLUMNS -->
+                        <div cdkDropList class="col-12 md:col column p-0 h-auto md:h-97 flex flex-column gap-3 p-2"
+                             *ngFor="let status of statusList; let i = index" [cdkDropListData]="project.tasks"
+                             (cdkDropListDropped)="drop($event)">
+                            <header
+                                class="p-3 md:p-0 mb-0 border-bottom-1 md:border-bottom-0 border-300 md:border-transparent">
+                                <div class="left-container">
+                                    <button class="btn text-btn small-btn" (click)="addTask(status.name)">
+                                        <span class="material-symbols-rounded">add</span>
+                                    </button>
+                                    <span class="title text-color">{{ status.name }}</span>
+                                    <span class="task-count">{{ getTasksOfStatus(status.name, project) }}</span>
+                                </div>
+                            </header>
+                            <div class="dropzone">
+                                <i class="material-symbols-rounded text-2xl">arrow_drop_down_circle</i>
+                            </div>
+                            <!-- CARDS -->
+                            <div class="grid grid-nogutter gap-3 max-h-30rem md:max-h-30rem h-auto overflow-y-auto">
+                                <div *ngFor="let task of project.tasks; let i = index">
+                                    <app-card class="col-12 drag-box" *ngIf="task.status.name === status.name"
+                                              [taskProject]="project" [task]="task" [index]="i"
+                                              (updateKanban)="updateKanban()">
+                                    </app-card>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div *ngSwitchCase="ProjectTabs.Timeline" class="h-full">
+                    <app-kanban-timeline [projectId]="projectId" class="h-full"></app-kanban-timeline>
+                </div>-->
+                <div *ngSwitchCase="ProjectTabs.Members" class="h-full">
+                    <app-project-members [owner]="project.owner" [isUserOwner]="project.owner.uid === user.uid"
+                                         [members]="project.members" (onChangeSubmit)="updateFromMembers($event)"
+                                         class="h-full"></app-project-members>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

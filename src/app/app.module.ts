@@ -7,8 +7,8 @@ import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 import {environment} from 'src/environments/environment';
 import {FormsModule} from '@angular/forms';
-import {KanbanBoardComponent} from './kanban-board/kanban-board.component';
-import {KanbanDashboardComponent} from './kanban-dashboard/kanban-dashboard.component';
+import {ProjectDetailsComponent} from './project-details/project-details.component';
+import {ProjectsComponent} from './projects/projects.component';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ChartModule} from 'primeng/chart';
@@ -38,13 +38,14 @@ import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
 import { PaginationComponent } from './common/pagination/pagination.component';
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
     declarations: [
         AppComponent,
         SidebarComponent,
-        KanbanDashboardComponent,
-        KanbanBoardComponent,
+        ProjectsComponent,
+        ProjectDetailsComponent,
         CardComponent,
         RegisterComponent,
         LoginComponent,
@@ -80,7 +81,8 @@ import { PaginationComponent } from './common/pagination/pagination.component';
         ToastModule,
         PickListModule,
         SelectButtonModule,
-        RouterLinkActive
+        RouterLinkActive,
+        RippleModule
     ],
     providers: [],
     bootstrap: [AppComponent],

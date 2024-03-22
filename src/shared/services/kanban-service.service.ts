@@ -17,7 +17,7 @@ import {
 import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import {DomSanitizer} from "@angular/platform-browser";
 import {getCountFromServer, limit, orderBy, startAt} from 'firebase/firestore';
-import {ControllerInputDto, PaginatedResult} from "../../app/kanban-dashboard/kanban-dashboard.component";
+import {ControllerInputDto, PaginatedResult} from "../../app/projects/projects.component";
 @Injectable({
     providedIn: 'root'
 })

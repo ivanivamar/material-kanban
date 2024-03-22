@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KanbanBoardComponent } from './kanban-board.component';
+import { ProjectDetailsComponent } from './project-details.component';
 
 describe('KanbanBoardComponent', () => {
-  let component: KanbanBoardComponent;
-  let fixture: ComponentFixture<KanbanBoardComponent>;
+  let component: ProjectDetailsComponent;
+  let fixture: ComponentFixture<ProjectDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardComponent ]
+      declarations: [ ProjectDetailsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(KanbanBoardComponent);
+    fixture = TestBed.createComponent(ProjectDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

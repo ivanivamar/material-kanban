@@ -24,12 +24,16 @@ export class SidebarComponent {
     // check when scroll down
     @HostListener('window:scroll', ['$event.target'])
     onScroll(event: any) {
-        if (event.scrollingElement.scrollTop > 170) {
+        if (event.scrollingElement.scrollTop >= 200) {
             // @ts-ignore
             document.getElementById('navbar').classList.add('navbar-fixed');
+            // @ts-ignore
+            document.querySelector('main').setAttribute('style', 'margin-top: 80px');
         } else {
             // @ts-ignore
             document.getElementById('navbar').classList.remove('navbar-fixed');
+            // @ts-ignore
+            document.querySelector('main').setAttribute('style', 'margin-top: 0');
         }
     }
 

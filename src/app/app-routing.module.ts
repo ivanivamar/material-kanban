@@ -1,8 +1,8 @@
 import { Register } from './interfaces/Kanban.interfaces';
-import { KanbanDashboardComponent } from './kanban-dashboard/kanban-dashboard.component';
+import { ProjectsComponent } from './projects/projects.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
+import { ProjectDetailsComponent } from './kanban-board/project-details.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
@@ -10,13 +10,13 @@ import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 const routes: Routes = [
     {
         path: '',
-        component: KanbanDashboardComponent,
+        component: ProjectsComponent,
         pathMatch: 'full',
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },
     {
         path: 'projects/kanban',
-        component: KanbanBoardComponent,
+        component: ProjectDetailsComponent,
         pathMatch: 'full',
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },

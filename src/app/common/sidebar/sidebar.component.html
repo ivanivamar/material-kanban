@@ -31,7 +31,7 @@
                             <span class="path3"></span>
                         </i>
                     </div>
-                    <div [class.overlay]="showUserMenu" (click)="showUserMenu = false"></div>
+                    <div [class.overlay]="showUserMenu" class="bg-transparent" (click)="showUserMenu = false"></div>
                     <div class="menu-account" [class.show]="showUserMenu">
                         <div class="menu-item px-1 border-bottom mb-2">
                             <div class="menu-content">
@@ -48,11 +48,13 @@
                         </div>
                         <div class="menu-item px-3">
                             <a class="menu-link" routerLink="/auth/profile">
+                                <i class="fa-duotone fa-user"></i>
                                 My Profile
                             </a>
                         </div>
                         <div class="menu-item px-3">
-                            <a class="menu-link" (click)="logout()">
+                            <a class="menu-link text-active-danger" (click)="logout()">
+                                <i class="fa-duotone fa-right-from-bracket text-danger"></i>
                                 Logout
                             </a>
                         </div>

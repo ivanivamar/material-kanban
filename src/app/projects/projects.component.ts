@@ -20,15 +20,15 @@ export interface ControllerInputDto {
 
 @Component({
     selector: 'app-kanban-dashboard',
-    templateUrl: './kanban-dashboard.component.html',
+    templateUrl: './projects.component.html',
     styleUrls: ['./kanban-dashboard.component.sass'],
     providers: [KanbanService, AuthService, ConfirmationService],
 })
-export class KanbanDashboardComponent implements OnInit {
+export class ProjectsComponent implements OnInit {
     projects: TableHelper<Project> = new TableHelper<Project>();
     currentPageProjects: Project[] = [];
     selectedProject: Project = {} as Project;
-    currentPage = 0;
+    searchProject = '';
 
     showAddProjectModal: boolean = false;
     loading: boolean = false;
@@ -36,7 +36,6 @@ export class KanbanDashboardComponent implements OnInit {
     projectDescription: string = '';
 
     data: any;
-    options: any;
 
     user: any;
     users: any[] = [];
@@ -132,10 +131,14 @@ export class KanbanDashboardComponent implements OnInit {
         return (completedTasks / project.tasks.length) * 100;
     }
 
-    navigateToProject(project: Project) {
-        this.router.navigate(['/projects/kanban'], {
-            queryParams: {projectId: project.id},
-        });
+    searchProjects() {
+        if (this.searchProject.length == 0) {
+            this.getProjects();
+        } else {
+            this.currentPageProjects = this.projects.items.filter((project: Project) => {
+                return project.title.toLowerCase().includes(this.searchProject.toLowerCase());
+            });
+        }
     }
 
     createOrEditProject(project?: Project) {
@@ -146,6 +149,7 @@ export class KanbanDashboardComponent implements OnInit {
                 title: '',
                 description: '',
                 tasks: [],
+                image: '',
                 owner: this.user,
 				ownerId: this.user.uid,
                 members: [],
