@@ -7,6 +7,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
+import {ProjectDetails} from "../../shared/helpers/projectClasses";
 
 @Component({
     selector: 'app-project-details',
@@ -46,7 +47,7 @@ export class ProjectDetailsComponent implements OnInit {
     currentTab = this.tabs[0];
 
     projects: any[] = [];
-    project: Project = {} as Project;
+    project: ProjectDetails = new ProjectDetails();
     tasksOg: Task[] = [];
     projectId: string = '';
     loading: boolean = false;
@@ -58,6 +59,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     statusList: Status[] = [
         {
+            value: 0,
             name: 'To Do',
             icon: 'pause_circle',
             iconColor: '#000000',
@@ -65,6 +67,7 @@ export class ProjectDetailsComponent implements OnInit {
             borderColor: '#EAEBEF',
         },
         {
+            value: 1,
             name: 'In Progress',
             icon: 'clock_loader_40',
             iconColor: '#045FF3',
@@ -72,6 +75,7 @@ export class ProjectDetailsComponent implements OnInit {
             borderColor: '#C9E1FE',
         },
         {
+            value: 2,
             name: 'Review',
             icon: 'draw',
             iconColor: '#FFB800',
@@ -79,6 +83,7 @@ export class ProjectDetailsComponent implements OnInit {
             borderColor: '#FFEACD',
         },
         {
+            value: 3,
             name: 'Completed',
             icon: 'verified',
             iconColor: '#00B341',
@@ -108,27 +113,27 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe(params => {
-            if (params == null || params['projectId'] == null) {
+        // get project id from url
+        this.route.url.subscribe((url: any) => {
+            if (url.length === 0) {
                 this.router.navigate(['']);
             } else {
                 this.loading = true;
-                this.projectId = params['projectId'];
+                this.projectId = url[1].path;
                 from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
-                    setTimeout(() => {
-                        this.project = project;
-                        // add projectId to project object
-                        this.project.id = this.projectId;
-						// order tasks by creationDate
-						this.project.tasks.sort((a, b) => {
-							return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
-						});
-                        this.tasksOg = this.project.tasks;
-                        this.membersList = JSON.parse(JSON.stringify(this.project.members));
-                        this.membersList.push(this.project.owner);
-                        this.loading = false;
-                    }, 200);
+                    this.project = project;
+                    // add projectId to project object
+                    this.project.id = this.projectId;
+                    // order tasks by creationDate
+                    this.project.tasks.sort((a, b) => {
+                        return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+                    });
+                    this.tasksOg = this.project.tasks;
+                    this.membersList = JSON.parse(JSON.stringify(this.project.members));
+                    this.membersList.push(this.project.owner);
+                    this.loading = false;
                 });
+                console.log(this.project);
 
                 // check if user is logged in
                 this.authService.isLoggedIn().then((user: any) => {
@@ -136,6 +141,19 @@ export class ProjectDetailsComponent implements OnInit {
                 });
             }
         });
+    }
+
+    getPendingTasks(): number {
+        // check if task is in progress
+        let pendingTasks = 0;
+        if (this.project.tasks.length > 0) {
+            this.project.tasks.filter(task => {
+                if ((task.status.value == 0 && !task.completed)) {
+                    pendingTasks++;
+                }
+            });
+        }
+        return pendingTasks;
     }
 
     updateKanban() {
@@ -174,7 +192,7 @@ export class ProjectDetailsComponent implements OnInit {
             images: [],
             creationDate: new Date().toUTCString(),
             modificationDate: new Date().toUTCString(),
-            dueDate: new Date(),
+            dueDate: '',
             owner: {
                 username: this.user.displayName,
                 email: this.user.email,

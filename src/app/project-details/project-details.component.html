@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<div class="container flex flex-1 align-items-start">
+<div class="container flex flex-1 flex-column" [busyIf]="loading">
     <div class="min-w-0" style="flex: 1 auto;">
         <div class="card mb-5">
             <div class="card-body p-3 md:px-5 md:pt-5 pb-0">
@@ -50,9 +50,10 @@
                                 <div class="border-1 border-300 border-dashed rounded mr-5 mb-3"
                                      style="padding: 9.7px 13px;">
                                     <div class="flex align-items-center gap-2 mb-2">
-                                        <i class="fa-duotone fa-arrow-down text-base text-danger"></i>
-                                        <span class="text-base fw-bold">
-                                            {{ project.tasks.length }}
+                                        <i class="fa-duotone fa-arrow-down text-base text-danger" *ngIf="getPendingTasks() > 0"></i>
+                                        <i class="fa-duotone fa-check text-base text-success" *ngIf="getPendingTasks() === 0"></i>
+                                        <span class="text-base fw-bold" [countUp]="getPendingTasks()">
+                                            0
                                         </span>
                                     </div>
                                     <span class="fw-semibold text-sm text-500">
@@ -70,6 +71,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div [ngSwitch]="currentTab.value" style="flex: 1 auto;" *ngIf="!loading">
+        <div *ngSwitchCase="ProjectTabs.Overview">
+            <app-project-details-overview [project]="project" (changeTab)="currentTab = tabs[$event]"></app-project-details-overview>
         </div>
     </div>
 </div>

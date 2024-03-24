@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'material-kanban';
+  currentYear = new Date().getFullYear();
 }

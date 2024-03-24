@@ -20,7 +20,6 @@ export class MatDropdownComponent implements OnInit {
     @Input() icon: string = '';
     @Input() showClear: boolean = false;
     @Input() returnValue: boolean = false;
-    @Input() multiple: boolean = false;
 
     @Output() valueChange = new EventEmitter();
 
@@ -31,28 +30,13 @@ export class MatDropdownComponent implements OnInit {
     }
 
     ngOnInit() {
-        if ((!this.multiple && this.value !== null) || (this.multiple && this.value.length !== 0)) {
-            if (this.multiple) {
-                this.options.forEach((item: any) => {
-                    this.value.forEach((value: any) => {
-                        if (item[this.optionValue] === value[this.optionValue]) {
-                            item.selected = true;
-                        }
-                    });
-                });
-                this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
-            } else {
-                this.options.forEach((item: any) => {
-                    item.selected = item[this.optionValue] === this.value;
-                });
-                this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
-            }
-        } else {
-            console.log(this.value.length !== 0);
+        if (this.value !== null) {
             this.options.forEach((item: any) => {
-                item.selected = false;
+                if (item[this.optionValue] === this.value) {
+                    item.selected = true;
+                    this.ngModelLabel = item[this.optionLabel];
+                }
             });
-            this.ngModelLabel = this.placeholder;
         }
     }
 
@@ -69,27 +53,12 @@ export class MatDropdownComponent implements OnInit {
         this.ngModelLabel = option[this.optionLabel];
 
         this.options.forEach((item: any) => {
-            if (this.multiple) {
-                if (item.value === option[this.optionValue]) {
-                    item.selected = !item.selected;
-                }
-            } else {
+            if (item[this.optionValue] != option[this.optionValue]) {
                 item.selected = false;
             }
+            option.selected = true;
         });
-        if (this.multiple) {
-            option.selected = !option.selected;
-        }
-        console.log(option);
-
-        if (this.multiple) {
-            this.value = this.options.filter((item: any) => item.selected).map((item: any) => item);
-            this.ngModelLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]).join(', ');
-            let arrayOfOptionLabel = this.options.filter((item: any) => item.selected).map((item: any) => item[this.optionLabel]);
-            this.valueChange.emit(this.value);
-        }
-
-        this.expanded = this.multiple;
+        this.valueChange.emit(!this.returnValue ? option : this.value);
     }
 
     clear(event: Event) {

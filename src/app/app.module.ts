@@ -26,7 +26,6 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {ChipModule} from 'primeng/chip';
 import {ToastModule} from 'primeng/toast';
 import {PickListModule} from 'primeng/picklist';
-import {KanbanTimelineComponent} from './project-details/kanban-calendar/kanban-timeline.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
@@ -38,6 +37,9 @@ import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
 import { PaginationComponent } from './common/pagination/pagination.component';
 import {RippleModule} from "primeng/ripple";
+import { ProjectDetailsOverviewComponent } from './project-details/project-details-overview/project-details-overview.component';
+import {BusyIfDirective} from "./busyif.directive";
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
     declarations: [
@@ -48,7 +50,6 @@ import {RippleModule} from "primeng/ripple";
         CardComponent,
         RegisterComponent,
         LoginComponent,
-        KanbanTimelineComponent,
         RippleDirective,
         MatDropdownComponent,
         CircularProgressBarComponent,
@@ -56,6 +57,8 @@ import {RippleModule} from "primeng/ripple";
         TaskFiltersComponent,
         TextTransformPipe,
         PaginationComponent,
+        ProjectDetailsOverviewComponent,
+        BusyIfDirective
     ],
     imports: [
         CommonModule,
@@ -80,7 +83,8 @@ import {RippleModule} from "primeng/ripple";
         PickListModule,
         SelectButtonModule,
         RouterLinkActive,
-        RippleModule
+        RippleModule,
+        CountUpModule
     ],
     providers: [],
     bootstrap: [AppComponent],

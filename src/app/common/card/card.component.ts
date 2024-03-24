@@ -44,6 +44,7 @@ export class CardComponent implements OnInit {
     selectedImage: any = '';
     statusList: Status[] = [
         {
+            value: 0,
             name: 'To Do',
             icon: 'pause_circle',
             iconColor: '#000000',
@@ -51,6 +52,7 @@ export class CardComponent implements OnInit {
             borderColor: '#EAEBEF',
         },
         {
+            value: 1,
             name: 'In Progress',
             icon: 'clock_loader_40',
             iconColor: '#045FF3',
@@ -58,6 +60,7 @@ export class CardComponent implements OnInit {
             borderColor: '#C9E1FE',
         },
         {
+            value: 2,
             name: 'Review',
             icon: 'draw',
             iconColor: '#FFB800',
@@ -65,6 +68,7 @@ export class CardComponent implements OnInit {
             borderColor: '#FFEACD',
         },
         {
+            value: 3,
             name: 'Completed',
             icon: 'verified',
             iconColor: '#00B341',

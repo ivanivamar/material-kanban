@@ -1,25 +1,23 @@
 <div class="dropdown" [class.expanded]="expanded" [class.disabled]="disabled" [class.active]="value !== null">
-    <div class="dropbtn" (click)="onClick($event)">
+    <div class="dropbtn gap-3" (click)="onClick($event)">
         <label class="placeholder" *ngIf="value === null">
             {{ placeholder }}
         </label>
         <span *ngIf="value !== null">
-            {{ value[optionLabel] }}
+            {{ ngModelLabel }}
         </span>
         <div class="dropdown-actions flex gap-2">
             <button class="icon-btn text-btn" *ngIf="showClear && value !== null" (click)="clear($event)">
                 <i class="material-symbols-rounded">close</i>
             </button>
-            <i class="material-symbols-rounded expand-arrow">expand_more</i>
+            <i class="fa-duotone fa-chevron-down expand-arrow fs-5"></i>
         </div>
     </div>
 
     <div class="dropdown-content" *ngIf="expanded">
         <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option.selected">
-            <i class="material-symbols-rounded" *ngIf="multiple && option.selected">check</i>
-            <i class="material-symbols-rounded" *ngIf="multiple && !option.selected">check_box_outline_blank</i>
-            <i class="material-symbols-rounded" *ngIf="option[optionIcon] !== ''">{{ option[optionIcon] }}</i>
             {{ option[optionLabel] }}
+            <i class="fa-duotone fa-check ml-auto flex text-primary" *ngIf="option.selected"></i>
         </div>
     </div>
 </div>

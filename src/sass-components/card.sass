@@ -19,7 +19,7 @@
         align-items: stretch
         flex-wrap: wrap
         min-height: 70px
-        padding: 0 2.25rem
+        padding: 0 27px
         color: $color-on-surface
         background-color: transparent
         border-bottom: 1px solid $color-utility-outline
@@ -28,11 +28,22 @@
 
         .title
             color: $color-on-surface
-            font-size: 1.275rem
+            font-size: 17.55px
             font-weight: 500
             margin: .5rem
             display: flex
             align-items: center
+
+            &.flex-column
+                align-items: start
+                justify-content: center
+
+
+        .card-toolbar
+            display: flex
+            align-items: center
+            margin: 0.5rem 0
+            flex-wrap: wrap
 
         .task-status
             border-radius: 8px

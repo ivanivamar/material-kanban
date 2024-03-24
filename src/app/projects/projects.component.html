@@ -1,79 +1,82 @@
-<div class="toolbar pb-3 pt-0 md:pt-4">
-    <div class="container flex align-items-center justify-content-between flex-wrap">
-        <div class="page-title flex flex-column mr-2">
-            <h1 class="flex text-white fw-bold my-1 text-lg">
-                My Projects
-            </h1>
-            <div class="breadcrumb">
-                <a routerLink="/" class="breadcrumb-item">Home</a>
+<div class="flex flex-column flex-row-fluid">
+    <div class="toolbar pb-3 pt-0 md:pt-4">
+        <div class="container flex align-items-center justify-content-between flex-wrap">
+            <div class="page-title flex flex-column mr-2">
+                <h1 class="flex text-white fw-bold my-1 text-lg">
+                    My Projects
+                </h1>
+                <div class="breadcrumb">
+                    <a routerLink="/" class="breadcrumb-item">Home</a>
+                    <span class="breadcrumb-item">-</span>
+                    <a routerLink="/projects" class="breadcrumb-item">Projects</a>
+                </div>
+            </div>
+            <div class="flex align-items-center py-2 md:py-1">
+                <form #searchProjectForm="ngForm" class="searchbar relative flex align-items-center mr-3 border-round-lg text-white"
+                      style="background-color: rgba(255, 255, 255, .1)">
+                    <i class="fa-duotone fa-magnifying-glass absolute" style="left:16px"></i>
+                    <input type="search" class="w-100 bg-transparent text-white ml-4" placeholder="Search Project" name="search"
+                           [(ngModel)]="searchProject" (ngModelChange)="searchProjects()">
+                </form>
+                <button class="btn btn-light" pRipple (click)="createOrEditProject()">
+                    Create
+                </button>
             </div>
         </div>
-        <div class="flex align-items-center py-2 md:py-1">
-            <form #searchProjectForm="ngForm" class="searchbar relative flex align-items-center mr-3 border-round-lg text-white"
-                  style="background-color: rgba(255, 255, 255, .1)">
-                <i class="fa-duotone fa-magnifying-glass absolute" style="left:16px"></i>
-                <input type="search" class="w-100 bg-transparent text-white ml-4" placeholder="Search Project" name="search"
-                       [(ngModel)]="searchProject" (ngModelChange)="searchProjects()">
-            </form>
-            <button class="btn btn-light" pRipple (click)="createOrEditProject()">
-                Create
-            </button>
-        </div>
     </div>
-</div>
 
-<div class="container" *ngIf="!loading">
-    <div class="grid">
-        <div class="col-12 md:col-6 xl:col-4" *ngFor="let project of currentPageProjects; let i = index">
-            <a class="card border-hover-primary cursor-pointer" [routerLink]="['/projects/kanban']"
-               [queryParams]="{projectId: project.id}">
-                <div class="card-header border-none pt-4">
-                    <img [src]="project.image" width="40px" height="40px" class="rounded"
-                         *ngIf="project.image.length > 0">
-                    <i class="fa-duotone fa-image text-6xl" *ngIf="project.image.length == 0"></i>
-                </div>
-
-                <div class="card-body">
-                    <div class="flex flex-column gap-2 mb-3">
-                        <div class="text-lg fw-bold text-900">
-                            {{ project.title }}
-                        </div>
-                        <p class="text-500 fw-semibold text-base" *ngIf="project.description.length > 0">
-                            {{ project.description }}
-                        </p>
+    <div class="container flex flex-1 flex-column" [busyIf]="loading">
+        <div class="grid">
+            <div class="col-12 md:col-6 xl:col-4" *ngFor="let project of currentPageProjects; let i = index">
+                <a class="card border-hover-primary cursor-pointer" [routerLink]="['/projects/' + project.id]">
+                    <div class="card-header border-none pt-4">
+                        <img [src]="project.image" width="40px" height="40px" class="rounded"
+                             *ngIf="project.image.length > 0">
+                        <i class="fa-duotone fa-image text-6xl" *ngIf="project.image.length == 0"></i>
                     </div>
 
-                    <div class="flex align-items-center gap-4">
-                        <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
+                    <div class="card-body">
+                        <div class="flex flex-column gap-2 mb-3">
+                            <div class="text-lg fw-bold text-900">
+                                {{ project.title }}
+                            </div>
+                            <p class="text-500 fw-semibold text-base" *ngIf="project.description.length > 0">
+                                {{ project.description }}
+                            </p>
+                        </div>
+
+                        <div class="flex align-items-center gap-4">
+                            <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
                             <span class="text-800 fw-bold text-base">
                                 {{ getTasksOfStatus(statusList[1].name, project) }}
                             </span>
-                            <span class="fw-semibold text-500">
+                                <span class="fw-semibold text-500">
                                 Ongoing Tasks
                             </span>
-                        </div>
-                        <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
+                            </div>
+                            <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
                             <span class="text-800 fw-bold text-base">
                                 {{ getTasksOfStatus(statusList[3].name, project) }}
                             </span>
-                            <span class="fw-semibold text-500">
+                                <span class="fw-semibold text-500">
                                 Completed Tasks
                             </span>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar mt-4">
+                            <div class="progress" [style.width]="getProgress(project) + '%'"></div>
                         </div>
                     </div>
-
-                    <div class="progress-bar mt-4">
-                        <div class="progress" [style.width]="getProgress(project) + '%'"></div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
+        <pagination
+            [totalRecordCount]="projects.totalRecords"
+            [rows]="projects.countsPerPage"
+            (onPageChange)="getCurrentPageProjects($event)"
+        ></pagination>
     </div>
-    <pagination
-        [totalRecordCount]="projects.totalRecords"
-        [rows]="projects.countsPerPage"
-        (onPageChange)="getCurrentPageProjects($event)"
-    ></pagination>
 </div>
 
 <p-confirmPopup></p-confirmPopup>
