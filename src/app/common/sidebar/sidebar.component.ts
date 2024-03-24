@@ -28,7 +28,7 @@ export class SidebarComponent {
             // @ts-ignore
             document.getElementById('navbar').classList.add('navbar-fixed');
             // @ts-ignore
-            document.querySelector('main').setAttribute('style', 'margin-top: 80px');
+            document.querySelector('main').setAttribute('style', 'margin-top: 88px');
         } else {
             // @ts-ignore
             document.getElementById('navbar').classList.remove('navbar-fixed');

@@ -26,7 +26,6 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {ChipModule} from 'primeng/chip';
 import {ToastModule} from 'primeng/toast';
 import {PickListModule} from 'primeng/picklist';
-import {KanbanTimelineComponent} from './project-details/kanban-calendar/kanban-timeline.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
@@ -51,7 +50,6 @@ import { CountUpModule } from 'ngx-countup';
         CardComponent,
         RegisterComponent,
         LoginComponent,
-        KanbanTimelineComponent,
         RippleDirective,
         MatDropdownComponent,
         CircularProgressBarComponent,

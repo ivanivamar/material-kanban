@@ -9,6 +9,7 @@ export class Project implements Project {
     constructor() {
         this.statusList = [
             {
+                value: 0,
                 name: 'To Do',
                 icon: 'pause_circle',
                 iconColor: '#000000',
@@ -16,6 +17,7 @@ export class Project implements Project {
                 borderColor: '#EAEBEF',
             },
             {
+                value: 1,
                 name: 'In Progress',
                 icon: 'clock_loader_40',
                 iconColor: '#045FF3',
@@ -23,6 +25,7 @@ export class Project implements Project {
                 borderColor: '#C9E1FE',
             },
             {
+                value: 2,
                 name: 'Review',
                 icon: 'draw',
                 iconColor: '#FFB800',
@@ -30,12 +33,13 @@ export class Project implements Project {
                 borderColor: '#FFEACD',
             },
             {
+                value: 3,
                 name: 'Completed',
                 icon: 'verified',
                 iconColor: '#00B341',
                 bgColor: '#F0FFF0',
                 borderColor: '#C9F9C9',
-            }
+            },
         ];
         this.labelsList = [
             {name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend'},

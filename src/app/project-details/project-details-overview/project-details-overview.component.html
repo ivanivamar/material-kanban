@@ -1,0 +1,128 @@
+<div class="grid grid-nogutter">
+    <div class="col-12 lg:col-6 lg:pr-3">
+        <div class="card card-flush lg:h-full">
+            <div class="card-header mt-4">
+                <div class="title flex-column">
+                    <h3 class="fw-bold mb-1 fs-3">
+                        Tasks Summary
+                    </h3>
+                    <div class="fs-6 fw-semibold text-500">
+                        <!-- Overdue tasks -->
+                        {{ overdueTasks }} Overdue Task{{ overdueTasks > 1 ? 's' : '' }}
+                    </div>
+                </div>
+                <div class="card-toolbar">
+                    <button class="btn btn-secondary btn-sm" (click)="changeTab.emit(1)">
+                        View Tasks
+                        <i class="fa-duotone fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body p-5">
+                <div class="flex flex-wrap">
+                    <div class="relative flex align-items-center justify-content-between mr-8 mb-5 lg:mb-0">
+                        <div
+                            class="absolute top-50 left-50 flex flex-column align-items-center justify-content-between gap-2"
+                            style="transform: translate(-50%,-50%)!important">
+                            <span class="fs-1 fw-bold">
+                                {{ project.tasks.length }}
+                            </span>
+                            <span class="fs-5 fw-semibold text-500">
+                                Total Tasks
+                            </span>
+                        </div>
+                        <p-chart type="doughnut" [width]="'175'" [height]="'175'" [data]="tasksSummaryData"
+                                 [options]="tasksSummaryOptions"></p-chart>
+                    </div>
+
+                    <div class="flex flex-column justify-content-center flex-1 min-w-0 pr-7 lg:pr-5 gap-2">
+                        <div class="flex fs-5 fw-semibold align-items-center"
+                             *ngFor="let legend of tasksSummaryData.labels; let index = index">
+                            <div class="bullet" style="margin-right: 9.750px"
+                                 [style.background-color]="tasksSummaryData.datasets[0].backgroundColor[index]"
+                                 [ngStyle]="{'background-color': tasksSummaryData.datasets[0].backgroundColor[index]}"></div>
+                            <span class="text-500">{{ legend }}</span>
+                            <span class="ml-auto fw-bold text-700">
+                                {{ tasksSummaryData.datasets[0].data[index] }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 lg:pl-3">
+        <div class="card card-flush lg:h-full">
+            <div class="card-header mt-4">
+                <div class="title flex-column">
+                    <h3 class="fw-bold mb-1 fs-3">
+                        Tasks Over Time
+                    </h3>
+                    <div class="flex align-items-center gap-3 fw-semibold">
+                        <div class="flex align-items-center gap-2">
+                            <div class="bullet bg-success"></div>
+                            <span class="text-500 fs-6">Completed</span>
+                        </div>
+                        <div class="flex align-items-center gap-2">
+                            <div class="bullet bg-primary"></div>
+                            <span class="text-500 fs-6">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-toolbar">
+                    <mat-dropdown [options]="currentYearQuarterOptions" [returnValue]="true"
+                                  [value]="selectedYearQuarter" (valueChange)="generateTasksOverTimeData($event)"
+                                  optionLabel="label" optionValue="value"></mat-dropdown>
+                </div>
+            </div>
+
+            <div class="card-body pt-3">
+                <div class="flex flex-wrap">
+                    <p-chart type="line" class="w-full" [height]="'200'" [data]="tasksOverTimeData"
+                             [options]="tasksOverTimeOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 lg:pr-3">
+        <div class="card card-flush lg:h-full">
+            <div class="card-header mt-4">
+                <div class="title flex-column">
+                    <h3 class="fw-bold mb-1 fs-3">
+                        What's on the road?
+                    </h3>
+                    <div class="fs-6 fw-semibold text-500">
+                        {{ isNextWeek ? 'Next Week' : 'This Week' }}
+                    </div>
+                </div>
+                <div class="card-toolbar">
+                    <button class="btn btn-secondary btn-sm" (click)="selectToday()">
+                        <i class="fa-duotone fa-calendar-day"></i>
+                        Today
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body pt-3">
+                <div class="flex align-items-center flex-nowrap justify-content-between gap-2 overflow-x-auto mb-5">
+                    <div class="nav-item" [class.active]="selectedDay.day == day.day"
+                         *ngFor="let day of currentWeekDays" (click)="selectedDay = day">
+                        <span class="opacity-50 fs-7 fw-semibold">
+                            {{ day.label }}
+                        </span>
+                        <span class="fs-6 fw-bold">
+                            {{ day.day }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-column gap-5">
+                    <div class="message primary" *ngIf="selectedDay.tasks?.length == 0">
+                        There are no tasks for this day.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

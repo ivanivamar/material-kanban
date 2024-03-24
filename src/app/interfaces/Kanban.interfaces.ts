@@ -18,11 +18,11 @@ export interface Task {
     description: string;
     checkboxes: Checkboxes[];
     urgency: Urgency;
-    creationDate: any;
-    modificationDate: any;
+    creationDate: string;
+    modificationDate: string;
     completed: boolean;
     images: Images[];
-    dueDate: Date;
+    dueDate: string;
     dayDuration?: number;
     owner: UserLite;
     assignees: UserLite[];
@@ -37,6 +37,7 @@ export interface UserLite {
 }
 
 export interface Status {
+    value: number;
     name: string;
     icon: string;
     bgColor: string;
