@@ -40,6 +40,8 @@ import {RippleModule} from "primeng/ripple";
 import { ProjectDetailsOverviewComponent } from './project-details/project-details-overview/project-details-overview.component';
 import {BusyIfDirective} from "./busyif.directive";
 import { CountUpModule } from 'ngx-countup';
+import { ProjectDetailsSettingsComponent } from './project-details/project-details-settings/project-details-settings.component';
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 
 @NgModule({
     declarations: [
@@ -58,7 +60,8 @@ import { CountUpModule } from 'ngx-countup';
         TextTransformPipe,
         PaginationComponent,
         ProjectDetailsOverviewComponent,
-        BusyIfDirective
+        BusyIfDirective,
+        ProjectDetailsSettingsComponent
     ],
     imports: [
         CommonModule,
@@ -84,7 +87,8 @@ import { CountUpModule } from 'ngx-countup';
         SelectButtonModule,
         RouterLinkActive,
         RippleModule,
-        CountUpModule
+        CountUpModule,
+        SweetAlert2Module.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent],

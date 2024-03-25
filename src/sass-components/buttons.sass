@@ -48,6 +48,9 @@
             opacity: 0.5
             cursor: not-allowed
 
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary, 0 1px 2px 0 rgb(0, 0, 0) !important
+
     &.btn-light-primary
         background-color: $color-primary-light
         color: $color-primary
@@ -64,6 +67,9 @@
             opacity: 0.5
             cursor: not-allowed
 
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary-light, 0 1px 2px 0 rgb(0, 0, 0) !important
+
     &.btn-secondary
         background-color: $color-secondary
         color: $color-on-secondary
@@ -77,6 +83,9 @@
         &:disabled
             opacity: 0.5
             cursor: not-allowed
+
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #B0B9C6, 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-outline
         background-color: transparent
@@ -93,6 +102,9 @@
             opacity: 0.5
             cursor: not-allowed
 
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #9dc1fb, 0 1px 2px 0 rgb(0, 0, 0) !important
+
     &.btn-text
         background-color: transparent
         color: $color-on-surface
@@ -107,6 +119,9 @@
             opacity: 0.5
             cursor: not-allowed
 
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #9dc1fb, 0 1px 2px 0 rgb(0, 0, 0) !important
+
     &.btn-danger
         background-color: $color-utility-error
         color: $color-surface
@@ -120,6 +135,9 @@
         &:disabled
             opacity: 0.5
             cursor: not-allowed
+
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-error, 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-light-danger
         background-color: $color-utility-error-light
@@ -137,6 +155,9 @@
             opacity: 0.5
             cursor: not-allowed
 
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-error, 0 1px 2px 0 rgb(0, 0, 0) !important
+
     &.btn-warning
         background-color: $color-utility-warning
         color: $color-surface
@@ -150,6 +171,9 @@
         &:disabled
             opacity: 0.5
             cursor: not-allowed
+
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-warning, 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-light-warning
         background-color: $color-utility-warning-light
@@ -166,6 +190,9 @@
         &:disabled
             opacity: 0.5
             cursor: not-allowed
+
+        &:focus
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-warning, 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-success
         background-color: $color-utility-success
@@ -513,3 +540,37 @@ a
     &:hover
         color: rgb(73,157,255)
         transition: color .2s ease
+
+.swal2-confirm.swal2-styled
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 11px 20px
+    font-size: 14.3px
+    font-weight: 500
+    line-height: 1.5
+    text-align: center
+    vertical-align: middle
+    cursor: pointer
+    user-select: none
+    border: 1px solid transparent
+    border-radius: $border-radius-sm
+    box-shadow: none
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    height: 43.55px
+    gap: 8px
+    background-color: $color-primary
+    color: $color-on-primary
+
+    &:hover
+        background-color: $color-primary-active
+
+    &:active
+        background-color: $color-primary-active
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+    &:focus
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary, 0 1px 2px 0 rgb(0, 0, 0) !important

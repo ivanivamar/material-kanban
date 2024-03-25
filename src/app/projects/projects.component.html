@@ -1,4 +1,4 @@
-<div class="flex flex-column flex-row-fluid">
+<div class="flex flex-column flex-row-fluid" [busyIf]="loading">
     <div class="toolbar pb-3 pt-0 md:pt-4">
         <div class="container flex align-items-center justify-content-between flex-wrap">
             <div class="page-title flex flex-column mr-2">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="container flex flex-1 flex-column" [busyIf]="loading">
+    <div class="container flex flex-1 flex-column">
         <div class="grid">
             <div class="col-12 md:col-6 xl:col-4" *ngFor="let project of currentPageProjects; let i = index">
                 <a class="card border-hover-primary cursor-pointer" [routerLink]="['/projects/' + project.id]">
