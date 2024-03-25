@@ -66,7 +66,7 @@
                 </div>
                 <div class="divider m-0"></div>
                 <div class="tabs-container fw-bold">
-                    <div class="tab" (click)="currentTab = tab" [class.active]="currentTab.value == tab.value" *ngFor="let tab of tabs">
+                    <div class="tab" (click)="currentTab = tab" pRipple [class.active]="currentTab.value == tab.value" *ngFor="let tab of tabs">
                         {{ tab.title }}
                     </div>
                 </div>
@@ -77,6 +77,9 @@
     <div [ngSwitch]="currentTab.value" style="flex: 1 auto;" *ngIf="!loading">
         <div *ngSwitchCase="ProjectTabs.Overview">
             <app-project-details-overview [project]="project" (changeTab)="currentTab = tabs[$event]"></app-project-details-overview>
+        </div>
+        <div *ngSwitchCase="ProjectTabs.Settings">
+            <app-project-details-settings [project]="project"></app-project-details-settings>
         </div>
     </div>
 </div>

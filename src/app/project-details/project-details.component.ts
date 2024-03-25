@@ -8,11 +8,13 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
 import {ProjectDetails} from "../../shared/helpers/projectClasses";
+import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'app-project-details',
     templateUrl: './project-details.component.html',
     styleUrls: ['./project-details.component.sass'],
+    providers: [KanbanService, AuthService, MessageService]
 })
 export class ProjectDetailsComponent implements OnInit {
     ProjectTabs = ProjectTabs;

@@ -7,7 +7,7 @@ import {
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
-import {ConfirmationService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {TableHelper} from "../../shared/helpers/tableHelper";
 
@@ -22,7 +22,7 @@ export interface ControllerInputDto {
     selector: 'app-kanban-dashboard',
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.sass'],
-    providers: [KanbanService, AuthService, ConfirmationService],
+    providers: [KanbanService, AuthService, ConfirmationService, MessageService],
 })
 export class ProjectsComponent implements OnInit {
     projects: TableHelper<Project> = new TableHelper<Project>();
