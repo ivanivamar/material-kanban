@@ -17,7 +17,7 @@
 
 <div class="container flex flex-1 flex-column" [busyIf]="loading">
     <div class="min-w-0" style="flex: 1 auto;">
-        <div class="card mb-5">
+        <div class="card">
             <div class="card-body p-3 md:px-5 md:pt-5 pb-0">
                 <div class="flex flex-wrap sm:flex-nowrap mb-4">
                     <div
@@ -77,6 +77,9 @@
     <div [ngSwitch]="currentTab.value" style="flex: 1 auto;" *ngIf="!loading">
         <div *ngSwitchCase="ProjectTabs.Overview">
             <app-project-details-overview [project]="project" (changeTab)="currentTab = tabs[$event]"></app-project-details-overview>
+        </div>
+        <div *ngSwitchCase="ProjectTabs.Tasks">
+            <app-project-details-tasks #projectTasksComponent [project]="project"></app-project-details-tasks>
         </div>
         <div *ngSwitchCase="ProjectTabs.Settings">
             <app-project-details-settings [project]="project"></app-project-details-settings>

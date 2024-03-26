@@ -47,33 +47,25 @@ export class ProjectsComponent implements OnInit {
             value: 0,
             name: 'To Do',
             icon: 'pause_circle',
-            iconColor: '#000000',
-            bgColor: '#F3F4F6',
-            borderColor: '#EAEBEF',
+            type: 'secondary'
         },
         {
             value: 1,
             name: 'In Progress',
             icon: 'clock_loader_40',
-            iconColor: '#045FF3',
-            bgColor: '#EFF6FF',
-            borderColor: '#C9E1FE',
+            type: 'primary'
         },
         {
             value: 2,
             name: 'Review',
             icon: 'draw',
-            iconColor: '#FFB800',
-            bgColor: '#FFF6E5',
-            borderColor: '#FFEACD',
+            type: 'warning'
         },
         {
             value: 3,
             name: 'Completed',
             icon: 'verified',
-            iconColor: '#00B341',
-            bgColor: '#F0FFF0',
-            borderColor: '#C9F9C9',
+            type: 'success'
         },
     ];
 

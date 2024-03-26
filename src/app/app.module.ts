@@ -42,6 +42,7 @@ import {BusyIfDirective} from "./busyif.directive";
 import { CountUpModule } from 'ngx-countup';
 import { ProjectDetailsSettingsComponent } from './project-details/project-details-settings/project-details-settings.component';
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import { ProjectDetailsTasksComponent } from './project-details/project-details-tasks/project-details-tasks.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
         PaginationComponent,
         ProjectDetailsOverviewComponent,
         BusyIfDirective,
-        ProjectDetailsSettingsComponent
+        ProjectDetailsSettingsComponent,
+        ProjectDetailsTasksComponent
     ],
     imports: [
         CommonModule,

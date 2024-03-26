@@ -40,9 +40,7 @@ export interface Status {
     value: number;
     name: string;
     icon: string;
-    bgColor: string;
-    borderColor: string;
-    iconColor: string;
+    type: string;
 }
 
 export interface Images {

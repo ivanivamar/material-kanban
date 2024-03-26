@@ -8,15 +8,19 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
 import {ProjectDetails} from "../../shared/helpers/projectClasses";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-details-tasks.component";
 
 @Component({
     selector: 'app-project-details',
     templateUrl: './project-details.component.html',
     styleUrls: ['./project-details.component.sass'],
-    providers: [KanbanService, AuthService, MessageService]
+    providers: [KanbanService, AuthService, MessageService, ConfirmationService]
 })
 export class ProjectDetailsComponent implements OnInit {
+    // @ts-ignore
+    @ViewChild('projectTasksComponent', {static: false}) projectTasksComponent: ProjectDetailsTasksComponent;
+
     ProjectTabs = ProjectTabs;
     searchTerm: string = '';
     tabs = [
@@ -64,33 +68,25 @@ export class ProjectDetailsComponent implements OnInit {
             value: 0,
             name: 'To Do',
             icon: 'pause_circle',
-            iconColor: '#000000',
-            bgColor: '#F3F4F6',
-            borderColor: '#EAEBEF',
+            type: 'secondary',
         },
         {
             value: 1,
             name: 'In Progress',
             icon: 'clock_loader_40',
-            iconColor: '#045FF3',
-            bgColor: '#EFF6FF',
-            borderColor: '#C9E1FE',
+            type: 'primary',
         },
         {
             value: 2,
             name: 'Review',
             icon: 'draw',
-            iconColor: '#FFB800',
-            bgColor: '#FFF6E5',
-            borderColor: '#FFEACD',
+            type: 'warning',
         },
         {
             value: 3,
             name: 'Completed',
             icon: 'verified',
-            iconColor: '#00B341',
-            bgColor: '#F0FFF0',
-            borderColor: '#C9F9C9',
+            type: 'success',
         },
     ];
 
@@ -111,6 +107,7 @@ export class ProjectDetailsComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private kanbanService: KanbanService,
+        private confirmationService: ConfirmationService,
         private authService: AuthService,) {
     }
 
@@ -134,6 +131,9 @@ export class ProjectDetailsComponent implements OnInit {
                     this.membersList = JSON.parse(JSON.stringify(this.project.members));
                     this.membersList.push(this.project.owner);
                     this.loading = false;
+                    if (!this.projectTasksComponent) {
+                        this.projectTasksComponent = new ProjectDetailsTasksComponent(this.kanbanService, this.confirmationService);
+                    }
                 });
                 console.log(this.project);
 

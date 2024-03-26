@@ -6,9 +6,8 @@
             <div class="text-base text-secondary flex align-items-center">
                 #{{ task.id }} <span class="text-color ml-1 font-bold">- {{ task.title }}</span>
             </div>
-            <div class="task-status" [style.border-color]="task.status.borderColor"
-                 [style.background-color]="task.status.bgColor">
-                <i class="material-symbols-rounded" [style.color]="task.status.iconColor">
+            <div class="task-status">
+                <i class="material-symbols-rounded">
                     {{ task.status.icon }}
                 </i>
                 {{ task.status.name }}

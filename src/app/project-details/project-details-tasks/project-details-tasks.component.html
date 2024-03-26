@@ -1,0 +1,96 @@
+<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4">
+    <h3 class="fw-bold my-2 fs-3">
+        Project Tasks
+    </h3>
+    <div class="flex flex-wrap my-1 gap-2">
+        <div class="nav-item" [class.active]="viewType == 'grid'" (click)="viewType = 'grid'">
+            <i class="fa-duotone fa-grid-2-plus"></i>
+        </div>
+        <div class="nav-item" [class.active]="viewType == 'table'" (click)="viewType = 'table'">
+            <i class="fa-duotone fa-diagram-cells"></i>
+        </div>
+    </div>
+</div>
+
+<div [ngSwitch]="viewType" [busyIf]="loading">
+    <div *ngSwitchCase="'table'">
+        <div class="card card-flush" *ngIf="!loading">
+            <div class="card-body pt-2 px-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <colgroup>
+                            <col style="width: 0;">
+                            <col style="width: 0;">
+                            <col style="width: 0;">
+                            <col style="width: 0;">
+                            <col style="width: 0;">
+                            <col style="width: 0;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th class="min-w-250px">Title</th>
+                            <th class="min-w-150px">Due Date</th>
+                            <th class="min-w-90px">Assigned To</th>
+                            <th class="min-w-90px">Urgency</th>
+                            <th class="min-w-90px">Status</th>
+                            <th class="min-w-100px text-center">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let task of currentPageTasks">
+                            <td>
+                                <a href="javascript:void(0)" class="text-gray-800 fw-bolder text-active-primary">
+                                    {{ task.title }}
+                                </a>
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                <div class="relative flex align-items-center" *ngIf="task.assignees.length > 0">
+                                    <div class="d-flex align-items-center" [class.relative]="index > 0"
+                                         [style]="index > 0 ? 'left: -10px' : ''"
+                                         *ngFor="let member of task.assignees; let index = index">
+                                        <img [src]="member.photoURL" alt="" width="25" height="25"
+                                             class="border-circle"/>
+                                    </div>
+                                </div>
+                                <div *ngIf="task.assignees.length == 0">
+                                    <span class="message secondary p-2">Unassigned</span>
+                                </div>
+                            </td>
+                            <td>
+                            <span class="message p-1 w-fit" [ngClass]="task.urgency.color"
+                                  *ngIf="task.urgency">
+                                {{ task.urgency.title }}
+                            </span>
+                            </td>
+                            <td>
+                            <span class="message p-1 w-fit" [ngClass]="task.status.type">
+                                {{ task.status.name }}
+                            </span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-icon btn-secondary btn-sm mr-1">
+                                    <i class="fa-duotone fa-pencil"></i>
+                                </button>
+                                <button class="btn-icon btn-light-danger btn-sm"
+                                        (click)="confirmDeleteTask(task, $event)">
+                                    <i class="fa-duotone fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pagination
+                    [totalRecordCount]="project.tasks.length"
+                    [rows]="8"
+                    (onPageChange)="getCurrentPageTasks($event)"
+                ></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmPopup></p-confirmPopup>
