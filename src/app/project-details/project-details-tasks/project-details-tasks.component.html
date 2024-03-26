@@ -1,4 +1,4 @@
-<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4">
+<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4" *ngIf="!isManagingTask">
     <h3 class="fw-bold my-2 fs-3">
         Project Tasks
     </h3>
@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div [ngSwitch]="viewType" [busyIf]="loading">
+<div [ngSwitch]="viewType" [busyIf]="loading" *ngIf="!isManagingTask">
     <div *ngSwitchCase="'table'">
         <div class="card card-flush" *ngIf="!loading">
             <div class="card-body pt-2 px-4">
@@ -71,7 +71,7 @@
                             </span>
                             </td>
                             <td class="text-center">
-                                <button class="btn-icon btn-secondary btn-sm mr-1">
+                                <button class="btn-icon btn-secondary btn-sm mr-1" (click)="manageTask(task)">
                                     <i class="fa-duotone fa-pencil"></i>
                                 </button>
                                 <button class="btn-icon btn-light-danger btn-sm"
@@ -93,4 +93,45 @@
         </div>
     </div>
 </div>
+
+<form #manageTaskForm="ngForm" (ngSubmit)="saveTaskChanges()" class="card mt-5" *ngIf="isManagingTask">
+    <div class="card-header">
+        <div class="flex align-items-center gap-2">
+            <button class="btn-icon btn-light-primary btn-sm" (click)="isManagingTask = false">
+                <i class="fa-duotone fa-arrow-left"></i>
+            </button>
+            <h4 class="title">Manage Task</h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="grid">
+            <div class="md:col-6">
+                <div class="form-group">
+                    <label for="taskTitle">Title</label>
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        name="title"
+                        required
+                        [(ngModel)]="selectedTask.title"/>
+                </div>
+            </div>
+            <div class="md:col-6">
+                <div class="form-group">
+                    <label for="taskDueDate">Due Date</label>
+                    <input
+                        type="date"
+                        id="taskDueDate"
+                        required
+                        name="dueDate"
+                        [(ngModel)]="selectedTask.dueDate"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer p-3 justify-content-end">
+        <button class="btn btn-primary" [disabled]="!manageTaskForm.form.valid" type="submit">Save Changes</button>
+    </div>
+</form>
+
 <p-confirmPopup></p-confirmPopup>

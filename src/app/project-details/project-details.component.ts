@@ -1,15 +1,15 @@
 import {KanbanService} from '../../shared/services/kanban-service.service';
-import {Checkboxes, Labels, Project, Urgency, Task, Status, UserLite} from './../interfaces/Kanban.interfaces';
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Project, Status, Task, Urgency, UserLite} from './../interfaces/Kanban.interfaces';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {from, Observable} from 'rxjs';
-import {MultiSelectModule} from 'primeng/multiselect';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
 import {TaskFilters} from "./task-filters/task-filters.component";
 import {ProjectDetails} from "../../shared/helpers/projectClasses";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-details-tasks.component";
+import {ProjectDetailsOverviewComponent} from "./project-details-overview/project-details-overview.component";
+import {ProjectDetailsSettingsComponent} from "./project-details-settings/project-details-settings.component";
 
 @Component({
     selector: 'app-project-details',
@@ -19,7 +19,13 @@ import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-deta
 })
 export class ProjectDetailsComponent implements OnInit {
     // @ts-ignore
-    @ViewChild('projectTasksComponent', {static: false}) projectTasksComponent: ProjectDetailsTasksComponent;
+    private tasksComponent: ProjectDetailsTasksComponent;
+
+    @ViewChild('tasksComponent', {static: false}) set content(content: ProjectDetailsTasksComponent) {
+        if (content) {
+            this.tasksComponent = content;
+        }
+    };
 
     ProjectTabs = ProjectTabs;
     searchTerm: string = '';
@@ -113,35 +119,35 @@ export class ProjectDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         // get project id from url
-        this.route.url.subscribe((url: any) => {
+        this.route.url.subscribe(async (url: any) => {
             if (url.length === 0) {
                 this.router.navigate(['']);
             } else {
                 this.loading = true;
                 this.projectId = url[1].path;
-                from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
-                    this.project = project;
-                    // add projectId to project object
-                    this.project.id = this.projectId;
-                    // order tasks by creationDate
-                    this.project.tasks.sort((a, b) => {
-                        return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
-                    });
-                    this.tasksOg = this.project.tasks;
-                    this.membersList = JSON.parse(JSON.stringify(this.project.members));
-                    this.membersList.push(this.project.owner);
-                    this.loading = false;
-                    if (!this.projectTasksComponent) {
-                        this.projectTasksComponent = new ProjectDetailsTasksComponent(this.kanbanService, this.confirmationService);
-                    }
-                });
-                console.log(this.project);
+                await this.getProject();
 
                 // check if user is logged in
                 this.authService.isLoggedIn().then((user: any) => {
                     this.user = user;
                 });
             }
+        });
+    }
+
+    async getProject() {
+        this.kanbanService.getProjectById(this.projectId).subscribe((project: Project) => {
+            this.project = project;
+            // add projectId to project object
+            this.project.id = this.projectId;
+            // order tasks by creationDate
+            this.project.tasks.sort((a, b) => {
+                return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+            });
+            this.tasksOg = this.project.tasks;
+            this.membersList = JSON.parse(JSON.stringify(this.project.members));
+            this.membersList.push(this.project.owner);
+            this.loading = false;
         });
     }
 
@@ -158,66 +164,17 @@ export class ProjectDetailsComponent implements OnInit {
         return pendingTasks;
     }
 
-    updateKanban() {
-        from(this.kanbanService.getProjectById(this.projectId)).subscribe((project: Project) => {
-            setTimeout(() => {
-                this.project = project;
-                // add projectId to project object
-                this.project.id = this.projectId;
-                this.tasksOg = this.project.tasks;
-                this.filterTasks(this.filtersData);
-                this.loading = false;
-            }, 200);
-        });
-    }
-
     //#region Setters
-    async addTask(statusName?: string) {
-        let statusFind: Status = this.statusList[0];
-        if (statusName !== undefined) {
-            this.statusList.forEach((status: Status) => {
-                if (status.name === statusName) {
-                    statusFind = status;
-                }
-            });
+    async addTask() {
+        this.currentTab = this.tabs[1];
+        console.log(this.tasksComponent);
+        if (this.tasksComponent === undefined) {
+            setTimeout(() => {
+                this.addTask();
+            }, 100);
+        } else {
+            this.tasksComponent.manageTask();
         }
-
-        let newTask: Task = {
-            id: this.idGenerator(),
-            title: '',
-            description: '',
-            status: statusFind,
-            urgency: this.urgencyList[0],
-            labels: [],
-            checkboxes: [],
-            completed: false,
-            images: [],
-            creationDate: new Date().toUTCString(),
-            modificationDate: new Date().toUTCString(),
-            dueDate: '',
-            owner: {
-                username: this.user.displayName,
-                email: this.user.email,
-                photoURL: this.user.photoURL,
-                uid: this.user.uid,
-                sharedProjectsIds: [],
-            },
-            assignees: [],
-        };
-        console.log(newTask);
-
-        // Add new task to column
-        this.project.tasks.push(newTask);
-        this.tasksOg = this.project.tasks;
-        this.filterTasks(this.filtersData);
-
-        // Update project
-        await this.kanbanService.updateProject(this.project);
-    }
-
-    updateFromMembers(members: UserLite []) {
-        this.project.members = members;
-        this.kanbanService.updateProject(this.project);
     }
 
     //#endregion

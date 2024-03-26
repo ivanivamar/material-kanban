@@ -121,6 +121,21 @@
                     <div class="message primary" *ngIf="selectedDay.tasks?.length == 0">
                         There are no tasks for this day.
                     </div>
+                    <div class="flex justify-content-between align-items-center mt-3 relative"
+                         *ngFor="let task of selectedDay.tasks">
+                        <div class="absolute h-full rounded top-0 left-0" [ngClass]="'bg-'+task.urgency.color" style="width: 4px"></div>
+                        <div class="fw-semibold ml-3 text-600">
+                            <div class="fs-5 fw-bold text-800 mb-2">
+                                {{ task.title }}
+                            </div>
+                            <div class="text-500">
+                                Lead by {{ task.owner.username }}
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-secondary btn-active">
+                            View
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

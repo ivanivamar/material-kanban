@@ -343,7 +343,7 @@
     box-shadow: none
     height: calc(1.5em + 1.55rem + 2px)
     width: calc(1.5em + 1.55rem + 2px)
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    transition: all .15s ease-in-out
 
     .material-symbols-rounded
         display: inline-flex
@@ -360,6 +360,18 @@
         height: calc(1.5em + 1.9rem + 2px)
         width: calc(1.5em + 1.9rem + 2px)
 
+    &.btn-active-light-primary:hover
+        background-color: $color-primary-light
+        color: $color-primary
+        &.btn-outline
+            border-color: $color-primary
+
+    &.btn-active-primary:hover
+        background-color: $color-primary
+        color: $color-on-primary
+        &.btn-outline
+            border-color: $color-primary
+
     &.btn-primary
         background-color: $color-primary
         color: $color-on-primary
@@ -367,7 +379,8 @@
         &:hover
             background-color: $color-primary-active
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-primary-active
 
         &:disabled
@@ -382,7 +395,8 @@
             background-color: $color-primary
             color: $color-on-primary
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-primary
             color: $color-on-primary
 
@@ -397,7 +411,8 @@
         &:hover
             background-color: $color-secondary-active
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-secondary-active
 
         &:disabled
@@ -409,11 +424,11 @@
         border: 1px solid $color-utility-outline
         color: $color-on-surface
 
-        &:hover
-            background-color: $color-secondary
+        &.btn-outline-dashed
+            border-style: dashed
 
-        &:active
-            background-color: $color-secondary
+            &:hover
+                border-color: $color-primary
 
         &:disabled
             opacity: 0.5
@@ -426,7 +441,8 @@
         &:hover
             background-color: $color-secondary
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-secondary
             outline: solid 2px $color-primary
 
@@ -441,7 +457,8 @@
         &:hover
             background-color: $color-utility-error-active
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-utility-error-active
 
         &:disabled
@@ -456,7 +473,8 @@
             background-color: $color-utility-error-active
             color: $color-surface
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-utility-error-active
             color: $color-surface
 
@@ -471,7 +489,8 @@
         &:hover
             background-color: $color-utility-warning-active
 
-        &:active
+        &:active,
+        &.active
             background-color: $color-utility-warning-active
 
         &:disabled

@@ -11,7 +11,7 @@ export interface Organization {
 }
 
 export interface Task {
-    id: string;
+    id?: string;
     title: string;
     labels: any[];
     status: Status;
@@ -26,6 +26,38 @@ export interface Task {
     dayDuration?: number;
     owner: UserLite;
     assignees: UserLite[];
+}
+
+export class TaskDto implements Task {
+    id?: string;
+    title: string = '';
+    labels: any[] = [];
+    status: Status = {
+        value: 0,
+        name: 'To Do',
+        icon: 'fa-duotone fa-circle-pause',
+        type: 'secondary'
+    };
+    description: string = '';
+    checkboxes: Checkboxes[] = [];
+    urgency: Urgency = {
+        title: 'Low',
+        color: 'secondary',
+        code: 0
+    };
+    creationDate: string = new Date().toString();
+    modificationDate: string = new Date().toString();
+    completed: boolean = false;
+    images: Images[] = [];
+    dueDate: string = '';
+    owner: UserLite = {
+        username: '',
+        email: '',
+        photoURL: '',
+        uid: '',
+        sharedProjectsIds: []
+    }
+    assignees: UserLite[] = [];
 }
 
 export interface UserLite {
