@@ -125,7 +125,11 @@
                          *ngFor="let task of selectedDay.tasks">
                         <div class="absolute h-full rounded top-0 left-0" [ngClass]="'bg-'+task.urgency.color" style="width: 4px"></div>
                         <div class="fw-semibold ml-3 text-600">
-                            <div class="fs-5 fw-bold text-800 mb-2 flex align-items-center gap-2">
+                            <div class="flex align-items-center gap-2 mb-1">
+                                <i class="fa-duotone fa-diagram-subtask"></i>
+                                {{ getCompletedSubTasks(task) }} / {{ task.checkboxes.length }}
+                            </div>
+                            <div class="fs-5 fw-bold text-800 mb-1 flex align-items-center gap-2">
                                 <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
                                 {{ task.title }}
                             </div>

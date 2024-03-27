@@ -79,7 +79,7 @@
             <app-project-details-overview [project]="project" (changeTab)="currentTab = tabs[$event]" (goToTask)="addTask($event)"></app-project-details-overview>
         </div>
         <div *ngSwitchCase="ProjectTabs.Tasks">
-            <app-project-details-tasks #tasksComponent (onChanges)="getProject()" [project]="project"></app-project-details-tasks>
+            <app-project-details-tasks #tasksComponent (onChanges)="getProject()" [users]="users" [project]="project"></app-project-details-tasks>
         </div>
         <div *ngSwitchCase="ProjectTabs.Settings">
             <app-project-details-settings [project]="project"></app-project-details-settings>

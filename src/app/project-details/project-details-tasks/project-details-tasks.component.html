@@ -48,15 +48,13 @@
                                 {{ task.dueDate | date: 'mediumDate' }}
                             </td>
                             <td>
-                                <div class="relative flex align-items-center" *ngIf="task.assignees.length > 0">
-                                    <div class="d-flex align-items-center" [class.relative]="index > 0"
-                                         [style]="index > 0 ? 'left: -10px' : ''"
-                                         *ngFor="let member of task.assignees; let index = index">
-                                        <img [src]="member.photoURL" alt="" width="25" height="25"
+                                <div class="relative flex align-items-center" *ngIf="task.assignees.uid != ''">
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="task.assignees.photoURL" alt="" width="25" height="25"
                                              class="border-circle"/>
                                     </div>
                                 </div>
-                                <div *ngIf="task.assignees.length == 0">
+                                <div *ngIf="task.assignees.uid == ''">
                                     --
                                 </div>
                             </td>
@@ -148,6 +146,19 @@
                     </span>
                 </div>
             </div>
+            <div class="card card-flush py-3" *ngIf="project.members.length > 0">
+                <div class="card-header">
+                    <h2 class="title">Assign To</h2>
+                </div>
+                <div class="card-body pt-0">
+                    <mat-dropdown class="mb-2" [options]="project.members" [optionLabel]="'username'" [optionValue]="'uid'"
+                                  [value]="selectedTask.assignees.uid" [returnValue]="false"
+                                  (valueChange)="selectedTask.assignees = $event"></mat-dropdown>
+                    <span class="text-500 fs-7">
+                        Assign the task to a team member.
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-9 pl-0 pb-3 lg:pl-5 flex flex-column gap-3">
             <div class="card card-flush py-3">
@@ -177,6 +188,30 @@
                             Describe the task in detail.
                         </span>
                     </div>
+                </div>
+            </div>
+            <div class="card card-flush py-3">
+                <div class="card-header">
+                    <h2 class="title">Subtasks</h2>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="flex flex-column gap-2">
+                        <div class="subtask flex align-items-center gap-3" *ngFor="let subtask of selectedTask.checkboxes">
+                            <div class="subtask-check mt-2 pl-1" [class.checked]="subtask.checked"
+                                 (click)="subtask.checked = !subtask.checked">
+                                <i class="fasr fa-circle fs-1"></i>
+                                <i class="fasr fa-circle-dot fs-1"></i>
+                            </div>
+                            <input type="text" [(ngModel)]="subtask.title" [name]="subtask.id" class="flex flex-1" class="form-control"/>
+                            <button class="btn-icon btn-light-danger btn-sm" type="button" (click)="removeSubtask(subtask)">
+                                <i class="fa-duotone fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm mt-3" type="button" (click)="addSubtask()">
+                        <i class="fa-duotone fa-plus"></i>
+                        Add Subtask
+                    </button>
                 </div>
             </div>
             <div class="flex justify-content-end mt-3 gap-3">

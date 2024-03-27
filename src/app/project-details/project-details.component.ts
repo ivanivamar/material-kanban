@@ -66,9 +66,7 @@ export class ProjectDetailsComponent implements OnInit {
     membersList: UserLite[] = [];
 
     user: any;
-
-    filtersData: TaskFilters[] = [];
-
+    users: any[] = [];
     statusList: Status[] = [
         {
             value: 0,
@@ -95,7 +93,6 @@ export class ProjectDetailsComponent implements OnInit {
             type: 'success',
         },
     ];
-
     labelsList = [
         {name: 'FRONTEND', color: '#2E7DFF', background: '#F2F7FD', code: 'frontend'},
         {name: 'TS', color: '#FDAF1B', background: '#FFFBF2', code: 'ts'},
@@ -125,12 +122,13 @@ export class ProjectDetailsComponent implements OnInit {
             } else {
                 this.loading = true;
                 this.projectId = url[1].path;
-                await this.getProject();
 
                 // check if user is logged in
                 this.authService.isLoggedIn().then((user: any) => {
                     this.user = user;
                 });
+                await this.getUsers();
+                await this.getProject();
             }
         });
     }
@@ -148,6 +146,14 @@ export class ProjectDetailsComponent implements OnInit {
             this.membersList = JSON.parse(JSON.stringify(this.project.members));
             this.membersList.push(this.project.owner);
             this.loading = false;
+        });
+    }
+
+    async getUsers() {
+        this.kanbanService.getUsers().subscribe((users: any[]) => {
+            this.users = users.filter((user: any) => {
+                return user.uid !== this.user.uid;
+            });
         });
     }
 
@@ -180,141 +186,8 @@ export class ProjectDetailsComponent implements OnInit {
 
     //#endregion
 
-    //#region Deleters
-    async deleteTask(taskId: any) {
-        this.loading = true;
-
-        // remove task from column
-        this.project.tasks = this.project.tasks.filter((task: Task) => {
-            return task.id !== taskId;
-        });
-
-        // Update project
-        await this.kanbanService.updateProject(this.project);
-
-        this.loading = false;
-    }
-
-    //#endregion
-
 
     //#region Helpers
-    getTasksOfStatus(statusName: string, project: Project) {
-        let count = 0;
-        if (project.tasks.length > 0) {
-            project.tasks.forEach((task: Task) => {
-                if (task.status.name === statusName) {
-                    count++;
-                }
-            });
-        }
-        return count;
-    }
-
-    filterTasks(filters: TaskFilters[]) {
-        this.filtersData = filters;
-        this.tasksOg = JSON.parse(JSON.stringify(this.project.tasks));
-        console.log(this.filtersData);
-        console.log(this.tasksOg);
-
-        if (filters.length > 0) {
-            filters.forEach((filter: TaskFilters) => {
-                if (filter.name === 'status' && filter.values.length > 0) {
-                    this.tasksOg = this.tasksOg.filter((task: Task) => {
-                        return filter.values.includes(task.status.name);
-                    });
-
-                    // orderby status
-                    if (filter.order === 'asc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return a.status.name.localeCompare(b.status.name);
-                        });
-                    } else if (filter.order === 'desc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return b.status.name.localeCompare(a.status.name);
-                        });
-                    }
-                }
-                if (filter.name === 'dueDate' && filter.value !== null) {
-                    this.tasksOg = this.tasksOg.filter((task: Task) => {
-                        return task.dueDate <= filter.value;
-                    });
-
-                    // orderby dueDate
-                    if (filter.order === 'asc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-                        });
-                    } else if (filter.order === 'desc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
-                        });
-                    }
-                }
-                if (filter.name === 'dateRange' && filter.values.length > 0) {
-                    this.tasksOg = this.tasksOg.filter((task: Task) => {
-                        return task.dueDate >= filter.values[0] && task.dueDate <= filter.values[1];
-                    });
-
-                    // orderby dueDate
-                    if (filter.order === 'asc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-                        });
-                    } else if (filter.order === 'desc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
-                        });
-                    }
-                }
-                if (filter.name === 'urgency' && filter.values.length > 0) {
-                    this.tasksOg = this.tasksOg.filter((task: Task) => {
-                        return filter.values.includes(task.urgency.title);
-                    });
-                }
-                if (filter.name === 'assignedTo' && filter.values.length > 0) {
-                    this.tasksOg = this.tasksOg.filter((task: Task) => {
-                        let found = false;
-                        task.assignees.forEach((assignee: UserLite) => {
-                            filter.values.forEach((filterValue: UserLite) => {
-                                if (assignee.uid === filterValue.uid) {
-                                    found = true;
-                                }
-                            });
-                        });
-                        return found;
-                    });
-
-                    // orderby assignees
-                    if (filter.order === 'asc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return a.assignees.length - b.assignees.length;
-                        });
-                    } else if (filter.order === 'desc') {
-                        this.tasksOg.sort((a: Task, b: Task) => {
-                            return b.assignees.length - a.assignees.length;
-                        });
-                    }
-                }
-            });
-        }
-    }
-
-    drop(event: CdkDragDrop<Task[]>) {
-        if (event.previousContainer === event.container) {
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-            transferArrayItem(
-                event.previousContainer.data,
-                event.container.data,
-                event.previousIndex,
-                event.currentIndex,
-            );
-        }
-        this.playAudio('assets/drop.mp3', 1);
-
-        this.kanbanService.updateProject(this.project);
-    }
 
     playAudio(url: string, volume: number) {
         const audio = new Audio();
@@ -324,52 +197,11 @@ export class ProjectDetailsComponent implements OnInit {
         audio.play();
     }
 
-    private idGenerator(): string {
-        // letters + numbers
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let autoId = '';
-        for (let i = 0; i < 5; i++) {
-            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return autoId;
-    }
-
     private isEmpty(obj: any) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) return false;
         }
         return true;
-    }
-
-    private isInvalidInput(input: any): boolean {
-        // check for string
-        switch (typeof input) {
-            case 'string':
-                if (input.length === 0 || input === '' || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'number':
-                if (isNaN(input) || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'boolean':
-                if (input === null) {
-                    return true;
-                }
-                break;
-            case 'undefined':
-                return true;
-            case 'object':
-                if (this.isEmpty(input)) {
-                    return true;
-                }
-                break;
-            default:
-                return true;
-        }
-        return false;
     }
 
     //#endregion

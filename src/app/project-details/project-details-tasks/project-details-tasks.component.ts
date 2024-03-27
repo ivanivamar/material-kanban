@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectDetails} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
-import {Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
+import {Checkboxes, Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
 import Swal from "sweetalert2";
 
 @Component({
@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 })
 export class ProjectDetailsTasksComponent implements OnInit {
     @Input() project: ProjectDetails = new ProjectDetails();
+    @Input() users: any[] = [];
     @Output() onChanges = new EventEmitter();
 
     viewType = 'grid';
@@ -125,6 +126,34 @@ export class ProjectDetailsTasksComponent implements OnInit {
                 this.onChanges.emit();
             }
         });
+    }
+
+    addSubtask() {
+        if (this.selectedTask) {
+            if (!this.selectedTask.checkboxes) {
+                this.selectedTask.checkboxes = [];
+            }
+            this.selectedTask.checkboxes.push({
+                id: this.idGenerator(),
+                title: '',
+                description: '',
+                checked: false
+            });
+        }
+    }
+
+    updateSubtask(subtask: Checkboxes) {
+        if (this.selectedTask) {
+            this.selectedTask.checkboxes = this.selectedTask.checkboxes.map((checkbox: any) => {
+                return checkbox.id === subtask.id ? subtask : checkbox;
+            });
+        }
+    }
+
+    removeSubtask(subtask: Checkboxes) {
+        if (this.selectedTask) {
+            this.selectedTask.checkboxes = this.selectedTask.checkboxes.filter((checkbox: any) => checkbox.id !== subtask.id);
+        }
     }
 
     cancel() {

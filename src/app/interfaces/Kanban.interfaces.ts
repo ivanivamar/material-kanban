@@ -25,7 +25,7 @@ export interface Task {
     dueDate: string;
     dayDuration?: number;
     owner: UserLite;
-    assignees: UserLite[];
+    assignees: UserLite;
 }
 
 export class TaskDto implements Task {
@@ -57,7 +57,13 @@ export class TaskDto implements Task {
         uid: '',
         sharedProjectsIds: []
     }
-    assignees: UserLite[] = [];
+    assignees: UserLite = {
+        username: '',
+        email: '',
+        photoURL: '',
+        uid: '',
+        sharedProjectsIds: []
+    }
 }
 
 export interface UserLite {

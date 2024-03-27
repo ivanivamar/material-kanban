@@ -16,3 +16,23 @@
     &.active
         background-color: $color-primary
         color: #fff
+
+.subtask
+    input
+        border: 0
+        border-bottom: 1px solid black
+        box-shadow: none !important
+        border-radius: 0
+
+.subtask-check
+    .fa-circle-dot
+        display: none
+    .fa-circle
+        display: block
+
+    &:hover,
+    &.checked
+        .fa-circle-dot
+            display: block
+        .fa-circle
+            display: none

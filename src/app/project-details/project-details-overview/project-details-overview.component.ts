@@ -56,7 +56,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                 ticks: {
                     beginAtZero: true,
                     //@ts-ignore
-                    precision:0
+                    precision: 0
                 },
             }
         }
@@ -103,7 +103,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         this.inProgressTasks = this.getInProgressTasks();
         this.completedTasks = this.getCompletedTasks();
         this.overdueTasks = this.getOverdueTasks();
-        this.pendingTasks = this.project.tasks.length - this.completedTasks - this.inProgressTasks - this.overdueTasks;
+        this.pendingTasks = this.getPendingTasks();
 
         this.tasksSummaryData = {
             labels: ['Active', 'Completed', 'Overdue', 'Yet to start'],
@@ -122,7 +122,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let inProgressTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter(task => {
-                if ((task.status.value == 1 && !task.completed) && !(task.dueDate < new Date().toString() && !task.completed)) {
+                if ((task.status.value == 1 && !task.completed) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
                     inProgressTasks++;
                 }
             });
@@ -143,12 +143,25 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         return completedTasks;
     }
 
+    getPendingTasks() {
+        // check if task is completed
+        let completedTasks = 0;
+        if (this.project.tasks.length > 0) {
+            this.project.tasks.filter(task => {
+                if ((!task.completed && task.status.value == 0) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
+                    completedTasks++;
+                }
+            });
+        }
+        return completedTasks;
+    }
+
     getOverdueTasks() {
         // check if task.dueDate is before today
         let overdueTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter(task => {
-                if (task.dueDate < new Date().setHours(0,0,0,0).toString() && !task.completed) {
+                if (new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString() && (!task.completed && task.status.value != 3)) {
                     overdueTasks++;
                 }
             });
@@ -204,16 +217,16 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                     data: quarterTasksData[0].data,
                     fill: true,
                     tension: 0.4,
-                    borderColor: '#1B84FF',
-                    backgroundColor: 'rgba(27, 132, 255, 0.2)',
+                    borderColor: '#17C653',
+                    backgroundColor: 'rgba(49, 203, 105, 0.2)',
                 },
                 {
                     label: quarterTasksData[1].label,
                     data: quarterTasksData[1].data,
                     fill: true,
                     tension: 0.4,
-                    borderColor: '#17C653',
-                    backgroundColor: 'rgba(49, 203, 105, 0.2)',
+                    borderColor: '#1B84FF',
+                    backgroundColor: 'rgba(27, 132, 255, 0.2)',
                 }
             ]
         };
@@ -221,8 +234,8 @@ export class ProjectDetailsOverviewComponent implements OnInit {
 
     getQuarterTasks(quarterStart: Date, quarterEnd: Date): any {
         let quarterTasksData: [{ data: any[]; label: string }, { data: any[]; label: string }] = [
+            {label: 'Complete', data: []},
             {label: 'Incomplete', data: []},
-            {label: 'Complete', data: []}
         ];
         this.project.tasks.filter(task => {
             let creationDate = new Date(task.creationDate);
@@ -238,7 +251,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                     } else {
                         monthNumber = 1;
                     }
-                    quarterTasksData[!task.completed ? 1 : 0].data[monthNumber] = quarterTasksData[0].data[monthNumber] ? quarterTasksData[0].data[monthNumber] + 1 : 1;
+                    quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] = quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] ? quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] + 1 : 1;
                 }
             }
         });
@@ -278,6 +291,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // select current day from this.currentWeekDays
         this.selectedDay = this.currentWeekDays[currentDay - 1];
     }
+
     selectToday() {
         const today = new Date();
         const currentDay = today.getDay(); // 0 (Sunday) to 6 (Saturday)
@@ -295,6 +309,16 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // remove all but the first 3 tasks
         dayTasks = dayTasks.slice(0, 3);
         return dayTasks;
+    }
+
+    getCompletedSubTasks(task: Task): number {
+        let completedSubTasks = 0;
+        task.checkboxes.filter(checkbox => {
+            if (checkbox.checked) {
+                completedSubTasks++;
+            }
+        });
+        return completedSubTasks;
     }
 
     // #endregion

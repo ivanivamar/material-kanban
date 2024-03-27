@@ -46,10 +46,9 @@ export class MatDropdownComponent implements OnInit {
         if (!this._eref.nativeElement.contains(event.target)) {
             this.expanded = false;
         } else {
-            this.expanded = true;
+            this.expanded = !this.expanded;
             // @ts-ignore
             this.isBottomPage = window.innerHeight - event.clientY < 200;
-            console.log(this.isBottomPage);
         }
     }
 
