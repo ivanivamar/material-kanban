@@ -19,7 +19,7 @@ import {ProjectDetailsSettingsComponent} from "./project-details-settings/projec
 })
 export class ProjectDetailsComponent implements OnInit {
     // @ts-ignore
-    private tasksComponent: ProjectDetailsTasksComponent;
+    tasksComponent: ProjectDetailsTasksComponent;
 
     @ViewChild('tasksComponent', {static: false}) set content(content: ProjectDetailsTasksComponent) {
         if (content) {
@@ -165,16 +165,17 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     //#region Setters
-    async addTask() {
+    async addTask(task?: any) {
         this.currentTab = this.tabs[1];
-        console.log(this.tasksComponent);
-        if (this.tasksComponent === undefined) {
-            setTimeout(() => {
-                this.addTask();
-            }, 100);
-        } else {
-            this.tasksComponent.manageTask();
-        }
+        setTimeout(() => {
+            if (this.tasksComponent === undefined) {
+                setTimeout(() => {
+                    this.addTask(task);
+                }, 100);
+            } else {
+                this.tasksComponent.manageTask(task);
+            }
+        }, 100);
     }
 
     //#endregion

@@ -1,4 +1,4 @@
-<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4" *ngIf="!isManagingTask">
+<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4" *ngIf="selectedTask == null">
     <h3 class="fw-bold my-2 fs-3">
         Project Tasks
     </h3>
@@ -12,9 +12,9 @@
     </div>
 </div>
 
-<div [ngSwitch]="viewType" [busyIf]="loading" *ngIf="!isManagingTask">
+<div [ngSwitch]="viewType" *ngIf="selectedTask == null">
     <div *ngSwitchCase="'table'">
-        <div class="card card-flush" *ngIf="!loading">
+        <div class="card card-flush">
             <div class="card-body pt-2 px-4">
                 <div class="table-responsive">
                     <table class="table">
@@ -39,12 +39,13 @@
                         <tbody>
                         <tr *ngFor="let task of currentPageTasks">
                             <td>
-                                <a href="javascript:void(0)" class="text-gray-800 fw-bolder text-active-primary">
+                                <a href="javascript:void(0)" (click)="manageTask(task)"
+                                   class="text-gray-800 fw-bolder text-active-primary">
                                     {{ task.title }}
                                 </a>
                             </td>
                             <td>
-                                --
+                                {{ task.dueDate | date: 'mediumDate' }}
                             </td>
                             <td>
                                 <div class="relative flex align-items-center" *ngIf="task.assignees.length > 0">
@@ -56,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="task.assignees.length == 0">
-                                    <span class="message secondary p-2">Unassigned</span>
+                                    --
                                 </div>
                             </td>
                             <td>
@@ -94,44 +95,103 @@
     </div>
 </div>
 
-<form #manageTaskForm="ngForm" (ngSubmit)="saveTaskChanges()" class="card mt-5" *ngIf="isManagingTask">
-    <div class="card-header">
-        <div class="flex align-items-center gap-2">
-            <button class="btn-icon btn-light-primary btn-sm" (click)="isManagingTask = false">
-                <i class="fa-duotone fa-arrow-left"></i>
-            </button>
-            <h4 class="title">Manage Task</h4>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="grid">
-            <div class="md:col-6">
-                <div class="form-group">
-                    <label for="taskTitle">Title</label>
-                    <input
-                        type="text"
-                        id="taskTitle"
-                        name="title"
-                        required
-                        [(ngModel)]="selectedTask.title"/>
+<div class="flex-row-fluid mt-5" *ngIf="selectedTask != null">
+    <form #manageTaskForm="ngForm" class="grid grid-nogutter" (ngSubmit)="saveTaskChanges()">
+        <div class="col-12 lg:col-3 pr-0 pb-5 lg-pr-5 flex flex-column gap-3">
+            <div class="card card-flush py-3">
+                <div class="card-header">
+                    <h2 class="title">Status</h2>
+                    <div class="card-toolbar">
+                        <div class="border-circle w-15px h-15px bg-{{selectedTask.status.type}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <mat-dropdown class="mb-2" [options]="statusList" [optionLabel]="'name'"
+                                  [value]="selectedTask.status.value" [returnValue]="false"
+                                  (valueChange)="selectedTask.status = $event"></mat-dropdown>
+                    <span class="text-500 fs-7">
+                        Set the task status.
+                    </span>
                 </div>
             </div>
-            <div class="md:col-6">
-                <div class="form-group">
-                    <label for="taskDueDate">Due Date</label>
+            <div class="card card-flush py-3">
+                <div class="card-header">
+                    <h2 class="title">Due Date</h2>
+                </div>
+                <div class="card-body pt-0">
                     <input
                         type="date"
                         id="taskDueDate"
-                        required
                         name="dueDate"
+                        required
                         [(ngModel)]="selectedTask.dueDate"/>
+                    <span class="text-500 fs-7">
+                        Set the task due date.
+                    </span>
+                </div>
+            </div>
+            <div class="card card-flush py-3">
+                <div class="card-header">
+                    <h2 class="title">Urgency</h2>
+                    <div class="card-toolbar">
+                        <div class="border-circle w-15px h-15px bg-{{selectedTask.urgency.color}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <mat-dropdown class="mb-2" [options]="urgencyList" [optionLabel]="'title'" [optionValue]="'code'"
+                                  [value]="selectedTask.urgency.code" [returnValue]="false"
+                                  (valueChange)="selectedTask.urgency = $event"></mat-dropdown>
+                    <span class="text-500 fs-7">
+                        Set the task urgency.
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card-footer p-3 justify-content-end">
-        <button class="btn btn-primary" [disabled]="!manageTaskForm.form.valid" type="submit">Save Changes</button>
-    </div>
-</form>
+        <div class="col-12 lg:col-9 pl-0 pb-3 lg:pl-5 flex flex-column gap-3">
+            <div class="card card-flush py-3">
+                <div class="card-header">
+                    <h2 class="title">General</h2>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="form-group mb-5">
+                        <label for="taskTitle" class="required">Task Name</label>
+                        <input
+                            type="text"
+                            id="taskTitle"
+                            name="title"
+                            required
+                            [(ngModel)]="selectedTask.title"/>
+                        <span class="text-500 fs-7">
+                            A task name should be short and descriptive.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription" class="fw-medium">Description</label>
+                        <textarea
+                            id="taskDescription"
+                            name="description"
+                            [(ngModel)]="selectedTask.description"></textarea>
+                        <span class="text-500 fs-7">
+                            Describe the task in detail.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-end mt-3 gap-3">
+                <button type="button" class="btn btn-text" (click)="cancel()">
+                    <i class="fa-duotone fa-times"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="manageTaskForm.invalid"
+                        (click)="saveTaskChanges()">
+                    <i class="fa-duotone fa-save"></i>
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <p-confirmPopup></p-confirmPopup>

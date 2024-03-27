@@ -1,8 +1,14 @@
-@mixin width-classes($prefix: "w", $max-width: 500px, $step: 10)
+@mixin width-classes($prefix: "w", $max-width: 500px, $step: 5)
     @for $i from 1 through $max-width / $step
         $width: $i * $step
         .#{$prefix}-#{$width}px
             width: $width + px
+
+@mixin height-classes($prefix: "h", $max-width: 500px, $step: 5)
+    @for $i from 1 through $max-width / $step
+        $width: $i * $step
+        .#{$prefix}-#{$width}px
+            height: $width + px
 
 @mixin min-width-classes($prefix: "min-w", $max-width: 500px, $step: 10)
     @for $i from 1 through $max-width / $step
@@ -11,6 +17,7 @@
             min-width: $width + px
 
 @include width-classes()
+@include height-classes()
 @include min-width-classes()
 
 .container

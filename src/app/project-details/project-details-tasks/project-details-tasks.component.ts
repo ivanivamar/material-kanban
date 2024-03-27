@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProjectDetails} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
-import {Task, TaskDto} from 'src/app/interfaces/Kanban.interfaces';
+import {Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
 import Swal from "sweetalert2";
 
 @Component({
@@ -18,8 +18,41 @@ export class ProjectDetailsTasksComponent implements OnInit {
     viewType = 'grid';
     currentPageTasks: Task[] = [];
     loading = false;
-    selectedTask: TaskDto = new TaskDto();
+    selectedTask: TaskDto | null = null;
     isManagingTask = false;
+
+    statusList: Status[] = [
+        {
+            value: 0,
+            name: 'To Do',
+            icon: 'pause_circle',
+            type: 'secondary'
+        },
+        {
+            value: 1,
+            name: 'In Progress',
+            icon: 'clock_loader_40',
+            type: 'primary'
+        },
+        {
+            value: 2,
+            name: 'Review',
+            icon: 'draw',
+            type: 'warning'
+        },
+        {
+            value: 3,
+            name: 'Completed',
+            icon: 'verified',
+            type: 'success'
+        },
+    ];
+    urgencyList: Urgency[] = [
+        {title: 'Low', code: 0, color: 'secondary'},
+        {title: 'Normal', code: 1, color: 'primary'},
+        {title: 'High', code: 2, color: 'warning'},
+        {title: 'Urgent', code: 3, color: 'danger'},
+    ];
 
     constructor(
         private kanbanService: KanbanService,
@@ -48,6 +81,7 @@ export class ProjectDetailsTasksComponent implements OnInit {
         this.selectedTask = task ? task : new TaskDto();
         this.selectedTask.owner = this.project.owner;
         this.isManagingTask = true;
+        console.log("this.isManagingTask", this.isManagingTask);
     }
 
     saveTaskChanges() {
@@ -91,6 +125,11 @@ export class ProjectDetailsTasksComponent implements OnInit {
                 this.onChanges.emit();
             }
         });
+    }
+
+    cancel() {
+        this.isManagingTask = false;
+        this.selectedTask = null;
     }
 
     idGenerator(): string {

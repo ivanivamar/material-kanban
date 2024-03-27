@@ -1,5 +1,5 @@
 <div class="dropdown" [class.expanded]="expanded" [class.disabled]="disabled" [class.active]="value !== null">
-    <div class="dropbtn gap-3" (click)="onClick($event)">
+    <div class="dropbtn gap-3">
         <label class="placeholder" *ngIf="value === null">
             {{ placeholder }}
         </label>
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="dropdown-content" *ngIf="expanded">
+    <div class="dropdown-content" *ngIf="expanded" [class.show-top]="isBottomPage" [class.show-bottom]="!isBottomPage">
         <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option.selected">
             {{ option[optionLabel] }}
             <i class="fa-duotone fa-check ml-auto flex text-primary" *ngIf="option.selected"></i>

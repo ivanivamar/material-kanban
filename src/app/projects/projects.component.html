@@ -15,7 +15,7 @@
                 <form #searchProjectForm="ngForm" class="searchbar relative flex align-items-center mr-3 border-round-lg text-white"
                       style="background-color: rgba(255, 255, 255, .1)">
                     <i class="fa-duotone fa-magnifying-glass absolute" style="left:16px"></i>
-                    <input type="search" class="w-100 bg-transparent text-white ml-4" placeholder="Search Project" name="search"
+                    <input type="search" class="w-100 bg-transparent text-white ml-4 border-none pl-3" placeholder="Search Project" name="search"
                            [(ngModel)]="searchProject" (ngModelChange)="searchProjects()">
                 </form>
                 <button class="btn btn-light" pRipple (click)="createOrEditProject()">
@@ -45,7 +45,7 @@
                             </p>
                         </div>
 
-                        <div class="flex align-items-center gap-4">
+                        <div class="flex align-items-center gap-4 mb-4">
                             <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
                             <span class="text-800 fw-bold text-base">
                                 {{ getTasksOfStatus(statusList[1].name, project) }}
@@ -64,8 +64,19 @@
                             </div>
                         </div>
 
-                        <div class="progress-bar mt-4">
+                        <div class="progress-bar mb-4">
                             <div class="progress" [style.width]="getProgress(project) + '%'"></div>
+                        </div>
+
+                        <div class="flex flex-wrap align-items-center overflow-x-auto relative">
+                            <div class="avatar border-circle">
+                                <img [src]="project.owner.photoURL" width="35px" height="35px" class="border-circle"
+                                     [alt]="project.owner.username + ' avatar'">
+                            </div>
+                            <div class="avatar border-circle relative" style="left: -10px" *ngFor="let member of project.members">
+                                <img [src]="member.photoURL" width="35px" height="35px" class="border-circle"
+                                     [alt]="member.username + ' avatar'">
+                            </div>
                         </div>
                     </div>
                 </a>

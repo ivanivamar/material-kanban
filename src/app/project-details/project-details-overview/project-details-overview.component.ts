@@ -17,6 +17,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     // @ts-ignore
     @Input() project: ProjectDetails;
     @Output() changeTab = new EventEmitter<number>();
+    @Output() goToTask = new EventEmitter<Task>();
 
     //task summary card:
     inProgressTasks: number = 0;
@@ -34,6 +35,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     tasksSummaryData: any;
 
     //tasks over time card:
+    // @ts-ignore
     tasksOverTimeOptions = {
         maintainAspectRatio: false,
         aspectRatio: 0.6,
@@ -51,12 +53,10 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                 }
             },
             y: {
-                grid: {
-                    tickBorderDash: [4, 4],
-                },
                 ticks: {
                     beginAtZero: true,
-                    stepSize: 1
+                    //@ts-ignore
+                    precision:0
                 },
             }
         }
@@ -115,7 +115,6 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                 }
             ]
         };
-        console.log('%c Tasks Summary Data:', 'color: #00b33c', this.project)
     }
 
     getInProgressTasks() {
@@ -136,7 +135,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let completedTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter(task => {
-                if (task.completed) {
+                if (task.completed || task.status.value == 3) {
                     completedTasks++;
                 }
             });
@@ -149,7 +148,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let overdueTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter(task => {
-                if (task.dueDate < new Date().toString() && !task.completed) {
+                if (task.dueDate < new Date().setHours(0,0,0,0).toString() && !task.completed) {
                     overdueTasks++;
                 }
             });
@@ -218,7 +217,6 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                 }
             ]
         };
-        console.log('%c Tasks Over Time Data:', 'color: #00b33c', this.tasksOverTimeData)
     }
 
     getQuarterTasks(quarterStart: Date, quarterEnd: Date): any {
@@ -231,8 +229,16 @@ export class ProjectDetailsOverviewComponent implements OnInit {
             if ((creationDate >= quarterStart && creationDate <= quarterEnd)) {
                 // get what of the three months the task was created
                 let month = creationDate.getMonth();
-                if (month == quarterStart.getMonth()) {
-                    quarterTasksData[!task.completed ? 1 : 0].data[creationDate.getDate() - 1] = quarterTasksData[0].data[creationDate.getDate() - 1] ? quarterTasksData[0].data[creationDate.getDate() - 1] + 1 : 1;
+                if (month >= quarterStart.getMonth() || month <= quarterEnd.getMonth()) {
+                    let monthNumber;
+                    if (month == quarterStart.getMonth()) {
+                        monthNumber = 0;
+                    } else if (month == quarterEnd.getMonth()) {
+                        monthNumber = 2;
+                    } else {
+                        monthNumber = 1;
+                    }
+                    quarterTasksData[!task.completed ? 1 : 0].data[monthNumber] = quarterTasksData[0].data[monthNumber] ? quarterTasksData[0].data[monthNumber] + 1 : 1;
                 }
             }
         });
@@ -271,8 +277,6 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         }
         // select current day from this.currentWeekDays
         this.selectedDay = this.currentWeekDays[currentDay - 1];
-
-        console.log('%c Current Week Tasks:', 'color: #00b33c', this.currentWeekDays)
     }
     selectToday() {
         const today = new Date();

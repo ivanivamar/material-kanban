@@ -1,13 +1,13 @@
 input,
 textarea
-    border: none
-    border-radius: $border-radius
-    padding: .775rem 1rem
-    font-size: 15px
+    border: 1px solid $color-utility-outline
+    border-radius: $border-radius-sm
+    padding: 10px 13px
+    font-size: 14.3px
     appearance: none
-    background-color: $color-secondary
     color: $color-on-surface
     width: 100%
+    font-weight: 500
     box-sizing: border-box
     transition: all 0.2s ease
     outline: none !important
@@ -18,8 +18,23 @@ textarea
     &:focus,
     &:hover,
     &:active
-        background-color: #F1F1F4
+        border-color: $color-primary
 
+input
+    height: 43px
+
+textarea
+    min-height: 100px
+    resize: none
+
+label.required
+    font-size: 13.65px
+    font-weight: 500
+    margin-bottom: 6px
+    &:after
+        content: "*"
+        color: $color-utility-error
+        margin-left: 5px
 
 
 .checkbox-container
