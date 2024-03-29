@@ -3,13 +3,13 @@ import {Component, OnInit} from '@angular/core';
 import {from} from 'rxjs';
 import {
     Project, Status,
-    Task
+    Task, Urgency
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {TableHelper} from "../../shared/helpers/tableHelper";
+import {StatusList, UrgencyList} from "../../shared/helpers/projectClasses";
 
 export interface ControllerInputDto {
     uid?: string;
@@ -42,32 +42,8 @@ export class ProjectsComponent implements OnInit {
     userEmailToShare: string = '';
     shareWithError: string = '';
 
-    statusList: Status[] = [
-        {
-            value: 0,
-            name: 'To Do',
-            icon: 'pause_circle',
-            type: 'secondary'
-        },
-        {
-            value: 1,
-            name: 'In Progress',
-            icon: 'clock_loader_40',
-            type: 'primary'
-        },
-        {
-            value: 2,
-            name: 'Review',
-            icon: 'draw',
-            type: 'warning'
-        },
-        {
-            value: 3,
-            name: 'Completed',
-            icon: 'verified',
-            type: 'success'
-        },
-    ];
+    statusList: Status[] = StatusList;
+    urgencyList: Urgency[] = UrgencyList;
 
     constructor(
         private kanbanService: KanbanService,
@@ -283,10 +259,10 @@ export class ProjectsComponent implements OnInit {
         project.menu = !project.menu;
     }
 
-    getTasksOfStatus(statusName: string, project: Project) {
+    getTasksOfStatus(statusValue: number, project: Project) {
         let count = 0;
         project.tasks.forEach((task: Task) => {
-            if (task.status.name === statusName) {
+            if (task.status.value === statusValue) {
                 count++;
             }
         });

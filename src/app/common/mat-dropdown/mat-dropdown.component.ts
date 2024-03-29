@@ -25,12 +25,14 @@ export class MatDropdownComponent implements OnInit {
 
     expanded: boolean = false;
     ngModelLabel: string = '';
+    isBottomPage: boolean = false;
 
     constructor(private _eref: ElementRef) {
     }
 
     ngOnInit() {
         if (this.value !== null) {
+            console.log('this.options', this.options);
             this.options.forEach((item: any) => {
                 if (item[this.optionValue] === this.value) {
                     item.selected = true;
@@ -44,7 +46,9 @@ export class MatDropdownComponent implements OnInit {
         if (!this._eref.nativeElement.contains(event.target)) {
             this.expanded = false;
         } else {
-            this.expanded = true;
+            this.expanded = !this.expanded;
+            // @ts-ignore
+            this.isBottomPage = window.innerHeight - event.clientY < 200;
         }
     }
 
@@ -59,6 +63,7 @@ export class MatDropdownComponent implements OnInit {
             option.selected = true;
         });
         this.valueChange.emit(!this.returnValue ? option : this.value);
+        this.expanded = false;
     }
 
     clear(event: Event) {

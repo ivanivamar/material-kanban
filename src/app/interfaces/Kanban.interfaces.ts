@@ -11,12 +11,12 @@ export interface Organization {
 }
 
 export interface Task {
-    id: string;
+    id?: string;
     title: string;
     labels: any[];
     status: Status;
     description: string;
-    checkboxes: Checkboxes[];
+    subtasks: Subtasks[];
     urgency: Urgency;
     creationDate: string;
     modificationDate: string;
@@ -25,7 +25,45 @@ export interface Task {
     dueDate: string;
     dayDuration?: number;
     owner: UserLite;
-    assignees: UserLite[];
+    assignees: UserLite;
+}
+
+export class TaskDto implements Task {
+    id?: string;
+    title: string = '';
+    labels: any[] = [];
+    status: Status = {
+        value: 0,
+        name: 'To Do',
+        icon: 'fa-duotone fa-circle-pause',
+        type: 'secondary'
+    };
+    description: string = '';
+    subtasks: Subtasks[] = [];
+    urgency: Urgency = {
+        title: 'Low',
+        color: 'secondary',
+        code: 0
+    };
+    creationDate: string = new Date().toString();
+    modificationDate: string = new Date().toString();
+    completed: boolean = false;
+    images: Images[] = [];
+    dueDate: string = '';
+    owner: UserLite = {
+        username: '',
+        email: '',
+        photoURL: '',
+        uid: '',
+        sharedProjectsIds: []
+    }
+    assignees: UserLite = {
+        username: '',
+        email: '',
+        photoURL: '',
+        uid: '',
+        sharedProjectsIds: []
+    }
 }
 
 export interface UserLite {
@@ -53,7 +91,7 @@ export interface Images {
     updatedDate: any;
 }
 
-export interface Checkboxes {
+export interface Subtasks {
     id: string;
     title: string;
     description: string;

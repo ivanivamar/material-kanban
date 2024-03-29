@@ -36,11 +36,11 @@
                         <div class="menu-item px-1 border-bottom mb-2">
                             <div class="menu-content">
                                 <img [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
-                                <div class="flex flex-column">
+                                <div class="flex flex-column gap-1">
                                     <span class="fw-bold flex align-items-center text-base">
                                         {{ user.displayName }}
                                     </span>
-                                    <a class="text-secondary" href="mailto:{{ user.email }}"
+                                    <a class="fw-semibold text-500 fs-7 text-active-primary" href="mailto:{{ user.email }}"
                                        target="_blank">{{ user.email }}
                                     </a>
                                 </div>
