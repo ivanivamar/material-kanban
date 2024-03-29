@@ -20,7 +20,6 @@ export class PaginationComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         setTimeout(() => {
-            console.log('totalRecordCount', this.totalRecordCount);
             this.pages = [];
             for (let i = 1; i <= Math.ceil(this.totalRecordCount / this.rows); i++) {
                 this.pages.push(i);

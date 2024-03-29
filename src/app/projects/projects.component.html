@@ -48,7 +48,7 @@
                         <div class="flex align-items-center gap-4 mb-4">
                             <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
                             <span class="text-800 fw-bold text-base">
-                                {{ getTasksOfStatus(statusList[1].name, project) }}
+                                {{ getTasksOfStatus(statusList[1].value, project) }}
                             </span>
                                 <span class="fw-semibold text-500">
                                 Ongoing Tasks
@@ -56,7 +56,7 @@
                             </div>
                             <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
                             <span class="text-800 fw-bold text-base">
-                                {{ getTasksOfStatus(statusList[3].name, project) }}
+                                {{ getTasksOfStatus(statusList[2].value, project) }}
                             </span>
                                 <span class="fw-semibold text-500">
                                 Completed Tasks

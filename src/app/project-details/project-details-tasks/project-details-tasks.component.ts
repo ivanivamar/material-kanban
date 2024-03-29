@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, LOCALE_ID, OnInit, Output} from '@angular/core';
 import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
