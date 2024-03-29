@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProjectDetails} from "../../../shared/helpers/projectClasses";
+import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
-import {Checkboxes, Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
+import {Subtasks, Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
 import Swal from "sweetalert2";
 
 @Component({
@@ -22,38 +22,8 @@ export class ProjectDetailsTasksComponent implements OnInit {
     selectedTask: TaskDto | null = null;
     isManagingTask = false;
 
-    statusList: Status[] = [
-        {
-            value: 0,
-            name: 'To Do',
-            icon: 'pause_circle',
-            type: 'secondary'
-        },
-        {
-            value: 1,
-            name: 'In Progress',
-            icon: 'clock_loader_40',
-            type: 'primary'
-        },
-        {
-            value: 2,
-            name: 'Review',
-            icon: 'draw',
-            type: 'warning'
-        },
-        {
-            value: 3,
-            name: 'Completed',
-            icon: 'verified',
-            type: 'success'
-        },
-    ];
-    urgencyList: Urgency[] = [
-        {title: 'Low', code: 0, color: 'secondary'},
-        {title: 'Normal', code: 1, color: 'primary'},
-        {title: 'High', code: 2, color: 'warning'},
-        {title: 'Urgent', code: 3, color: 'danger'},
-    ];
+    statusList = StatusList;
+    urgencyList: Urgency[] = UrgencyList;
 
     constructor(
         private kanbanService: KanbanService,
@@ -83,6 +53,10 @@ export class ProjectDetailsTasksComponent implements OnInit {
         this.selectedTask.owner = this.project.owner;
         this.isManagingTask = true;
         console.log("this.isManagingTask", this.isManagingTask);
+    }
+
+    completedSubtasks(subtasks: Subtasks[]) {
+        return subtasks.filter(subtask => subtask.checked).length;
     }
 
     saveTaskChanges() {
@@ -130,10 +104,10 @@ export class ProjectDetailsTasksComponent implements OnInit {
 
     addSubtask() {
         if (this.selectedTask) {
-            if (!this.selectedTask.checkboxes) {
-                this.selectedTask.checkboxes = [];
+            if (!this.selectedTask.subtasks) {
+                this.selectedTask.subtasks = [];
             }
-            this.selectedTask.checkboxes.push({
+            this.selectedTask.subtasks.push({
                 id: this.idGenerator(),
                 title: '',
                 description: '',
@@ -142,17 +116,17 @@ export class ProjectDetailsTasksComponent implements OnInit {
         }
     }
 
-    updateSubtask(subtask: Checkboxes) {
+    updateSubtask(subtask: Subtasks) {
         if (this.selectedTask) {
-            this.selectedTask.checkboxes = this.selectedTask.checkboxes.map((checkbox: any) => {
+            this.selectedTask.subtasks = this.selectedTask.subtasks.map((checkbox: any) => {
                 return checkbox.id === subtask.id ? subtask : checkbox;
             });
         }
     }
 
-    removeSubtask(subtask: Checkboxes) {
+    removeSubtask(subtask: Subtasks) {
         if (this.selectedTask) {
-            this.selectedTask.checkboxes = this.selectedTask.checkboxes.filter((checkbox: any) => checkbox.id !== subtask.id);
+            this.selectedTask.subtasks = this.selectedTask.subtasks.filter((checkbox: any) => checkbox.id !== subtask.id);
         }
     }
 

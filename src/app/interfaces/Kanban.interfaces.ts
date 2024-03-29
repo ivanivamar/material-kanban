@@ -16,7 +16,7 @@ export interface Task {
     labels: any[];
     status: Status;
     description: string;
-    checkboxes: Checkboxes[];
+    subtasks: Subtasks[];
     urgency: Urgency;
     creationDate: string;
     modificationDate: string;
@@ -39,7 +39,7 @@ export class TaskDto implements Task {
         type: 'secondary'
     };
     description: string = '';
-    checkboxes: Checkboxes[] = [];
+    subtasks: Subtasks[] = [];
     urgency: Urgency = {
         title: 'Low',
         color: 'secondary',
@@ -91,7 +91,7 @@ export interface Images {
     updatedDate: any;
 }
 
-export interface Checkboxes {
+export interface Subtasks {
     id: string;
     title: string;
     description: string;

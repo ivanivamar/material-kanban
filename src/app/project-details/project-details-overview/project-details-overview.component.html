@@ -127,7 +127,7 @@
                         <div class="fw-semibold ml-3 text-600">
                             <div class="flex align-items-center gap-2 mb-1">
                                 <i class="fa-duotone fa-diagram-subtask"></i>
-                                {{ getCompletedSubTasks(task) }} / {{ task.checkboxes.length }}
+                                {{ getCompletedSubTasks(task) }} / {{ task.subtasks.length }}
                             </div>
                             <div class="fs-5 fw-bold text-800 mb-1 flex align-items-center gap-2">
                                 <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>

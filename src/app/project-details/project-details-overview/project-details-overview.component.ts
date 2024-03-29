@@ -75,7 +75,6 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     isNextWeek: boolean = false;
     // @ts-ignore
     selectedDay: CurrentWeekDays;
-    today = new Date();
 
     constructor() {
     }
@@ -313,7 +312,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
 
     getCompletedSubTasks(task: Task): number {
         let completedSubTasks = 0;
-        task.checkboxes.filter(checkbox => {
+        task.subtasks.filter(checkbox => {
             if (checkbox.checked) {
                 completedSubTasks++;
             }
