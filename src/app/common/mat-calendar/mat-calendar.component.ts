@@ -47,6 +47,10 @@ export class MatCalendarComponent implements OnInit {
             if (event.target['classList'].contains('month') == false && event.target['classList'].contains('year') == false) {
                 this.onClose();
             }
+        } else {
+            // check if the calendar is at the bottom of the page
+            // @ts-ignore
+            this.isBottomPage = window.innerHeight - event.clientY < 200;
         }
     }
 
@@ -161,6 +165,7 @@ export class MatCalendarComponent implements OnInit {
         this.selectedDay = new Date().getDate();
         this.selectedDate = {day: this.selectedDay, month: this.selectedMonth, year: this.selectedYear, isToday: true};
         this.value = new Date().toString();
+        this.generateCalendar();
         this.valueChange.emit(this.value);
     }
 
