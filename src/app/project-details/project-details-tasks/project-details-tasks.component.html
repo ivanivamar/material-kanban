@@ -162,12 +162,14 @@
                     <h2 class="title">Due Date</h2>
                 </div>
                 <div class="card-body pt-0">
-                    <input
+                    <!--<input
                         type="date"
                         id="taskDueDate"
                         name="dueDate"
                         required
-                        [(ngModel)]="selectedTask.dueDate"/>
+                        [(ngModel)]="selectedTask.dueDate"/>-->
+                    <mat-calendar [value]="selectedTask.dueDate"
+                                  (valueChange)="selectedTask.dueDate = $event"></mat-calendar>
                     <span class="text-500 fs-7">
                         Set the task due date.
                     </span>

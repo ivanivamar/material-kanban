@@ -38,6 +38,7 @@ import { CountUpModule } from 'ngx-countup';
 import { ProjectDetailsSettingsComponent } from './project-details/project-details-settings/project-details-settings.component';
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { ProjectDetailsTasksComponent } from './project-details/project-details-tasks/project-details-tasks.component';
+import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { ProjectDetailsTasksComponent } from './project-details/project-details-
         ProjectDetailsOverviewComponent,
         BusyIfDirective,
         ProjectDetailsSettingsComponent,
-        ProjectDetailsTasksComponent
+        ProjectDetailsTasksComponent,
+        MatCalendarComponent
     ],
     imports: [
         CommonModule,
