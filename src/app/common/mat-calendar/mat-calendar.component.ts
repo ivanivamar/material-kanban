@@ -26,7 +26,7 @@ export class MatCalendarComponent implements OnInit {
 
     days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    weeks: any[] = [];
+    weeks: Day[][] = [];
 
     selectedYear: number = new Date().getFullYear();
     selectedMonth: number = new Date().getMonth();
@@ -39,6 +39,15 @@ export class MatCalendarComponent implements OnInit {
 
 
     constructor(private _eref: ElementRef) {
+    }
+
+    onClick(event: Event) {
+        if (!this._eref.nativeElement.contains(event.target)) {
+            // @ts-ignore
+            if (event.target['classList'].contains('month') == false && event.target['classList'].contains('year') == false) {
+                this.onClose();
+            }
+        }
     }
 
     ngOnInit(): void {
@@ -55,60 +64,63 @@ export class MatCalendarComponent implements OnInit {
             let isToday = this.selectedYear === new Date().getFullYear() && this.selectedMonth === new Date().getMonth() && this.selectedDay === new Date().getDate();
             this.selectedDate = {day: this.selectedDay, month: this.selectedMonth, year: this.selectedYear, isToday: isToday};
         }
-        console.log("%c selectedDate", "color: green; font-size: 16px; font-weight: bold;", this.selectedDate);
 
         this.generateCalendar();
     }
 
     generateCalendar() {
-        this.weeks = [];
-        const firstDay = new Date(this.selectedYear, this.selectedMonth, 1).getDay();
-        const lastDay = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate();
-        const lastMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-        const weeks = Math.ceil((lastDay + firstDay) / 7);
+        const today = new Date();
 
-        let day = 1;
-        for (let i = 0; i < weeks; i++) {
-            let week: Day[] = [];
+        const firstDayOfMonth = new Date(this.selectedYear, this.selectedMonth, 1);
+        const lastDayOfMonth = new Date(this.selectedYear, this.selectedMonth + 1, 0);
+        const numDaysInMonth = lastDayOfMonth.getDate();
+        const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+        // Calculate how many days to display from the previous month
+        const daysFromPrevMonth = (firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1);
+        // Calculate total number of days to display including days from previous and next month
+        const totalDaysToShow = daysFromPrevMonth + numDaysInMonth;
+        // Calculate number of weeks needed
+        const numWeeks = Math.ceil(totalDaysToShow / 7);
+        this.weeks = [];
+
+        let currentDay = 1 - daysFromPrevMonth;
+
+        for (let i = 0; i < numWeeks; i++) {
+            const week: Day[] = [];
             for (let j = 0; j < 7; j++) {
-                if (i === 0 && j < firstDay) {
-                    week.push({ day: lastMonth - firstDay + j + 1, month: this.selectedMonth - 1, year: this.selectedYear, isToday: false });
-                } else if (day > lastDay) {
-                    week.push({ day: day - lastDay, month: this.selectedMonth + 1, year: this.selectedYear, isToday: false });
-                } else {
-                    let isToday = this.selectedYear === new Date().getFullYear() && this.selectedMonth === new Date().getMonth() && day === new Date().getDate();
-                    week.push({ day: day, month: this.selectedMonth, year: this.selectedYear, isToday: isToday });
-                }
-                day++; // Increment day in each iteration
+                const date = new Date(this.selectedYear, this.selectedMonth, currentDay);
+                const dayOfMonth = date.getDate();
+                const monthOfYear = date.getMonth();
+                const year = date.getFullYear();
+                const isToday = currentDay === today.getDate() && monthOfYear === today.getMonth() && year === today.getFullYear();
+
+                week.push({ day: dayOfMonth, month: monthOfYear, year: year, isToday: isToday });
+
+                currentDay++;
             }
             this.weeks.push(week);
         }
     }
 
-    onClick(event: Event) {
-        if (!this._eref.nativeElement.contains(event.target)) {
-            this.showModal = false;
-        }
-    }
-
     onYearSelected(year: number) {
         this.selectedYear = year;
+        this.showModal = true;
         this.currentView = 'months';
     }
 
     onMonthSelected(month: number) {
         this.selectedMonth = month;
+        this.showModal = true;
+        this.generateCalendar();
         this.currentView = 'days';
     }
 
-    onDaySelected(day: any) {
+    onDaySelected(day: Day) {
         this.selectedDate = day;
-        this.value = new Date(this.selectedYear, this.selectedMonth, this.selectedDate.day).toString();
+        this.value = new Date(day.year, day.month, day.day).toString();
         this.valueChange.emit(this.value);
         this.showModal = false;
-    }
-    isSelectedDay(day: any) {
-        return this.selectedDate.day === day.day && this.selectedDate.month === day.currentMonth && this.selectedDate.year === day.currentYear;
     }
 
     onViewChange(view: string) {
@@ -141,6 +153,20 @@ export class MatCalendarComponent implements OnInit {
             this.selectedYear += 12;
         }
         this.generateCalendar();
+    }
+
+    setToday() {
+        this.selectedYear = new Date().getFullYear();
+        this.selectedMonth = new Date().getMonth();
+        this.selectedDay = new Date().getDate();
+        this.selectedDate = {day: this.selectedDay, month: this.selectedMonth, year: this.selectedYear, isToday: true};
+        this.value = new Date().toString();
+        this.valueChange.emit(this.value);
+    }
+
+    onClose() {
+        this.showModal = false;
+        this.currentView = 'days';
     }
 
 }

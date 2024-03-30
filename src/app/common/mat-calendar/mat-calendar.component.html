@@ -5,7 +5,7 @@
         </span>
 
         <button
-            class="btn btn-primary"
+            class="btn btn-primary p-3"
             type="button">
             <i class="fa-duotone fa-calendar"></i>
         </button>
@@ -59,22 +59,37 @@
                                 <div class="day"
                                      [class.not-in-month]="day.month !== selectedMonth"
                                      (click)="onDaySelected(day)"
-                                     [class.today]="day.day === selectedDay && day.month === selectedMonth"
-                                     [class.selected]="isSelectedDay(day)">
+                                     [class.today]="day.isToday"
+                                     [class.selected]="day.day == selectedDate.day && day.month == selectedDate.month && day.year == selectedDate.year">
                                     {{ day.day }}
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="flex align-items-center justify-content-end mt-2">
+                    <button
+                        class="btn btn-text btn-sm"
+                        type="button"
+                        (click)="onClose()">
+                        Close
+                    </button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        type="button"
+                        (click)="setToday()">
+                        Today
+                    </button>
+                </div>
             </div>
 
-            <div *ngSwitchCase="'months'" class="fadein">
+            <div *ngSwitchCase="'months'" class="fadein p-3">
                 <div class="flex flex-column gap-3">
                     <div class="flex flex-row flex-wrap gap-1 calendar-months-header">
-                        <div *ngFor="let month of months; let i = index" class="month"
-                             [class.selected]="selectedMonth === i"
-                             (click)="onMonthSelected(i)">
+                        <div *ngFor="let month of months; let index = index" class="month"
+                             [class.selected]="selectedMonth === index"
+                             (click)="onMonthSelected(index)">
                             {{ month.substring(0, 3) }}
                         </div>
                     </div>
