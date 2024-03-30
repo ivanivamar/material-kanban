@@ -29,7 +29,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     ProjectTabs = ProjectTabs;
     searchTerm: string = '';
-    tabs = [
+    tabs: any[] = [
         {
             title: 'Overview',
             breadcrumb: 'View Project',
@@ -108,11 +108,11 @@ export class ProjectDetailsComponent implements OnInit {
             this.project = project;
             // add projectId to project object
             this.project.id = this.projectId;
+            console.log("%c project", "color: green; font-size: 16px; font-weight: bold;", this.project);
             // order tasks by creationDate
             this.project.tasks.sort((a, b) => {
                 return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
             });
-            this.tasksOg = this.project.tasks;
             this.membersList = JSON.parse(JSON.stringify(this.project.members));
             this.membersList.push(this.project.owner);
             this.loading = false;
@@ -125,6 +125,10 @@ export class ProjectDetailsComponent implements OnInit {
                 return user.uid !== this.user.uid;
             });
         });
+    }
+
+    manageTabs(tab: any) {
+        this.currentTab = tab;
     }
 
     getPendingTasks(): number {

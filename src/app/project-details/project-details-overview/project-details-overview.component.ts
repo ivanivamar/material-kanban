@@ -19,6 +19,8 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     @Output() changeTab = new EventEmitter<number>();
     @Output() goToTask = new EventEmitter<Task>();
 
+    loading: boolean = false;
+
     //task summary card:
     inProgressTasks: number = 0;
     completedTasks: number = 0;
@@ -74,7 +76,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     currentWeekDays: CurrentWeekDays[] = [];
     isNextWeek: boolean = false;
     // @ts-ignore
-    selectedDay: CurrentWeekDays;
+    selectedDay: CurrentWeekDays | null = null;
 
     constructor() {
     }
@@ -288,7 +290,10 @@ export class ProjectDetailsOverviewComponent implements OnInit {
             });
         }
         // select current day from this.currentWeekDays
-        this.selectedDay = this.currentWeekDays[currentDay - 1];
+        if (currentDay > this.currentWeekDays.length) {
+            this.selectedDay = null;
+        }
+        console.log("%c selectedDay", "color: green; font-size: 16px; font-weight: bold;", currentDay);
     }
 
     selectToday() {
@@ -299,14 +304,16 @@ export class ProjectDetailsOverviewComponent implements OnInit {
 
     getDayTasks(day: Date): Task[] {
         let dayTasks: Task[] = [];
-        this.project.tasks.filter(task => {
-            let taskDueDate = new Date(task.dueDate);
-            if (taskDueDate.getDate() == day.getDate() && taskDueDate.getMonth() == day.getMonth() && taskDueDate.getFullYear() == day.getFullYear()) {
-                dayTasks.push(task);
-            }
-        });
-        // remove all but the first 3 tasks
-        dayTasks = dayTasks.slice(0, 3);
+        if (this.project.tasks.length > 0) {
+            this.project.tasks.filter(task => {
+                let taskDueDate = new Date(task.dueDate);
+                if (taskDueDate.getDate() == day.getDate() && taskDueDate.getMonth() == day.getMonth() && taskDueDate.getFullYear() == day.getFullYear()) {
+                    dayTasks.push(task);
+                }
+            });
+            // remove all but the first 3 tasks
+            dayTasks = dayTasks.slice(0, 3);
+        }
         return dayTasks;
     }
 

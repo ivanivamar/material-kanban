@@ -1,4 +1,4 @@
-<div class="grid grid-nogutter mt-5">
+<div class="grid grid-nogutter mt-5" *ngIf="!loading">
     <div class="col-12 lg:col-6 lg:pr-3">
         <div class="card card-flush lg:h-full">
             <div class="card-header mt-4">
@@ -106,7 +106,7 @@
 
             <div class="card-body pt-3">
                 <div class="flex align-items-center flex-nowrap justify-content-between gap-2 overflow-x-auto mb-5">
-                    <div class="nav-item" [class.active]="selectedDay.day == day.day"
+                    <div class="nav-item" [class.active]="selectedDay && selectedDay.day == day.day"
                          *ngFor="let day of currentWeekDays" (click)="selectedDay = day">
                         <span class="opacity-50 fs-7 fw-semibold">
                             {{ day.label }}
@@ -118,29 +118,31 @@
                 </div>
 
                 <div class="flex flex-column gap-5">
-                    <div class="message primary" *ngIf="selectedDay.tasks?.length == 0">
+                    <div class="message primary" *ngIf="selectedDay && selectedDay.tasks.length == 0">
                         There are no tasks for this day.
                     </div>
-                    <div class="flex justify-content-between align-items-center mt-3 relative"
-                         *ngFor="let task of selectedDay.tasks">
-                        <div class="absolute h-full rounded top-0 left-0" [ngClass]="'bg-'+task.urgency.color" style="width: 4px"></div>
-                        <div class="fw-semibold ml-3 text-600">
-                            <div class="flex align-items-center gap-2 mb-1">
-                                <i class="fa-duotone fa-diagram-subtask"></i>
-                                {{ getCompletedSubTasks(task) }} / {{ task.subtasks.length }}
+                    <ng-container *ngIf="selectedDay && selectedDay.tasks.length > 0">
+                        <div class="flex justify-content-between align-items-center mt-3 relative"
+                             *ngFor="let task of selectedDay.tasks">
+                            <div class="absolute h-full rounded top-0 left-0" [ngClass]="'bg-'+task.urgency.color" style="width: 4px"></div>
+                            <div class="fw-semibold ml-3 text-600">
+                                <div class="flex align-items-center gap-2 mb-1">
+                                    <i class="fa-duotone fa-diagram-subtask"></i>
+                                    {{ getCompletedSubTasks(task) }} / {{ task.subtasks.length }}
+                                </div>
+                                <div class="fs-5 fw-bold text-800 mb-1 flex align-items-center gap-2">
+                                    <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
+                                    {{ task.title }}
+                                </div>
+                                <div class="text-500">
+                                    Lead by {{ task.owner.username }}
+                                </div>
                             </div>
-                            <div class="fs-5 fw-bold text-800 mb-1 flex align-items-center gap-2">
-                                <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
-                                {{ task.title }}
-                            </div>
-                            <div class="text-500">
-                                Lead by {{ task.owner.username }}
-                            </div>
+                            <button class="btn btn-sm btn-secondary btn-active" (click)="goToTask.emit(task)">
+                                View
+                            </button>
                         </div>
-                        <button class="btn btn-sm btn-secondary btn-active" (click)="goToTask.emit(task)">
-                            View
-                        </button>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </div>

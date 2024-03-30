@@ -97,6 +97,8 @@ export class ProjectDetailsTasksComponent implements OnInit {
                 this.kanbanService.updateProject(this.project);
                 // update the current page tasks
                 this.getCurrentPageTasks(1);
+                this.isManagingTask = false;
+                this.selectedTask = null;
                 this.onChanges.emit();
             }
         });

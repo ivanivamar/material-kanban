@@ -162,12 +162,14 @@
                     <h2 class="title">Due Date</h2>
                 </div>
                 <div class="card-body pt-0">
-                    <input
+                    <!--<input
                         type="date"
                         id="taskDueDate"
                         name="dueDate"
                         required
-                        [(ngModel)]="selectedTask.dueDate"/>
+                        [(ngModel)]="selectedTask.dueDate"/>-->
+                    <mat-calendar [value]="selectedTask.dueDate"
+                                  (valueChange)="selectedTask.dueDate = $event"></mat-calendar>
                     <span class="text-500 fs-7">
                         Set the task due date.
                     </span>
@@ -262,15 +264,23 @@
                     </button>
                 </div>
             </div>
-            <div class="flex justify-content-end mt-3 gap-3">
-                <button type="button" class="btn btn-text" (click)="cancel()">
-                    <i class="fa-duotone fa-times"></i>
-                    Cancel
+            <div class="flex justify-content-between mt-3">
+                <button type="button" class="btn btn-danger" *ngIf="selectedTask.id" (click)="confirmDeleteTask(selectedTask, $event)">
+                    <i class="fa-duotone fa-trash-alt"></i>
+                    Delete Task
                 </button>
-                <button type="submit" class="btn btn-primary" [disabled]="manageTaskForm.invalid">
-                    <i class="fa-duotone fa-save"></i>
-                    Save Changes
-                </button>
+                <div *ngIf="!selectedTask.id"></div>
+
+                <div class="flex align-items-center gap-3">
+                    <button type="button" class="btn btn-text" (click)="cancel()">
+                        <i class="fa-duotone fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="manageTaskForm.invalid">
+                        <i class="fa-duotone fa-save"></i>
+                        Save Changes
+                    </button>
+                </div>
             </div>
         </div>
     </form>
