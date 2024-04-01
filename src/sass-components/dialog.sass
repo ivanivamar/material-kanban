@@ -60,10 +60,10 @@
             flex-direction: column
             width: 100%
             pointer-events: auto
-            background-color: $color-surface
+            background-color: var(--color-surface)
             background-clip: padding-box
             border: 0 solid rgba(0, 0, 0, 0.175)
-            border-radius: $border-radius-sm
+            border-radius: var(--border-radius-sm)
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1)
             outline: 0
 
@@ -73,9 +73,9 @@
                 align-items: center
                 justify-content: space-between
                 padding: 22px
-                border-bottom: 1px solid $color-utility-outline
-                border-top-left-radius: $border-radius-sm
-                border-top-right-radius: $border-radius-sm
+                border-bottom: 1px solid var(--color-utility-outline)
+                border-top-left-radius: var(--border-radius-sm)
+                border-top-right-radius: var(--border-radius-sm)
 
                 .dialog-actions
                     display: flex
@@ -86,8 +86,8 @@
                     font-size: 19px
                     font-weight: 500
                     line-height: 28px
-                    font-family: $font-family
-                    color: $color-on-surface
+                    font-family: var(--font-family)
+                    color: var(--color-on-surface)
 
             .modal-body
                 position: relative
@@ -101,9 +101,9 @@
                 align-items: center
                 justify-content: flex-end
                 padding: 1.75rem 1.75rem
-                border-top: 1px solid $color-utility-outline
-                border-bottom-left-radius: $border-radius-sm
-                border-bottom-right-radius: $border-radius-sm
+                border-top: 1px solid var(--color-utility-outline)
+                border-bottom-left-radius: var(--border-radius-sm)
+                border-bottom-right-radius: var(--border-radius-sm)
 
 .dialog-full
     height: 100%
@@ -121,12 +121,12 @@
         display: flex
         justify-content: space-between
         align-items: center
-        background-color: $color-secondary
+        background-color: var(--color-secondary)
         padding: 15px 64px
-        border-bottom: 1px solid $color-utility-outline
+        border-bottom: 1px solid var(--color-utility-outline)
 
     .dialog-content
-        background-color: $color-background
+        background-color: var(--color-background)
         display: flex
         padding: 15px 64px
         height: calc(100% - 75px)

@@ -1,16 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
-import { Login, Register } from '../../app/interfaces/Kanban.interfaces';
-import { signOut } from 'firebase/auth';
+import {Injectable} from '@angular/core';
+import {
+    Auth,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    signInWithPopup
+} from '@angular/fire/auth';
+import {Login, Register} from '../../app/interfaces/Kanban.interfaces';
+import {signOut} from 'firebase/auth';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private auth: Auth) { }
+    constructor(private auth: Auth) {
+    }
 
-    register({ username, email, password }: Register) {
+    register({username, email, password}: Register) {
         // create user
         return createUserWithEmailAndPassword(this.auth, email, password)
             .then((userCredential: any) => {
@@ -18,19 +25,15 @@ export class AuthService {
                 let user = userCredential.user;
                 user.displayName = username;
                 this.auth.updateCurrentUser(user);
-                // ...
                 return user;
-            }
-            ).catch((error) => {
+            }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
                 return error;
-            }
-            );
+            });
     }
 
-    login({ email, password }: Login) {
+    login({email, password}: Login) {
         return signInWithEmailAndPassword(this.auth, email, password);
     }
 

@@ -9,13 +9,13 @@
     font-size: 14.3px
     font-weight: 500
     line-height: 1.5
-    color: $color-on-surface
+    color: var(--color-on-surface)
     text-align: center
     vertical-align: middle
     cursor: pointer
     user-select: none
     border: 1px solid transparent
-    border-radius: $border-radius-sm
+    border-radius: var(--border-radius-sm)
     background-color: transparent
     box-shadow: none
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
@@ -36,50 +36,50 @@
         height: fit-content
 
     &.btn-primary
-        background-color: $color-primary
-        color: $color-on-primary
+        background-color: var(--color-primary)
+        color: var(--color-on-primary)
 
         &:hover
-            background-color: $color-primary-active
+            background-color: var(--color-primary-active)
 
         &:active
-            background-color: $color-primary-active
+            background-color: var(--color-primary-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-primary), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-light-primary
-        background-color: $color-primary-light
-        color: $color-primary
+        background-color: var(--color-primary-light)
+        color: var(--color-primary)
 
         &:hover
-            background-color: $color-primary
-            color: $color-on-primary
+            background-color: var(--color-primary)
+            color: var(--color-on-primary)
 
         &:active
-            background-color: $color-primary
-            color: $color-on-primary
+            background-color: var(--color-primary)
+            color: var(--color-on-primary)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary-light, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-primary-light), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-secondary
-        background-color: $color-secondary
-        color: $color-on-secondary
+        background-color: var(--color-secondary)
+        color: var(--color-on-secondary)
 
         &:hover
-            background-color: $color-secondary-active
+            background-color: var(--color-secondary-active)
 
         &:active
-            background-color: $color-secondary-active
+            background-color: var(--color-secondary-active)
 
         &:disabled
             opacity: 0.5
@@ -90,14 +90,14 @@
 
     &.btn-outline
         background-color: transparent
-        border: 1px solid $color-utility-outline
-        color: $color-on-surface
+        border: 1px solid var(--color-utility-outline)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-secondary
+            background-color: var(--color-secondary)
 
         &:active
-            background-color: $color-secondary
+            background-color: var(--color-secondary)
 
         &:disabled
             opacity: 0.5
@@ -108,13 +108,13 @@
 
     &.btn-text
         background-color: transparent
-        color: $color-on-surface
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-secondary
+            background-color: var(--color-secondary)
 
         &:active
-            background-color: $color-secondary
+            background-color: var(--color-secondary)
 
         &:disabled
             opacity: 0.5
@@ -124,116 +124,116 @@
             box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #9dc1fb, 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-danger
-        background-color: $color-utility-error
-        color: $color-surface
+        background-color: var(--color-utility-error)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-error-active
+            background-color: var(--color-utility-error-active)
 
         &:active
-            background-color: $color-utility-error-active
+            background-color: var(--color-utility-error-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-error, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-utility-error), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-light-danger
-        background-color: $color-utility-error-light
-        color: $color-utility-error
+        background-color: var(--color-utility-error-light)
+        color: var(--color-utility-error)
 
         &:hover
-            background-color: $color-utility-error-active
-            color: $color-surface
+            background-color: var(--color-utility-error-active)
+            color: var(--color-on-surface)
 
         &:active
-            background-color: $color-utility-error-active
-            color: $color-surface
+            background-color: var(--color-utility-error-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-error, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-utility-error), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-warning
-        background-color: $color-utility-warning
-        color: $color-surface
+        background-color: var(--color-utility-warning)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-warning-active
+            background-color: var(--color-utility-warning-active)
 
         &:active
-            background-color: $color-utility-warning-active
+            background-color: var(--color-utility-warning-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-warning, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-utility-warning), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-light-warning
-        background-color: $color-utility-warning-light
-        color: $color-utility-warning
+        background-color: var(--color-utility-warning-light)
+        color: var(--color-utility-warning)
 
         &:hover
-            background-color: $color-utility-warning-active
-            color: $color-surface
+            background-color: var(--color-utility-warning-active)
+            color: var(--color-on-surface)
 
         &:active
-            background-color: $color-utility-warning-active
-            color: $color-surface
+            background-color: var(--color-utility-warning-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
         &:focus
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-utility-warning, 0 1px 2px 0 rgb(0, 0, 0) !important
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-utility-warning), 0 1px 2px 0 rgb(0, 0, 0) !important
 
     &.btn-success
-        background-color: $color-utility-success
-        color: $color-surface
+        background-color: var(--color-utility-success)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-success-active
+            background-color: var(--color-utility-success-active)
 
         &:active
-            background-color: $color-utility-success-active
+            background-color: var(--color-utility-success-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light-success
-        background-color: $color-utility-success-light
-        color: $color-utility-success
+        background-color: var(--color-utility-success-light)
+        color: var(--color-utility-success)
 
         &:hover
-            background-color: $color-utility-success-active
-            color: $color-surface
+            background-color: var(--color-utility-success-active)
+            color: var(--color-on-surface)
 
         &:active
-            background-color: $color-utility-success-active
-            color: $color-surface
+            background-color: var(--color-utility-success-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light
-        background-color: $color-surface
-        color: $color-on-surface
+        background-color: white
+        color: black
 
         &:hover
-            color: $color-primary
+            color: var(--color-primary)
 
         &:active
-            color: $color-primary
+            color: var(--color-primary)
 
         &:disabled
             opacity: 0.5
@@ -244,7 +244,7 @@
     border-radius: 16px
     padding: 0
     font-size: 16px
-    font-family: $font-family
+    font-family: var(--font-family)
     font-weight: 500
     font-size: 16px
     line-height: 20px
@@ -256,14 +256,14 @@
     justify-content: center
     height: 56px
     width: 56px
-    background-color: $color-primary
+    background-color: var(--color-primary)
     color: #fff
 
     &:hover
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:active
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:disabled
         opacity: 0.5
@@ -291,7 +291,7 @@
     border-radius: 16px
     padding: 0
     font-size: 16px
-    font-family: $font-family
+    font-family: var(--font-family)
     font-weight: 500
     font-size: 16px
     line-height: 20px
@@ -303,15 +303,15 @@
     justify-content: center
     height: 56px
     width: 168px
-    background-color: $color-primary
+    background-color: var(--color-primary)
     color: #fff
-    box-shadow: $elevation-1
+    box-shadow: var(--elevation-1)
 
     &:hover
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:active
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:disabled
         opacity: 0.5
@@ -328,13 +328,13 @@
     font-size: 1.1rem
     font-weight: 500
     line-height: 1
-    color: $color-on-surface
+    color: var(--color-on-surface)
     text-align: center
     vertical-align: middle
     cursor: pointer
     user-select: none
     border: 1px solid transparent
-    border-radius: $border-radius-sm
+    border-radius: var(--border-radius-sm)
     background-color: transparent
     box-shadow: none
     height: calc(1.5em + 1.55rem + 2px)
@@ -357,59 +357,59 @@
         width: calc(1.5em + 1.9rem + 2px)
 
     &.btn-active-light-primary:hover
-        background-color: $color-primary-light
-        color: $color-primary
+        background-color: var(--color-primary-light)
+        color: var(--color-primary)
         &.btn-outline
-            border-color: $color-primary
+            border-color: var(--color-primary)
 
     &.btn-active-primary:hover
-        background-color: $color-primary
-        color: $color-on-primary
+        background-color: var(--color-primary)
+        color: var(--color-on-primary)
         &.btn-outline
-            border-color: $color-primary
+            border-color: var(--color-primary)
 
     &.btn-primary
-        background-color: $color-primary
-        color: $color-on-primary
+        background-color: var(--color-primary)
+        color: var(--color-on-primary)
 
         &:hover
-            background-color: $color-primary-active
+            background-color: var(--color-primary-active)
 
         &:active,
         &.active
-            background-color: $color-primary-active
+            background-color: var(--color-primary-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light-primary
-        background-color: $color-primary-light
-        color: $color-primary
+        background-color: var(--color-primary-light)
+        color: var(--color-primary)
 
         &:hover
-            background-color: $color-primary
-            color: $color-on-primary
+            background-color: var(--color-primary)
+            color: var(--color-on-primary)
 
         &:active,
         &.active
-            background-color: $color-primary
-            color: $color-on-primary
+            background-color: var(--color-primary)
+            color: var(--color-on-primary)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-secondary
-        background-color: $color-secondary
-        color: $color-on-secondary
+        background-color: var(--color-secondary)
+        color: var(--color-on-secondary)
 
         &:hover
-            background-color: $color-secondary-active
+            background-color: var(--color-secondary-active)
 
         &:active,
         &.active
-            background-color: $color-secondary-active
+            background-color: var(--color-secondary-active)
 
         &:disabled
             opacity: 0.5
@@ -417,14 +417,14 @@
 
     &.btn-outline
         background-color: transparent
-        border: 1px solid $color-utility-outline
-        color: $color-on-surface
+        border: 1px solid var(--color-utility-outline)
+        color: var(--color-on-surface)
 
         &.btn-outline-dashed
             border-style: dashed
 
             &:hover
-                border-color: $color-primary
+                border-color: var(--color-primary)
 
         &:disabled
             opacity: 0.5
@@ -432,129 +432,129 @@
 
     &.btn-text
         background-color: transparent
-        color: $color-on-surface
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-secondary
+            background-color: var(--color-secondary)
 
         &:active,
         &.active
-            background-color: $color-secondary
-            outline: solid 2px $color-primary
+            background-color: var(--color-secondary)
+            outline: solid 2px var(--color-primary)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-danger
-        background-color: $color-utility-error
-        color: $color-surface
+        background-color: var(--color-utility-error)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-error-active
+            background-color: var(--color-utility-error-active)
 
         &:active,
         &.active
-            background-color: $color-utility-error-active
+            background-color: var(--color-utility-error-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light-danger
-        background-color: $color-utility-error-light
-        color: $color-utility-error
+        background-color: var(--color-utility-error-light)
+        color: var(--color-utility-error)
 
         &:hover
-            background-color: $color-utility-error-active
-            color: $color-surface
+            background-color: var(--color-utility-error-active)
+            color: var(--color-on-surface)
 
         &:active,
         &.active
-            background-color: $color-utility-error-active
-            color: $color-surface
+            background-color: var(--color-utility-error-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-warning
-        background-color: $color-utility-warning
-        color: $color-surface
+        background-color: var(--color-utility-warning)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-warning-active
+            background-color: var(--color-utility-warning-active)
 
         &:active,
         &.active
-            background-color: $color-utility-warning-active
+            background-color: var(--color-utility-warning-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light-warning
-        background-color: $color-utility-warning-light
-        color: $color-utility-warning
+        background-color: var(--color-utility-warning-light)
+        color: var(--color-utility-warning)
 
         &:hover
-            background-color: $color-utility-warning-active
-            color: $color-surface
+            background-color: var(--color-utility-warning-active)
+            color: var(--color-on-surface)
 
         &:active
-            background-color: $color-utility-warning-active
-            color: $color-surface
+            background-color: var(--color-utility-warning-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-success
-        background-color: $color-utility-success
-        color: $color-surface
+        background-color: var(--color-utility-success)
+        color: var(--color-on-surface)
 
         &:hover
-            background-color: $color-utility-success-active
+            background-color: var(--color-utility-success-active)
 
         &:active
-            background-color: $color-utility-success-active
+            background-color: var(--color-utility-success-active)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light-success
-        background-color: $color-utility-success-light
-        color: $color-utility-success
+        background-color: var(--color-utility-success-light)
+        color: var(--color-utility-success)
 
         &:hover
-            background-color: $color-utility-success-active
-            color: $color-surface
+            background-color: var(--color-utility-success-active)
+            color: var(--color-on-surface)
 
         &:active
-            background-color: $color-utility-success-active
-            color: $color-surface
+            background-color: var(--color-utility-success-active)
+            color: var(--color-on-surface)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
     &.btn-light
-        background-color: $color-surface
-        color: $color-on-surface
+        background-color: var(--color-on-surface)
+        color: var(--color-on-surface)
 
         &:hover
-            color: $color-primary
+            color: var(--color-primary)
 
         &:active
-            color: $color-primary
+            color: var(--color-primary)
 
         &:disabled
             opacity: 0.5
             cursor: not-allowed
 
 a
-    color: $color-primary
+    color: var(--color-primary)
     text-decoration: none
     cursor: pointer
 
@@ -575,23 +575,23 @@ a
     cursor: pointer
     user-select: none
     border: 1px solid transparent
-    border-radius: $border-radius-sm
+    border-radius: var(--border-radius-sm)
     box-shadow: none
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
     height: 43.55px
     gap: 8px
-    background-color: $color-primary
-    color: $color-on-primary
+    background-color: var(--color-primary)
+    color: var(--color-on-primary)
 
     &:hover
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:active
-        background-color: $color-primary-active
+        background-color: var(--color-primary-active)
 
     &:disabled
         opacity: 0.5
         cursor: not-allowed
 
     &:focus
-        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary, 0 1px 2px 0 rgb(0, 0, 0) !important
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-primary), 0 1px 2px 0 rgb(0, 0, 0) !important

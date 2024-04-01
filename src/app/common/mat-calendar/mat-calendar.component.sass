@@ -4,8 +4,8 @@
     position: relative
 
     .calendar-input
-        border-radius: $border-radius-sm
-        border: 1px solid $color-utility-outline
+        border-radius: var(--border-radius-sm)
+        border: 1px solid var(--color-utility-outline)
         display: flex
         align-items: center
         padding-left: 12px
@@ -13,10 +13,10 @@
         transition: border-color .3s ease
 
         &:hover
-            border-color: $color-primary
+            border-color: var(--color-primary)
 
         button
-            border-radius: 0 $border-radius-sm $border-radius-sm 0 !important
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0 !important
 
     .calendar-modal
         display: none
@@ -29,9 +29,9 @@
             display: flex
             will-change: transform
             animation: menu-sub-dropdown-animation-fade-in .3s ease 1, menu-sub-dropdown-animation-move-up .3s ease 1
-            border-radius: $border-radius-sm
-            border: 1px solid $color-utility-outline
-            background-color: $color-surface
+            border-radius: var(--border-radius-sm)
+            border: 1px solid var(--color-utility-outline)
+            background-color: var(--color-surface)
             //box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15)
             z-index: 1055
             position: absolute
@@ -49,13 +49,13 @@
             align-items: center
             justify-content: space-between
             padding: 18px
-            border-bottom: 1px solid $color-utility-outline
+            border-bottom: 1px solid var(--color-utility-outline)
 
             .btn-icon
                 height: 28px
                 width: 28px
                 font-size: 10px
-                color: $color-primary
+                color: var(--color-primary)
 
         table
             width: 100%
@@ -69,24 +69,24 @@
             display: flex
             align-items: center
             justify-content: center
-            color: $color-on-surface
+            color: var(--color-on-surface)
             transition: all .3s ease
             font-weight: 400
             font-size: 13px
 
             &.today
                 background-color: transparent
-                color: $color-on-surface
-                border: 1px solid $color-utility-outline
+                color: var(--color-on-surface)
+                border: 1px solid var(--color-utility-outline)
 
             &.not-in-month
-                color: $color-secondary
+                color: var(--color-secondary)
                 cursor: not-allowed
 
             &.selected,
             &:hover
-                background-color: $color-primary
-                color: $color-on-primary
+                background-color: var(--color-primary)
+                color: var(--color-on-primary)
                 box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.15)
 
 
@@ -94,20 +94,20 @@
             display: flex
             align-items: center
             justify-content: center
-            color: $color-on-surface
+            color: var(--color-on-surface)
             transition: all .3s ease
             font-weight: 400
             font-size: 13px
             width: 70px
             cursor: pointer
-            border-radius: $border-radius-sm
+            border-radius: var(--border-radius-sm)
             padding: 8px
             transition: all .3s ease
 
             &.selected,
             &:hover
-                background-color: $color-primary
-                color: $color-on-primary
+                background-color: var(--color-primary)
+                color: var(--color-on-primary)
                 box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.15)
 
 @keyframes menu-sub-dropdown-animation-fade-in

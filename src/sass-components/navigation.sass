@@ -18,8 +18,8 @@
         top: 0
         left: 0
         right: 0
-        background-color: $color-surface
-        box-shadow: $elevation-3
+        background-color: var(--color-surface)
+        box-shadow: var(--elevation-3)
         border-bottom: 0
         padding: 0
         height: 65px
@@ -33,22 +33,22 @@
 
         #topbar-links > div:first-child
             .menu-link
-                color: $color-on-surface
+                color: var(--color-on-surface)
 
                 &:hover,
                 &.active
-                    background-color: $color-secondary
-                    color: $color-primary
+                    background-color: var(--color-secondary)
+                    color: var(--color-primary)
 
     #topbar-links > div:first-child
         .menu-link
-            border-radius: $border-radius-sm
+            border-radius: var(--border-radius-sm)
             cursor: pointer
             display: flex
             align-items: center
             padding: .75rem 1rem
             transition: background-color 0.2s ease
-            color: $color-surface
+            color: var(--color-on-surface)
             font-weight: 500
 
             &:hover,

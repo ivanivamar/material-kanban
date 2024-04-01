@@ -67,7 +67,7 @@ export class TaskComponent {
 
     confirmDeleteTask(event: any) {
         this.confirmService.confirm({
-            target: event.event.target,
+            target: event.target,
             message: 'Are you sure you want to delete this task?',
             icon: 'fa-duotone fa-triangle-exclamation',
             accept: () => {

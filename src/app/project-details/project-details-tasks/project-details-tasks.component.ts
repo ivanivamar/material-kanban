@@ -117,10 +117,10 @@ export class ProjectDetailsTasksComponent implements OnInit {
 
     }
 
-    onTaskDelete(deleteEvent: any) {
+    onTaskDelete(task: any) {
         this.loading = true;
         // filter out the task
-        this.project.tasks = this.project.tasks.filter(t => t.id !== deleteEvent.task.id);
+        this.project.tasks = this.project.tasks.filter(t => t.id !== task.id);
         // update the project
         this.kanbanService.updateProject(this.project);
         // update the current page tasks

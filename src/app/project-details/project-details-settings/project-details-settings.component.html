@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-12 xl:col-8 flex flex-column">
                     <div
-                        class="relative inline-block border-round-lg p-2 shadow bg-white inline-flex align-items-center justify-content-center"
+                        class="relative inline-block border-round-lg p-2 shadow bg-color inline-flex align-items-center justify-content-center"
                         style="box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075); height: 125px; width: 125px">
                         <img width="85px" height="85px" [src]="project.image" alt="logo"
                              *ngIf="project.image.length > 0">
@@ -23,13 +23,13 @@
                            *ngIf="project.image.length == 0"></i>
 
                         <button type="button"
-                                class="btn-icon bg-white shadow border-circle btn-sm text-active-primary absolute"
+                                class="btn-icon bg-color shadow border-circle btn-sm text-active-primary absolute"
                                 (click)="projectImage.click()"
                                 style="height: 25px;width: 25px;top: -10px;right: -10px;">
                             <i class="fa-duotone fa-pencil text-sm"></i>
                         </button>
                         <button type="button"
-                                class="btn-icon bg-white shadow border-circle btn-sm text-active-primary absolute"
+                                class="btn-icon bg-color shadow border-circle btn-sm text-active-primary absolute"
                                 style="height: 25px;width: 25px;bottom: -10px;right: -10px;"
                                 (click)="deleteImage($event)"
                                 *ngIf="project.image.length > 0">

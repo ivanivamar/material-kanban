@@ -26,11 +26,11 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <a href="javascript:void(0)" (click)="manageTask(task)"
-                               class="text-gray-900 fw-bold text-active-primary fs-4">
+                               class="text-900 fw-bold text-active-primary fs-4">
                                 {{ task.title }}
                             </a>
                         </div>
-                        <div class="fs-6 fw-semibold text-gray-600 m3-5" *ngIf="task.description.length > 0">
+                        <div class="fs-6 fw-semibold text-600 m3-5" *ngIf="task.description.length > 0">
                             {{ task.description }}
                         </div>
                         <div class="flex align-items-center justify-content-between">
@@ -40,13 +40,13 @@
                             </div>
                             <div class="flex align-items-center gap-2">
                                 <div
-                                    class="border border-dashed border-gray-300 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
+                                    class="border border-dashed border-500 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
                                     <i class="fa-duotone fa-diagram-subtask"></i>
                                     <span class="text-gray-600 fs-7">{{ completedSubtasks(task.subtasks) }}
                                         / {{ task.subtasks.length }}</span>
                                 </div>
                                 <div
-                                    class="border border-dashed border-gray-300 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
+                                    class="border border-dashed border-500 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
                                     <i class="fa-duotone fa-calendar"></i>
                                     <span class="text-gray-600 fs-7">{{ task.dueDate | date: 'mediumDate' }}</span>
                                 </div>
@@ -84,7 +84,7 @@
                         <tr *ngFor="let task of currentPageTasks">
                             <td>
                                 <a href="javascript:void(0)" (click)="manageTask(task)"
-                                   class="text-gray-800 fw-bolder text-active-primary">
+                                   class="text-800 fw-bolder text-active-primary">
                                     {{ task.title }}
                                 </a>
                             </td>

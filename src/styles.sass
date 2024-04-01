@@ -1,169 +1,127 @@
-$color-background: #F9F9F9
-$color-on-background: #071437
+.light-theme
+    --color-background: #F9F9F9
+    --color-on-background: #071437
+    --color-surface: #FFFFFF
+    --color-on-surface: #071437
 
-$color-surface: #FFFFFF
-$color-surface-variant: #F9F9F9
-$color-on-surface: #071437
-$color-on-surface-variant: #99A1B7
+    --color-900: #212121
+    --color-800: #424242
+    --color-700: #616161
+    --color-600: #757575
+    --color-500: #9E9E9E
+    --color-on-surface-variant: #99A1B7
 
-$color-primary: #1B84FF
-$color-primary-active: #056EE9
-$color-on-primary: #FFFFFF
-$color-primary-light: #E9F3FF
+    --color-primary: #1B84FF
+    --color-primary-active: #056EE9
+    --color-on-primary: #FFFFFF
+    --color-primary-light: #E9F3FF
 
-$color-secondary: #F1F1F4
-$color-secondary-active: #C4CADA
-$color-on-secondary: #252F4A
+    --color-secondary: #F1F1F4
+    --color-secondary-active: #C4CADA
+    --color-on-secondary: #252F4A
 
-$color-tertiary: #FF3EE6
-$color-tertiary-active: #E600C6
-$color-on-tertiary: #FFFFFF
+    --color-tertiary: #FF3EE6
+    --color-tertiary-active: #E600C6
+    --color-on-tertiary: #FFFFFF
 
-$color-utility-error: #F8285A
-$color-utility-error-active: #D81A48
-$color-utility-error-light: #FFEEF3
-$color-utility-on-error: #FFFFFF
-$color-utility-outline: #F1F1F4
-$color-utility-warning: #F6C000
-$color-utility-warning-active: #DEAD00
-$color-utility-warning-light: #FFF8DD
-$color-utility-on-warning: #FFFFFF
-$color-utility-success: #17C653
-$color-utility-success-active: #04B440
-$color-utility-success-light: #DFFFEA
-$color-utility-on-success: #FFFFFF
+    --color-utility-error: #F8285A
+    --color-utility-error-active: #D81A48
+    --color-utility-error-light: #FFEEF3
+    --color-utility-on-error: #FFFFFF
+    --color-utility-outline: #F1F1F4
+    --color-utility-warning: #F6C000
+    --color-utility-warning-active: #DEAD00
+    --color-utility-warning-light: #FFF8DD
+    --color-utility-on-warning: #FFFFFF
+    --color-utility-success: #17C653
+    --color-utility-success-active: #04B440
+    --color-utility-success-light: #DFFFEA
+    --color-utility-on-success: #FFFFFF
+    --elevation-1: 0px 3px 4px 0px rgba(0, 0, 0, 0.03)
+    --elevation-2: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
+    --elevation-3: 0px 6px 12px 0px rgba(0, 0, 0, 0.1)
 
-$elevation-1: 0px 3px 4px 0px rgba(0, 0, 0, 0.03)
-$elevation-2: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
-$elevation-3: 0px 6px 12px 0px rgba(0, 0, 0, 0.1)
+    --border-radius: 0.625rem
+    --border-radius-sm: 0.475rem
+    --border-radius-lg: 0.75rem
 
-$border-radius: 0.625rem
-$border-radius-sm: 0.475rem
-$border-radius-lg: 0.75rem
+    --font-family: Inter, Helvetica, sans-serif
 
-$font-family: Inter, Helvetica, sans-serif
+    --shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1)
 
-$shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1)
-.shadow
-    box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075) !important
+.dark-theme
+    --color-background: #0F1014
+    --color-on-background: #FFFFFF
+    --color-surface: #15171C
+    --color-on-surface: #FFFFFF
 
-*
-    box-sizing: border-box
-    margin: 0
-    font-family: $font-family
-    -webkit-font-smoothing: antialiased
+    --color-900: #F5F5F5
+    --color-800: #B5B7C8
+    --color-700: #9A9CAE
+    --color-600: #7E80A2
+    --color-500: #636674
+    --color-on-surface-variant: #636674
 
-body
-    font-family: $font-family !important
-    background-color: $color-background
-    color: $color-on-background
-    background-image: url("assets/images/header-bg.jpg")
-    background-repeat: no-repeat
-    background-position: center top
-    background-size: 100% 350px
-    margin: 0
-    font-size: 13px
-    font-weight: 400
-    -webkit-font-smoothing: antialiased
+    --color-primary: #006AE6
+    --color-primary-active: #107EFF
+    --color-on-primary: #FFFFFF
+    --color-primary-light: #172331
 
-::-webkit-scrollbar
-    width: 5px
-    height: 5px
+    --color-secondary: #363843
+    --color-secondary-active: #464852
+    --color-on-secondary: #FFFFFF
 
-/* Track */
-::-webkit-scrollbar-track
-    background: transparent
+    --color-tertiary: #FF3EE6
+    --color-tertiary-active: #E600C6
+    --color-on-tertiary: #FFFFFF
 
-/* Handle */
-::-webkit-scrollbar-thumb
-    background: $color-utility-outline
+    --color-utility-error: #E42855
+    --color-utility-error-active: #FF3767
+    --color-utility-error-light: #302024
+    --color-utility-on-error: #FFFFFF
+    --color-utility-outline: #1E2027
+    --color-utility-warning: #C59A00
+    --color-utility-warning-active: #D9AA00
+    --color-utility-warning-light: #242320
+    --color-utility-on-warning: #FFFFFF
+    --color-utility-success: #00A261
+    --color-utility-success-active: #01BF73
+    --color-utility-success-light: #1F212A
+    --color-utility-on-success: #FFFFFF
+    --elevation-1: 0px 3px 4px 0px rgba(0, 0, 0, 0.03)
+    --elevation-2: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
+    --elevation-3: 0px 6px 12px 0px rgba(0, 0, 0, 0.1)
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover
-    background: #DBDFE9
+    --border-radius: 0.625rem
+    --border-radius-sm: 0.475rem
+    --border-radius-lg: 0.75rem
 
-.text-color
-    color: $color-on-surface !important
-.text-secondary
-    color: $color-on-surface-variant !important
-.text-primary
-    color: $color-primary !important
-.text-tertiary
-    color: $color-tertiary !important
-.text-danger
-    color: $color-utility-error !important
-.text-warning
-    color: $color-utility-warning !important
-.text-success
-    color: $color-utility-success !important
+    --font-family: Inter, Helvetica, sans-serif
 
-.text-active-primary:hover
-    color: $color-primary !important
-    transition: color 0.3s
-.text-active-secondary:hover
-    color: $color-secondary !important
-.text-active-danger:hover
-    color: $color-utility-error !important
+    --shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 2px 1px 0 rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.1)
 
-.bg-color
-    background-color: $color-background !important
-.bg-primary
-    background-color: $color-primary !important
-.bg-secondary
-    background-color: $color-secondary !important
-.bg-tertiary
-    background-color: $color-tertiary !important
-.bg-warning
-    background-color: $color-utility-warning !important
-.bg-danger
-    background-color: $color-utility-error !important
-.bg-success
-    background-color: $color-utility-success !important
 
-.surface-primary
-    background-color: $color-primary !important
-.surface-secondary
-    background-color: $color-secondary !important
-.surface-tertiary
-    background-color: $color-tertiary !important
-.surface-warning
-    background-color: $color-utility-warning
-.surface-danger
-    background-color: $color-utility-error
-.surface-success
-    background-color: $color-utility-success
 
-.surface-0
-    background-color: $color-surface !important
 
-.border
-    border: 1px solid $color-utility-outline !important
-.border-top
-    border-top: 1px solid $color-utility-outline !important
-.border-bottom
-    border-bottom: 1px solid $color-utility-outline !important
-.border-left
-    border-left: 1px solid $color-utility-outline !important
-.border-right
-    border-right: 1px solid $color-utility-outline !important
+@import 'sass-components/dark-theme'
+@import 'sass-components/typography'
+@import 'sass-components/dialog'
+@import 'sass-components/buttons'
+@import 'sass-components/menu'
+@import 'sass-components/scaffolder'
+@import 'sass-components/inputs'
+@import 'sass-components/card'
+@import 'sass-components/tabs'
+@import 'sass-components/tables'
+@import 'sass-components/navigation'
+@import 'sass-components/progress-bars'
+@import 'sass-components/dropdowns'
+@import 'sass-components/lists'
+@import 'sass-components/breadcrumbs'
+@import 'sass-components/pagination'
 
-.border-dashed
-    border-style: dashed !important
-
-.border-primary
-    border: 1px solid $color-primary !important
-
-.border-secondary
-    border: 1px solid $color-secondary !important
-
-.border-warning
-    border: 1px solid $color-utility-warning !important
-
-.border-danger
-    border: 1px solid $color-utility-error !important
-
-.rounded
-    border-radius: $border-radius !important
+.border-500
+    border-color: var(--color-secondary) !important
 
 .la-ball-clip-rotate.la-2x
     width: 64px
@@ -210,19 +168,3 @@ body
         transform: rotate(180deg)
     100%
         transform: rotate(360deg)
-
-@import 'sass-components/typography'
-@import 'sass-components/dialog'
-@import 'sass-components/buttons'
-@import 'sass-components/menu'
-@import 'sass-components/scaffolder'
-@import 'sass-components/inputs'
-@import 'sass-components/card'
-@import 'sass-components/tabs'
-@import 'sass-components/tables'
-@import 'sass-components/navigation'
-@import 'sass-components/progress-bars'
-@import 'sass-components/dropdowns'
-@import 'sass-components/lists'
-@import 'sass-components/breadcrumbs'
-@import 'sass-components/pagination'

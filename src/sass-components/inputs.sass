@@ -1,11 +1,12 @@
 input,
 textarea
-    border: 1px solid $color-utility-outline
-    border-radius: $border-radius-sm
+    border: 1px solid var(--color-utility-outline)
+    border-radius: var(--border-radius-sm)
+    background-color: transparent
     padding: 10px 13px
     font-size: 14.3px
     appearance: none
-    color: $color-on-surface
+    color: var(--color-on-surface)
     width: 100%
     font-weight: 500
     box-sizing: border-box
@@ -13,12 +14,12 @@ textarea
     outline: none !important
 
     &::placeholder
-        color: $color-on-surface-variant
+        color: var(--color-on-surface-variant)
 
     &:focus,
     &:hover,
     &:active
-        border-color: $color-primary
+        border-color: var(--color-primary)
 
 input
     height: 43px
@@ -33,7 +34,7 @@ label.required
     margin-bottom: 6px
     &:after
         content: "*"
-        color: $color-utility-error
+        color: var(--color-utility-error)
         margin-left: 5px
 
 
@@ -84,7 +85,7 @@ label.required
         margin: 0
         cursor: pointer
         overflow: hidden
-        border: 2px solid $color-utility-outline
+        border: 2px solid var(--color-utility-outline)
         border-radius: 50%
         z-index: 2
 
@@ -101,13 +102,13 @@ label.required
     &:hover
         .outline
             .outline-tick
-                background: $color-primary
+                background: var(--color-primary)
                 opacity: .8
 
     &.is-checked
         .outline
             .outline-tick
-                background: $color-primary
+                background: var(--color-primary)
 
 .custom-file[type="file"]
     color: transparent
@@ -120,7 +121,7 @@ label.required
 
     &::before
         content: 'Add Attachment'
-        color: $color-on-surface
+        color: var(--color-on-surface)
         position: absolute
         top: 50%
         left: 0
@@ -131,7 +132,7 @@ label.required
     border-bottom: 1px solid transparent !important
 
     &:hover
-        border-bottom: 1px solid $color-on-surface-variant !important
+        border-bottom: 1px solid var(--color-on-surface-variant) !important
 
 .p-calendar .p-inputtext
     border: 0
@@ -147,7 +148,7 @@ label.required
 .p-calendar .p-datepicker-trigger
     background-color: transparent
     border: 0
-    color: $color-on-surface !important
+    color: var(--color-on-surface) !important
     width: 35px !important
 
     &:hover
@@ -168,9 +169,9 @@ p-calendar.p-calendar-clearable .p-calendar-clear-icon
     border-bottom: 1px solid transparent !important
 
     &:hover
-        border-bottom: 1px solid $color-on-surface-variant !important
+        border-bottom: 1px solid var(--color-on-surface-variant) !important
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item
     padding: 12px 24px !important
-    border-bottom: 1px solid $color-utility-outline !important
+    border-bottom: 1px solid var(--color-utility-outline) !important
 

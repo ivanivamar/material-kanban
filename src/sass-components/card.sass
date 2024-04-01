@@ -2,16 +2,16 @@
     display: flex
     flex-direction: column
     min-width: 0
-    color: $color-on-surface
+    color: var(--color-on-surface)
     word-wrap: break-word
-    background-color: $color-surface
+    background-color: var(--color-surface)
     background-clip: border-box
-    border: 1px solid $color-utility-outline
-    border-radius: $border-radius
-    box-shadow: $elevation-1
+    border: 1px solid var(--color-utility-outline)
+    border-radius: var(--border-radius)
+    box-shadow: var(--elevation-1)
 
     &.border-hover-primary:hover
-        border-color: $color-primary
+        border-color: var(--color-primary)
 
     .card-header
         display: flex
@@ -20,14 +20,14 @@
         flex-wrap: wrap
         min-height: 70px
         padding: 0 27px
-        color: $color-on-surface
+        color: var(--color-on-surface)
         background-color: transparent
-        border-bottom: 1px solid $color-utility-outline
+        border-bottom: 1px solid var(--color-utility-outline)
         margin-bottom: 0
 
 
         .title
-            color: $color-on-surface
+            color: var(--color-on-surface)
             font-size: 17.55px
             font-weight: 500
             margin: .5rem
@@ -54,7 +54,7 @@
             align-items: center
             justify-content: center
             gap: 4px
-            font-family: $font-family
+            font-family: var(--font-family)
             font-weight: bold
             font-size: 12px
 
@@ -67,7 +67,7 @@
         flex: 1 1 auto
 
     .card-footer
-        border-top: 1px solid $color-utility-outline
+        border-top: 1px solid var(--color-utility-outline)
         padding: 2rem 2.25rem
         display: flex
         align-items: center
@@ -80,7 +80,7 @@
 
 .label
     padding: 4px 10px
-    border-radius: $border-radius
+    border-radius: var(--border-radius)
     font-size: 14px
     display: flex
     align-items: center
@@ -88,5 +88,5 @@
     gap: 4px
     font-weight: 700
     text-transform: capitalize
-    background-color: $color-primary
+    background-color: var(--color-primary)
     color: white

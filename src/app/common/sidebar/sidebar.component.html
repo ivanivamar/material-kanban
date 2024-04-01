@@ -20,43 +20,63 @@
                 </a>
             </div>
             <div class="topbar flex align-items-stretch flex-shrink-0">
-                <div class="flex align-items-center lg:mr-n2 ml-1 lg:ml-3 relative" id="user_menu_toggle" *ngIf="user">
-                    <div class="btn-icon btn-custom-active h-30px w-30px h-md-40px w-md-40px" [class.show]="showUserMenu"
-                         (click)="showUserMenu = !showUserMenu">
-                        <img class="h-30px w-30px border-round-sm" [src]="user.photoURL" alt="User Avatar"
-                             *ngIf="user.photoURL">
-                        <i class="ki-duotone ki-user-square text-large" *ngIf="!user.photoURL">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                            <span class="path3"></span>
-                        </i>
+                <div class="flex align-items-stretch flex-shrink-0 gap-2">
+                    <div class="menu">
+                        <div class="btn-icon h-30px w-30px h-md-40px w-md-40px">
+                            <i [class]="'fa-duotone ' + getThemeIcon()"></i>
+                        </div>
+                        <div class="menu-content w-150px">
+                            <div class="menu-item my-0" *ngFor="let themeOption of themeOptions">
+                                <a
+                                    class="menu-link" [class.active]="themeOption.value === theme"
+                                    (click)="changeTheme(themeOption.value)">
+                                    <i [class]="'fa-duotone ' + themeOption.icon"></i>
+                                    {{ themeOption.label }}
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div [class.overlay]="showUserMenu" class="bg-transparent" (click)="showUserMenu = false"></div>
-                    <div class="menu-account" [class.show]="showUserMenu">
-                        <div class="menu-item px-1 border-bottom mb-2">
-                            <div class="menu-content">
-                                <img [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
-                                <div class="flex flex-column gap-1">
+
+                    <div class="lg:mr-n2 menu" id="user_menu_toggle"
+                         *ngIf="user">
+                        <div class="btn-icon btn-custom-active h-30px w-30px h-md-40px w-md-40px"
+                             [class.show]="showUserMenu"
+                             (click)="showUserMenu = !showUserMenu">
+                            <img class="h-30px w-30px border-round-sm" [src]="user.photoURL" alt="User Avatar"
+                                 *ngIf="user.photoURL">
+                            <i class="ki-duotone ki-user-square text-large" *ngIf="!user.photoURL">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </div>
+                        <div class="menu-content w-275px" [class.show]="showUserMenu">
+                            <div class="menu-item px-1 border-bottom mb-2">
+                                <div class="menu-container">
+                                    <img [src]="user.photoURL" alt="User Avatar" *ngIf="user.photoURL">
+                                    <div class="flex flex-column gap-1">
                                     <span class="fw-bold flex align-items-center text-base">
                                         {{ user.displayName }}
                                     </span>
-                                    <a class="fw-semibold text-500 fs-7 text-active-primary" href="mailto:{{ user.email }}"
-                                       target="_blank">{{ user.email }}
-                                    </a>
+                                        <a class="fw-semibold text-500 fs-7 text-active-primary"
+                                           href="mailto:{{ user.email }}"
+                                           target="_blank">{{ user.email }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="menu-item px-3">
-                            <a class="menu-link" routerLink="/auth/profile">
-                                <i class="fa-duotone fa-user"></i>
-                                My Profile
-                            </a>
-                        </div>
-                        <div class="menu-item px-3">
-                            <a class="menu-link text-active-danger" (click)="logout()">
-                                <i class="fa-duotone fa-right-from-bracket text-danger"></i>
-                                Logout
-                            </a>
+                            <div class="menu-item px-3">
+                                <a class="menu-link" routerLink="/auth/profile">
+                                    <i class="fa-duotone fa-user"></i>
+                                    My Profile
+                                </a>
+                            </div>
+                            <div class="menu-item px-3">
+                                <a class="menu-link text-active-danger" (click)="logout()">
+                                    <i class="fa-duotone fa-right-from-bracket text-danger"></i>
+                                    Logout
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
