@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, LOCALE_ID, OnInit, Output} from '@angula
 import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
-import {Subtasks, Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
+import {Subtasks, Status, Task, TaskDto, Urgency, UserLite} from 'src/app/interfaces/Kanban.interfaces';
 import Swal from "sweetalert2";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -81,8 +81,8 @@ export class ProjectDetailsTasksComponent implements OnInit {
         return subtasks.filter(subtask => subtask.checked).length;
     }
 
-    saveTaskChanges() {
-        let managedTask = JSON.parse(JSON.stringify(this.selectedTask)) as Task;
+    saveTaskChanges(task: TaskDto) {
+        let managedTask = JSON.parse(JSON.stringify(task)) as Task;
         if (managedTask.id) {
             // update the task
             this.project.tasks = this.project.tasks.map(task => task.id === managedTask.id ? managedTask : task);
@@ -111,46 +111,23 @@ export class ProjectDetailsTasksComponent implements OnInit {
             message: 'Are you sure you want to delete this task?',
             icon: 'fa-duotone fa-triangle-exclamation',
             accept: () => {
-                this.loading = true;
-                // filter out the task
-                this.project.tasks = this.project.tasks.filter(t => t.id !== task.id);
-                // update the project
-                this.kanbanService.updateProject(this.project);
-                // update the current page tasks
-                this.getCurrentPageTasks(1);
-                this.isManagingTask = false;
-                this.selectedTask = null;
-                this.onChanges.emit();
+                this.onTaskDelete({task});
             }
         });
+
     }
 
-    addSubtask() {
-        if (this.selectedTask) {
-            if (!this.selectedTask.subtasks) {
-                this.selectedTask.subtasks = [];
-            }
-            this.selectedTask.subtasks.push({
-                id: this.idGenerator(),
-                title: '',
-                description: '',
-                checked: false
-            });
-        }
-    }
-
-    updateSubtask(subtask: Subtasks) {
-        if (this.selectedTask) {
-            this.selectedTask.subtasks = this.selectedTask.subtasks.map((checkbox: any) => {
-                return checkbox.id === subtask.id ? subtask : checkbox;
-            });
-        }
-    }
-
-    removeSubtask(subtask: Subtasks) {
-        if (this.selectedTask) {
-            this.selectedTask.subtasks = this.selectedTask.subtasks.filter((checkbox: any) => checkbox.id !== subtask.id);
-        }
+    onTaskDelete(deleteEvent: any) {
+        this.loading = true;
+        // filter out the task
+        this.project.tasks = this.project.tasks.filter(t => t.id !== deleteEvent.task.id);
+        // update the project
+        this.kanbanService.updateProject(this.project);
+        // update the current page tasks
+        this.getCurrentPageTasks(1);
+        this.isManagingTask = false;
+        this.selectedTask = null;
+        this.onChanges.emit();
     }
 
     cancel() {

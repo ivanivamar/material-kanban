@@ -1,0 +1,38 @@
+.subtask-check
+    position: relative
+    z-index: 2
+    cursor: pointer
+
+    &:before
+        content: ''
+        position: absolute
+        top: calc(50% - 1px)
+        left: calc(50% + 2px)
+        transform: translate(-50%, -50%) scale(0)
+        transition: transform 0.3s
+        transform-origin: center
+        width: 38px
+        height: 38px
+        background-color: #E9F3FF
+        border-radius: 50%
+        z-index: 1
+
+    .fa-square-check
+        display: none
+        position: relative
+        z-index: 2
+    .fa-square
+        display: block
+        position: relative
+        z-index: 2
+
+    &:hover
+        &:before
+            transform: translate(-50%, -50%) scale(1)
+
+
+    &.checked
+        .fa-square-check
+            display: block
+        .fa-square
+            display: none

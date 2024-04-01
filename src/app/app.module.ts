@@ -39,6 +39,7 @@ import { ProjectDetailsSettingsComponent } from './project-details/project-detai
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { ProjectDetailsTasksComponent } from './project-details/project-details-tasks/project-details-tasks.component';
 import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
+import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.compone
         BusyIfDirective,
         ProjectDetailsSettingsComponent,
         ProjectDetailsTasksComponent,
-        MatCalendarComponent
+        MatCalendarComponent,
+        TaskComponent
     ],
     imports: [
         CommonModule,
