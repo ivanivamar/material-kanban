@@ -28,7 +28,7 @@
     <div class="container flex flex-1 flex-column">
         <div class="grid">
             <div class="col-12 md:col-6 xl:col-4" *ngFor="let project of currentPageProjects; let i = index">
-                <a class="card border-hover-primary cursor-pointer" [routerLink]="['/projects/' + project.id]">
+                <a class="card border-hover-primary cursor-pointer" pRipple [routerLink]="['/projects/' + project.id]">
                     <div class="card-header border-none pt-4">
                         <img [src]="project.image" width="40px" height="40px" class="rounded"
                              *ngIf="project.image.length > 0">
@@ -40,7 +40,7 @@
                             <div class="text-lg fw-bold text-900">
                                 {{ project.title }}
                             </div>
-                            <p class="text-500 fw-semibold text-base" *ngIf="project.description.length > 0">
+                            <p class="text-500 fw-semibold text-base description" *ngIf="project.description.length > 0">
                                 {{ project.description }}
                             </p>
                         </div>

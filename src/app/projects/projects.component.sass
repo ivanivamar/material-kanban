@@ -1,50 +1,10 @@
-.panel
-    padding: 16px
-    border-radius: 16px
-
-.project-card
-    cursor: pointer
-    transition: all 0.3s ease
-
-    &:hover
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1)
-
-.project
-    .tasks-bar
-        height: 8px
-        border-radius: 25px 25px 25px 25px
-        background-color: #DBEAFE
-        width: 125px
-        position: relative
-
-        div
-            height: 100%
-            background: #2563EB
-            display: block
-            border-radius: 25px 25px 25px 25px
-
-.legend-item
-    height: 8px
-    width: 8px
-    border-radius: 50%
-
-::ng-deep .p-multiselect,
-::ng-deep .p-dropdown
-    width: 100%
-
-.project
-    .btn-icon
-        display: none
-
-    &:hover
-        .btn-icon
-            display: flex
-
-// mobile
-@media screen and (max-width: 768px)
-    .project
-        .btn-icon
-            display: flex
+.description
+    -webkit-box-orient: vertical
+    -webkit-line-clamp: 2
+    display: -webkit-box
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: normal
 
 .searchbar input::placeholder
     color: white

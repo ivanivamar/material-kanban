@@ -1,8 +1,6 @@
 .light-theme
-    --menu-item-bg-hover: #F9F9F9
     --menu-bg: #FFFFFF
 .dark-theme
-    --menu-item-bg-hover: #1B1C22
     --menu-bg: #1C1D22
 
 .dropdown
@@ -82,7 +80,7 @@
             &:hover,
             &.selected,
             &:active
-                background-color: var(--color-secondary)
+                background-color: var(--color-light)
                 color: var(--color-primary)
 
             &.disabled
@@ -172,7 +170,7 @@
 
                 &:hover,
                 &.active
-                    background-color: var(--menu-item-bg-hover) !important
+                    background-color: var(--color-light) !important
                     color: var(--color-primary)
 
     &:hover

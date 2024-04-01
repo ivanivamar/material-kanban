@@ -20,6 +20,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     @Output() goToTask = new EventEmitter<Task>();
 
     loading: boolean = false;
+    themeFromStorage: string = localStorage.getItem('theme') || 'light';
 
     //task summary card:
     inProgressTasks: number = 0;
@@ -47,17 +48,20 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         scales: {
             x: {
                 grid: {
-                    color: '#F8F8FA',
-                    tickBorderDash: [4, 4],
+                    color: this.themeFromStorage == 'dark-theme' ? '#1E1F25' : '#F8F8FA',
+                    borderDash: [4, 4],
                 },
                 ticks: {
                     beginAtZero: true,
                 }
             },
             y: {
+                grid: {
+                    color: this.themeFromStorage == 'dark-theme' ? '#1E1F25' : '#F8F8FA',
+                    borderDash: [4, 4],
+                },
                 ticks: {
                     beginAtZero: true,
-                    //@ts-ignore
                     precision: 0
                 },
             }
@@ -292,6 +296,8 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // select current day from this.currentWeekDays
         if (currentDay > this.currentWeekDays.length) {
             this.selectedDay = null;
+        } else {
+            this.selectedDay = this.currentWeekDays[currentDay - 1];
         }
     }
 
