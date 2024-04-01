@@ -26,6 +26,30 @@ const routes: Routes = [
         ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
     },
     {
+        path: 'projects/:id/tasks',
+        component: ProjectDetailsComponent,
+        pathMatch: 'full',
+        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+    },
+    {
+        path: 'projects/:id/tasks/:taskId',
+        component: ProjectDetailsComponent,
+        pathMatch: 'full',
+        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+    },
+    {
+        path: 'projects/:id/members',
+        component: ProjectDetailsComponent,
+        pathMatch: 'full',
+        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+    },
+    {
+        path: 'projects/:id/settings',
+        component: ProjectDetailsComponent,
+        pathMatch: 'full',
+        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+    },
+    {
         path: 'auth',
         redirectTo: 'auth/login',
         pathMatch: 'full',

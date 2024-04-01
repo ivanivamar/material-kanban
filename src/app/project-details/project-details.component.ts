@@ -10,6 +10,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-details-tasks.component";
 import {ProjectDetailsOverviewComponent} from "./project-details-overview/project-details-overview.component";
 import {ProjectDetailsSettingsComponent} from "./project-details-settings/project-details-settings.component";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'app-project-details',
@@ -81,7 +82,9 @@ export class ProjectDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private kanbanService: KanbanService,
         private confirmationService: ConfirmationService,
-        private authService: AuthService,) {
+        private authService: AuthService,
+        private _location: Location,
+    ) {
     }
 
     ngOnInit(): void {
@@ -99,6 +102,13 @@ export class ProjectDetailsComponent implements OnInit {
                 });
                 await this.getUsers();
                 await this.getProject();
+
+                // set tab from url
+                if (url[2]) {
+                    this.currentTab = this.tabs.find(tab => tab.value === ProjectTabs[url[2].path[0].toUpperCase() + url[2].path.slice(1)]);
+                } else {
+                    this.currentTab = this.tabs[0];
+                }
             }
         });
     }
@@ -129,6 +139,10 @@ export class ProjectDetailsComponent implements OnInit {
 
     manageTabs(tab: any) {
         this.currentTab = tab;
+
+        // update url
+        let newUrL = `/projects/${this.projectId}/${tab.title.toLowerCase()}`;
+        this._location.go(newUrL);
     }
 
     getPendingTasks(): number {
