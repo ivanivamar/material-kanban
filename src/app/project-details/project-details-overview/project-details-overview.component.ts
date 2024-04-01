@@ -293,7 +293,6 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         if (currentDay > this.currentWeekDays.length) {
             this.selectedDay = null;
         }
-        console.log("%c selectedDay", "color: green; font-size: 16px; font-weight: bold;", currentDay);
     }
 
     selectToday() {

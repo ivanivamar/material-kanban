@@ -55,10 +55,8 @@ export class ProjectMembersComponent implements OnInit {
     searchMembers(): void {
         this.membersList = [];
         if (this.searchMember.trim().length === 0) {
-            console.log('here');
             this.membersList = this.members;
         } else {
-            console.log('here2');
             this.membersList = this.members.filter(member => {
                 return member.username.toLowerCase().includes(this.searchMember.toLowerCase()) ||
                     member.email.toLowerCase().includes(this.searchMember.toLowerCase());

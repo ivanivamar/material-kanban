@@ -32,7 +32,6 @@ export class MatDropdownComponent implements OnInit {
 
     ngOnInit() {
         if (this.value !== null) {
-            console.log('this.options', this.options);
             this.options.forEach((item: any) => {
                 if (item[this.optionValue] === this.value) {
                     item.selected = true;

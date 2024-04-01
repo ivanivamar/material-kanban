@@ -108,6 +108,8 @@ export class ProjectDetailsComponent implements OnInit {
                     this.currentTab = this.tabs.find(tab => tab.value === ProjectTabs[url[2].path[0].toUpperCase() + url[2].path.slice(1)]);
                 } else {
                     this.currentTab = this.tabs[0];
+                    // set overview to url
+                    this._location.go(`/projects/${this.projectId}/overview`);
                 }
             }
         });
@@ -118,7 +120,6 @@ export class ProjectDetailsComponent implements OnInit {
             this.project = project;
             // add projectId to project object
             this.project.id = this.projectId;
-            console.log("%c project", "color: green; font-size: 16px; font-weight: bold;", this.project);
             // order tasks by creationDate
             this.project.tasks.sort((a, b) => {
                 return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();

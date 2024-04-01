@@ -4,6 +4,8 @@ import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
 import {Subtasks, Status, Task, TaskDto, Urgency} from 'src/app/interfaces/Kanban.interfaces';
 import Swal from "sweetalert2";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'app-project-details-tasks',
@@ -27,13 +29,32 @@ export class ProjectDetailsTasksComponent implements OnInit {
 
     constructor(
         private kanbanService: KanbanService,
-        private confirmService: ConfirmationService
+        private confirmService: ConfirmationService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private _location: Location,
     ) {
     }
 
     ngOnInit() {
         // Set the current page tasks to the project tasks max 10
         this.getCurrentPageTasks(1);
+        // set task from url
+        this.route.url.subscribe(async (url: any) => {
+            if (url.length === 0) {
+                this.router.navigate(['']);
+            } else if (url.length === 4 && url[2].path === 'tasks') {
+                const taskId = url[3].path;
+                if (taskId != 'new') {
+                    this.selectedTask = this.project.tasks.find(task => task.id === taskId) as TaskDto;
+                    this.isManagingTask = true;
+                } else {
+                    this.selectedTask = new TaskDto();
+                    this.selectedTask.owner = this.project.owner;
+                    this.isManagingTask = true;
+                }
+            }
+        });
     }
 
     getCurrentPageTasks(pageNumber: number) {
@@ -52,7 +73,8 @@ export class ProjectDetailsTasksComponent implements OnInit {
         this.selectedTask = task ? task : new TaskDto();
         this.selectedTask.owner = this.project.owner;
         this.isManagingTask = true;
-        console.log("this.isManagingTask", this.isManagingTask);
+        // add task to url
+        this._location.go('/projects/' + this.project.id + '/tasks/' + (task ? task.id : 'new'));
     }
 
     completedSubtasks(subtasks: Subtasks[]) {
@@ -60,7 +82,6 @@ export class ProjectDetailsTasksComponent implements OnInit {
     }
 
     saveTaskChanges() {
-        console.log("this.selectedTask", this.selectedTask);
         let managedTask = JSON.parse(JSON.stringify(this.selectedTask)) as Task;
         if (managedTask.id) {
             // update the task
@@ -135,6 +156,8 @@ export class ProjectDetailsTasksComponent implements OnInit {
     cancel() {
         this.isManagingTask = false;
         this.selectedTask = null;
+        // remove task from url
+        this._location.go('/projects/' + this.project.id + '/tasks');
     }
 
     idGenerator(): string {

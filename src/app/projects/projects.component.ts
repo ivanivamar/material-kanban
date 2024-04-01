@@ -74,7 +74,6 @@ export class ProjectsComponent implements OnInit {
 
     getProjects() {
         from(this.kanbanService.getProjects(this.user.uid)).subscribe(async (result: PaginatedResult<Project>) => {
-            console.log(result);
             this.projects.totalRecords = result.totalRecordCount;
             this.projects.items = result.records;
 
@@ -186,7 +185,6 @@ export class ProjectsComponent implements OnInit {
 
     //#region Setters
     async addProject() {
-        console.log('this.user', this.user)
         if (!this.selectedProject.id) {
             this.selectedProject.owner = {
                 username: this.user.displayName,

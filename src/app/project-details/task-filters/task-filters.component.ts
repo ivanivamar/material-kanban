@@ -118,7 +118,6 @@ export class TaskFiltersComponent {
                 case 'name':
                     this.selectedFilter.name = filterItem.name;
                     this.selectedFilter.label = filterItem.label;
-                    console.log(this.selectedFilter);
                     break;
             }
         }
