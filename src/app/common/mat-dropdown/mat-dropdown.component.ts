@@ -34,7 +34,6 @@ export class MatDropdownComponent implements OnInit {
         if (this.value !== null) {
             this.options.forEach((item: any) => {
                 if (item[this.optionValue] === this.value) {
-                    item.selected = true;
                     this.ngModelLabel = item[this.optionLabel];
                 }
             });
@@ -53,14 +52,8 @@ export class MatDropdownComponent implements OnInit {
 
     selectItem(option: any) {
         this.value = option[this.optionValue];
+        console.log('option', option[this.optionValue], this.value);
         this.ngModelLabel = option[this.optionLabel];
-
-        this.options.forEach((item: any) => {
-            if (item[this.optionValue] != option[this.optionValue]) {
-                item.selected = false;
-            }
-            option.selected = true;
-        });
         this.valueChange.emit(!this.returnValue ? option : this.value);
         this.expanded = false;
     }
@@ -69,8 +62,5 @@ export class MatDropdownComponent implements OnInit {
         event.stopPropagation();
         this.value = null;
         this.ngModelLabel = '';
-        this.options.forEach((item: IDropdownOption) => {
-            item.selected = false;
-        });
     }
 }

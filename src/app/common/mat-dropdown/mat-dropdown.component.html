@@ -15,9 +15,9 @@
     </div>
 
     <div class="dropdown-content" *ngIf="expanded" [class.show-top]="isBottomPage" [class.show-bottom]="!isBottomPage">
-        <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option.selected">
+        <div class="dropdown-item" ripple *ngFor="let option of options" (click)="selectItem(option)" [class.selected]="option[optionValue] == value">
             {{ option[optionLabel] }}
-            <i class="fa-duotone fa-check ml-auto flex text-primary" *ngIf="option.selected"></i>
+            <i class="fa-duotone fa-check ml-auto flex text-primary" *ngIf="option[optionValue] == value"></i>
         </div>
     </div>
 </div>
