@@ -38,3 +38,56 @@
             display: block
         .fa-square
             display: none
+
+.state
+    border-radius: 25px 25px 25px 25px
+    padding: 8px 12px
+    font-size: 14px
+    display: flex
+    align-items: center
+    justify-content: center
+    font-weight: 500
+    gap: 4px
+    line-height: 2px
+
+.activity
+    margin-left: 16px
+    padding: 16px 0
+    display: flex
+    position: relative
+    gap: 8px
+
+    &::before
+        background-color: var(--color-utility-outline)
+        bottom: 0
+        content: ""
+        display: block
+        left: 0
+        position: absolute
+        top: 0
+        width: 2px
+        height: 100%
+
+    .activity-badge
+        background-color: var(--color-surface)
+        border: 2px solid var(--bg-color)
+        border-radius: 50%
+        color: var(--color-on-surface)
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-shrink: 0
+        height: 28px
+        margin-left: -13px
+        position: relative
+        width: 28px
+        z-index: 1
+
+    .activity-body
+        margin-top: 4px
+        display: flex
+        flex: auto
+        max-width: 100%
+        min-width: 0
+        color: var(--color-on-surface-variant)
+        gap: 8px

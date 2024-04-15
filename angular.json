@@ -33,7 +33,10 @@
                             "src/styles.sass",
                             "node_modules/primeicons/primeicons.css",
                             "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css"
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeflex/primeflex.css",
+                            "node_modules/primeflex/themes/primeone-dark.css",
+                            "node_modules/primeflex/themes/primeone-light.css"
                         ],
                         "scripts": [
                             "node_modules/chart.js/dist/chart.js"
@@ -101,7 +104,10 @@
                             "src/styles.sass",
                             "node_modules/primeicons/primeicons.css",
                             "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css"
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeflex/primeflex.css",
+                            "node_modules/primeflex/themes/primeone-dark.css",
+                            "node_modules/primeflex/themes/primeone-light.css"
                         ],
                         "scripts": [
                             "node_modules/chart.js/dist/chart.js"

@@ -1,98 +1,94 @@
 <div class="flex-row-fluid mt-5 fadein" *ngIf="task != null">
-    <form #manageTaskForm="ngForm" class="grid grid-nogutter" (ngSubmit)="save()">
-        <div class="col-12 lg:col-3 pr-0 pb-5 lg-pr-5 flex flex-column gap-3">
-            <div class="card card-flush py-3">
-                <div class="card-header">
-                    <h2 class="title">Status</h2>
-                    <div class="card-toolbar">
-                        <div class="border-circle w-15px h-15px bg-{{task.status.type}}">
-                        </div>
-                    </div>
+    <form #manageTaskForm="ngForm" class="grid grid-nogutter">
+        <div class="col-12 lg:col-9 pr-0 pb-3 lg:pr-5 flex flex-column">
+            <div class="flex flex-column gap-2 pb-3 border-bottom">
+                <div class="flex align-items-center gap-2" *ngIf="!editTitle">
+                    <span class="fs-2 fw-semibold flex flex-1">
+                        {{ task.title }}
+                    </span>
+
+                    <button class="btn-icon btn-light-primary btn-sm" type="button"
+                            (click)="editTitleToggle()">
+                        <i class="fa-duotone fa-pen"></i>
+                    </button>
                 </div>
-                <div class="card-body pt-0">
-                    <mat-dropdown class="mb-2" [options]="statusList" [optionLabel]="'name'"
-                                  [value]="task.status.value" [returnValue]="false"
-                                  (valueChange)="task.status = $event"></mat-dropdown>
-                    <span class="text-500 fs-7">
-                        Set the task status.
+                <div class="flex align-items-center gap-2" *ngIf="editTitle">
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        name="title"
+                        class="flex flex-1"
+                        required
+                        [(ngModel)]="task.title"/>
+
+                    <button class="btn btn-primary btn-sm" type="button"
+                            (click)="addActivity('editTitle'); onSave.emit(task)">
+                        <i class="fa-duotone fa-save"></i>
+                        Save
+                    </button>
+                </div>
+
+                <div class="flex align-items-center gap-3">
+                    <div
+                        class="state"
+                        [class.bg-success]="!task.completed"
+                        [class.bg-tertiary]="task.completed">
+                        <i class="fasr"
+                           [class.fa-scrubber]="!task.completed"
+                           [class.fa-circle-check]="task.completed"></i>
+
+                        {{ task.completed ? 'Closed' : 'Open' }}
+                    </div>
+
+                    <span class="text-500 fs-6">
+                        <strong>{{ task.owner.username }}</strong> opened this task on {{ task.creationDate | date: 'medium' }}
                     </span>
                 </div>
             </div>
-            <div class="card card-flush py-3">
-                <div class="card-header">
-                    <h2 class="title">Due Date</h2>
-                </div>
-                <div class="card-body pt-0">
-                    <mat-calendar [value]="task.dueDate"
-                                  (valueChange)="task.dueDate = $event"></mat-calendar>
-                    <span class="text-500 fs-7">
-                        Set the task due date.
-                    </span>
-                </div>
-            </div>
-            <div class="card card-flush py-3">
-                <div class="card-header">
-                    <h2 class="title">Urgency</h2>
-                    <div class="card-toolbar">
-                        <div class="border-circle w-15px h-15px bg-{{task.urgency.color}}">
-                        </div>
+
+            <div class="flex flex-column border-primary border-round">
+                <header
+                    class="p-3 py-2 bg-light-primary border-round-top flex align-items-center justify-content-between"
+                    style="border-bottom: 1px solid #006AE6">
+                    <span class="fs-6 fw-bold">Description</span>
+                    <a href="javascript:void(0)" class="fw-semibold" type="button"
+                       (click)="editDescription = true" *ngIf="!editDescription">
+                        Edit
+                    </a>
+                </header>
+                <div class="p-3 flex flex-column gap-3">
+                    <div class="fs-7" [class.text-5]="task.description.length === 0" *ngIf="!editDescription">
+                        {{ task.description.length > 0 ? task.description : 'No description provided.' }}
                     </div>
-                </div>
-                <div class="card-body pt-0">
-                    <mat-dropdown class="mb-2" [options]="urgencyList" [optionLabel]="'title'" [optionValue]="'code'"
-                                  [value]="task.urgency.code" [returnValue]="false"
-                                  (valueChange)="task.urgency = $event"></mat-dropdown>
-                    <span class="text-500 fs-7">
-                        Set the task urgency.
-                    </span>
-                </div>
-            </div>
-            <div class="card card-flush py-3" *ngIf="members.length > 0">
-                <div class="card-header">
-                    <h2 class="title">Assign To</h2>
-                </div>
-                <div class="card-body pt-0">
-                    <mat-dropdown class="mb-2" [options]="members" [optionLabel]="'username'"
-                                  [optionValue]="'uid'"
-                                  [value]="task.assignees.uid" [returnValue]="false"
-                                  (valueChange)="task.assignees = $event"></mat-dropdown>
-                    <span class="text-500 fs-7">
-                        Assign the task to a team member.
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-9 pl-0 pb-3 lg:pl-5 flex flex-column gap-3">
-            <div class="card card-flush py-3">
-                <div class="card-header">
-                    <h2 class="title">General</h2>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="form-group mb-5">
-                        <label for="taskTitle" class="required">Task Name</label>
-                        <input
-                            type="text"
-                            id="taskTitle"
-                            name="title"
-                            required
-                            [(ngModel)]="task.title"/>
-                        <span class="text-500 fs-7">
-                            A task name should be short and descriptive.
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskDescription" class="fw-medium">Description</label>
-                        <textarea
-                            id="taskDescription"
-                            name="description"
-                            [(ngModel)]="task.description"></textarea>
-                        <span class="text-500 fs-7">
-                            Describe the task in detail.
-                        </span>
+                    <textarea
+                        class="flex flex-1"
+                        *ngIf="editDescription"
+                        [(ngModel)]="task.description"
+                        name="description"
+                        rows="5"></textarea>
+
+                    <div class="flex align-items-center justify-content-end gap-2">
+                        <button class="btn btn-primary btn-sm" type="button"
+                                (click)="onSave.emit(task); editDescription = false" *ngIf="editDescription">
+                            <i class="fa-duotone fa-save"></i>
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="card card-flush py-3">
+            <div class="flex flex-column" style="border-bottom: 2px solid var(--color-utility-outline)">
+                <div
+                    class="activity"
+                    *ngFor="let activity of task.activity">
+                    <div class="activity-badge">
+                        <i [class]="activity.icon"></i>
+                    </div>
+                    <div class="activity-body">
+                        <strong class="text-white">{{activity.user.username}}</strong><span [innerHTML]="activity.action"></span>{{ activity.date | dateAgo  }}
+                    </div>
+                </div>
+            </div>
+            <!--<div class="card card-flush py-3 hidden">
                 <div class="card-header">
                     <h2 class="title">Subtasks</h2>
                 </div>
@@ -118,25 +114,81 @@
                         Add Subtask
                     </button>
                 </div>
-            </div>
-            <div class="flex justify-content-between mt-3">
-                <button type="button" class="btn btn-danger" *ngIf="task.id" (click)="confirmDeleteTask($event)">
-                    <i class="fa-duotone fa-trash-alt"></i>
-                    Delete Task
-                </button>
-                <div *ngIf="!task.id"></div>
-
+            </div>-->
+            <div class="flex justify-content-end mt-3">
                 <div class="flex align-items-center gap-3">
                     <button type="button" class="btn btn-text" (click)="cancel()">
                         <i class="fa-duotone fa-times"></i>
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-primary" [disabled]="manageTaskForm.invalid">
-                        <i class="fa-duotone fa-save"></i>
-                        Save Changes
+                    <button class="btn btn-outline" (click)="setCompleted()" [disabled]="manageTaskForm.invalid">
+                        <i class="fasr fa-circle-check text-tertiary"></i>
+                        Close Task
                     </button>
                 </div>
             </div>
+        </div>
+        <div class="col-12 lg:col-3 pr-0 pb-5 lg-pr-5 flex flex-column">
+            <div class="py-3 border-bottom">
+                <div class="flex align-items-center justify-content-between">
+                    <h2 class="fs-6 text-5">Urgency</h2>
+                    <div class="card-toolbar">
+                        <div class="border-circle w-15px h-15px bg-{{task.urgency.color}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <mat-dropdown class="mb-2" [options]="urgencyList" [optionLabel]="'title'" [optionValue]="'code'"
+                                  [value]="task.urgency.code" [returnValue]="false"
+                                  (valueChange)="task.urgency = $event; addActivity('editUrgency'); onSave.emit(task)"></mat-dropdown>
+                    <span class="text-500 fs-7">
+                        Set the task urgency.
+                    </span>
+                </div>
+            </div>
+            <div class="py-3 border-bottom">
+                <div class="flex align-items-center justify-content-between">
+                    <h2 class="fs-6 text-5">Status</h2>
+                    <div class="card-toolbar">
+                        <div class="border-circle w-15px h-15px bg-{{task.status.type}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <mat-dropdown class="mb-2" [options]="statusList" [optionLabel]="'name'"
+                                  [value]="task.status.value" [returnValue]="false"
+                                  (valueChange)="task.status = $event; addActivity('editStatus'); onSave.emit(task)"></mat-dropdown>
+                    <span class="text-5 fs-7">
+                        Set the task status.
+                    </span>
+                </div>
+            </div>
+            <div class="py-3 border-bottom">
+                <div class="flex align-items-center justify-content-between">
+                    <h2 class="fs-6 text-5">Due Date</h2>
+                </div>
+                <div class="pt-2">
+                    <mat-calendar [value]="task.dueDate"
+                                  (valueChange)="task.dueDate = $event; addActivity('editDueDate'); onSave.emit(task)"></mat-calendar>
+                    <span class="text-5 fs-7">
+                        Set the task due date.
+                    </span>
+                </div>
+            </div>
+            <!--<div class="card card-flush py-3" *ngIf="members.length > 0">
+                <div class="card-header">
+                    <h2 class="title">Assign To</h2>
+                </div>
+                <div class="card-body pt-0">
+                    <mat-dropdown class="mb-2" [options]="members" [optionLabel]="'username'"
+                                  [optionValue]="'uid'"
+                                  [value]="task.assignees.uid" [returnValue]="false"
+                                  (valueChange)="task.assignees = $event"></mat-dropdown>
+                    <span class="text-500 fs-7">
+                        Assign the task to a team member.
+                    </span>
+                </div>
+            </div>-->
         </div>
     </form>
 </div>

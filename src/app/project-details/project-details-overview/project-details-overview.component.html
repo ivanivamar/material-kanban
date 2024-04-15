@@ -6,7 +6,7 @@
                     <h3 class="fw-bold mb-1 fs-3">
                         Tasks Summary
                     </h3>
-                    <div class="fs-6 fw-semibold text-500">
+                    <div class="fs-6 fw-semibold text-5">
                         <!-- Overdue tasks -->
                         {{ overdueTasks }} Overdue Task{{ overdueTasks > 1 ? 's' : '' }}
                     </div>
@@ -28,7 +28,7 @@
                             <span class="fs-1 fw-bold">
                                 {{ project.tasks.length }}
                             </span>
-                            <span class="fs-5 fw-semibold text-500">
+                            <span class="fs-5 fw-semibold text-5">
                                 Total Tasks
                             </span>
                         </div>
@@ -130,7 +130,7 @@
                                     <i class="fa-duotone fa-diagram-subtask"></i>
                                     {{ getCompletedSubTasks(task) }} / {{ task.subtasks.length }}
                                 </div>
-                                <div class="fs-5 fw-bold text-800 mb-1 flex align-items-center gap-2">
+                                <div class="fs-5 fw-bold text-8 mb-1 flex align-items-center gap-2">
                                     <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
                                     {{ task.title }}
                                 </div>

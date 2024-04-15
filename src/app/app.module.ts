@@ -40,6 +40,7 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { ProjectDetailsTasksComponent } from './project-details/project-details-tasks/project-details-tasks.component';
 import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
 import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
+import { DateAgoPipe } from './pipe/date-ago.pipe';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import { TaskComponent } from './project-details/project-details-tasks/task/task
         ProjectDetailsSettingsComponent,
         ProjectDetailsTasksComponent,
         MatCalendarComponent,
-        TaskComponent
+        TaskComponent,
+        DateAgoPipe
     ],
     imports: [
         CommonModule,

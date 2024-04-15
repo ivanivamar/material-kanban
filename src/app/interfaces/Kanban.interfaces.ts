@@ -26,6 +26,7 @@ export interface Task {
     dayDuration?: number;
     owner: UserLite;
     assignees: UserLite;
+    activity: Activity[];
 }
 
 export class TaskDto implements Task {
@@ -50,20 +51,16 @@ export class TaskDto implements Task {
     completed: boolean = false;
     images: Images[] = [];
     dueDate: string = '';
-    owner: UserLite = {
-        username: '',
-        email: '',
-        photoURL: '',
-        uid: '',
-        sharedProjectsIds: []
-    }
-    assignees: UserLite = {
-        username: '',
-        email: '',
-        photoURL: '',
-        uid: '',
-        sharedProjectsIds: []
-    }
+    owner: UserDto = new UserDto();
+    assignees: UserDto = new UserDto();
+    activity: Activity[] = [];
+}
+
+export interface Activity {
+    icon: string;
+    user: UserLite;
+    action: string;
+    date: string;
 }
 
 export interface UserLite {
@@ -72,6 +69,14 @@ export interface UserLite {
     photoURL: string;
     uid: string;
     sharedProjectsIds: string[];
+}
+
+export class UserDto implements UserLite {
+    username: string = '';
+    email: string = '';
+    photoURL: string = '';
+    uid: string = '';
+    sharedProjectsIds: string[] = [];
 }
 
 export interface Status {

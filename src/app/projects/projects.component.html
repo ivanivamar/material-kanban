@@ -37,17 +37,17 @@
 
                     <div class="card-body">
                         <div class="flex flex-column gap-2 mb-3">
-                            <div class="text-lg fw-bold text-900">
+                            <div class="text-lg fw-bold text-9">
                                 {{ project.title }}
                             </div>
-                            <p class="text-500 fw-semibold text-base description" *ngIf="project.description.length > 0">
+                            <p class="text-5 fw-semibold text-base description" *ngIf="project.description.length > 0">
                                 {{ project.description }}
                             </p>
                         </div>
 
                         <div class="flex align-items-center gap-4 mb-4">
                             <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
-                            <span class="text-800 fw-bold text-base">
+                            <span class="text-8 fw-bold text-base">
                                 {{ getTasksOfStatus(statusList[1].value, project) }}
                             </span>
                                 <span class="fw-semibold text-500">
@@ -55,7 +55,7 @@
                             </span>
                             </div>
                             <div class="flex flex-column gap-2 border-1 border-dashed border-500 border-round-md p-2">
-                            <span class="text-800 fw-bold text-base">
+                            <span class="text-8 fw-bold text-base">
                                 {{ getTasksOfStatus(statusList[2].value, project) }}
                             </span>
                                 <span class="fw-semibold text-500">

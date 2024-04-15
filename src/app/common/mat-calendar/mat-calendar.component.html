@@ -1,6 +1,6 @@
 <div class="calendar">
     <div class="calendar-input" (click)="showModal = !showModal">
-        <span class="flex flex-1 text-900 fw-semibold">
+        <span class="flex flex-1 text-9 fw-semibold">
             {{ value | date:'dd/MM/yyyy' }}
         </span>
 
@@ -17,11 +17,11 @@
         [class.show-bottom]="!isBottomPage">
         <header>
             <div class="flex align-items-center gap-2">
-                <span class="fs-5 fw-bold text-900 text-active-primary cursor-pointer" id="selectedMonth"
+                <span class="fs-5 fw-bold text-9 text-active-primary cursor-pointer" id="selectedMonth"
                       (click)="onViewChange('months')">
                     {{ months[selectedMonth] }}
                 </span>
-                <span class="fs-5 fw-semibold text-500 text-active-primary cursor-pointer" id="selectedYear"
+                <span class="fs-5 fw-semibold text-5 text-active-primary cursor-pointer" id="selectedYear"
                       (click)="onViewChange('years')">
                     {{ selectedYear }}
                 </span>
@@ -48,7 +48,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th *ngFor="let day of days" class="fs-5 text-500 fw-semibold text-center pb-2">
+                            <th *ngFor="let day of days" class="fs-5 text-5 fw-semibold text-center pb-2">
                                 {{ day.substring(0, 2) }}
                             </th>
                         </tr>

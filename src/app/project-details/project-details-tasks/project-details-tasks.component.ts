@@ -93,11 +93,11 @@ export class ProjectDetailsTasksComponent implements OnInit {
         }
         // update the project
         this.kanbanService.updateProject(this.project);
-        Swal.fire({
+        /*Swal.fire({
             icon: 'success',
             title: 'Task saved successfully',
             confirmButtonText: 'Ok, got it!'
-        });
+        });*/
 
         // update the current page tasks
         this.getCurrentPageTasks(1);
