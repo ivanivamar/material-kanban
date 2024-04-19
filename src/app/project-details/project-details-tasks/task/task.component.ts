@@ -33,14 +33,6 @@ export class TaskComponent {
     ) {
     }
 
-    onShow(task?: TaskDto) {
-        if (task) {
-            this.task = task;
-        } else {
-            this.task = new TaskDto();
-        }
-    }
-
     editTitleToggle() {
         this.editTitle = true;
         this.previousTitle = JSON.parse(JSON.stringify(this.task?.title));
@@ -120,6 +112,7 @@ export class TaskComponent {
         if (this.task) {
             this.task.subtasks = this.task.subtasks.filter((checkbox: any) => checkbox.id !== subtask.id);
         }
+        this.onSave.emit(this.task);
     }
 
     cancel() {
