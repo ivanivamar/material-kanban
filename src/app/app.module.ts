@@ -41,6 +41,9 @@ import { ProjectDetailsTasksComponent } from './project-details/project-details-
 import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
 import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
 import { DateAgoPipe } from './pipe/date-ago.pipe';
+import {NgxGraphModule} from "@swimlane/ngx-graph";
+import { GraphComponent } from './graph/graph.component';
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
     declarations: [
@@ -63,7 +66,8 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         ProjectDetailsTasksComponent,
         MatCalendarComponent,
         TaskComponent,
-        DateAgoPipe
+        DateAgoPipe,
+        GraphComponent
     ],
     imports: [
         CommonModule,
@@ -87,6 +91,8 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         RippleModule,
         CountUpModule,
         SweetAlert2Module.forRoot(),
+        NgxGraphModule,
+        DropdownModule
     ],
     providers: [],
     bootstrap: [AppComponent],

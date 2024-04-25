@@ -1,0 +1,38 @@
+<div class="surface-0" style="width: 100%; height: 100vh; border: 1px solid #eeeeee; border-radius: 8px;">
+    <ngx-graph
+        class="chart-container"
+        [showMiniMap]="true"
+        [links]="graphLinks"
+        [nodes]="graphNodes"
+        layout="dagre"
+    >
+        <ng-template #defsTemplate>
+            <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="20" markerHeight="4"
+                        orient="auto">
+                <svg:path d="M0,-5L10,0L0,5" class="arrow-head"/>
+            </svg:marker>
+        </ng-template>
+
+        <ng-template #nodeTemplate let-node>
+            <svg class="node">
+                <rect
+                    [attr.width]="node.dimension.width"
+                    [attr.height]="node.dimension.height"
+                    [attr.fill]="node.data.color"
+                />
+                <foreignObject class="overflow-y-auto p-3" [style]="{height: node.dimension.height, width: node.dimension.width}" x="0" y="0">
+                    <div xmlns="http://www.w3.org/1999/xhtml" *ngFor="let number of array">
+                        TEXT
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" [optionLabel]="'name'" [optionValue]="'code'"></p-dropdown>
+                    </div>
+                </foreignObject>
+            </svg>
+        </ng-template>
+
+        <ng-template #linkTemplate let-link>
+            <svg:g class="edge">
+                <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+            </svg:g>
+        </ng-template>
+    </ngx-graph>
+</div>
