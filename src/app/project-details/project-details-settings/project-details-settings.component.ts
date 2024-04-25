@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {ProjectDetails} from "../../../shared/helpers/projectClasses";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
-import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-project-details-settings',
@@ -41,11 +40,6 @@ export class ProjectDetailsSettingsComponent {
 
     saveProject() {
         this.kanbanService.updateProject(this.project);
-        Swal.fire({
-            text: 'Thank you! You\'ve updated your project settings',
-            icon: 'success',
-            confirmButtonText: 'Ok, got it!'
-        });
     }
 
     deleteProjectConfirm($event: any) {
@@ -62,15 +56,7 @@ export class ProjectDetailsSettingsComponent {
     async deleteProject() {
         if (this.project.id) {
             await this.kanbanService.deleteProject(this.project.id);
-            Swal.fire({
-                text: 'Thank you! You\'ve deleted your project',
-                icon: 'success',
-                confirmButtonText: 'Ok, got it!'
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/projects';
-                }
-            });
+            window.location.href = '/projects';
         }
     }
 }
