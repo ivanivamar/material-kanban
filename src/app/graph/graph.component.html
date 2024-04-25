@@ -9,7 +9,12 @@
         <ng-template #defsTemplate>
             <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="20" markerHeight="4"
                         orient="auto">
-                <svg:path d="M0,-5L10,0L0,5" class="arrow-head"/>
+                <svg:path fill="#6C757D" d="M0,-5L10,0L0,5" class="arrow-head"/>
+            </svg:marker>
+            // This is the circle marker with bg white and border black
+            <svg:marker id="circle" viewBox="0 -5 10 10" refX="5" refY="0" markerWidth="10" markerHeight="10"
+                        orient="auto">
+                <svg:circle stroke="#92989C" stroke-width="0.5" fill="white" cx="5" cy="0" r="3" class="arrow-head"/>
             </svg:marker>
         </ng-template>
 
@@ -35,7 +40,7 @@
 
         <ng-template #linkTemplate let-link>
             <svg:g class="edge">
-                <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+                <svg:path class="line" stroke-width="2" stroke="#A2A7AB" marker-start="url(#circle)" marker-end="url(#arrow)"></svg:path>
             </svg:g>
         </ng-template>
     </ngx-graph>
