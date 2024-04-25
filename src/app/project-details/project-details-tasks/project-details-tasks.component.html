@@ -2,18 +2,18 @@
     <h3 class="fw-bold my-2 fs-3">
         Project Tasks
     </h3>
-    <div class="flex flex-wrap my-1 gap-2">
+    <!--<div class="flex flex-wrap my-1 gap-2">
         <div class="nav-item" [class.active]="viewType == 'grid'" (click)="viewType = 'grid'">
             <i class="fa-duotone fa-grid-2-plus"></i>
         </div>
         <div class="nav-item" [class.active]="viewType == 'table'" (click)="viewType = 'table'">
             <i class="fa-duotone fa-diagram-cells"></i>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <div [ngSwitch]="viewType" *ngIf="selectedTask == null">
-    <div *ngSwitchCase="'grid'" class="fadein grid">
+    <!--<div *ngSwitchCase="'grid'" class="fadein grid">
         <div class="col-12 md:col-4 lg:col-12 xl:col-4" *ngFor="let status of statusList">
             <div class="flex align-items-center justify-content-between mb-3">
                 <div [ngClass]="'grid-title bg-' + status.type">
@@ -56,7 +56,7 @@
                 </div>
             </ng-container>
         </div>
-    </div>
+    </div>-->
     <div *ngSwitchCase="'table'" class="fadein">
         <div class="card card-flush">
             <div class="card-body pt-2 px-4">
@@ -72,21 +72,26 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th class="min-w-250px">Title</th>
+                            <th class="w-300px">Title</th>
                             <th class="min-w-150px">Due Date</th>
                             <th class="min-w-90px">Assigned To</th>
-                            <th class="min-w-90px">Urgency</th>
                             <th class="min-w-90px">Status</th>
                             <th class="min-w-100px text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let task of currentPageTasks">
-                            <td>
+                            <td class="flex align-items-center gap-2">
+                                <i class="fasr fa-scrubber text-success fs-4" *ngIf="!task.completed"></i>
+                                <i class="fasr fa-circle-check text-tertiary fs-4" *ngIf="task.completed"></i>
                                 <a href="javascript:void(0)" (click)="manageTask(task)"
                                    class="text-8 fw-bolder text-active-primary">
                                     {{ task.title }}
                                 </a>
+                                <span class="message p-1 w-fit border-none" [ngClass]="task.urgency.color"
+                                      *ngIf="task.urgency">
+                                    {{ task.urgency.title }}
+                                </span>
                             </td>
                             <td>
                                 {{ task.dueDate | date: 'mediumDate' }}
@@ -101,12 +106,6 @@
                                 <div *ngIf="task.assignees.uid == ''">
                                     --
                                 </div>
-                            </td>
-                            <td>
-                            <span class="message p-1 w-fit" [ngClass]="task.urgency.color"
-                                  *ngIf="task.urgency">
-                                {{ task.urgency.title }}
-                            </span>
                             </td>
                             <td>
                             <span class="message p-1 w-fit" [ngClass]="task.status.type">

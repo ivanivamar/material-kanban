@@ -6,6 +6,7 @@ import {Subtasks, Status, Task, TaskDto, Urgency, UserLite} from 'src/app/interf
 import Swal from "sweetalert2";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-project-details-tasks',
@@ -18,7 +19,7 @@ export class ProjectDetailsTasksComponent implements OnInit {
     @Input() users: any[] = [];
     @Output() onChanges = new EventEmitter();
 
-    viewType = 'grid';
+    viewType = 'table';
     currentPageTasks: Task[] = [];
     loading = false;
     selectedTask: TaskDto | null = null;
@@ -33,6 +34,7 @@ export class ProjectDetailsTasksComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private _location: Location,
+        private title: Title
     ) {
     }
 
@@ -73,6 +75,10 @@ export class ProjectDetailsTasksComponent implements OnInit {
         this.selectedTask = task ? task : new TaskDto();
         this.selectedTask.owner = this.project.owner;
         this.isManagingTask = true;
+        if (task) {
+            // set task title to title
+            this.title.setTitle(task.title);
+        }
         // add task to url
         this._location.go('/projects/' + this.project.id + '/tasks/' + (task ? task.id : 'new'));
     }
@@ -103,6 +109,9 @@ export class ProjectDetailsTasksComponent implements OnInit {
         this.getCurrentPageTasks(1);
         this.isManagingTask = false;
         this.onChanges.emit();
+
+        // go to url and change new to id
+        this._location.go('/projects/' + this.project.id + '/tasks/' + managedTask.id);
     }
 
     confirmDeleteTask(task: Task, event: any) {

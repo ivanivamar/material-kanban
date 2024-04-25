@@ -38,6 +38,12 @@ export class TaskComponent {
         this.previousTitle = JSON.parse(JSON.stringify(this.task?.title));
     }
 
+    saveTitle() {
+        this.addActivity('editTitle');
+        this.editTitle = false;
+        this.onSave.emit(this.task);
+    }
+
     addActivity(type: string) {
         if (this.task !== null) {
             let newActivity: Activity;
@@ -123,6 +129,13 @@ export class TaskComponent {
     setCompleted() {
         if (this.task) {
             this.task.completed = true;
+            this.onSave.emit(this.task);
+        }
+    }
+
+    setNotCompleted() {
+        if (this.task) {
+            this.task.completed = false;
             this.onSave.emit(this.task);
         }
     }

@@ -142,8 +142,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.currentTab = tab;
 
         // update url
-        let newUrL = `/projects/${this.projectId}/${tab.title.toLowerCase()}`;
-        this._location.go(newUrL);
+        this._location.go(`/projects/${this.projectId}/${tab.title.toLowerCase()}`);
     }
 
     getPendingTasks(): number {
