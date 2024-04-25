@@ -21,15 +21,15 @@ export class GraphComponent {
             target: 'second',
         }, {
             id: 'b',
-            source: 'first',
+            source: 'second',
             target: 'c1',
+        },{
+            id: 'c',
+            source: 'c1',
+            target: 'c2',
         }, {
             id: 'd',
             source: 'first',
-            target: 'c2',
-        }, {
-            id: 'e',
-            source: 'c1',
             target: 'd',
         }
     ];
@@ -38,10 +38,12 @@ export class GraphComponent {
             id: 'first',
             label: 'A',
             dimension: { width: 300, height: 200 },
+            position: { x: 0, y: 0 }
         }, {
             id: 'second',
             label: 'B',
             dimension: { width: 300, height: 200 },
+            position: { x: 500, y: 0 }
         }, {
             id: 'c1',
             label: 'C1',
@@ -54,6 +56,7 @@ export class GraphComponent {
             id: 'd',
             label: 'D',
             dimension: { width: 300, height: 200 },
+            position: { x: 800, y: 0 }
         }
     ];
 
