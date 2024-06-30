@@ -14,7 +14,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {ChartModule} from 'primeng/chart';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DragDropModule as DragDropModulePrime} from 'primeng/dragdrop';
 import {provideStorage, getStorage} from '@angular/fire/storage';
 import {provideAuth, getAuth, AuthModule} from '@angular/fire/auth';
 import {LoginComponent} from './auth/login/login.component';
@@ -31,7 +30,6 @@ import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
 import { PaginationComponent } from './common/pagination/pagination.component';
-import {RippleModule} from "primeng/ripple";
 import { ProjectDetailsOverviewComponent } from './project-details/project-details-overview/project-details-overview.component';
 import {BusyIfDirective} from "./busyif.directive";
 import { CountUpModule } from 'ngx-countup';
@@ -78,12 +76,10 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         HttpClientModule,
         MultiSelectModule,
         BrowserAnimationsModule,
-        DragDropModulePrime,
         CalendarModule,
         ConfirmPopupModule,
         ToastModule,
         RouterLinkActive,
-        RippleModule,
         CountUpModule,
     ],
     providers: [],
