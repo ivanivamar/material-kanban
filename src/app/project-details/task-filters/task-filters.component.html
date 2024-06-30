@@ -67,16 +67,16 @@
                     </div>
                 </div>
                 <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dueDate'">
-                    <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.value" dateFormat="dd/mm/yy"
+                    <!--<p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.value" dateFormat="dd/mm/yy"
                                 placeholder="Due Date"
-                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>-->
                 </div>
 
                 <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dateRange'">
-                    <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.values" selectionMode="range"
+                    <!--<p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.values" selectionMode="range"
                                 placeholder="Date Range"
                                 [readonlyInput]="true" dateFormat="dd/mm/yy"
-                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>-->
                 </div>
 
                 <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'assignedTo'">

@@ -11,16 +11,12 @@ import {ProjectDetailsComponent} from './project-details/project-details.compone
 import {ProjectsComponent} from './projects/projects.component';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ChartModule} from 'primeng/chart';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {provideStorage, getStorage} from '@angular/fire/storage';
 import {provideAuth, getAuth, AuthModule} from '@angular/fire/auth';
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
-import {CalendarModule} from 'primeng/calendar';
-import {ConfirmPopupModule} from 'primeng/confirmpopup';
-import {ToastModule} from 'primeng/toast';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
@@ -67,7 +63,6 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        ChartModule,
         AuthModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
@@ -76,9 +71,6 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         HttpClientModule,
         MultiSelectModule,
         BrowserAnimationsModule,
-        CalendarModule,
-        ConfirmPopupModule,
-        ToastModule,
         RouterLinkActive,
         CountUpModule,
     ],

@@ -1,21 +1,21 @@
 import {Component, Input} from '@angular/core';
 import {ProjectDetails} from "../../../shared/helpers/projectClasses";
-import {ConfirmationService, MessageService} from "primeng/api";
+//import {ConfirmationService, MessageService} from "primeng/api";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 
 @Component({
     selector: 'app-project-details-settings',
     templateUrl: './project-details-settings.component.html',
     styleUrls: ['./project-details-settings.component.sass'],
-    providers: [ConfirmationService, MessageService, KanbanService]
+    providers: [KanbanService]
 })
 export class ProjectDetailsSettingsComponent {
     @Input() project: ProjectDetails = new ProjectDetails();
 
     constructor(
-        private confirmService: ConfirmationService,
+        //private confirmService: ConfirmationService,
         private kanbanService: KanbanService,
-        private messageService: MessageService
+        //private messageService: MessageService
     ) {
     }
 
@@ -28,14 +28,14 @@ export class ProjectDetailsSettingsComponent {
         };
     }
     deleteImage(event: any) {
-        this.confirmService.confirm({
+        /*this.confirmService.confirm({
             target: event.target,
             icon: 'fa-duotone fa-triangle-exclamation',
             message: 'Are you sure that you want to delete this image?',
             accept: () => {
                 this.project.image = '';
             }
-        });
+        });*/
     }
 
     saveProject() {
@@ -43,14 +43,14 @@ export class ProjectDetailsSettingsComponent {
     }
 
     deleteProjectConfirm($event: any) {
-        this.confirmService.confirm({
+        /*this.confirmService.confirm({
             target: $event.target,
             icon: 'fa-duotone fa-triangle-exclamation',
             message: 'Are you sure that you want to delete this project?',
             accept: () => {
                 this.deleteProject();
             }
-        });
+        });*/
     }
 
     async deleteProject() {

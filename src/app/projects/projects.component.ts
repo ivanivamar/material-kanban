@@ -7,7 +7,7 @@ import {
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
-import {ConfirmationService, MessageService} from 'primeng/api';
+//import {ConfirmationService, MessageService} from 'primeng/api';
 import {TableHelper} from "../../shared/helpers/tableHelper";
 import {StatusList, UrgencyList} from "../../shared/helpers/projectClasses";
 
@@ -22,7 +22,7 @@ export interface ControllerInputDto {
     selector: 'app-kanban-dashboard',
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.sass'],
-    providers: [KanbanService, AuthService, ConfirmationService, MessageService],
+    providers: [KanbanService, AuthService, MessageService],
 })
 export class ProjectsComponent implements OnInit {
     projects: TableHelper<Project> = new TableHelper<Project>();
@@ -49,7 +49,7 @@ export class ProjectsComponent implements OnInit {
         private kanbanService: KanbanService,
         private router: Router,
         private authService: AuthService,
-        private confirmationService: ConfirmationService,
+       // private confirmationService: ConfirmationService,
     ) {
     }
 
@@ -224,7 +224,7 @@ export class ProjectsComponent implements OnInit {
     confirmDeleteProject(event: any, project: any) {
         event.stopPropagation();
         project.menu = !project.menu;
-        this.confirmationService.confirm({
+        /*this.confirmationService.confirm({
             target: event.target,
             message: 'Are you sure that you want to delete this project?',
             icon: 'pi pi-exclamation-triangle',
@@ -234,7 +234,7 @@ export class ProjectsComponent implements OnInit {
             reject: () => {
                 return;
             },
-        });
+        });*/
     }
 
     async deleteProject(projectId: string, event: any) {
