@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Activity, Subtasks, TaskDto, Urgency} from "../../../interfaces/Kanban.interfaces";
 import {KanbanService} from "../../../../shared/services/kanban-service.service";
-//import {ConfirmationService} from "primeng/api";
+import {ConfirmationService} from "primeng/api";
 import {StatusList, UrgencyList} from "../../../../shared/helpers/projectClasses";
 
 @Component({
     selector: 'app-task',
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.sass'],
-    providers: [KanbanService]
+    providers: [KanbanService, ConfirmationService]
 })
 export class TaskComponent {
     @Input() task: TaskDto | null = null;
@@ -29,7 +29,7 @@ export class TaskComponent {
 
     constructor(
         private kanbanService: KanbanService,
-        //private confirmService: ConfirmationService,
+        private confirmService: ConfirmationService,
     ) {
     }
 
@@ -141,14 +141,14 @@ export class TaskComponent {
     }
 
     confirmDeleteTask(event: any) {
-        /*this.confirmService.confirm({
+        this.confirmService.confirm({
             target: event.target,
             message: 'Are you sure you want to delete this task?',
             icon: 'fa-duotone fa-triangle-exclamation',
             accept: () => {
                 this.onDelete.emit(this.task);
             }
-        });*/
+        });
     }
 
     idGenerator(): string {

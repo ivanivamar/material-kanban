@@ -1,33 +1,32 @@
 import {combineLatest, map, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Images, Project} from '../../app/interfaces/Kanban.interfaces';
-import {
-    addDoc,
-    collection,
-    collectionData,
-    deleteDoc,
-    doc,
-    Firestore,
-    getDoc,
-    getDocs,
-    query, startAfter,
-    updateDoc,
-    where,
-} from '@angular/fire/firestore';
-import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import {DomSanitizer} from "@angular/platform-browser";
-import {getCountFromServer, limit, orderBy, startAt} from 'firebase/firestore';
-import {ControllerInputDto, PaginatedResult} from "../../app/projects/projects.component";
+import {addDoc, collection,
+    deleteDoc, doc, getCountFromServer, getDoc, getDocs, getFirestore, limit, orderBy, query, startAt,
+    updateDoc, where} from 'firebase/firestore';
+import {deleteObject, getDownloadURL, getMetadata, getStorage, ref, uploadBytes} from 'firebase/storage';
+import {PaginatedResult} from "../../app/projects/projects.component";
+import {initializeApp} from "firebase/app";
+import firebase from "firebase/compat";
 @Injectable({
     providedIn: 'root'
 })
 export class KanbanService {
-    db = this.firestore;
-
-    constructor(
-        private firestore: Firestore,
-        private storage: Storage,
-        private sanitizer: DomSanitizer) { }
+    firebaseConfig = {
+        projectId: 'materialkanban',
+        appId: '1:465319731998:web:d609103c2889d47ab21f0f',
+        databaseURL: 'https://materialkanban-default-rtdb.europe-west1.firebasedatabase.app',
+        storageBucket: 'materialkanban.appspot.com',
+        locationId: 'europe-west',
+        apiKey: 'AIzaSyDbMsn2lDp8IQvtoEoTIGVlUyGKwhfsCvI',
+        authDomain: 'materialkanban.firebaseapp.com',
+        messagingSenderId: '465319731998',
+        measurementId: 'G-LHTKBGT4VW',
+    };
+    app = initializeApp(this.firebaseConfig);
+    firestore = getFirestore(this.app);
+    storage = getStorage(this.app);
 
     //#region Getters
     async getProjects(uid: string): Promise<PaginatedResult<Project>> {
@@ -66,7 +65,14 @@ export class KanbanService {
 
     getUsers(): Observable<any[]> {
         const usersRef = collection(this.firestore, 'users');
-        return collectionData(usersRef, { idField: 'id' }) as Observable<any[]>;
+        return new Observable<any[]>(observer => {
+            getDocs(usersRef).then(users => {
+                observer.next(users.docs.map(user => user.data()));
+                observer.complete();
+            }).catch(error => {
+                observer.error(error);
+            });
+        });
     }
 
     getUserById(userId: string): Observable<any> {
@@ -130,7 +136,7 @@ export class KanbanService {
                             name: metadata.name
                         };
                     })
-                ).toPromise();
+                );
             })
             .catch(error =>  console.log(error));
     }

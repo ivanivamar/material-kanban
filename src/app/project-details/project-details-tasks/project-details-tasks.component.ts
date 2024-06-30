@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, LOCALE_ID, OnInit, Output, ViewChild} from '@angular/core';
 import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/projectClasses";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
-//import {ConfirmationService} from "primeng/api";
+import {ConfirmationService} from "primeng/api";
 import {Subtasks, Status, Task, TaskDto, Urgency, UserLite} from 'src/app/interfaces/Kanban.interfaces';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -11,7 +11,7 @@ import {Title} from "@angular/platform-browser";
     selector: 'app-project-details-tasks',
     templateUrl: './project-details-tasks.component.html',
     styleUrls: ['./project-details-tasks.component.sass'],
-    providers: [KanbanService]
+    providers: [KanbanService, ConfirmationService]
 })
 export class ProjectDetailsTasksComponent implements OnInit {
     @Input() project: ProjectDetails = new ProjectDetails();
@@ -29,7 +29,7 @@ export class ProjectDetailsTasksComponent implements OnInit {
 
     constructor(
         private kanbanService: KanbanService,
-        //private confirmService: ConfirmationService,
+        private confirmService: ConfirmationService,
         private router: Router,
         private route: ActivatedRoute,
         private _location: Location,
@@ -109,14 +109,14 @@ export class ProjectDetailsTasksComponent implements OnInit {
     }
 
     confirmDeleteTask(task: Task, event: any) {
-        /*this.confirmService.confirm({
+        this.confirmService.confirm({
             target: event.target,
             message: 'Are you sure you want to delete this task?',
             icon: 'fa-duotone fa-triangle-exclamation',
             accept: () => {
                 this.onTaskDelete({task});
             }
-        });*/
+        });
 
     }
 

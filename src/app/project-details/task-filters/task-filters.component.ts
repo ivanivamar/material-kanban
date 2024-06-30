@@ -19,7 +19,7 @@ export class TaskFiltersComponent {
     projectData = new Project();
     filtersData: TaskFilters[] = [];
     // @ts-ignore
-    selectedFilter: TaskFilters | null = null;
+    selectedFilter: TaskFilters = null;
     selectedFilterIndex: number = -1;
     usedFilterNames: string[] = [];
 
@@ -160,4 +160,13 @@ export interface TaskFilters {
     order: string;
     values: any[];
     value: any;
+}
+
+export class TaskFilters {
+    name: string = '';
+    label: string = '';
+    icon: string = '';
+    order: string = '';
+    values: any[] = [];
+    value: any = null;
 }

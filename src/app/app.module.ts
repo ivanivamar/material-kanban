@@ -3,20 +3,19 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
-import {getFirestore, provideFirestore} from '@angular/fire/firestore';
-import {environment} from 'src/environments/environment';
 import {FormsModule} from '@angular/forms';
 import {ProjectDetailsComponent} from './project-details/project-details.component';
 import {ProjectsComponent} from './projects/projects.component';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
-import {HttpClientModule} from '@angular/common/http';
+import {ChartModule} from 'primeng/chart';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {provideStorage, getStorage} from '@angular/fire/storage';
 import {provideAuth, getAuth, AuthModule} from '@angular/fire/auth';
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
+import {CalendarModule} from 'primeng/calendar';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {ToastModule} from 'primeng/toast';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
@@ -56,21 +55,20 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         ProjectDetailsTasksComponent,
         MatCalendarComponent,
         TaskComponent,
-        DateAgoPipe
+        DateAgoPipe,
     ],
     imports: [
         CommonModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
+        ChartModule,
         AuthModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideFirestore(() => getFirestore()),
-        provideStorage(() => getStorage()),
-        provideAuth(() => getAuth()),
-        HttpClientModule,
         MultiSelectModule,
         BrowserAnimationsModule,
+        CalendarModule,
+        ConfirmPopupModule,
+        ToastModule,
         RouterLinkActive,
         CountUpModule,
     ],

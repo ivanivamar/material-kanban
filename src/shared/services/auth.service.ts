@@ -1,21 +1,25 @@
 import {Injectable} from '@angular/core';
-import {
-    Auth,
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithEmailAndPassword,
-    signInWithPopup
-} from '@angular/fire/auth';
 import {Login, Register} from '../../app/interfaces/Kanban.interfaces';
-import {signOut} from 'firebase/auth';
+import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, signOut} from 'firebase/auth';
+import {initializeApp} from "firebase/app";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-
-    constructor(private auth: Auth) {
-    }
+    firebaseConfig = {
+        projectId: 'materialkanban',
+        appId: '1:465319731998:web:d609103c2889d47ab21f0f',
+        databaseURL: 'https://materialkanban-default-rtdb.europe-west1.firebasedatabase.app',
+        storageBucket: 'materialkanban.appspot.com',
+        locationId: 'europe-west',
+        apiKey: 'AIzaSyDbMsn2lDp8IQvtoEoTIGVlUyGKwhfsCvI',
+        authDomain: 'materialkanban.firebaseapp.com',
+        messagingSenderId: '465319731998',
+        measurementId: 'G-LHTKBGT4VW',
+    };
+    app = initializeApp(this.firebaseConfig);
+    auth = getAuth(this.app);
 
     register({username, email, password}: Register) {
         // create user

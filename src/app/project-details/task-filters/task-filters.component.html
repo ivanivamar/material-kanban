@@ -52,54 +52,55 @@
                     {{ filterItem.label }}
                 </div>
             </div>
-            <div *ngIf="selectedFilter !== null && selectedFilter.name !== ''" class="min-w-max">
-
-                <div class="tabs-container m-1">
-                    <div (click)="updateOrder('asc'); updateFilters()" class="tab p-1"
-                         [class.active]="selectedFilter.order === 'asc'">
-                        <i class="material-symbols-rounded rotate-90">switch_right</i>
-                        Asc
+            @if (selectedFilter !== null && selectedFilter.name !== '') {
+                <div class="min-w-max">
+                    <div class="tabs-container m-1">
+                        <div (click)="updateOrder('asc'); updateFilters()" class="tab p-1"
+                             [class.active]="selectedFilter.order === 'asc'">
+                            <i class="material-symbols-rounded rotate-90">switch_right</i>
+                            Asc
+                        </div>
+                        <div class="tab p-1" (click)="updateOrder('desc'); updateFilters()"
+                             [class.active]="selectedFilter.order === 'desc'">
+                            <i class="material-symbols-rounded -rotate-90">switch_right</i>
+                            Desc
+                        </div>
                     </div>
-                    <div class="tab p-1" (click)="updateOrder('desc'); updateFilters()"
-                         [class.active]="selectedFilter.order === 'desc'">
-                        <i class="material-symbols-rounded -rotate-90">switch_right</i>
-                        Desc
+                    <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dueDate'">
+                        <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.value" dateFormat="dd/mm/yy"
+                                    placeholder="Due Date"
+                                    [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                    </div>
+
+                    <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dateRange'">
+                        <p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.values" selectionMode="range"
+                                    placeholder="Date Range"
+                                    [readonlyInput]="true" dateFormat="dd/mm/yy"
+                                    [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>
+                    </div>
+
+                    <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'assignedTo'">
+                        <mat-dropdown style="width: 200px" [placeholder]="'Select Members'" [options]="members"
+                                      [value]="selectedFilter.values"
+                                      [optionLabel]="'username'"
+                                      [optionValue]="'uid'" [multiple]="true"
+                                      (valueChange)="selectedFilter.values = $event; updateFilters()"></mat-dropdown>
+                    </div>
+
+                    <div class="py-1 flex flex-column" *ngIf="selectedFilter.name === 'status'">
+                        <div class="filter-item" *ngFor="let statusItem of filtersList[3].values"
+                             (click)="updateStatusFilter(statusItem)">
+                            <i class="text-base material-symbols-rounded">
+                                {{ selectedFilter.values.includes(statusItem.name) ? 'check_circle' : 'radio_button_unchecked' }}
+                            </i>
+                            <i class="text-base material-symbols-rounded" [style.color]="statusItem.iconColor">
+                                {{ statusItem.icon }}
+                            </i>
+                            {{ statusItem.name }}
+                        </div>
                     </div>
                 </div>
-                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dueDate'">
-                    <!--<p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.value" dateFormat="dd/mm/yy"
-                                placeholder="Due Date"
-                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>-->
-                </div>
-
-                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'dateRange'">
-                    <!--<p-calendar [showIcon]="true" [(ngModel)]="selectedFilter.values" selectionMode="range"
-                                placeholder="Date Range"
-                                [readonlyInput]="true" dateFormat="dd/mm/yy"
-                                [showTime]="true" hourFormat="24" (ngModelChange)="updateFilters()"></p-calendar>-->
-                </div>
-
-                <div class="p-3 py-2 flex flex-column" *ngIf="selectedFilter.name === 'assignedTo'">
-                    <mat-dropdown style="width: 200px" [placeholder]="'Select Members'" [options]="members"
-                                  [value]="selectedFilter.values"
-                                  [optionLabel]="'username'"
-                                  [optionValue]="'uid'" [multiple]="true"
-                                  (valueChange)="selectedFilter.values = $event; updateFilters()"></mat-dropdown>
-                </div>
-
-                <div class="py-1 flex flex-column" *ngIf="selectedFilter.name === 'status'">
-                    <div class="filter-item" *ngFor="let statusItem of filtersList[3].values"
-                         (click)="updateStatusFilter(statusItem)">
-                        <i class="text-base material-symbols-rounded">
-                            {{ selectedFilter.values.includes(statusItem.name) ? 'check_circle' : 'radio_button_unchecked' }}
-                        </i>
-                        <i class="text-base material-symbols-rounded" [style.color]="statusItem.iconColor">
-                            {{ statusItem.icon }}
-                        </i>
-                        {{ statusItem.name }}
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
