@@ -3,7 +3,6 @@ import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/p
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
 import {Subtasks, Status, Task, TaskDto, Urgency, UserLite} from 'src/app/interfaces/Kanban.interfaces';
-import Swal from "sweetalert2";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {Title} from "@angular/platform-browser";
@@ -99,11 +98,6 @@ export class ProjectDetailsTasksComponent implements OnInit {
         }
         // update the project
         this.kanbanService.updateProject(this.project);
-        /*Swal.fire({
-            icon: 'success',
-            title: 'Task saved successfully',
-            confirmButtonText: 'Ok, got it!'
-        });*/
 
         // update the current page tasks
         this.getCurrentPageTasks(1);

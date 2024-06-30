@@ -36,7 +36,6 @@ import { ProjectDetailsOverviewComponent } from './project-details/project-detai
 import {BusyIfDirective} from "./busyif.directive";
 import { CountUpModule } from 'ngx-countup';
 import { ProjectDetailsSettingsComponent } from './project-details/project-details-settings/project-details-settings.component';
-import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { ProjectDetailsTasksComponent } from './project-details/project-details-tasks/project-details-tasks.component';
 import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
 import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
@@ -86,7 +85,6 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         RouterLinkActive,
         RippleModule,
         CountUpModule,
-        SweetAlert2Module.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent],
