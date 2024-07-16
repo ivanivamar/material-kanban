@@ -131,7 +131,7 @@
                                     {{ getCompletedSubTasks(task) }} / {{ task.subtasks.length }}
                                 </div>
                                 <div class="fs-5 fw-bold text-8 mb-1 flex align-items-center gap-2">
-                                    <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
+                                    <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status == 3"></i>
                                     {{ task.title }}
                                 </div>
                             </div>

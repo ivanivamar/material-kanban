@@ -1,117 +1,29 @@
-<div class="flex flex-wrap align-items-center justify-content-between pt-5 pb-4" *ngIf="selectedTask == null">
-    <h3 class="fw-bold my-2 fs-3">
-        Project Tasks
-    </h3>
-</div>
+<div class="flex flex-column gap-3 mt-4">
+    @for(task of project.tasks; track task.id) {
+        <a [routerLink]="['/projects/' + project.id + '/tasks/' + task.id]" class="surface-0 p-3 border-round border flex align-items-center justify-content-between cursor-pointer hover:shadow-6">
+            <div class="w-full flex align-items-center gap-3">
+                @if (task.completed) {
+                    <i class="fasr fa-check-circle text-tertiary mt-1 text-lg"></i>
+                } @else {
+                    <i class="fasr fa-circle-dot text-success mt-1 text-lg"></i>
+                }
+                <span class="fw-medium text-base">
+                    {{ task.title }}
+                </span>
 
-<div [ngSwitch]="viewType" *ngIf="selectedTask == null">
-    <div *ngSwitchCase="'grid'" class="fadein grid">
-        <div class="col-12 md:col-4 lg:col-12 xl:col-4" *ngFor="let status of statusList">
-            <div class="flex align-items-center justify-content-between mb-3">
-                <div [ngClass]="'grid-title bg-' + status.type">
-                    <i [class]="status.icon" class="text-white"></i>
-                    {{ status.name }}
-                </div>
-            </div>
-            <ng-container *ngFor="let task of project.tasks">
-                <div class="card mb-3 xl:mb-5" *ngIf="task.status.value == status.value">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <a href="javascript:void(0)" (click)="manageTask(task)"
-                               class="text-9 fw-bold text-active-primary fs-4">
-                                {{ task.title }}
-                            </a>
-                        </div>
-                        <div class="fs-6 fw-semibold text-600 m3-5" *ngIf="task.description.length > 0">
-                            {{ task.description }}
-                        </div>
-                        <div class="flex align-items-center justify-content-between">
-                            <div class="flex align-items-center gap-2">
-                                <div
-                                    class="border border-dashed border-500 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
-                                    <i class="fa-duotone fa-diagram-subtask"></i>
-                                    <span class="text-gray-600 fs-7">{{ completedSubtasks(task.subtasks) }}
-                                        / {{ task.subtasks.length }}</span>
-                                </div>
-                                <div
-                                    class="border border-dashed border-500 rounded d-flex align-items-center p-2 gap-2 flex align-items-center justify-content-center">
-                                    <i class="fa-duotone fa-calendar"></i>
-                                    <span class="text-gray-600 fs-7">{{ task.dueDate | date: 'mediumDate' }}</span>
-                                </div>
-                            </div>
-                        </div>
+                @if (task.dueDate != '') {
+                    <div class="flex align-items-center gap-2">
+                        <i class="fa-duotone fa-calendar-alt mt-1"></i>
+                        <span>
+                            {{ task.dueDate | date : 'mediumDate' }}
+                        </span>
                     </div>
-                </div>
-            </ng-container>
-        </div>
-    </div>
-    <div *ngSwitchCase="'table'" class="fadein">
-        <div class="card card-flush">
-            <div class="card-body pt-2 px-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <colgroup>
-                            <col style="width: 0;">
-                            <col style="width: 0;">
-                            <col style="width: 0;">
-                            <col style="width: 0;">
-                            <col style="width: 0;">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th class="w-300px">Title</th>
-                            <th class="min-w-150px">Due Date</th>
-                            <th class="min-w-90px">Status</th>
-                            <th class="min-w-100px text-center">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let task of currentPageTasks">
-                            <td class="flex align-items-center gap-2">
-                                <i class="fasr fa-scrubber text-success fs-4" *ngIf="!task.completed"></i>
-                                <i class="fasr fa-circle-check text-tertiary fs-4" *ngIf="task.completed"></i>
-                                <a href="javascript:void(0)" (click)="manageTask(task)"
-                                   class="text-8 fw-bolder text-active-primary">
-                                    {{ task.title }}
-                                </a>
-                                <span class="message p-1 w-fit border-none" [ngClass]="task.urgency.color"
-                                      *ngIf="task.urgency">
-                                    {{ task.urgency.title }}
-                                </span>
-                            </td>
-                            <td>
-                                {{ task.dueDate | date: 'mediumDate' }}
-                            </td>
-                            <td>
-                            <span class="message p-1 w-fit" [ngClass]="task.status.type">
-                                {{ task.status.name }}
-                            </span>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn-icon btn-secondary btn-sm mr-1" (click)="manageTask(task)">
-                                    <i class="fa-duotone fa-pencil"></i>
-                                </button>
-                                <button class="btn-icon btn-light-danger btn-sm"
-                                        (click)="confirmDeleteTask(task, $event)">
-                                    <i class="fa-duotone fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <pagination
-                    [totalRecordCount]="project.tasks.length"
-                    [rows]="8"
-                    (onPageChange)="getCurrentPageTasks($event)"
-                ></pagination>
+                }
             </div>
-        </div>
-    </div>
-</div>
 
-<app-task #taskSection [task]="selectedTask" [members]="users" (onCancel)="cancel()" (onSave)="saveTaskChanges($event)"
-          (onDelete)="onTaskDelete($event)"></app-task>
+            <i class="fa-duotone fa-chevron-right"></i>
+        </a>
+    }
+</div>
 
 <p-confirmPopup></p-confirmPopup>

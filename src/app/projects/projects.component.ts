@@ -107,7 +107,7 @@ export class ProjectsComponent implements OnInit {
     getTasksOfStatus(statusValue: number, project: Project) {
         let count = 0;
         project.tasks.forEach((task: Task) => {
-            if (task.status.value === statusValue) {
+            if (task.status === statusValue) {
                 count++;
             }
         });

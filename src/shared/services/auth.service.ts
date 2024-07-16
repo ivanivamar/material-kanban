@@ -36,20 +36,15 @@ export class AuthService implements CanActivate{
     ) {
     }
 
-    register({username, email, password}: Register) {
-        // create user
-        return createUserWithEmailAndPassword(this.auth, email, password)
-            .then((userCredential: any) => {
-                // Signed in
-                let user = userCredential.user;
-                user.displayName = username;
-                this.auth.updateCurrentUser(user);
-                return user;
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                return error;
-            });
+    async register({username, email, password}: Register) {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+            let user = userCredential.user;
+            await this.auth.updateCurrentUser(user);
+            return user;
+        } catch (error: any) {
+            return error;
+        }
     }
 
     login({email, password}: Login) {
@@ -63,6 +58,7 @@ export class AuthService implements CanActivate{
     isLoggedIn(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.auth.onAuthStateChanged((user) => {
+                localStorage.setItem('uid', user!.uid);
                 resolve(user);
             });
         });

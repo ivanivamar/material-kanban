@@ -1,4 +1,4 @@
-input,
+input[type="text"],
 textarea
     border: 1px solid var(--color-utility-outline)
     border-radius: var(--border-radius-sm)
@@ -21,18 +21,16 @@ textarea
     &:active
         border-color: var(--color-primary)
 
-input
+input[type="text"]
     height: 43px
 
 textarea
     min-height: 100px
     resize: none
 
-label.required
-    font-size: 13.65px
-    font-weight: 500
-    margin-bottom: 6px
-    &:after
+label
+    font-weight: 600
+    &.required:after
         content: "*"
         color: var(--color-utility-error)
         margin-left: 5px
@@ -50,18 +48,6 @@ label.required
     height: 16px
     margin: 0
     padding: 0
-
-    input[type="checkbox"]
-        position: absolute
-        width: 0
-        height: 0
-        margin: 0
-        padding: 0
-        opacity: 0
-        -moz-appearance: none
-        -webkit-appearance: none
-        appearance: none
-        border: none
 
     .checkbox-helper
         position: absolute

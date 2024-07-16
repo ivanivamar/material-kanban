@@ -18,8 +18,6 @@ import {ToastModule} from 'primeng/toast';
 import {RippleDirective} from './ripple.directive';
 import {MatDropdownComponent} from './common/mat-dropdown/mat-dropdown.component';
 import { CircularProgressBarComponent } from './common/circular-progress-bar/circular-progress-bar.component';
-import { ProjectMembersComponent } from './project-details/project-members/project-members.component';
-import { TaskFiltersComponent } from './project-details/task-filters/task-filters.component';
 import { TextTransformPipe } from './pipe/text-transform.pipe';
 import {CommonModule} from "@angular/common";
 import { RouterLinkActive } from '@angular/router';
@@ -33,6 +31,7 @@ import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.compone
 import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
 import { DateAgoPipe } from './pipe/date-ago.pipe';
 import {ProjectModalComponent} from "./projects/project-modal/project-modal.component";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 @NgModule({
     declarations: [
@@ -45,8 +44,6 @@ import {ProjectModalComponent} from "./projects/project-modal/project-modal.comp
         RippleDirective,
         MatDropdownComponent,
         CircularProgressBarComponent,
-        ProjectMembersComponent,
-        TaskFiltersComponent,
         TextTransformPipe,
         PaginationComponent,
         ProjectDetailsOverviewComponent,
@@ -71,6 +68,7 @@ import {ProjectModalComponent} from "./projects/project-modal/project-modal.comp
         RouterLinkActive,
         CountUpModule,
         ProjectModalComponent,
+        OverlayPanelModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

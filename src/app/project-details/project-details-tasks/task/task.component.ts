@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StatusList, Subtasks, TaskDto, Urgency, UrgencyList} from "../../../interfaces/Kanban.interfaces";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Project, StatusList, Subtasks, Task, Urgency, UrgencyList} from "../../../interfaces/Kanban.interfaces";
 import {KanbanService} from "../../../../shared/services/kanban-service.service";
-import {ConfirmationService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ActivatedRoute, Event, Router} from "@angular/router";
 
 @Component({
     selector: 'app-task',
@@ -9,87 +10,80 @@ import {ConfirmationService} from "primeng/api";
     styleUrls: ['./task.component.sass'],
     providers: [KanbanService, ConfirmationService]
 })
-export class TaskComponent {
-    @Input() task: TaskDto | null = null;
-    @Input() members: any[] = [];
-
-    @Output() onCancel = new EventEmitter();
-    @Output() onSave = new EventEmitter();
-    @Output() onDelete = new EventEmitter();
-
-    statusList = StatusList;
-    urgencyList: Urgency[] = UrgencyList;
-
-    editTitle = false;
-    previousTitle = '';
-
-    editDescription = false;
-    previousDescription = '';
+export class TaskComponent implements OnInit {
+    loading = false;
+    project: Project = new Project();
+    task: Task = new Task();
 
     constructor(
         private kanbanService: KanbanService,
         private confirmService: ConfirmationService,
+        private messageService: MessageService,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
     }
 
-    editTitleToggle() {
-        this.editTitle = true;
-        this.previousTitle = JSON.parse(JSON.stringify(this.task?.title));
+    async ngOnInit() {
+        this.loading = true;
+        // get project id from url
+        this.route.url.subscribe(async (url: any) => {
+            if (url.length === 0) {
+                await this.router.navigate(['']);
+            } else {
+                const projectId = url[1].path;
+                const taskId = url[3].path;
+
+                // check if user is logged in
+                this.project = await this.kanbanService.getProjectById(projectId);
+                this.task = this.project.tasks.find((task: Task) => task.id === taskId) as Task;
+                this.loading = false;
+            }
+        });
     }
 
-    saveTitle() {
-        this.editTitle = false;
-        this.onSave.emit(this.task);
+    async toggleTaskCompletion() {
+        this.task.completed = !this.task.completed;
+        await this.updateProject();
     }
 
     addSubtask() {
-        if (this.task) {
-            if (!this.task.subtasks) {
-                this.task.subtasks = [];
-            }
-            this.task.subtasks.push({
-                id: this.idGenerator(),
-                title: '',
-                description: '',
-                checked: false
-            });
+        if (!this.task.subtasks) {
+            this.task.subtasks = [];
         }
+        this.task.subtasks.push({
+            id: this.idGenerator(),
+            title: '',
+            description: '',
+            checked: false
+        });
     }
 
     removeSubtask(subtask: Subtasks) {
         if (this.task) {
             this.task.subtasks = this.task.subtasks.filter((checkbox: any) => checkbox.id !== subtask.id);
         }
-        this.onSave.emit(this.task);
-    }
-
-    cancel() {
-        this.task = null;
-        this.onCancel.emit();
-    }
-
-    setCompleted() {
-        if (this.task) {
-            this.task.completed = true;
-            this.onSave.emit(this.task);
-        }
-    }
-
-    setNotCompleted() {
-        if (this.task) {
-            this.task.completed = false;
-            this.onSave.emit(this.task);
-        }
     }
 
     confirmDeleteTask(event: any) {
         this.confirmService.confirm({
-            target: event.target,
+            target: event.target as EventTarget,
             message: 'Are you sure you want to delete this task?',
             icon: 'fa-duotone fa-triangle-exclamation',
-            accept: () => {
-                this.onDelete.emit(this.task);
+            accept: async () => {
+                this.project.tasks = this.project.tasks.filter((task: Task) => task.id !== this.task.id);
+                await this.updateProject();
+                location.href = `/projects/${this.project.id}/tasks`;
             }
+        });
+    }
+
+    async updateProject() {
+        await this.kanbanService.updateProject(this.project);
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Task Updated',
+            detail: 'Task completion status updated successfully'
         });
     }
 
@@ -101,4 +95,6 @@ export class TaskComponent {
         }
         return autoId;
     }
+
+    protected readonly StatusList = StatusList;
 }

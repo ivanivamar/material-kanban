@@ -34,12 +34,9 @@ export class KanbanService {
 
     //#region Getters
     async getProjects(uid: string): Promise<PaginatedResult<Project>> {
-        const snapshot = await getCountFromServer(query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', uid),
-            orderBy('title'),
-        ));
         let projectRef = query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', uid)
+            where('ownerId', '==', localStorage.getItem('uid')),
+            orderBy('updated', 'desc'),
         );
         const projects = await getDocs(projectRef).then(querySnapshot => {
             return querySnapshot.docs.map(doc => {
@@ -51,20 +48,18 @@ export class KanbanService {
         });
         return {
             records: projects,
-            totalRecordCount: snapshot.data().count
+            totalRecordCount: projects.length
         };
     }
 
-    getProjectById(projectId: string): Observable<Project> {
-        const projectRef = doc(this.firestore, 'projects', projectId);
-        return new Observable<Project>(observer => {
-            getDoc(projectRef).then(project => {
-                observer.next(project.data() as Project);
-                observer.complete();
-            }).catch(error => {
-                observer.error(error);
-            });
-        });
+    async getProjectById(projectId: string): Promise<any> {
+        try {
+            const projectRef = doc(this.firestore, 'projects', projectId);
+            const docSnap = await getDoc(projectRef);
+            return docSnap.data() as Project;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     getUsers(): Observable<any[]> {
@@ -72,18 +67,6 @@ export class KanbanService {
         return new Observable<any[]>(observer => {
             getDocs(usersRef).then(users => {
                 observer.next(users.docs.map(user => user.data()));
-                observer.complete();
-            }).catch(error => {
-                observer.error(error);
-            });
-        });
-    }
-
-    getUserById(userId: string): Observable<any> {
-        const userRef = doc(this.firestore, 'users', userId);
-        return new Observable<any>(observer => {
-            getDoc(userRef).then(user => {
-                observer.next(user.data());
                 observer.complete();
             }).catch(error => {
                 observer.error(error);
@@ -104,13 +87,9 @@ export class KanbanService {
     }
 
     updateProject(project: any) {
+        project.updated = new Date().toString();
         const projectRef = collection(this.firestore, 'projects');
         return updateDoc(doc(projectRef, project.id), project);
-    }
-
-    updateUser(userId: string, user: any) {
-        const userRef = collection(this.firestore, 'users');
-        return updateDoc(doc(userRef, userId), user);
     }
 
     uploadImage(image: Images, file: File): Promise<any> {
@@ -169,7 +148,7 @@ export class KanbanService {
         return getDownloadURL(imageRef);
     }
 
-    private idGenerator(): string {
+    public idGenerator(): string {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';

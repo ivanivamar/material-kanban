@@ -1,187 +1,107 @@
-<div class="flex-row-fluid mt-5 fadein" *ngIf="task != null">
-    <form #manageTaskForm="ngForm" class="grid grid-nogutter">
-        <div class="col-12 lg:col-9 pr-0 pb-3 lg:pr-5 flex flex-column">
-            <div class="flex flex-column gap-2 pb-3 border-bottom">
-                <div class="flex align-items-center gap-2" *ngIf="!editTitle">
-                    <span class="fs-2 fw-semibold flex flex-1">
-                        {{ task.title }}
-                    </span>
+<div class="container flex flex-1 flex-column gap-3" [busyIf]="loading">
+    <div class="grid">
+        <div class="col-12 md:col-8">
+            <form #detailsForm="ngForm" (ngSubmit)="updateProject()" class="panel shadow-1">
+                <header class="p-3 border-bottom flex flex-wrap align-items-center justify-content-between gap-3">
+                    <h3 class="m-0">
+                        Details
+                    </h3>
 
-                    <button class="btn-icon btn-light-primary btn-sm" type="button"
-                            (click)="editTitleToggle()">
-                        <i class="fa-duotone fa-pen"></i>
-                    </button>
-                </div>
-                <div class="flex align-items-center gap-2" *ngIf="editTitle">
-                    <input
-                        type="text"
-                        id="taskTitle"
-                        name="title"
-                        class="flex flex-1"
-                        required
-                        [(ngModel)]="task.title"/>
-
-                    <button class="btn btn-primary btn-sm" type="button"
-                            (click)="saveTitle()">
-                        <i class="fa-duotone fa-save"></i>
-                        Save
-                    </button>
-                </div>
-
-                <div class="flex align-items-center gap-3">
-                    <div
-                        class="state"
-                        [class.bg-success]="!task.completed"
-                        [class.bg-tertiary]="task.completed">
-                        <i class="fasr"
-                           [class.fa-scrubber]="!task.completed"
-                           [class.fa-circle-check]="task.completed"></i>
-
-                        {{ task.completed ? 'Closed' : 'Open' }}
+                    <div class="flex align-items-center gap-2">
+                        <button class="btn-icon btn-outline btn-sm" style="height: 43px; width: 43px;"
+                                (click)="toggleTaskCompletion()">
+                            @if (task.completed) {
+                                <i class="fasr fa-check-circle text-tertiary"></i>
+                            } @else {
+                                <i class="fasr fa-circle-dot text-success"></i>
+                            }
+                        </button>
+                        <mat-dropdown class="w-200px" [options]="StatusList" (valueChange)="task.status = $event"
+                                      [returnValue]="true" [optionLabel]="'name'" [optionValue]="'value'"
+                                      [placeholder]="'Status'" [(value)]="task.status" name="status"></mat-dropdown>
                     </div>
-                </div>
-            </div>
-
-            <div class="flex flex-column border-primary border-round">
-                <header
-                    class="p-3 py-2 bg-light-primary border-round-top flex align-items-center justify-content-between"
-                    style="border-bottom: 1px solid #006AE6">
-                    <span class="fs-6 fw-bold">Description</span>
-                    <a href="javascript:void(0)" class="fw-semibold" type="button"
-                       (click)="editDescription = true" *ngIf="!editDescription">
-                        Edit
-                    </a>
                 </header>
                 <div class="p-3 flex flex-column gap-3">
-                    <div class="fs-7" [class.text-5]="task.description.length === 0" *ngIf="!editDescription">
-                        {{ task.description.length > 0 ? task.description : 'No description provided.' }}
+                    <div class="flex flex-column gap-1">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" [(ngModel)]="task.title" required/>
                     </div>
-                    <textarea
-                        class="flex flex-1"
-                        *ngIf="editDescription"
-                        [(ngModel)]="task.description"
-                        name="description"
-                        rows="5"></textarea>
+                    <div class="flex flex-column gap-1">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" [(ngModel)]="task.description"></textarea>
+                    </div>
 
-                    <div class="flex align-items-center justify-content-end gap-2">
-                        <button class="btn btn-primary btn-sm" type="button"
-                                (click)="onSave.emit(task); editDescription = false" *ngIf="editDescription">
+                    <div class="flex align-items-center gap-3">
+                        <span class="text-secondary fw-bold">
+                            Subtasks
+                        </span>
+                        <div class="divider"></div>
+                        <button type="button" class="btn btn-outline btn-sm w-200px" (click)="addSubtask()">
+                            <i class="fa-duotone fa-plus"></i>
+                            Add subtask
+                        </button>
+                    </div>
+                    <div class="subtasks flex flex-column">
+                        @for (subtask of task.subtasks; track subtask.id) {
+                            <div class="subtask p-3 flex align-content-start gap-3" [class.completed]="subtask.checked">
+                                @if (subtask.checked) {
+                                    <i class="far fa-square-check text-primary cursor-pointer text-xl"
+                                       (click)="subtask.checked = false"></i>
+                                } @else {
+                                    <i class="far fa-square cursor-pointer text-xl mt-2"
+                                       [class.pointer-events-none]="subtask.title.trim().length == 0"
+                                       (click)="subtask.checked = true"></i>
+                                }
+
+                                <div class="flex flex-column gap-3 flex-1">
+                                    @if (!subtask.checked) {
+                                        <input type="text" [id]="subtask.id + ' title'" [name]="subtask.id + ' title'"
+                                               [(ngModel)]="subtask.title" required/>
+                                    } @else {
+                                        <span class="text-base fw-medium text-primary">
+                                            {{ subtask.title }}
+                                        </span>
+                                    }
+                                    <div class="flex flex-column gap-1">
+                                        <label [for]="subtask.id + ' description'">Description</label>
+                                        <textarea [id]="subtask.id + ' description'"
+                                                  [name]="subtask.id + ' description'"
+                                                  [(ngModel)]="subtask.description"></textarea>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-icon btn-light-danger btn-sm" (click)="removeSubtask(subtask)">
+                                    <i class="fa-duotone fa-trash"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+
+
+                    <div class="flex align-items-center justify-content-between border-top pt-3">
+                        <button class="btn btn-danger" type="button" (click)="confirmDeleteTask($event)">
+                            <i class="fa-duotone fa-trash"></i>
+                            Delete
+                        </button>
+
+                        <button class="btn btn-primary" type="submit" [disabled]="!detailsForm.form.valid">
                             <i class="fa-duotone fa-save"></i>
                             Save
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="flex align-items-center gap-3 py-3">
-                <h2 class="fs-5 fw-semibold m-0">Subtasks</h2>
-                <button class="btn btn-light-primary btn-sm" type="button" (click)="addSubtask()">
-                    <i class="fa-duotone fa-plus"></i>
-                </button>
-            </div>
-            <div class="card card-flush p-2 bg-color">
-                <div class="card-body p-0">
-                    <div class="flex flex-column gap-2">
-                        <div class="subtask surface-0 rounded p-1 px-2 flex align-items-center gap-3"
-                             *ngFor="let subtask of task.subtasks">
-                            <div class="subtask-check pl-1 pt-1" [class.checked]="subtask.checked"
-                                 (click)="subtask.checked = !subtask.checked; onSave.emit(task)">
-                                <i class="fa-regular fa-square fs-2"></i>
-                                <i class="fa-regular fa-square-check fs-2"></i>
-                            </div>
-                            <input type="text" [(ngModel)]="subtask.title" [name]="subtask.id" (input)="onSave.emit(task);" class="flex flex-1 h-35px"/>
-                            <button class="btn-icon btn-light-danger btn-sm" type="button"
-                                    (click)="removeSubtask(subtask)">
-                                <i class="fa-regular fa-xmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-content-end mt-3">
-                <div class="flex align-items-center gap-3">
-                    <button type="button" class="btn btn-text" (click)="cancel()">
-                        <i class="fa-duotone fa-times"></i>
-                        Cancel
-                    </button>
-                    <button
-                        class="btn btn-outline"
-                        (click)="setCompleted()"
-                        *ngIf="!task.completed"
-                        [disabled]="manageTaskForm.invalid">
-                        <i class="fasr fa-circle-check text-tertiary"></i>
-                        Close Task
-                    </button>
-                    <button
-                        class="btn btn-outline"
-                        (click)="setNotCompleted()"
-                        *ngIf="task.completed"
-                        [disabled]="manageTaskForm.invalid">
-                        <svg style="fill: var(--color-utility-success)" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-reopened color-fg-success">
-                            <path d="M5.029 2.217a6.5 6.5 0 0 1 9.437 5.11.75.75 0 1 0 1.492-.154 8 8 0 0 0-14.315-4.03L.427 1.927A.25.25 0 0 0 0 2.104V5.75A.25.25 0 0 0 .25 6h3.646a.25.25 0 0 0 .177-.427L2.715 4.215a6.491 6.491 0 0 1 2.314-1.998ZM1.262 8.169a.75.75 0 0 0-1.22.658 8.001 8.001 0 0 0 14.315 4.03l1.216 1.216a.25.25 0 0 0 .427-.177V10.25a.25.25 0 0 0-.25-.25h-3.646a.25.25 0 0 0-.177.427l1.358 1.358a6.501 6.501 0 0 1-11.751-3.11.75.75 0 0 0-.272-.506Z"></path><path d="M9.06 9.06a1.5 1.5 0 1 1-2.12-2.12 1.5 1.5 0 0 1 2.12 2.12Z"></path>
-                        </svg>
-                        Reopen Task
-                    </button>
-                </div>
+            </form>
+        </div>
+        <div class="col-12 md:col-4">
+            <div class="panel shadow-1">
+                <header class="p-3 border-bottom">
+                    <h3>
+                        Details
+                    </h3>
+                </header>
             </div>
         </div>
-        <div class="col-12 lg:col-3 pr-0 pb-5 lg-pr-5 flex flex-column">
-            <div class="py-3 border-bottom">
-                <div class="flex align-items-center justify-content-between">
-                    <h2 class="fs-6 text-5">Urgency</h2>
-                    <div class="card-toolbar">
-                        <div class="border-circle w-15px h-15px bg-{{task.urgency.color}}">
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-2">
-                    <mat-dropdown class="mb-2" [options]="urgencyList" [optionLabel]="'title'" [optionValue]="'code'"
-                                  [value]="task.urgency.code" [returnValue]="false"
-                                  (valueChange)="task.urgency = $event; onSave.emit(task)"></mat-dropdown>
-                </div>
-            </div>
-            <div class="py-3 border-bottom">
-                <div class="flex align-items-center justify-content-between">
-                    <h2 class="fs-6 text-5">Status</h2>
-                    <div class="card-toolbar">
-                        <div class="border-circle w-15px h-15px bg-{{task.status.type}}">
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-2">
-                    <mat-dropdown class="mb-2" [options]="statusList" [optionLabel]="'name'"
-                                  [value]="task.status.value" [returnValue]="false"
-                                  (valueChange)="task.status = $event; onSave.emit(task)"></mat-dropdown>
-                </div>
-            </div>
-            <div class="py-3 border-bottom">
-                <div class="flex align-items-center justify-content-between">
-                    <h2 class="fs-6 text-5">Due Date</h2>
-                </div>
-                <div class="pt-2">
-                    <mat-calendar [value]="task.dueDate"
-                                  (valueChange)="task.dueDate = $event; onSave.emit(task)"></mat-calendar>
-                </div>
-            </div>
-            <a href="javascript:void(0)" class="mt-3" (click)="confirmDeleteTask($event)">
-                <i class="fa-duotone fa-trash"></i>
-                Delete Task
-            </a>
-            <!--<div class="card card-flush py-3" *ngIf="members.length > 0">
-                <div class="card-header">
-                    <h2 class="title">Assign To</h2>
-                </div>
-                <div class="card-body pt-0">
-                    <mat-dropdown class="mb-2" [options]="members" [optionLabel]="'username'"
-                                  [optionValue]="'uid'"
-                                  [value]="task.assignees.uid" [returnValue]="false"
-                                  (valueChange)="task.assignees = $event"></mat-dropdown>
-                    <span class="text-500 fs-7">
-                        Assign the task to a team member.
-                    </span>
-                </div>
-            </div>-->
-        </div>
-    </form>
+    </div>
 </div>
-
 <p-confirmPopup></p-confirmPopup>
+<p-toast></p-toast>

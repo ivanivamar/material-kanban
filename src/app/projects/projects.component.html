@@ -12,10 +12,10 @@
                 </div>
             </div>
             <div class="flex align-items-center py-2 md:py-1">
-                <form #searchProjectForm="ngForm" class="searchbar relative flex align-items-center mr-3 border-round-lg text-white"
-                      style="background-color: rgba(255, 255, 255, .1)">
+                <form #searchProjectForm="ngForm" class="searchbar relative flex align-items-center p-2 mr-3 border-round-lg text-white"
+                      style="background-color: rgba(255, 255, 255, .1); height: 43px">
                     <i class="fa-duotone fa-magnifying-glass absolute" style="left:16px"></i>
-                    <input type="search" class="w-100 bg-transparent text-white ml-4 border-none pl-3" placeholder="Search Project" name="search"
+                    <input type="text" class="w-100 bg-transparent text-white ml-4 border-none pl-3" placeholder="Search Project" name="search"
                            [(ngModel)]="searchProject" (ngModelChange)="searchProjects()">
                 </form>
                 <button class="btn btn-light" pRipple (click)="projectModalComponent.openModal()">

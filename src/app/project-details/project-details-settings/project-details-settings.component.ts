@@ -40,6 +40,7 @@ export class ProjectDetailsSettingsComponent {
 
     saveProject() {
         this.kanbanService.updateProject(this.project);
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Project updated successfully'});
     }
 
     deleteProjectConfirm($event: any) {

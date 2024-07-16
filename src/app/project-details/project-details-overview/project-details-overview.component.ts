@@ -126,7 +126,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let inProgressTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter((task: Task) => {
-                if ((task.status.value == 1 && !task.completed) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
+                if ((task.status == 1 && !task.completed) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
                     inProgressTasks++;
                 }
             });
@@ -139,7 +139,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let completedTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter((task: Task) => {
-                if (task.completed || task.status.value == 3) {
+                if (task.completed || task.status == 3) {
                     completedTasks++;
                 }
             });
@@ -152,7 +152,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let completedTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter((task: Task) => {
-                if ((!task.completed && task.status.value == 0) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
+                if ((!task.completed && task.status == 0) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
                     completedTasks++;
                 }
             });
@@ -165,7 +165,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         let overdueTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter((task: Task) => {
-                if (new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString() && (!task.completed && task.status.value != 3)) {
+                if (new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString() && (!task.completed && task.status != 3)) {
                     overdueTasks++;
                 }
             });
@@ -255,7 +255,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
                     } else {
                         monthNumber = 1;
                     }
-                    quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] = quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] ? quarterTasksData[!task.completed && task.status.value != 3 ? 1 : 0].data[monthNumber] + 1 : 1;
+                    quarterTasksData[!task.completed && task.status != 3 ? 1 : 0].data[monthNumber] = quarterTasksData[!task.completed && task.status != 3 ? 1 : 0].data[monthNumber] ? quarterTasksData[!task.completed && task.status != 3 ? 1 : 0].data[monthNumber] + 1 : 1;
                 }
             }
         });

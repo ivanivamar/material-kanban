@@ -5,6 +5,9 @@ export interface Project {
     image: string;
     tasks: Task[];
     completed: boolean;
+    ownerId: string;
+    created: string;
+    updated: string;
 }
 
 export class Project {
@@ -14,13 +17,16 @@ export class Project {
     image: string = '';
     tasks: Task[] = [];
     completed: boolean = false;
+    ownerId: string = '';
+    created: string = new Date().toString();
+    updated: string = new Date().toString();
 }
 
 export interface Task {
-    id?: string;
+    id: string;
     title: string;
     labels: any[];
-    status: Status;
+    status: number;
     description: string;
     subtasks: Subtasks[];
     urgency: Urgency;
@@ -30,18 +36,14 @@ export interface Task {
     images: Images[];
     dueDate: string;
     dayDuration?: number;
+    show?: boolean;
 }
 
-export class TaskDto implements Task {
-    id?: string;
+export class Task implements Task {
+    id: string = '';
     title: string = '';
     labels: any[] = [];
-    status: Status = {
-        value: 0,
-        name: 'To Do',
-        icon: 'fa-duotone fa-circle-pause',
-        type: 'secondary'
-    };
+    status: number = 0;
     description: string = '';
     subtasks: Subtasks[] = [];
     urgency: Urgency = {
@@ -54,6 +56,8 @@ export class TaskDto implements Task {
     completed: boolean = false;
     images: Images[] = [];
     dueDate: string = '';
+    dayDuration?: number = 0;
+    show?: boolean = false;
 }
 
 export interface UserLite {
@@ -125,13 +129,13 @@ export let StatusList = [
     {
         value: 0,
         name: 'To Do',
-        icon: 'pause_circle',
+        icon: 'fa-duotone fa-circle-pause',
         type: 'secondary',
     },
     {
         value: 1,
         name: 'In Progress',
-        icon: 'clock_loader_40',
+        icon: 'fa-duotone fa-circle-play',
         type: 'primary',
     },
     {

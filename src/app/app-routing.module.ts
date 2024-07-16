@@ -6,6 +6,7 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {AuthService} from "../shared/services/auth.service";
+import {TaskComponent} from "./project-details/project-details-tasks/task/task.component";
 
 const routes: Routes = [
     {
@@ -39,7 +40,7 @@ const routes: Routes = [
     },
     {
         path: 'projects/:id/tasks/:taskId',
-        component: ProjectDetailsComponent,
+        component: TaskComponent,
         pathMatch: 'full',
         canActivate: [AuthService]
     },

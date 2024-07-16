@@ -3,6 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {Project} from "../../interfaces/Kanban.interfaces";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
     selector: 'app-project-modal',
@@ -23,7 +24,7 @@ export class ProjectModalComponent {
     project: Project = new Project();
 
     constructor(
-        private kanbanService: KanbanService,
+        private kanbanService: KanbanService
     ) {
     }
 
@@ -37,12 +38,16 @@ export class ProjectModalComponent {
     }
 
     async save() {
-        if (!this.project.id) {
-            this.project.tasks = [];
-            this.project.completed = false;
-        }
-
-        await this.kanbanService.addProject(this.project);
+        await this.kanbanService.addProject({
+            title: this.project.title,
+            description: this.project.description,
+            image: this.project.image,
+            tasks: this.project.tasks,
+            completed: this.project.completed,
+            ownerId: localStorage.getItem('uid'),
+            created: new Date().toString(),
+            updated: new Date().toString()
+        });
         this.onSave.emit();
         this.closeModal();
     }
