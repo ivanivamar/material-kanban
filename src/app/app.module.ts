@@ -10,7 +10,6 @@ import {SidebarComponent} from './common/sidebar/sidebar.component';
 import {ChartModule} from 'primeng/chart';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {provideAuth, getAuth, AuthModule} from '@angular/fire/auth';
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {CalendarModule} from 'primeng/calendar';
@@ -33,6 +32,7 @@ import { ProjectDetailsTasksComponent } from './project-details/project-details-
 import { MatCalendarComponent } from './common/mat-calendar/mat-calendar.component';
 import { TaskComponent } from './project-details/project-details-tasks/task/task.component';
 import { DateAgoPipe } from './pipe/date-ago.pipe';
+import {ProjectModalComponent} from "./projects/project-modal/project-modal.component";
 
 @NgModule({
     declarations: [
@@ -63,7 +63,6 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         AppRoutingModule,
         FormsModule,
         ChartModule,
-        AuthModule,
         MultiSelectModule,
         BrowserAnimationsModule,
         CalendarModule,
@@ -71,6 +70,7 @@ import { DateAgoPipe } from './pipe/date-ago.pipe';
         ToastModule,
         RouterLinkActive,
         CountUpModule,
+        ProjectModalComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],

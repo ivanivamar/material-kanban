@@ -1,12 +1,22 @@
 import {Injectable} from '@angular/core';
 import {Login, Register} from '../../app/interfaces/Kanban.interfaces';
-import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, signOut} from 'firebase/auth';
-import {initializeApp} from "firebase/app";
+import {
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
+    getAuth,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    User,
+    onAuthStateChanged
+} from 'firebase/auth';
+import firebase, {initializeApp} from "firebase/app";
+import {CanActivate, Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements CanActivate{
     firebaseConfig = {
         projectId: 'materialkanban',
         appId: '1:465319731998:web:d609103c2889d47ab21f0f',
@@ -20,6 +30,11 @@ export class AuthService {
     };
     app = initializeApp(this.firebaseConfig);
     auth = getAuth(this.app);
+
+    constructor(
+        private router: Router
+    ) {
+    }
 
     register({username, email, password}: Register) {
         // create user
@@ -55,5 +70,14 @@ export class AuthService {
 
     googleLogin() {
         return signInWithPopup(this.auth, new GoogleAuthProvider());
+    }
+
+    async canActivate(): Promise<boolean> {
+        if (await this.isLoggedIn()) {
+            return true;
+        } else {
+            await this.router.navigate(['/login']);
+            return false;
+        }
     }
 }

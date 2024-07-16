@@ -1,6 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import {Project} from "../../interfaces/elements";
-import {IDropdownOption, UserLite} from "../../interfaces/Kanban.interfaces";
+import {IDropdownOption, Project, UserLite, StatusList} from "../../interfaces/Kanban.interfaces";
 
 // @ts-ignore
 @Component({
@@ -53,7 +52,7 @@ export class TaskFiltersComponent {
             label: 'Status',
             icon: 'bookmark',
             order: '',
-            values: this.projectData.statusList,
+            values: StatusList,
             value: null
         },
     ];

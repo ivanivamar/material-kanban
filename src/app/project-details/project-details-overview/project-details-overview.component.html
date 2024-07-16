@@ -134,9 +134,6 @@
                                     <i class="fa-duotone fa-badge-check text-success" *ngIf="task.completed || task.status.value == 3"></i>
                                     {{ task.title }}
                                 </div>
-                                <div class="text-500">
-                                    Lead by {{ task.owner.username }}
-                                </div>
                             </div>
                             <button class="btn btn-sm btn-secondary btn-active" (click)="goToTask.emit(task)">
                                 View

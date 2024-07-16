@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProjectDetails} from "../../../shared/helpers/projectClasses";
-import {IDropdownOption, Task} from "../../interfaces/Kanban.interfaces";
+import {IDropdownOption, Task, Project} from "../../interfaces/Kanban.interfaces";
 
 interface CurrentWeekDays {
     label: string;
@@ -15,7 +14,7 @@ interface CurrentWeekDays {
 })
 export class ProjectDetailsOverviewComponent implements OnInit {
     // @ts-ignore
-    @Input() project: ProjectDetails;
+    @Input() project: Project = new Project();
     @Output() changeTab = new EventEmitter<number>();
     @Output() goToTask = new EventEmitter<Task>();
 
@@ -126,7 +125,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // check if task is in progress
         let inProgressTasks = 0;
         if (this.project.tasks.length > 0) {
-            this.project.tasks.filter(task => {
+            this.project.tasks.filter((task: Task) => {
                 if ((task.status.value == 1 && !task.completed) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
                     inProgressTasks++;
                 }
@@ -139,7 +138,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // check if task is completed
         let completedTasks = 0;
         if (this.project.tasks.length > 0) {
-            this.project.tasks.filter(task => {
+            this.project.tasks.filter((task: Task) => {
                 if (task.completed || task.status.value == 3) {
                     completedTasks++;
                 }
@@ -152,7 +151,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // check if task is completed
         let completedTasks = 0;
         if (this.project.tasks.length > 0) {
-            this.project.tasks.filter(task => {
+            this.project.tasks.filter((task: Task) => {
                 if ((!task.completed && task.status.value == 0) && !(new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString())) {
                     completedTasks++;
                 }
@@ -165,7 +164,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
         // check if task.dueDate is before today
         let overdueTasks = 0;
         if (this.project.tasks.length > 0) {
-            this.project.tasks.filter(task => {
+            this.project.tasks.filter((task: Task) => {
                 if (new Date(task.dueDate).setHours(0, 0, 0, 0).toString() < new Date().setHours(0, 0, 0, 0).toString() && (!task.completed && task.status.value != 3)) {
                     overdueTasks++;
                 }
@@ -242,7 +241,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
             {label: 'Complete', data: []},
             {label: 'Incomplete', data: []},
         ];
-        this.project.tasks.filter(task => {
+        this.project.tasks.filter((task: Task) => {
             let creationDate = new Date(task.creationDate);
             if ((creationDate >= quarterStart && creationDate <= quarterEnd)) {
                 // get what of the three months the task was created
@@ -310,7 +309,7 @@ export class ProjectDetailsOverviewComponent implements OnInit {
     getDayTasks(day: Date): Task[] {
         let dayTasks: Task[] = [];
         if (this.project.tasks.length > 0) {
-            this.project.tasks.filter(task => {
+            this.project.tasks.filter((task: Task) => {
                 let taskDueDate = new Date(task.dueDate);
                 if (taskDueDate.getDate() == day.getDate() && taskDueDate.getMonth() == day.getMonth() && taskDueDate.getFullYear() == day.getFullYear()) {
                     dayTasks.push(task);

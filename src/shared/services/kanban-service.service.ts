@@ -1,14 +1,13 @@
 import {combineLatest, map, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Images, Project} from '../../app/interfaces/Kanban.interfaces';
-import {DomSanitizer} from "@angular/platform-browser";
 import {addDoc, collection,
     deleteDoc, doc, getCountFromServer, getDoc, getDocs, getFirestore, limit, orderBy, query, startAt,
     updateDoc, where} from 'firebase/firestore';
 import {deleteObject, getDownloadURL, getMetadata, getStorage, ref, uploadBytes} from 'firebase/storage';
 import {PaginatedResult} from "../../app/projects/projects.component";
 import {initializeApp} from "firebase/app";
-import firebase from "firebase/compat";
+import {Router} from "@angular/router";
 @Injectable({
     providedIn: 'root'
 })
@@ -27,6 +26,11 @@ export class KanbanService {
     app = initializeApp(this.firebaseConfig);
     firestore = getFirestore(this.app);
     storage = getStorage(this.app);
+
+    constructor(
+        private router: Router
+    ) {
+    }
 
     //#region Getters
     async getProjects(uid: string): Promise<PaginatedResult<Project>> {
@@ -175,51 +179,10 @@ export class KanbanService {
         return autoId;
     }
 
-    idNumbersGenerator(): number {
-        // numbers
-        const chars = '0123456789';
-        let autoId = '';
-        for (let i = 0; i < 5; i++) {
-            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return Number(autoId);
-    }
-
     private isEmpty(obj: any) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) return false;
         }
         return true;
-    }
-
-    private isInvalidInput(input: any): boolean {
-        // check for string
-        switch (typeof input) {
-            case 'string':
-                if (input.length === 0 || input === '' || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'number':
-                if (isNaN(input) || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'boolean':
-                if (input === null) {
-                    return true;
-                }
-                break;
-            case 'undefined':
-                return true;
-            case 'object':
-                if (this.isEmpty(input)) {
-                    return true;
-                }
-                break;
-            default:
-                return true;
-        }
-        return false;
     }
 }

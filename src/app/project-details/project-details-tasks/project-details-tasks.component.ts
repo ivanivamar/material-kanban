@@ -1,8 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, LOCALE_ID, OnInit, Output, ViewChild} from '@angular/core';
-import {ProjectDetails, StatusList, UrgencyList} from "../../../shared/helpers/projectClasses";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {KanbanService} from "../../../shared/services/kanban-service.service";
 import {ConfirmationService} from "primeng/api";
-import {Subtasks, Status, Task, TaskDto, Urgency, UserLite} from 'src/app/interfaces/Kanban.interfaces';
+import {
+    Subtasks,
+    Task,
+    TaskDto,
+    Urgency,
+    StatusList,
+    UrgencyList, Project
+} from 'src/app/interfaces/Kanban.interfaces';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {Title} from "@angular/platform-browser";
@@ -14,7 +20,7 @@ import {Title} from "@angular/platform-browser";
     providers: [KanbanService, ConfirmationService]
 })
 export class ProjectDetailsTasksComponent implements OnInit {
-    @Input() project: ProjectDetails = new ProjectDetails();
+    @Input() project: Project = new Project();
     @Input() users: any[] = [];
     @Output() onChanges = new EventEmitter();
 
@@ -43,15 +49,14 @@ export class ProjectDetailsTasksComponent implements OnInit {
         // set task from url
         this.route.url.subscribe(async (url: any) => {
             if (url.length === 0) {
-                this.router.navigate(['']);
+                await this.router.navigate(['']);
             } else if (url.length === 4 && url[2].path === 'tasks') {
                 const taskId = url[3].path;
                 if (taskId != 'new') {
-                    this.selectedTask = this.project.tasks.find(task => task.id === taskId) as TaskDto;
+                    this.selectedTask = this.project.tasks.find((task: Task) => task.id === taskId) as TaskDto;
                     this.isManagingTask = true;
                 } else {
                     this.selectedTask = new TaskDto();
-                    this.selectedTask.owner = this.project.owner;
                     this.isManagingTask = true;
                 }
             }
@@ -72,7 +77,6 @@ export class ProjectDetailsTasksComponent implements OnInit {
 
     manageTask(task?: Task) {
         this.selectedTask = task ? task : new TaskDto();
-        this.selectedTask.owner = this.project.owner;
         this.isManagingTask = true;
         if (task) {
             // set task title to title
@@ -86,18 +90,18 @@ export class ProjectDetailsTasksComponent implements OnInit {
         return subtasks.filter(subtask => subtask.checked).length;
     }
 
-    saveTaskChanges(task: TaskDto) {
+    async saveTaskChanges(task: TaskDto) {
         let managedTask = JSON.parse(JSON.stringify(task)) as Task;
         if (managedTask.id) {
             // update the task
-            this.project.tasks = this.project.tasks.map(task => task.id === managedTask.id ? managedTask : task);
+            this.project.tasks = this.project.tasks.map((task: Task) => task.id === managedTask.id ? managedTask : task);
         } else {
             // add the task
             managedTask.id = this.idGenerator();
             this.project.tasks.push(managedTask);
         }
         // update the project
-        this.kanbanService.updateProject(this.project);
+        await this.kanbanService.updateProject(this.project);
 
         // update the current page tasks
         this.getCurrentPageTasks(1);
@@ -123,7 +127,7 @@ export class ProjectDetailsTasksComponent implements OnInit {
     onTaskDelete(task: any) {
         this.loading = true;
         // filter out the task
-        this.project.tasks = this.project.tasks.filter(t => t.id !== task.id);
+        this.project.tasks = this.project.tasks.filter((t: Task) => t.id !== task.id);
         // update the project
         this.kanbanService.updateProject(this.project);
         // update the current page tasks

@@ -1,13 +1,19 @@
-import firebase from "firebase/compat";
-import User = firebase.User;
-
-export interface Organization {
-    id: string;
+export interface Project {
+    id?: string;
     title: string;
-    icon: string;
-    uid: string;
-    users: any[];
-    projects: Project[];
+    description: string;
+    image: string;
+    tasks: Task[];
+    completed: boolean;
+}
+
+export class Project {
+    id?: string;
+    title: string = '';
+    description: string = '';
+    image: string = '';
+    tasks: Task[] = [];
+    completed: boolean = false;
 }
 
 export interface Task {
@@ -24,9 +30,6 @@ export interface Task {
     images: Images[];
     dueDate: string;
     dayDuration?: number;
-    owner: UserLite;
-    assignees: UserLite;
-    activity: Activity[];
 }
 
 export class TaskDto implements Task {
@@ -51,16 +54,6 @@ export class TaskDto implements Task {
     completed: boolean = false;
     images: Images[] = [];
     dueDate: string = '';
-    owner: UserDto = new UserDto();
-    assignees: UserDto = new UserDto();
-    activity: Activity[] = [];
-}
-
-export interface Activity {
-    icon: string;
-    user: UserLite;
-    action: string;
-    date: string;
 }
 
 export interface UserLite {
@@ -69,14 +62,6 @@ export interface UserLite {
     photoURL: string;
     uid: string;
     sharedProjectsIds: string[];
-}
-
-export class UserDto implements UserLite {
-    username: string = '';
-    email: string = '';
-    photoURL: string = '';
-    uid: string = '';
-    sharedProjectsIds: string[] = [];
 }
 
 export interface Status {
@@ -110,18 +95,6 @@ export interface Labels {
     code: string;
 }
 
-export interface Project {
-    id?: string;
-    title: string;
-    description: string;
-    image: string;
-    tasks: Task[];
-    completed: boolean;
-    owner: UserLite;
-	ownerId: string;
-    members: UserLite[];
-    membersIds: string[];
-}
 export interface Urgency {
     title: string;
     color: string;
@@ -147,3 +120,37 @@ export interface IDropdownOption {
     label: string;
     selected?: boolean;
 }
+
+export let StatusList = [
+    {
+        value: 0,
+        name: 'To Do',
+        icon: 'pause_circle',
+        type: 'secondary',
+    },
+    {
+        value: 1,
+        name: 'In Progress',
+        icon: 'clock_loader_40',
+        type: 'primary',
+    },
+    {
+        value: 2,
+        name: 'Review',
+        icon: 'draw',
+        type: 'warning',
+    },
+    {
+        value: 3,
+        name: 'Completed',
+        icon: 'verified',
+        type: 'success',
+    },
+];
+
+export let UrgencyList: Urgency[] = [
+    {title: 'Low', code: 0, color: 'secondary'},
+    {title: 'Normal', code: 1, color: 'primary'},
+    {title: 'High', code: 2, color: 'warning'},
+    {title: 'Urgent', code: 3, color: 'danger'},
+];

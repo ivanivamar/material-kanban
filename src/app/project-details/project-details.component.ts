@@ -1,15 +1,10 @@
 import {KanbanService} from '../../shared/services/kanban-service.service';
-import {Project, Status, Task, Urgency, UserLite} from './../interfaces/Kanban.interfaces';
+import {Project, Status, StatusList, Urgency, UrgencyList} from './../interfaces/Kanban.interfaces';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
-import {TaskFilters} from "./task-filters/task-filters.component";
-import {ProjectDetails, StatusList, UrgencyList} from "../../shared/helpers/projectClasses";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-details-tasks.component";
-import {ProjectDetailsOverviewComponent} from "./project-details-overview/project-details-overview.component";
-import {ProjectDetailsSettingsComponent} from "./project-details-settings/project-details-settings.component";
 import {Location} from "@angular/common";
 
 @Component({
@@ -29,7 +24,6 @@ export class ProjectDetailsComponent implements OnInit {
     };
 
     ProjectTabs = ProjectTabs;
-    searchTerm: string = '';
     tabs: any[] = [
         {
             title: 'Overview',
@@ -40,11 +34,6 @@ export class ProjectDetailsComponent implements OnInit {
             title: 'Tasks',
             breadcrumb: 'Project Tasks',
             value: ProjectTabs.Tasks,
-        },
-        {
-            title: 'Members',
-            breadcrumb: 'Project Members',
-            value: ProjectTabs.Members,
         },
         {
             title: 'Files',
@@ -60,11 +49,9 @@ export class ProjectDetailsComponent implements OnInit {
     currentTab = this.tabs[0];
 
     projects: any[] = [];
-    project: ProjectDetails = new ProjectDetails();
-    tasksOg: Task[] = [];
+    project: Project = new Project();
     projectId: string = '';
     loading: boolean = false;
-    membersList: UserLite[] = [];
 
     user: any;
     users: any[] = [];
@@ -124,8 +111,6 @@ export class ProjectDetailsComponent implements OnInit {
             this.project.tasks.sort((a, b) => {
                 return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
             });
-            this.membersList = JSON.parse(JSON.stringify(this.project.members));
-            this.membersList.push(this.project.owner);
             this.loading = false;
         });
     }
@@ -198,7 +183,6 @@ export class ProjectDetailsComponent implements OnInit {
 export enum ProjectTabs {
     Overview,
     Tasks,
-    Members,
     Files,
     Settings
 }
