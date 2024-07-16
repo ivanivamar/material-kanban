@@ -15,12 +15,11 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": {
-                          "base": "dist/material-kanban"
-                        },
+                        "outputPath": "dist/material-kanban",
                         "index": "src/index.html",
+                        "main": "src/main.ts",
                         "polyfills": [
                             "zone.js"
                         ],
@@ -37,8 +36,7 @@
                             "src/assets"
                         ],
                         "scripts": [
-                        ],
-                        "browser": "src/main.ts"
+                        ]
                     },
                     "configurations": {
                         "production": {
