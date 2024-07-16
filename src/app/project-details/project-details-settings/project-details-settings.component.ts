@@ -1,17 +1,16 @@
 import {Component, Input} from '@angular/core';
-import {ProjectDetails} from "../../../shared/helpers/projectClasses";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {KanbanService} from "../../../shared/services/kanban-service.service";
-import Swal from 'sweetalert2';
+import {Project} from "../../interfaces/Kanban.interfaces";
 
 @Component({
     selector: 'app-project-details-settings',
     templateUrl: './project-details-settings.component.html',
     styleUrls: ['./project-details-settings.component.sass'],
-    providers: [ConfirmationService, MessageService, KanbanService]
+    providers: [KanbanService]
 })
 export class ProjectDetailsSettingsComponent {
-    @Input() project: ProjectDetails = new ProjectDetails();
+    @Input() project: Project = new Project();
 
     constructor(
         private confirmService: ConfirmationService,
@@ -41,11 +40,7 @@ export class ProjectDetailsSettingsComponent {
 
     saveProject() {
         this.kanbanService.updateProject(this.project);
-        Swal.fire({
-            text: 'Thank you! You\'ve updated your project settings',
-            icon: 'success',
-            confirmButtonText: 'Ok, got it!'
-        });
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Project updated successfully'});
     }
 
     deleteProjectConfirm($event: any) {
@@ -62,15 +57,7 @@ export class ProjectDetailsSettingsComponent {
     async deleteProject() {
         if (this.project.id) {
             await this.kanbanService.deleteProject(this.project.id);
-            Swal.fire({
-                text: 'Thank you! You\'ve deleted your project',
-                icon: 'success',
-                confirmButtonText: 'Ok, got it!'
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/projects';
-                }
-            });
+            window.location.href = '/projects';
         }
     }
 }

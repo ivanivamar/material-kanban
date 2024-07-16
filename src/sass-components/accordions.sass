@@ -1,0 +1,47 @@
+.accordion
+    border-radius: 6px
+    transition: all .3s ease-in-out
+    display: flex
+    flex-direction: column
+    border: 1px solid var(--color-utility-outline)
+    background-color: var(--color-surface)
+
+    .accordion-header
+        display: flex
+        align-items: center
+        justify-content: space-between
+        padding: 1rem
+        font-weight: 500
+        cursor: pointer
+        transition: all .3s ease-in-out
+        border-bottom: 1px solid transparent
+
+        > i
+            transition: all .3s ease-in-out
+
+    .accordion-content
+        overflow-y: auto
+        max-height: 600px
+        height: 0
+        opacity: 0
+        visibility: collapse
+        transition: height .3s ease-in-out, opacity .3s ease-in-out, visibility .3s ease-in-out
+
+    &:hover
+        box-shadow: var(--shadow)
+
+    &.show
+        box-shadow: var(--shadow)
+
+        .accordion-header
+            border-bottom: 1px solid var(--color-utility-outline)
+
+            > i
+                transform: rotate(-180deg)
+
+        .accordion-content
+            padding: 1rem 2.5rem
+            height: auto
+            opacity: 1
+            visibility: visible
+            transition: height .3s ease-in-out, opacity .3s ease-in-out, visibility .3s ease-in-out

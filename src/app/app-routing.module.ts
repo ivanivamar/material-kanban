@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
-import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import {AuthService} from "../shared/services/auth.service";
+import {TaskComponent} from "./project-details/project-details-tasks/task/task.component";
 
 const routes: Routes = [
     {
@@ -17,43 +18,43 @@ const routes: Routes = [
         path: 'projects',
         component: ProjectsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id',
         component: ProjectDetailsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id/overview',
         component: ProjectDetailsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id/tasks',
         component: ProjectDetailsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id/tasks/:taskId',
-        component: ProjectDetailsComponent,
+        component: TaskComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id/members',
         component: ProjectDetailsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'projects/:id/settings',
         component: ProjectDetailsComponent,
         pathMatch: 'full',
-        ...canActivate(() => redirectUnauthorizedTo(['auth/login'])),
+        canActivate: [AuthService]
     },
     {
         path: 'auth',

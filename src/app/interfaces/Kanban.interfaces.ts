@@ -1,20 +1,32 @@
-import firebase from "firebase/compat";
-import User = firebase.User;
-
-export interface Organization {
-    id: string;
+export interface Project {
+    id?: string;
     title: string;
-    icon: string;
-    uid: string;
-    users: any[];
-    projects: Project[];
+    description: string;
+    image: string;
+    tasks: Task[];
+    completed: boolean;
+    ownerId: string;
+    created: string;
+    updated: string;
+}
+
+export class Project {
+    id?: string;
+    title: string = '';
+    description: string = '';
+    image: string = '';
+    tasks: Task[] = [];
+    completed: boolean = false;
+    ownerId: string = '';
+    created: string = new Date().toString();
+    updated: string = new Date().toString();
 }
 
 export interface Task {
-    id?: string;
+    id: string;
     title: string;
     labels: any[];
-    status: Status;
+    status: number;
     description: string;
     subtasks: Subtasks[];
     urgency: Urgency;
@@ -24,21 +36,14 @@ export interface Task {
     images: Images[];
     dueDate: string;
     dayDuration?: number;
-    owner: UserLite;
-    assignees: UserLite;
-    activity: Activity[];
+    show?: boolean;
 }
 
-export class TaskDto implements Task {
-    id?: string;
+export class Task implements Task {
+    id: string = '';
     title: string = '';
     labels: any[] = [];
-    status: Status = {
-        value: 0,
-        name: 'To Do',
-        icon: 'fa-duotone fa-circle-pause',
-        type: 'secondary'
-    };
+    status: number = 0;
     description: string = '';
     subtasks: Subtasks[] = [];
     urgency: Urgency = {
@@ -51,16 +56,8 @@ export class TaskDto implements Task {
     completed: boolean = false;
     images: Images[] = [];
     dueDate: string = '';
-    owner: UserDto = new UserDto();
-    assignees: UserDto = new UserDto();
-    activity: Activity[] = [];
-}
-
-export interface Activity {
-    icon: string;
-    user: UserLite;
-    action: string;
-    date: string;
+    dayDuration?: number = 0;
+    show?: boolean = false;
 }
 
 export interface UserLite {
@@ -69,14 +66,6 @@ export interface UserLite {
     photoURL: string;
     uid: string;
     sharedProjectsIds: string[];
-}
-
-export class UserDto implements UserLite {
-    username: string = '';
-    email: string = '';
-    photoURL: string = '';
-    uid: string = '';
-    sharedProjectsIds: string[] = [];
 }
 
 export interface Status {
@@ -110,18 +99,6 @@ export interface Labels {
     code: string;
 }
 
-export interface Project {
-    id?: string;
-    title: string;
-    description: string;
-    image: string;
-    tasks: Task[];
-    completed: boolean;
-    owner: UserLite;
-	ownerId: string;
-    members: UserLite[];
-    membersIds: string[];
-}
 export interface Urgency {
     title: string;
     color: string;
@@ -147,3 +124,37 @@ export interface IDropdownOption {
     label: string;
     selected?: boolean;
 }
+
+export let StatusList = [
+    {
+        value: 0,
+        name: 'To Do',
+        icon: 'fa-duotone fa-circle-pause',
+        type: 'secondary',
+    },
+    {
+        value: 1,
+        name: 'In Progress',
+        icon: 'fa-duotone fa-circle-play',
+        type: 'primary',
+    },
+    {
+        value: 2,
+        name: 'Review',
+        icon: 'draw',
+        type: 'warning',
+    },
+    {
+        value: 3,
+        name: 'Completed',
+        icon: 'verified',
+        type: 'success',
+    },
+];
+
+export let UrgencyList: Urgency[] = [
+    {title: 'Low', code: 0, color: 'secondary'},
+    {title: 'Normal', code: 1, color: 'primary'},
+    {title: 'High', code: 2, color: 'warning'},
+    {title: 'Urgent', code: 3, color: 'danger'},
+];

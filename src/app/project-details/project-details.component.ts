@@ -1,15 +1,10 @@
 import {KanbanService} from '../../shared/services/kanban-service.service';
-import {Project, Status, Task, Urgency, UserLite} from './../interfaces/Kanban.interfaces';
+import {Project, Status, StatusList, Task, Urgency, UrgencyList} from './../interfaces/Kanban.interfaces';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {AuthService} from '../../shared/services/auth.service';
-import {TaskFilters} from "./task-filters/task-filters.component";
-import {ProjectDetails, StatusList, UrgencyList} from "../../shared/helpers/projectClasses";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ProjectDetailsTasksComponent} from "./project-details-tasks/project-details-tasks.component";
-import {ProjectDetailsOverviewComponent} from "./project-details-overview/project-details-overview.component";
-import {ProjectDetailsSettingsComponent} from "./project-details-settings/project-details-settings.component";
 import {Location} from "@angular/common";
 
 @Component({
@@ -29,7 +24,6 @@ export class ProjectDetailsComponent implements OnInit {
     };
 
     ProjectTabs = ProjectTabs;
-    searchTerm: string = '';
     tabs: any[] = [
         {
             title: 'Overview',
@@ -40,11 +34,6 @@ export class ProjectDetailsComponent implements OnInit {
             title: 'Tasks',
             breadcrumb: 'Project Tasks',
             value: ProjectTabs.Tasks,
-        },
-        {
-            title: 'Members',
-            breadcrumb: 'Project Members',
-            value: ProjectTabs.Members,
         },
         {
             title: 'Files',
@@ -60,11 +49,23 @@ export class ProjectDetailsComponent implements OnInit {
     currentTab = this.tabs[0];
 
     projects: any[] = [];
-    project: ProjectDetails = new ProjectDetails();
-    tasksOg: Task[] = [];
+    project: Project = new Project();
     projectId: string = '';
+    newTask: Task = {
+        id: '',
+        title: '',
+        labels: [],
+        status: 0,
+        description: '',
+        subtasks: [],
+        urgency: UrgencyList[0],
+        creationDate: new Date().toString(),
+        modificationDate: new Date().toString(),
+        completed: false,
+        images: [],
+        dueDate: new Date().toString(),
+    };
     loading: boolean = false;
-    membersList: UserLite[] = [];
 
     user: any;
     users: any[] = [];
@@ -116,18 +117,12 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     async getProject() {
-        this.kanbanService.getProjectById(this.projectId).subscribe((project: Project) => {
-            this.project = project;
-            // add projectId to project object
-            this.project.id = this.projectId;
-            // order tasks by creationDate
-            this.project.tasks.sort((a, b) => {
-                return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
-            });
-            this.membersList = JSON.parse(JSON.stringify(this.project.members));
-            this.membersList.push(this.project.owner);
-            this.loading = false;
+        this.project = await this.kanbanService.getProjectById(this.projectId);
+        // order tasks by creationDate
+        this.project.tasks.sort((a, b) => {
+            return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
         });
+        this.loading = false;
     }
 
     async getUsers() {
@@ -150,7 +145,7 @@ export class ProjectDetailsComponent implements OnInit {
         let pendingTasks = 0;
         if (this.project.tasks.length > 0) {
             this.project.tasks.filter(task => {
-                if ((task.status.value == 0 && !task.completed)) {
+                if ((task.status == 0 && !task.completed)) {
                     pendingTasks++;
                 }
             });
@@ -158,47 +153,41 @@ export class ProjectDetailsComponent implements OnInit {
         return pendingTasks;
     }
 
-    //#region Setters
-    async addTask(task?: any) {
+    async saveTask() {
         this.currentTab = this.tabs[1];
-        setTimeout(() => {
-            if (this.tasksComponent === undefined) {
-                setTimeout(() => {
-                    this.addTask(task);
-                }, 100);
-            } else {
-                this.tasksComponent.manageTask(task);
-            }
-        }, 100);
+        this.newTask.id = this.kanbanService.idGenerator();
+        this.newTask.creationDate = new Date().toString();
+        this.newTask.modificationDate = new Date().toString();
+        this.project.tasks.push(this.newTask as Task);
+        this.project.tasks.sort((a, b) => {
+            return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+        });
+        await this.kanbanService.updateProject(this.project);
+        this.newTask = {
+            id: '',
+            title: '',
+            labels: [],
+            status: 0,
+            description: '',
+            subtasks: [],
+            urgency: UrgencyList[0],
+            creationDate: new Date().toString(),
+            modificationDate: new Date().toString(),
+            completed: false,
+            images: [],
+            dueDate: new Date().toString(),
+        };
     }
 
-    //#endregion
-
-
-    //#region Helpers
-
-    playAudio(url: string, volume: number) {
-        const audio = new Audio();
-        audio.volume = volume;
-        audio.src = url;
-        audio.load();
-        audio.play();
+    async goToTask(task: Task) {
+        this.currentTab = this.tabs[1];
+        //this.tasksComponent.showTask(task);
     }
-
-    private isEmpty(obj: any) {
-        for (var key in obj) {
-            if (obj.hasOwnProperty(key)) return false;
-        }
-        return true;
-    }
-
-    //#endregion
 }
 
 export enum ProjectTabs {
     Overview,
     Tasks,
-    Members,
     Files,
     Settings
 }

@@ -15,32 +15,30 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular-devkit/build-angular:application",
                     "options": {
-                        "outputPath": "dist/material-kanban",
+                        "outputPath": {
+                          "base": "dist/material-kanban"
+                        },
                         "index": "src/index.html",
-                        "main": "src/main.ts",
                         "polyfills": [
                             "zone.js"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "sass",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                        ],
                         "styles": [
                             "src/styles.sass",
-                            "node_modules/primeicons/primeicons.css",
-                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/primeflex/primeflex.css",
-                            "node_modules/primeflex/themes/primeone-dark.css",
-                            "node_modules/primeflex/themes/primeone-light.css"
+                            "node_modules/primeng/resources/themes/aura-dark-blue/theme.css",
+                            "node_modules/primeng/resources/primeng.min.css"
+                        ],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
                         ],
                         "scripts": [
-                            "node_modules/chart.js/dist/chart.js"
-                        ]
+                        ],
+                        "browser": "src/main.ts"
                     },
                     "configurations": {
                         "production": {
@@ -59,9 +57,7 @@
                             "outputHashing": "all"
                         },
                         "development": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
+                          "optimization": false,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true
@@ -73,10 +69,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "material-kanban:build:production"
+                          "buildTarget": "material-kanban:build:production"
                         },
                         "development": {
-                            "browserTarget": "material-kanban:build:development"
+                          "buildTarget": "material-kanban:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -84,7 +80,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "material-kanban:build"
+                      "buildTarget": "material-kanban:build"
                     }
                 },
                 "test": {
@@ -96,21 +92,17 @@
                         ],
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "sass",
+                        "styles": [
+                            "src/styles.sass",
+                            "node_modules/primeflex/primeflex.css",
+                            "node_modules/primeng/resources/themes/aura-dark-blue/theme.css",
+                            "node_modules/primeng/resources/primeng.min.css"
+                        ],
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
                         ],
-                        "styles": [
-                            "src/styles.sass",
-                            "node_modules/primeicons/primeicons.css",
-                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css",
-                            "node_modules/primeflex/primeflex.css",
-                            "node_modules/primeflex/themes/primeone-dark.css",
-                            "node_modules/primeflex/themes/primeone-light.css"
-                        ],
                         "scripts": [
-                            "node_modules/chart.js/dist/chart.js"
                         ]
                     }
                 },

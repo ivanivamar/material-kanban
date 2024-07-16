@@ -7,7 +7,7 @@ import {
     SimpleChanges,
     OnChanges,
 } from '@angular/core';
-import { NgxSpinnerService, NgxSpinnerComponent } from 'ngx-spinner';
+//import { NgxSpinnerService, NgxSpinnerComponent } from 'ngx-spinner';
 
 @Directive({
     selector: '[busyIf]',
@@ -17,7 +17,7 @@ export class BusyIfDirective implements OnChanges {
 
     @Input() busyIf: boolean = false;
 
-    ngxSpinnerService: NgxSpinnerService;
+    //ngxSpinnerService: NgxSpinnerService;
     isBusy = false;
 
     private spinnerName = '';
@@ -27,7 +27,7 @@ export class BusyIfDirective implements OnChanges {
         private _componentFactoryResolver: ComponentFactoryResolver,
         private _injector: Injector
     ) {
-        this.ngxSpinnerService = _injector.get(NgxSpinnerService);
+        //this.ngxSpinnerService = _injector.get(NgxSpinnerService);
         this.loadComponent();
     }
 
@@ -38,16 +38,16 @@ export class BusyIfDirective implements OnChanges {
         }
 
         setTimeout(() => {
-            if (this.isBusy) {
+            /*if (this.isBusy) {
                 this.ngxSpinnerService.show(this.spinnerName);
             } else {
                 this.ngxSpinnerService.hide(this.spinnerName);
-            }
+            }*/
         }, 100);
     }
 
     loadComponent() {
-        const componentFactory = this._componentFactoryResolver.resolveComponentFactory(NgxSpinnerComponent);
+        /*const componentFactory = this._componentFactoryResolver.resolveComponentFactory(NgxSpinnerComponent);
         const componentRef = this._viewContainer.createComponent(componentFactory);
         this.spinnerName = 'busyIfSpinner-' + BusyIfDirective.index++ + '-' + Math.floor(Math.random() * 1000000); // generate random name
         let component = <NgxSpinnerComponent>componentRef.instance;
@@ -56,7 +56,7 @@ export class BusyIfDirective implements OnChanges {
 
         component.type = 'ball-clip-rotate';
         component.size = 'medium';
-        component.color = '#5ba7ea';
+        component.color = '#5ba7ea';*/
     }
 
     ngOnChanges(changes: SimpleChanges): void {

@@ -1,42 +1,42 @@
 import {combineLatest, map, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Images, Project} from '../../app/interfaces/Kanban.interfaces';
-import {
-    addDoc,
-    collection,
-    collectionData,
-    deleteDoc,
-    doc,
-    Firestore,
-    getDoc,
-    getDocs,
-    query, startAfter,
-    updateDoc,
-    where,
-} from '@angular/fire/firestore';
-import {deleteObject, getDownloadURL, getMetadata, ref, Storage, uploadBytes} from '@angular/fire/storage';
-import {DomSanitizer} from "@angular/platform-browser";
-import {getCountFromServer, limit, orderBy, startAt} from 'firebase/firestore';
-import {ControllerInputDto, PaginatedResult} from "../../app/projects/projects.component";
+import {addDoc, collection,
+    deleteDoc, doc, getCountFromServer, getDoc, getDocs, getFirestore, limit, orderBy, query, startAt,
+    updateDoc, where} from 'firebase/firestore';
+import {deleteObject, getDownloadURL, getMetadata, getStorage, ref, uploadBytes} from 'firebase/storage';
+import {PaginatedResult} from "../../app/projects/projects.component";
+import {initializeApp} from "firebase/app";
+import {Router} from "@angular/router";
 @Injectable({
     providedIn: 'root'
 })
 export class KanbanService {
-    db = this.firestore;
+    firebaseConfig = {
+        projectId: 'materialkanban',
+        appId: '1:465319731998:web:d609103c2889d47ab21f0f',
+        databaseURL: 'https://materialkanban-default-rtdb.europe-west1.firebasedatabase.app',
+        storageBucket: 'materialkanban.appspot.com',
+        locationId: 'europe-west',
+        apiKey: 'AIzaSyDbMsn2lDp8IQvtoEoTIGVlUyGKwhfsCvI',
+        authDomain: 'materialkanban.firebaseapp.com',
+        messagingSenderId: '465319731998',
+        measurementId: 'G-LHTKBGT4VW',
+    };
+    app = initializeApp(this.firebaseConfig);
+    firestore = getFirestore(this.app);
+    storage = getStorage(this.app);
 
     constructor(
-        private firestore: Firestore,
-        private storage: Storage,
-        private sanitizer: DomSanitizer) { }
+        private router: Router
+    ) {
+    }
 
     //#region Getters
     async getProjects(uid: string): Promise<PaginatedResult<Project>> {
-        const snapshot = await getCountFromServer(query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', uid),
-            orderBy('title'),
-        ));
         let projectRef = query(collection(this.firestore, 'projects'),
-            where('owner.uid', '==', uid)
+            where('ownerId', '==', localStorage.getItem('uid')),
+            orderBy('updated', 'desc'),
         );
         const projects = await getDocs(projectRef).then(querySnapshot => {
             return querySnapshot.docs.map(doc => {
@@ -48,32 +48,25 @@ export class KanbanService {
         });
         return {
             records: projects,
-            totalRecordCount: snapshot.data().count
+            totalRecordCount: projects.length
         };
     }
 
-    getProjectById(projectId: string): Observable<Project> {
-        const projectRef = doc(this.firestore, 'projects', projectId);
-        return new Observable<Project>(observer => {
-            getDoc(projectRef).then(project => {
-                observer.next(project.data() as Project);
-                observer.complete();
-            }).catch(error => {
-                observer.error(error);
-            });
-        });
+    async getProjectById(projectId: string): Promise<any> {
+        try {
+            const projectRef = doc(this.firestore, 'projects', projectId);
+            const docSnap = await getDoc(projectRef);
+            return docSnap.data() as Project;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     getUsers(): Observable<any[]> {
         const usersRef = collection(this.firestore, 'users');
-        return collectionData(usersRef, { idField: 'id' }) as Observable<any[]>;
-    }
-
-    getUserById(userId: string): Observable<any> {
-        const userRef = doc(this.firestore, 'users', userId);
-        return new Observable<any>(observer => {
-            getDoc(userRef).then(user => {
-                observer.next(user.data());
+        return new Observable<any[]>(observer => {
+            getDocs(usersRef).then(users => {
+                observer.next(users.docs.map(user => user.data()));
                 observer.complete();
             }).catch(error => {
                 observer.error(error);
@@ -94,13 +87,9 @@ export class KanbanService {
     }
 
     updateProject(project: any) {
+        project.updated = new Date().toString();
         const projectRef = collection(this.firestore, 'projects');
         return updateDoc(doc(projectRef, project.id), project);
-    }
-
-    updateUser(userId: string, user: any) {
-        const userRef = collection(this.firestore, 'users');
-        return updateDoc(doc(userRef, userId), user);
     }
 
     uploadImage(image: Images, file: File): Promise<any> {
@@ -130,7 +119,7 @@ export class KanbanService {
                             name: metadata.name
                         };
                     })
-                ).toPromise();
+                );
             })
             .catch(error =>  console.log(error));
     }
@@ -159,7 +148,7 @@ export class KanbanService {
         return getDownloadURL(imageRef);
     }
 
-    private idGenerator(): string {
+    public idGenerator(): string {
         // letters + numbers
         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let autoId = '';
@@ -169,51 +158,10 @@ export class KanbanService {
         return autoId;
     }
 
-    idNumbersGenerator(): number {
-        // numbers
-        const chars = '0123456789';
-        let autoId = '';
-        for (let i = 0; i < 5; i++) {
-            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return Number(autoId);
-    }
-
     private isEmpty(obj: any) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) return false;
         }
         return true;
-    }
-
-    private isInvalidInput(input: any): boolean {
-        // check for string
-        switch (typeof input) {
-            case 'string':
-                if (input.length === 0 || input === '' || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'number':
-                if (isNaN(input) || input === null || input === undefined) {
-                    return true;
-                }
-                break;
-            case 'boolean':
-                if (input === null) {
-                    return true;
-                }
-                break;
-            case 'undefined':
-                return true;
-            case 'object':
-                if (this.isEmpty(input)) {
-                    return true;
-                }
-                break;
-            default:
-                return true;
-        }
-        return false;
     }
 }

@@ -1,0 +1,39 @@
+<div class="modal" [class.show]="showModal">
+    <div class="overlay" (click)="closeModal()"></div>
+    <div class="modal-dialog">
+        <form #projectForm="ngForm" (ngSubmit)="save()" class="modal-content">
+            <div class="modal-header">
+                <span class="dialog-title">
+                    Add Project
+                </span>
+
+                <div class="dialog-actions">
+                    <button type="button" ripple class="btn-icon btn-light-primary btn-sm" (click)="closeModal()">
+                        <i class="fa-duotone fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="flex flex-column gap-3">
+                    <input type="text" [(ngModel)]="project.title" class="w-100" name="title"
+                           placeholder="Project Title"
+                           required>
+
+                    <textarea [(ngModel)]="project.description" class="w-100" name="description"
+                              placeholder="Project Description"
+                    ></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ripple class="btn btn-secondary" (click)="closeModal()">
+                    <i class="fa-duotone fa-times"></i>
+                    Cancel
+                </button>
+                <button type="submit" ripple class="btn btn-primary" [disabled]="!projectForm.form.valid">
+                    <i class="fa-duotone fa-save"></i>
+                    Create project
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
