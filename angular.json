@@ -26,20 +26,17 @@
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "sass",
+                        "styles": [
+                            "src/styles.sass",
+                            "node_modules/primeflex/primeflex.css",
+                            "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+                            "node_modules/primeng/resources/primeng.min.css"
+                        ],
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
                         ],
-                        "styles": [
-                            "src/styles.sass",
-                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css",
-                            "node_modules/primeflex/primeflex.css",
-                            "node_modules/primeflex/themes/primeone-dark.css",
-                            "node_modules/primeflex/themes/primeone-light.css"
-                        ],
                         "scripts": [
-                            "node_modules/chart.js/dist/chart.js"
                         ],
                         "browser": "src/main.ts"
                     },
@@ -95,20 +92,17 @@
                         ],
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "sass",
+                        "styles": [
+                            "src/styles.sass",
+                            "node_modules/primeflex/primeflex.css",
+                            "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+                            "node_modules/primeng/resources/primeng.min.css"
+                        ],
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
                         ],
-                        "styles": [
-                            "src/styles.sass",
-                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css",
-                            "node_modules/primeflex/primeflex.css",
-                            "node_modules/primeflex/themes/primeone-dark.css",
-                            "node_modules/primeflex/themes/primeone-light.css"
-                        ],
                         "scripts": [
-                            "node_modules/chart.js/dist/chart.js"
                         ]
                     }
                 },
