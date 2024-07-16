@@ -2,14 +2,13 @@ import {KanbanService} from 'src/shared/services/kanban-service.service';
 import {Component, OnInit} from '@angular/core';
 import {from} from 'rxjs';
 import {
-    Project, Status,
-    Task, Urgency
+    Project, Status, StatusList,
+    Task, Urgency, UrgencyList
 } from '../interfaces/Kanban.interfaces';
 import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {TableHelper} from "../../shared/helpers/tableHelper";
-import {StatusList, UrgencyList} from "../../shared/helpers/projectClasses";
 
 export interface ControllerInputDto {
     uid?: string;
@@ -27,23 +26,15 @@ export interface ControllerInputDto {
 export class ProjectsComponent implements OnInit {
     projects: TableHelper<Project> = new TableHelper<Project>();
     currentPageProjects: Project[] = [];
-    selectedProject: Project = {} as Project;
     searchProject = '';
 
-    showAddProjectModal: boolean = false;
     loading: boolean = false;
-    projectTitle: string = '';
-    projectDescription: string = '';
-
     data: any;
 
     user: any;
     users: any[] = [];
-    userEmailToShare: string = '';
-    shareWithError: string = '';
 
     statusList: Status[] = StatusList;
-    urgencyList: Urgency[] = UrgencyList;
 
     constructor(
         private kanbanService: KanbanService,
@@ -121,17 +112,6 @@ export class ProjectsComponent implements OnInit {
             }
         });
         return count;
-    }
-
-    private idGenerator(): string {
-        // letters + numbers
-        const chars =
-            '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let autoId = '';
-        for (let i = 0; i < 5; i++) {
-            autoId += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return autoId;
     }
 
     private isEmpty(obj: any) {

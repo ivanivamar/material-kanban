@@ -39,10 +39,6 @@
 
                         {{ task.completed ? 'Closed' : 'Open' }}
                     </div>
-
-                    <span class="text-500 fs-6">
-                        <strong>{{ task.owner.username }}</strong> opened this task on {{ task.creationDate | date: 'medium' }}
-                    </span>
                 </div>
             </div>
 
@@ -101,18 +97,6 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column" style="border-bottom: 2px solid var(--color-utility-outline)">
-                <div
-                    class="activity"
-                    *ngFor="let activity of task.activity">
-                    <div class="activity-badge">
-                        <i [class]="activity.icon"></i>
-                    </div>
-                    <div class="activity-body">
-                        <strong class="text-white">{{activity.user.username}}</strong><span [innerHTML]="activity.action"></span>{{ activity.date | dateAgo  }}
-                    </div>
-                </div>
-            </div>
             <div class="flex justify-content-end mt-3">
                 <div class="flex align-items-center gap-3">
                     <button type="button" class="btn btn-text" (click)="cancel()">
@@ -152,7 +136,7 @@
                 <div class="pt-2">
                     <mat-dropdown class="mb-2" [options]="urgencyList" [optionLabel]="'title'" [optionValue]="'code'"
                                   [value]="task.urgency.code" [returnValue]="false"
-                                  (valueChange)="task.urgency = $event; addActivity('editUrgency'); onSave.emit(task)"></mat-dropdown>
+                                  (valueChange)="task.urgency = $event; onSave.emit(task)"></mat-dropdown>
                 </div>
             </div>
             <div class="py-3 border-bottom">
@@ -166,7 +150,7 @@
                 <div class="pt-2">
                     <mat-dropdown class="mb-2" [options]="statusList" [optionLabel]="'name'"
                                   [value]="task.status.value" [returnValue]="false"
-                                  (valueChange)="task.status = $event; addActivity('editStatus'); onSave.emit(task)"></mat-dropdown>
+                                  (valueChange)="task.status = $event; onSave.emit(task)"></mat-dropdown>
                 </div>
             </div>
             <div class="py-3 border-bottom">
@@ -175,7 +159,7 @@
                 </div>
                 <div class="pt-2">
                     <mat-calendar [value]="task.dueDate"
-                                  (valueChange)="task.dueDate = $event; addActivity('editDueDate'); onSave.emit(task)"></mat-calendar>
+                                  (valueChange)="task.dueDate = $event; onSave.emit(task)"></mat-calendar>
                 </div>
             </div>
             <a href="javascript:void(0)" class="mt-3" (click)="confirmDeleteTask($event)">
