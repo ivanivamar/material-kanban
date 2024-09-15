@@ -33,7 +33,7 @@ export class KanbanService {
     }
 
     //#region Getters
-    async getProjects(uid: string): Promise<PaginatedResult<Project>> {
+    async getProjects(): Promise<PaginatedResult<Project>> {
         let projectRef = query(collection(this.firestore, 'projects'),
             where('ownerId', '==', localStorage.getItem('uid')),
             orderBy('updated', 'desc'),

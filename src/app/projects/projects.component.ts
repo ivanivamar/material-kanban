@@ -46,25 +46,11 @@ export class ProjectsComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         this.loading = true;
-
-        // check if user is logged in
-        this.authService.isLoggedIn().then((user: any) => {
-            this.user = user;
-        });
-
-        // get users
-        from(this.kanbanService.getUsers()).subscribe((users: any[]) => {
-            this.users = users.filter((user: any) => {
-                return user.uid !== this.user.uid;
-            });
-
-            this.getProjects();
-        });
-
+        this.getProjects();
     }
 
     getProjects() {
-        from(this.kanbanService.getProjects(this.user.uid)).subscribe(async (result: PaginatedResult<Project>) => {
+        from(this.kanbanService.getProjects()).subscribe(async (result: PaginatedResult<Project>) => {
             this.projects.totalRecords = result.totalRecordCount;
             this.projects.items = result.records;
 

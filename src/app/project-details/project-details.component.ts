@@ -118,6 +118,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     async getProject() {
         this.project = await this.kanbanService.getProjectById(this.projectId);
+        this.project.id = this.projectId;
         // order tasks by creationDate
         this.project.tasks.sort((a, b) => {
             return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
