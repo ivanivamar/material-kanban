@@ -1,1 +1,23 @@
-<div class="modal"></div>
+@if (showModal) {
+    <div class="modal">
+        <div class="overlay" (click)="close()"></div>
+        <form class="modal-container">
+            <header>
+                <button class="btn btn-icon" (click)="close()">
+                    <i class="material-symbols-outlined">close</i>
+                </button>
+            </header>
+            <div></div>
+            <footer>
+                <button class="btn btn-text" (click)="close()">
+                    <i class="material-symbols-outlined">close</i>
+                    Cancel
+                </button>
+                <button class="btn btn-primary">
+                    <i class="material-symbols-outlined">save</i>
+                    Save
+                </button>
+            </footer>
+        </form>
+    </div>
+}
