@@ -1,14 +1,48 @@
-@import "styles/typography"
-
 $font-family: "Poppins", serif
 
-$bg-color: #EDF0FF
-$border-color: #E1E5FF
+$bg-color: #FFFFFF
+$border-color: #F1F1F1
+$color-primary: #1967D2
+$color-primary-hover: #3E7FD9
+$secondary-color: #3C4043
+$color-tertiary: #FFD9E6
+$color-tertiary-hover: #FFB3D1
+$surface-0: #FFFFFF
+$surface-1: #FAFAFA
+$surface-2: #F5F3EF
+
+@import "styles/typography"
+@import "styles/buttons"
+@import "styles/navbar"
 
 *
     font-family: $font-family
     box-sizing: border-box
 
 body
-    margin: 0
     background-color: $bg-color
+    margin: 0
+
+.bg-primary
+    background-color: $color-primary !important
+
+.bg-secondary
+    background-color: $secondary-color
+
+.bg-surface-0
+    background-color: $surface-0
+
+.bg-surface-1
+    background-color: $surface-1
+
+.bg-surface-2
+    background-color: $surface-2
+
+.border
+    border: 1px solid $border-color
+
+.border-top
+    border-top: 1px solid $border-color
+
+.border-bottom
+    border-bottom: 1px solid $border-color

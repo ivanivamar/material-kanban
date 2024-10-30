@@ -1,43 +1,27 @@
 import {Injectable} from '@angular/core';
-import {initializeApp} from 'firebase/app';
-import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth';
+import {collection, deleteDoc, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import {db, globalUser} from '../constants/enviroment';
+import {Project} from '../modules/project';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FirebaseServiceService {
-    firebaseConfig = {
-        apiKey: "AIzaSyDbMsn2lDp8IQvtoEoTIGVlUyGKwhfsCvI",
-        authDomain: "materialkanban.firebaseapp.com",
-        databaseURL: "https://materialkanban-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "materialkanban",
-        storageBucket: "materialkanban.appspot.com",
-        messagingSenderId: "465319731998",
-        appId: "1:465319731998:web:d609103c2889d47ab21f0f",
-        measurementId: "G-LHTKBGT4VW"
-    };
-    app = initializeApp(this.firebaseConfig);
-    auth = getAuth(this.app);
-    provider = new GoogleAuthProvider();
+    async getProjects(): Promise<any> {
+        const getProjectsByUserId = query(collection(db, 'projects'),
+            where('userId', '==', globalUser.userId));
 
-    constructor() {
+        const querySnapshot = await getDocs(getProjectsByUserId);
+        const projects = querySnapshot.docs.map(doc => doc.data());
+        console.log("%cProjects", "color: green; font-size: 16px;", projects);
+        return projects;
     }
 
-    // #region Auth
-    googleLogin() {
-        return signInWithPopup(this.auth, new GoogleAuthProvider());
+    async createProject(project: Project) {
+        await setDoc(doc(db, 'projects', project.id), project);
     }
 
-    isLoggedIn(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.auth.onAuthStateChanged((user) => {
-                resolve(user);
-            });
-        });
+    async deleteProject(projectId: string) {
+        await deleteDoc(doc(db, 'projects', projectId));
     }
-
-    logout() {
-        return signOut(this.auth);
-    }
-    //#endregion
 }

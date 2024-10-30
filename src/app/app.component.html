@@ -1,3 +1,5 @@
-<router-outlet />
-<h1 class="poppins-medium">Test</h1>
+@if (globalUser.userId != "") {
+    <app-navbar></app-navbar>
+}
 
+<router-outlet />
