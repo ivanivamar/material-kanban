@@ -1,9 +1,6 @@
 export interface Project {
     id: string;
-    icon?: string;
     name: string;
-    description?: string;
-    completed: boolean;
     columns: Column[];
     userId: string;
 }
@@ -30,7 +27,7 @@ export interface Subtask {
 
 export class Project {
     id: string = '';
-    icon?: string;
+    image?: string;
     name: string = '';
     description?: string;
     completed: boolean = false;

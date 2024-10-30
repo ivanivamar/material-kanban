@@ -1,8 +1,8 @@
 $font-family: "Poppins", serif
 
 $bg-color: #FFFFFF
-$border-color: #F1F1F1
-$color-primary: #1967D2
+$border-color: #EAECF0
+$color-primary: #004EEB
 $color-primary-hover: #3E7FD9
 $secondary-color: #3C4043
 $color-tertiary: #FFD9E6
@@ -14,6 +14,9 @@ $surface-2: #F5F3EF
 @import "styles/typography"
 @import "styles/buttons"
 @import "styles/navbar"
+@import "styles/tabs"
+@import "styles/modal"
+@import "styles/inputs"
 
 *
     font-family: $font-family
@@ -25,9 +28,13 @@ body
 
 .bg-primary
     background-color: $color-primary !important
+.color-primary
+    color: $color-primary !important
 
 .bg-secondary
     background-color: $secondary-color
+.color-secondary
+    color: $secondary-color
 
 .bg-surface-0
     background-color: $surface-0

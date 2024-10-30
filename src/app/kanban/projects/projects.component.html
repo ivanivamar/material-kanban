@@ -1,10 +1,21 @@
 <div class="flex flex-column mt-5">
-    <div class="border-bottom w-full flex align-content-center justify-content-between px-5">
-        <div class="tabs"></div>
+    <div class="border-bottom w-full flex align-content-center justify-content-between px-3 md:px-5">
+        <div class="flex align-items-center gap-3">
+            <div class="tabs overflow-y-auto">
+                @for(project of projects; track project.id) {
+                    <div class="tab" [class.active]="project.id == selectedProject.id" (click)="selectedProject = project">
+                        @if (project.image != null) {
+                            <img src="{{ project.image }}" alt="{{ project.name }}" width="24px" class="border-round-lg shadow-1" />
+                        }
+                        {{ project.name }}
+                    </div>
+                }
+            </div>
 
-        <button class="btn btn-text mb-2">
-           <i class="material-symbols-outlined">add</i>
-            Create Project
-        </button>
+            <button class="btn btn-text mb-2">
+                <i class="material-symbols-outlined">add</i>
+                Create Project
+            </button>
+        </div>
     </div>
 </div>
