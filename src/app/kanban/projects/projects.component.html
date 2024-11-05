@@ -1,23 +1,32 @@
-<div class="flex flex-column mt-5">
+<div class="flex flex-column mt-5 gap-3">
     <div class="border-bottom w-full flex align-content-center justify-content-between px-3 md:px-5">
         <div class="flex align-items-center gap-3">
-            <div class="tabs overflow-y-auto">
-                @for(project of projects; track project.id) {
-                    <div class="tab" [class.active]="project.id == selectedProject.id" (click)="selectedProject = project">
-                        @if (project.image != null) {
-                            <img src="{{ project.image }}" alt="{{ project.name }}" width="24px" class="border-round-lg shadow-1" />
-                        }
-                        {{ project.name }}
-                    </div>
-                }
-            </div>
+            @if (projects.length > 0) {
+                <div class="tabs overflow-y-auto">
+                    @for (project of projects; track project.id) {
+                        <div class="tab" [class.active]="project.id == selectedProject.id"
+                             (click)="selectedProject = project">
+                            {{ project.name }}
+                        </div>
+                    }
+                </div>
+            }
 
-            <button class="btn btn-text mb-2">
-                <i class="material-symbols-outlined">add</i>
-                Create Project
-            </button>
+            @if (creatingProject) {
+                <app-create-project (onCreate)="creatingProject = false; getProjects()"
+                                    (onClose)="creatingProject = false;"></app-create-project>
+            } @else {
+                <button class="btn btn-primary-light btn-sm mb-2" (click)="creatingProject = true">
+                    <i class="material-symbols-outlined">add</i>
+                    Create Project
+                </button>
+            }
         </div>
-    </div>
-</div>
 
-<app-create-project-modal #projectModalComponent (onSave)="getProjects()"></app-create-project-modal>
+        @if (selectedProject) {
+            <app-menu [items]="menuItems"></app-menu>
+        }
+    </div>
+
+
+</div>

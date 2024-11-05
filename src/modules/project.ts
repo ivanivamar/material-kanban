@@ -3,6 +3,8 @@ export interface Project {
     name: string;
     columns: Column[];
     userId: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface Column {
@@ -27,10 +29,9 @@ export interface Subtask {
 
 export class Project {
     id: string = '';
-    image?: string;
     name: string = '';
-    description?: string;
-    completed: boolean = false;
-    columns: Column[] = [];
     userId: string = '';
+    columns: Column[] = [];
+    createdAt: Date = new Date();
+    updatedAt: Date = new Date();
 }
