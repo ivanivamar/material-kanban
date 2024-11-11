@@ -1,26 +1,43 @@
 <div class="flex flex-column mt-5 gap-3">
-    <div class="border-bottom w-full flex align-content-center justify-content-between px-3 md:px-5 pb-1">
+    <div class="w-full border-bottom flex align-content-center justify-content-between p-2 md:px-5">
+        <h1 class="poppins-medium">
+            Projects
+        </h1>
+
+        <div class="flex align-items-center gap-2">
+            @if (creatingProject) {
+                <app-create-project (onCreate)="creatingProject = false; getProjects()"
+                                    (onClose)="creatingProject = false;"></app-create-project>
+            } @else {
+                <button class="btn btn-primary" (click)="creatingProject = true">
+                    <i class="material-symbols-outlined">add</i>
+                    Create Project
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="w-full flex align-content-center justify-content-between px-3 md:px-5 pb-1">
         <div class="flex align-items-center gap-3">
             @if (projects.length > 0) {
-                <div class="tabs overflow-y-auto">
+                <div class="flex align-items-center gap-3 w-full overflow-y-auto">
                     @for (project of projects; track project.id) {
-                        <div class="tab" [class.active]="project.id == selectedProject.id"
+                        <div class="project-cards" [class.active]="project.id == selectedProject.id"
                              (click)="selectedProject = project">
-                            {{ project.name }}
+                            <span class="project-title">
+                                {{ project.name }}
+                            </span>
+
+                            <div class="project-tasks">
+                                <span class="poppins-regular">
+                                    Tasks <strong>{{totalProjectTasks(project)}}</strong>
+                                </span>
+                            </div>
                         </div>
                     }
                 </div>
             }
 
-            @if (creatingProject) {
-                <app-create-project (onCreate)="creatingProject = false; getProjects()"
-                                    (onClose)="creatingProject = false;"></app-create-project>
-            } @else {
-                <button class="btn btn-primary btn-sm" (click)="creatingProject = true">
-                    <i class="material-symbols-outlined">add</i>
-                    Create Project
-                </button>
-            }
         </div>
 
         @if (selectedProject) {

@@ -14,7 +14,7 @@ import {ProjectBoardComponent} from './project-board/project-board.component';
         ProjectBoardComponent
     ],
     templateUrl: './projects.component.html',
-    styleUrl: './projects.component.css',
+    styleUrl: './projects.component.sass',
     providers: [FirebaseServiceService]
 })
 export class ProjectsComponent implements OnInit {
@@ -55,5 +55,9 @@ export class ProjectsComponent implements OnInit {
         if (this.projects.length > 0) {
             this.selectedProject = this.projects[0];
         }
+    }
+
+    totalProjectTasks(project: Project): number {
+        return project.columns.reduce((acc, column) => acc + column.tasks.length, 0);
     }
 }
