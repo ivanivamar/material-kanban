@@ -4,7 +4,7 @@
     </button>
 
     @if (showMenu) {
-        <div class="menu-content fadein" [class.right-0]="position == 'right'">
+        <div class="menu-content fadein">
             @for (item of items; track item.title) {
                 <div class="menu-item" (click)="item.action()">
                     @if (item.icon) {

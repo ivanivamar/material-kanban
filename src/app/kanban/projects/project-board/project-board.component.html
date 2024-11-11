@@ -1,21 +1,36 @@
-<div class="overflow-x-auto flex column-gap-3 flex-nowrap mx-3 columns-container"
+<div class="overflow-x-auto flex column-gap-3 flex-nowrap px-4 columns-container slidedown"
      style="height: calc(100vh - 200px);"
      cdkDropList
+     cdkDropListGroup
      cdkDropListOrientation="horizontal"
      (cdkDropListDropped)="sortColumns($event)">
     @for (column of project.columns; track column.id) {
-        <div cdkDrag class="column border-round-2xl bg-surface-0 h-fit" style="min-width: 500px" (click)="selectedColumn = column">
-            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2 px-3" [style.background-color]="column.color" cdkDragHandle>
-                <h4 class="poppins-medium">
-                    {{ column.name }}
-                </h4>
+        <div
+            cdkDrag
+            cdkDropList
+            [cdkDropListData]="column.tasks"
+            (cdkDropListDropped)="dropTask($event, column)"
+            class="column border-round-2xl bg-surface-0 h-fit"
+            style="min-width: 500px; min-height: 60px"
+            (click)="selectedColumn = column">
+            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2" [style.background-color]="column.color" cdkDragHandle>
+                <div class="flex align-items-center gap-3">
+                    <div class="border-circle p-2 bg-white flex align-items-center justify-content-center" cdkDragHandle>
+                        <i class="material-symbols-outlined text-dark-imperial-blue">
+                            drag_indicator
+                        </i>
+                    </div>
+                    <h3 class="poppins-medium">
+                        {{ column.name }}
+                    </h3>
+                </div>
 
                 <div class="flex align-items-center gap-1">
                     <app-menu [items]="columnMenuItems"></app-menu>
                 </div>
             </header>
 
-            <div class="flex flex-column gap-2 tasks-list p-2 px-3" cdkDropList (cdkDropListDropped)="dropTask($event, column)">
+            <div class="flex flex-column gap-2 tasks-list p-2 px-3">
                 @for (task of column.tasks; track task.id) {
                     <app-task class="task-container" cdkDrag [task]="task"
                               (updateProject)="sortTasks(); updateProject()"

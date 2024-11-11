@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {FirebaseServiceService} from '../../../../services/firebase-service.service';
 import {Column, Project, Task} from '../../../../modules/project';
 import {MenuComponent} from '../../../shared/menu/menu.component';
 import {CreateColumnComponent} from './create-column/create-column.component';
 import {TaskComponent} from './task/task.component';
 import {TaskModalComponent} from './task-modal/task-modal.component';
-import {DragDropModule, CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import {DragDropModule, CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 
 @Component({
@@ -25,6 +25,8 @@ import {DragDropModule, CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from
     providers: [FirebaseServiceService]
 })
 export class ProjectBoardComponent {
+    @ViewChild(TaskModalComponent) taskModal: TaskModalComponent | undefined;
+
     @Input() project: Project = new Project();
 
     createColumn = false;
@@ -35,7 +37,17 @@ export class ProjectBoardComponent {
             title: 'Create Task',
             icon: 'add',
             action: () => {
-                this.createTask(this.selectedColumn);
+                let task: Task = {
+                    id: this.firebaseService.generateId(),
+                    name: 'Title',
+                    description: '',
+                    completed: false,
+                    dueDate: new Date(),
+                    subtasks: [],
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                };
+                this.taskModal?.show(task);
             }
         },
         {
@@ -67,23 +79,25 @@ export class ProjectBoardComponent {
         this.updateProject();
     }
 
-    dropTask(event: CdkDragDrop<Task>, column: Column) {
-        moveItemInArray(column.tasks, event.previousIndex, event.currentIndex);
+    dropTask(event: CdkDragDrop<any[]>, column: Column) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(column.tasks, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                column.tasks,
+                event.previousIndex,
+                event.currentIndex
+            );
+        }
         this.updateProject();
     }
 
     sortTasks() {
         this.project.columns.forEach(column => {
-            column.tasks.sort((a, b) => {
-                return a.completed === b.completed ? 0 : a.completed ? 1 : -1;
-            });
+            // by updatedAt
+            column.tasks.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
         });
-
-        // get all tasks count
-        const allTasks = this.project.columns.reduce((acc, column) => {
-            return acc + column.tasks.length;
-        }, 0);
-        console.log('All tasks:', allTasks);
     }
 
     updateProject() {
