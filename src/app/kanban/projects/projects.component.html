@@ -1,5 +1,5 @@
 <div class="flex flex-column mt-5 gap-3">
-    <div class="border-bottom w-full flex align-content-center justify-content-between px-3 md:px-5">
+    <div class="border-bottom w-full flex align-content-center justify-content-between px-3 md:px-5 pb-1">
         <div class="flex align-items-center gap-3">
             @if (projects.length > 0) {
                 <div class="tabs overflow-y-auto">
@@ -16,7 +16,7 @@
                 <app-create-project (onCreate)="creatingProject = false; getProjects()"
                                     (onClose)="creatingProject = false;"></app-create-project>
             } @else {
-                <button class="btn btn-primary-light btn-sm mb-2" (click)="creatingProject = true">
+                <button class="btn btn-primary btn-sm" (click)="creatingProject = true">
                     <i class="material-symbols-outlined">add</i>
                     Create Project
                 </button>
@@ -28,5 +28,7 @@
         }
     </div>
 
-
+    @if (selectedProject) {
+        <app-project-board [project]="selectedProject"></app-project-board>
+    }
 </div>

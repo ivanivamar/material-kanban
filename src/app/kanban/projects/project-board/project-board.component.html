@@ -1,0 +1,41 @@
+<div class="overflow-x-auto flex column-gap-3 flex-nowrap mx-3 columns-container"
+     style="height: calc(100vh - 200px);"
+     cdkDropList
+     cdkDropListOrientation="horizontal"
+     (cdkDropListDropped)="sortColumns($event)">
+    @for (column of project.columns; track column.id) {
+        <div cdkDrag class="column border-round-2xl bg-surface-0 h-fit" style="min-width: 500px" (click)="selectedColumn = column">
+            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2 px-3" [style.background-color]="column.color" cdkDragHandle>
+                <h4 class="poppins-medium">
+                    {{ column.name }}
+                </h4>
+
+                <div class="flex align-items-center gap-1">
+                    <app-menu [items]="columnMenuItems"></app-menu>
+                </div>
+            </header>
+
+            <div class="flex flex-column gap-2 tasks-list p-2 px-3" cdkDropList (cdkDropListDropped)="dropTask($event, column)">
+                @for (task of column.tasks; track task.id) {
+                    <app-task class="task-container" cdkDrag [task]="task"
+                              (updateProject)="sortTasks(); updateProject()"
+                              (click)="taskModalComponent.show(task)"></app-task>
+                }
+            </div>
+        </div>
+    }
+    <div class="border-round-2xl bg-surface-0 p-2 w-20rem h-fit" style="min-width: 20rem">
+        @if (createColumn) {
+            <app-create-column [project]="project" (onClose)="createColumn = false"></app-create-column>
+        } @else {
+            <button
+                (click)="createColumn = true"
+                class="btn btn-text w-full btn-sm text-secondary bg-transparent justify-content-start">
+                <i class="material-symbols-outlined color-secondary">add_box</i>
+                Add a List
+            </button>
+        }
+    </div>
+</div>
+
+<app-task-modal #taskModalComponent></app-task-modal>

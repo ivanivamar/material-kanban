@@ -3,13 +3,15 @@ import {Project} from '../../../modules/project';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {CreateProjectComponent} from '../create-project/create-project.component';
 import {MenuComponent, MenuItem} from '../../shared/menu/menu.component';
+import {ProjectBoardComponent} from './project-board/project-board.component';
 
 @Component({
     selector: 'app-projects',
     standalone: true,
     imports: [
         CreateProjectComponent,
-        MenuComponent
+        MenuComponent,
+        ProjectBoardComponent
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.css',

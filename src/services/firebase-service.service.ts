@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {collection, deleteDoc, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import {collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, where } from 'firebase/firestore';
 import {db, globalUser} from '../constants/enviroment';
 import {Project} from '../modules/project';
 
@@ -9,7 +9,8 @@ import {Project} from '../modules/project';
 export class FirebaseServiceService {
     async getProjects(): Promise<any> {
         const getProjectsByUserId = query(collection(db, 'projects'),
-            where('userId', '==', globalUser.userId));
+            where('userId', '==', globalUser.userId),
+            orderBy('updatedAt', 'desc'));
 
         const querySnapshot = await getDocs(getProjectsByUserId);
         const projects = querySnapshot.docs.map(doc => doc.data());

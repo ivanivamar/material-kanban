@@ -6,40 +6,24 @@
 
     .tab
         padding: 8px 24px
-        border-radius: 12px 12px 0 0
+        border-radius: 25px 25px 25px 25px
         cursor: pointer
         display: flex
         align-items: center
         justify-content: center
         gap: 8px
         position: relative
-        color: rgba($secondary-color, 0.5)
+        color: $text-color
         font-weight: 500
         font-size: 16px
         height: 100%
+        transition: all 0.3s ease-in-out
+        overflow: hidden
 
         &:hover
-            background-color: $border-color
+            color: $color-dark-imperial-blue
 
-        &::after
-            position: absolute
-            bottom: 0
-            left: 50%
-            transform: translateX(-50%), scaleX(0)
-            content: ""
-            width: 0
-            height: 4px
-            border-radius: 4px 4px 0 0
-            background-color: $color-primary
-            transition: all 0.3s ease-in-out
-            transform-origin: center
-
+        &.active,
         &:hover
-            color: $color-primary
-
-        &.active
-            color: $color-primary
-
-            &::after
-                width: 70%
-                transform: translateX(-50%) scaleX(1)
+            color: $color-dark-imperial-blue
+            background-color: $color-pink

@@ -1,0 +1,16 @@
+<div class="task-card">
+    <header class="flex align-items-center justify-content-between">
+        <div class="flex align-items-center">
+            <span class="poppins-medium text-sm" [class.line-through]="task.completed">
+                {{ task.name }}
+            </span>
+        </div>
+    </header>
+    <div>
+        @if (task.description) {
+            <p class="poppins-regular text-xs m-0 ml-2">
+                {{ task.description }}
+            </p>
+        }
+    </div>
+</div>
