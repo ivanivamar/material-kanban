@@ -47,6 +47,6 @@
     </div>
 
     @if (selectedProject) {
-        <app-project-board [project]="selectedProject"></app-project-board>
+        <app-project-board [project]="selectedProject" (refresh)="getProjects()"></app-project-board>
     }
 </div>

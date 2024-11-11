@@ -23,7 +23,7 @@ export class CreateColumnComponent {
     @Output() onClose = new EventEmitter<void>();
 
     columnName = '';
-    colorArray = ['#FFF3BD', '#FFD9E6', '#7A81DB', '#FFF3BD', '#FFCEA0', '#D9DDFF'];
+    colorArray = ['#FFF3BD', '#FFD9E6', '#CEF2F2', '#FFF3BD', '#FFCEA0', '#D9DDFF'];
 
     constructor(
         private firebaseService: FirebaseServiceService,

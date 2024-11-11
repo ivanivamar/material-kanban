@@ -11,11 +11,11 @@
             [cdkDropListData]="column.tasks"
             (cdkDropListDropped)="dropTask($event, column)"
             class="column border-round-2xl bg-surface-0 h-fit"
-            style="min-width: 500px; min-height: 60px"
+            style="min-width: 400px; width: 400px; min-height: 60px"
             (click)="selectedColumn = column">
-            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2" [style.background-color]="column.color" cdkDragHandle>
+            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2" [style.background-color]="column.color">
                 <div class="flex align-items-center gap-3">
-                    <div class="border-circle p-2 bg-white flex align-items-center justify-content-center" cdkDragHandle>
+                    <div class="border-circle p-2 bg-white flex align-items-center justify-content-center cursor-move" cdkDragHandle>
                         <i class="material-symbols-outlined text-dark-imperial-blue">
                             drag_indicator
                         </i>
@@ -39,9 +39,9 @@
             </div>
         </div>
     }
-    <div class="border-round-2xl bg-surface-0 p-2 w-20rem h-fit" style="min-width: 20rem">
+    <div class="border-round-2xl bg-surface-0 p-2 h-fit">
         @if (createColumn) {
-            <app-create-column [project]="project" (onClose)="createColumn = false"></app-create-column>
+            <app-create-column [project]="project" (onClose)="createColumn = false; refresh.emit()"></app-create-column>
         } @else {
             <button
                 (click)="createColumn = true"
@@ -53,4 +53,4 @@
     </div>
 </div>
 
-<app-task-modal #taskModalComponent></app-task-modal>
+<app-task-modal #taskModalComponent (onSave)="updateProject($event)" (deleteTask)="deleteTask($event)"></app-task-modal>

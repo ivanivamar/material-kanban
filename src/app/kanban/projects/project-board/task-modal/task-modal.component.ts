@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Subtask, Task} from '../../../../../modules/project';
 import {FormsModule} from '@angular/forms';
 import {FirebaseServiceService} from '../../../../../services/firebase-service.service';
@@ -14,6 +14,9 @@ import {FirebaseServiceService} from '../../../../../services/firebase-service.s
     providers: [FirebaseServiceService]
 })
 export class TaskModalComponent {
+    @Output() onSave: EventEmitter<Task> = new EventEmitter<Task>();
+    @Output() deleteTask: EventEmitter<Task> = new EventEmitter<Task>();
+
     showModal: boolean = false;
     task: Task = new Task();
 
@@ -23,7 +26,7 @@ export class TaskModalComponent {
     }
 
     show(task: Task) {
-        this.task = task;
+        this.task = JSON.parse(JSON.stringify(task));
         this.showModal = true;
     }
 

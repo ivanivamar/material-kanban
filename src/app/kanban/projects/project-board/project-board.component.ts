@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FirebaseServiceService} from '../../../../services/firebase-service.service';
 import {Column, Project, Task} from '../../../../modules/project';
 import {MenuComponent} from '../../../shared/menu/menu.component';
@@ -28,6 +28,7 @@ export class ProjectBoardComponent {
     @ViewChild(TaskModalComponent) taskModal: TaskModalComponent | undefined;
 
     @Input() project: Project = new Project();
+    @Output() refresh: EventEmitter<void> = new EventEmitter<void>();
 
     createColumn = false;
     selectedColumn: Column = new Column();
@@ -100,8 +101,30 @@ export class ProjectBoardComponent {
         });
     }
 
-    updateProject() {
+    deleteTask(task: Task) {
+        this.project.columns.forEach(column => {
+            column.tasks = column.tasks.filter(t => t.id !== task.id);
+        });
+
+        this.updateProject();
+    }
+
+    updateProject(task?: Task) {
+        if (task) {
+            task.updatedAt = new Date();
+            // check if task is in column
+            let column = this.project.columns.find(c => c.tasks.find(t => t.id === task.id));
+            if (column) {
+                column.tasks = column.tasks.map(t => t.id === task.id ? task : t);
+            } else {
+                // add task to column
+                this.selectedColumn.tasks.push(task);
+            }
+        }
+        this.project.updatedAt = new Date();
+
         this.firebaseService.createProject(this.project);
+        this.refresh.emit();
     }
 
     sortColumns(event: CdkDragDrop<Column[]>) {
