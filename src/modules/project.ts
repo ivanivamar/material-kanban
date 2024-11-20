@@ -10,7 +10,6 @@ export interface Project {
 export interface Column {
     id: string;
     name: string;
-    color: string;
     tasks: Task[];
 }
 
@@ -43,7 +42,6 @@ export class Project {
 export class Column {
     id: string = '';
     name: string = '';
-    color: string = '';
     tasks: Task[] = [];
 }
 

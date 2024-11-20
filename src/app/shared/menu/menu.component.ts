@@ -1,4 +1,5 @@
 import {Component, ElementRef, Input} from '@angular/core';
+import {RippleDirective} from '../ripple.directive';
 
 @Component({
     host: {
@@ -6,7 +7,9 @@ import {Component, ElementRef, Input} from '@angular/core';
     },
     selector: 'app-menu',
     standalone: true,
-    imports: [],
+    imports: [
+        RippleDirective
+    ],
     templateUrl: './menu.component.html',
     styleUrl: './menu.component.css'
 })

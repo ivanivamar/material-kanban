@@ -2,12 +2,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Subtask, Task} from '../../../../../modules/project';
 import {FormsModule} from '@angular/forms';
 import {FirebaseServiceService} from '../../../../../services/firebase-service.service';
+import {RippleDirective} from '../../../../shared/ripple.directive';
 
 @Component({
     selector: 'app-task-modal',
     standalone: true,
     imports: [
-        FormsModule
+        FormsModule,
+        RippleDirective
     ],
     templateUrl: './task-modal.component.html',
     styleUrl: './task-modal.component.sass',

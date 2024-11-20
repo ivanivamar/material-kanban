@@ -1,0 +1,71 @@
+nav#sidebar
+    display: flex
+    flex-direction: column
+    padding: 24px 0
+    align-items: center
+    justify-content: center
+    background: $surface-container
+    width: 80px
+    gap: 12px
+    position: fixed
+    top: 0
+    left: 0
+    height: 100%
+
+    .nav-item
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        padding: 4px 12px
+        position: relative
+        cursor: pointer
+        gap: 4px
+
+        .nav-item--icon
+            font-size: 24px
+            color: $on-surface-variant
+            transition: all 0.2s ease-in-out
+
+        .nav-item--label
+            font-size: 12px
+            color: $on-surface-variant
+            font-weight: 500
+            transition: font-weight 0.2s ease-in-out
+
+        &::before
+            content: ''
+            position: absolute
+            top: 0
+            left: 50%
+            transform: translateX(-50%)
+            border-radius: 25px 25px 25px 25px
+            width: 4px
+            height: 30px
+            opacity: 0
+            transition: all 0.2s ease-in-out
+            z-index: -1
+
+        &:hover
+            .nav-item--icon
+                color: $on-surface
+                font-variation-settings: 'wght' 700, 'opsz' 24
+            .nav-item--label
+                font-weight: 700
+                color: $on-surface
+            &::before
+                opacity: 1
+                background: $surface-dim
+                width: 80%
+
+        &.active
+            .nav-item--icon
+                color: $on-surface
+                font-variation-settings: 'wght' 400, 'FILL' 1, 'opsz' 24
+            .nav-item--label
+                font-weight: 700
+                color: $on-surface
+            &::before
+                opacity: 1
+                background: $secondary-container
+                width: 80%

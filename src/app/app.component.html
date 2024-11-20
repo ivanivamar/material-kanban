@@ -1,5 +1,11 @@
 @if (globalUser.userId != "") {
-    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
 }
-
-<router-outlet />
+<main>
+    @if (globalUser.userId != "") {
+        <app-navbar></app-navbar>
+    }
+    <aside>
+        <router-outlet />
+    </aside>
+</main>

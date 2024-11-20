@@ -1,49 +1,47 @@
 .menu
     position: relative
 
-    .menu-btn
-        border-radius: 50%
-        height: 32px
-        width: 32px
-        background-color: transparent
-        display: flex
-        align-items: center
-        justify-content: center
-        color: inherit
-        font-size: 16px
-        cursor: pointer
-        transition: background-color 0.3s ease-in-out
-        border: 0
-
-        &:hover
-            background-color: rgba(255, 255, 255, 0.3)
+    button.btn-icon
+        color: $on-surface-variant
 
     .menu-content
         position: fixed
-        border-radius: 0.5rem
-        border: 1px solid $border-color
+        border-radius: 4px
         width: 220px
-        padding: 4px 0
-        background-color: $bg-color
-        box-shadow: 0 0 #0000, 0 0 #0000, 0px 1px 2px 0px rgba(16,24,40,.06),0px 1px 3px 0px rgba(16,24,40,.1)
-        z-index: 1
+        padding: 8px 0
+        background-color: $surface-container
+        box-shadow: $elevation-2
+        z-index: 50
         display: flex
         flex-direction: column
-        row-gap: 3px
+        animation: slide-in 0.3s ease-in-out
 
         .menu-item
-            padding: 12px 10px
-            margin: 0 6px
-            color: $text-color
-            border-radius: 8px
+            padding: 0 12px
+            color: $on-surface
+            height: 48px
             display: flex
             align-items: center
             gap: 8px
             font-size: 14px
-            font-weight: 500
+            font-weight: 400
             cursor: pointer
             transition: all 0.3s ease-in-out
 
+            i
+                color: $on-surface-variant
+
             &:hover
-                background-color: white
-                color: $color-primary
+                background-color: rgba($on-surface, 0.08)
+
+            &.active
+                background-color: $secondary-container
+                color: $on-secondary-container
+
+@keyframes slide-in
+    from
+        transform: translateY(10px)
+        opacity: 0
+    to
+        transform: translateY(0)
+        opacity: 1

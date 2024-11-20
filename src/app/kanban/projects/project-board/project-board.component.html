@@ -1,5 +1,4 @@
-<div class="overflow-x-auto flex column-gap-3 flex-nowrap px-4 columns-container slidedown"
-     style="height: calc(100vh - 200px);"
+<div class="overflow-x-auto flex column-gap-3 flex-nowrap px-4 columns-container slidedown h-full"
      cdkDropList
      cdkDropListGroup
      cdkDropListOrientation="horizontal"
@@ -10,10 +9,10 @@
             cdkDropList
             [cdkDropListData]="column.tasks"
             (cdkDropListDropped)="dropTask($event, column)"
-            class="column border-round-2xl bg-surface-0 h-fit"
+            class="column border-round-2xl surface-container-lowest h-fit"
             style="min-width: 400px; width: 400px; min-height: 60px"
             (click)="selectedColumn = column">
-            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2" [style.background-color]="column.color">
+            <header class="flex align-items-center border-round-top-2xl justify-content-between mb-1 p-2 surface-container">
                 <div class="flex align-items-center gap-3">
                     <div class="border-circle p-2 bg-white flex align-items-center justify-content-center cursor-move" cdkDragHandle>
                         <i class="material-symbols-outlined text-dark-imperial-blue">

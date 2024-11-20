@@ -1,4 +1,4 @@
-<div class="flex flex-column mt-5 gap-3">
+<div class="flex flex-column gap-3 h-full">
     <div class="w-full border-bottom flex align-content-center justify-content-between p-2 px-4">
         <h1 class="poppins-medium">
             Projects
@@ -9,10 +9,6 @@
                 <app-create-project (onCreate)="creatingProject = false; getProjects()"
                                     (onClose)="creatingProject = false;"></app-create-project>
             } @else {
-                <button class="btn btn-primary" (click)="creatingProject = true">
-                    <i class="material-symbols-outlined">add</i>
-                    Create Project
-                </button>
             }
         </div>
     </div>
@@ -47,6 +43,10 @@
     </div>
 
     @if (selectedProject) {
-        <app-project-board [project]="selectedProject" (refresh)="getProjects()"></app-project-board>
+        <app-project-board class="h-full" [project]="selectedProject" (refresh)="getProjects()"></app-project-board>
     }
 </div>
+
+<button class="fab fab-fixed" (click)="creatingProject = true">
+    <i class="material-symbols-outlined">add</i>
+</button>

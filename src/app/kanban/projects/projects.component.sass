@@ -8,24 +8,10 @@
     padding: 8px 12px
     position: relative
     transition: all 0.3s ease-in-out
-    color: $text-color
+    color: $on-surface
     cursor: pointer
     height: 150px
     width: 200px
-
-    .project-title
-        font-weight: 500
-        font-size: 16px
-        color: inherit
-
-    .project-tasks
-        display: flex
-        align-items: center
-        justify-content: space-between
-        border-bottom: 1px solid #AEB5D0
-        padding: 6px 0
-        color: inherit
-        transition: all 0s ease-in-out
 
     &::before
         content: ""
@@ -35,16 +21,31 @@
         left: 0
         width: 100%
         height: 0
+        z-index: 0
         transition: all 0.3s ease-in-out
-        background-color: black
-        z-index: -1
+        background-color: $inverse-primary
+
+    .project-title
+        font-weight: 500
+        font-size: 16px
+        color: inherit
+        z-index: 0
+
+    .project-tasks
+        display: flex
+        align-items: center
+        justify-content: space-between
+        border-bottom: 1px solid $outline-variant
+        padding: 6px 0
+        color: inherit
+        z-index: 0
+        transition: all 0s ease-in-out
 
     &:hover,
     &.active
-        color: white
-
         .project-tasks
             border-bottom: 1px solid transparent
 
         &::before
             height: 100%
+            box-shadow: $elevation-1

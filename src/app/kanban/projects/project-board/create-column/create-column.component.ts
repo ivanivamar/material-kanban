@@ -23,7 +23,6 @@ export class CreateColumnComponent {
     @Output() onClose = new EventEmitter<void>();
 
     columnName = '';
-    colorArray = ['#FFF3BD', '#FFD9E6', '#CEF2F2', '#FFF3BD', '#FFCEA0', '#D9DDFF'];
 
     constructor(
         private firebaseService: FirebaseServiceService,
@@ -35,7 +34,6 @@ export class CreateColumnComponent {
         let column: Column = {
             id: this.firebaseService.generateId(),
             name: this.columnName,
-            color: this.colorArray[this.project.columns.length % this.colorArray.length],
             tasks: []
         };
         this.project.columns.push(column);

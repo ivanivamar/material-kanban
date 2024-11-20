@@ -1,102 +1,91 @@
-$font-family: "Poppins", serif
+$font-family: "Readex Pro", sans-serif
 
-$bg-color: #EDF0FF
-$border-color: #DFE3FF
-$color-primary: #7A81DB
-$color-primary-hover: #5C63B6
-$color-primary-light: #E5E8FF
-$secondary-color: #787C8E
-$color-tertiary: #FFD9E6
-$color-tertiary-hover: #FFB3D1
-$text-color: #3F4044
-$surface-0: #FFFFFF
-$surface-1: #F2F4F7
-$surface-2: #F5F3EF
-
-$color-blond: #FFF3BD
-$color-deep-peach: #FFCEA0
-$color-pale-lavender: #D9DDFF
-$color-dark-imperial-blue: #020965
-$color-crayola: #7A81DB
-$color-pink: #FFD9E6
-$color-water: #CEF2F2
-
+@import "styles/variables"
+@import "styles/colors"
 @import "styles/typography"
 @import "styles/buttons"
 @import "styles/navbar"
+@import "styles/sidebar"
 @import "styles/tabs"
 @import "styles/modal"
-@import "styles/inputs"
 @import "styles/menu"
+@import "styles/dropdown"
+@import "styles/cards"
 
 *
     box-sizing: border-box
 
 body
-    background-color: $bg-color
+    background-color: $surface-container
     font-family: $font-family
-    color: $text-color
-    margin: 0
+    color: $on-surface
+    margin: 0 8px 8px 0
+
+main
+    margin-left: 80px
+
+    aside
+        border-radius: 12px
+        background: $surface
+        height: calc(100vh - 70px)
+
+        @media (max-width: 768px)
+            border-radius: 0
+
 
 .bg-primary
-    background-color: $color-primary !important
+    background-color: $primary !important
 .bg-primary-light
-    background-color: $color-primary-light !important
+    background-color: $primary-container !important
 .text-primary
-    color: $color-primary !important
+    color: $primary !important
 
 .bg-secondary
-    background-color: $secondary-color
+    background-color: $secondary !important
 .text-secondary
-    color: $secondary-color !important
+    color: $secondary !important
 
 .text-warning
-    color: #FFC107 !important
+    color: $warning !important
 .text-success
-    color: #28A745 !important
+    color: $success !important
 .text-danger
-    color: #DC3545 !important
+    color: $error !important
 
-.bg-surface-0
-    background-color: $surface-0
-
-.bg-surface-1
-    background-color: $surface-1
-
-.bg-surface-2
-    background-color: $surface-2
+.surface-dim
+    background-color: $surface-dim
+.surface
+    background-color: $surface
+.surface-bright
+    background-color: $surface-bright
+.surface-container-lowest
+    background-color: $surface-container-lowest
+.surface-container-low
+    background-color: $surface-container-low
+.surface-container
+    background-color: $surface-container
+.surface-container-high
+    background-color: $surface-container-high
+.surface-container-highest
+    background-color: $surface-container-highest
+.on-surface
+    color: $on-surface
+.on-surface-variant
+    color: $on-surface-variant
+.outline
+    border: 1px solid $outline
+.outline-variant
+    border: 1px solid $outline-variant
+.inverse-surface
+    background-color: $inverse-surface
+.on-inverse-surface
+    color: $on-inverse-surface
 
 .border
-    border: 1px solid $border-color
+    border: 1px solid $outline-variant
 
 .border-top
-    border-top: 1px solid $border-color
+    border-top: 1px solid $outline-variant
 
 .border-bottom
-    border-bottom: 1px solid $border-color
-
-.bg-blond
-    background-color: $color-blond
-.bg-deep-peach
-    background-color: $color-deep-peach
-.bg-pale-lavender
-    background-color: $color-pale-lavender
-.bg-dark-imperial-blue
-    background-color: $color-dark-imperial-blue
-.bg-crayola
-    background-color: $color-crayola
-.bg-pink
-    background-color: $color-pink
-
-.text-blond
-    color: $color-blond
-.text-deep-peach
-    color: $color-deep-peach
-.text-pale-lavender
-    color: $color-pale-lavender
-.text-dark-imperial-blue
-    color: $color-dark-imperial-blue
-.text-crayola
-    color: $color-crayola
-.text-pink
-    color: $color-pink
+    border-bottom: 1px solid $outline-variant
