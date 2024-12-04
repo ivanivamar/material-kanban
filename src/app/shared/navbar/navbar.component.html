@@ -1,8 +1,25 @@
-<nav class="navbar px-3 md:px-5">
-    <h1 class="poppins-medium">Material Kanban</h1>
+<div class="navbar">
+    <nav class="w-full flex align-items-center justify-content-between">
+        <div class="logo-container flex align-items-center gap-3">
+            <i class="material-symbols-outlined bg-tertiary border-circle on-surface-variant text-3xl" style="padding: 10px">list_alt</i>
+            <h1 class="poppins-medium text-xl">Material Kanban</h1>
+        </div>
 
-    <button class="btn btn-secondary" (click)="logout()">
-        <i class="material-symbols-outlined">logout</i>
-        Logout
-    </button>
-</nav>
+        <div class="flex align-items-center gap-3">
+            <a class="nav-link" ripple [routerLink]="['/projects']" [routerLinkActive]="'active'">
+                Projects
+            </a>
+        </div>
+
+        <button class="btn btn-text" ripple (click)="logout()">
+            <i class="material-symbols-outlined">logout</i>
+            Logout
+        </button>
+    </nav>
+
+    @switch (origin) {
+        @case ('projects') {
+            <app-projects-list (onSelectedProject)="updateSelectedProject($event)"></app-projects-list>
+        }
+    }
+</div>

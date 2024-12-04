@@ -1,6 +1,40 @@
 .navbar
-    height: 62px
     display: flex
-    align-items: center
+    flex-direction: column
     justify-content: space-between
-    background: $surface-container
+    gap: 42px
+    background: #070B13
+    color: $on-success
+    border-radius: 24px
+    padding: 24px
+
+    .btn.btn-text
+        color: $on-inverse-surface
+
+        &:hover
+            background-color: rgba(255, 255, 255, 0.2)
+
+        &:active
+            background-color: rgba(255, 255, 255, 0.3)
+
+    .nav-link
+        border-radius: 6px
+        padding: 10px 14px
+        text-decoration: none
+        color: $on-inverse-surface
+        background-color: rgba(255, 255, 255, 0.2)
+        display: flex
+        align-items: center
+        justify-content: center
+        font-weight: 500
+        font-size: 15px
+        transition: all 0.2s ease-in-out
+
+        &:hover,
+        &.active
+            background-color: white
+            color: $on-surface
+
+    @media (max-width: 768px)
+        padding: 12px
+        gap: 24px

@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import {FirebaseAuthServiceService} from '../services/firebase-auth-service.service';
 import {AuthenticateComponent} from './authenticate/authenticate.component';
-import {ProjectsComponent} from './kanban/projects/projects.component';
+import {ProjectsComponent} from './projects/projects.component';
+import {TaskDetailsComponent} from './projects/task-details/task-details.component';
 
 export const routes: Routes = [
     {
@@ -21,8 +22,14 @@ export const routes: Routes = [
         canActivate: [FirebaseAuthServiceService]
     },
     {
-        path: 'project/:id',
+        path: 'projects/:id',
         component: ProjectsComponent,
+        pathMatch: 'full',
+        canActivate: [FirebaseAuthServiceService]
+    },
+    {
+        path: 'projects/:project-id/task/:task-id',
+        component: TaskDetailsComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },

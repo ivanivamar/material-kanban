@@ -1,11 +1,3 @@
-@if (globalUser.userId != "") {
-    <app-sidebar></app-sidebar>
-}
-<main>
-    @if (globalUser.userId != "") {
-        <app-navbar></app-navbar>
-    }
-    <aside>
-        <router-outlet />
-    </aside>
-</main>
+<app-navbar></app-navbar>
+<div class="py-2 my-1"></div>
+<router-outlet />

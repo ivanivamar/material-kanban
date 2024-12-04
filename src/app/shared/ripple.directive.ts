@@ -14,6 +14,11 @@ export class RippleDirective {
 
         // add class ripple-parent to the element
         this.renderer.addClass(element, 'ripple-parent');
+        // remove all ripples
+        const ripples = element.querySelectorAll('.ripple');
+        ripples.forEach((ripple: any) => {
+            this.renderer.removeChild(element, ripple);
+        });
 
         // Create the ripple element
         const ripple = this.renderer.createElement('span');
