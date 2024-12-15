@@ -4,7 +4,6 @@ import {RippleDirective} from '../ripple.directive';
 @Component({
     host: {
         '(document:click)': 'toggleMenu($event)',
-        '(document:mousedrag)': 'toggleMenu($event)',
     },
     selector: 'app-menu',
     standalone: true,

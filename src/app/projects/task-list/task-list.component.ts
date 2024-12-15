@@ -7,6 +7,7 @@ import {DatePipe} from '@angular/common';
 import {MenuComponent, MenuItem} from '../../shared/menu/menu.component';
 import {Timestamp} from 'firebase/firestore';
 import {Paginator, PaginatorComponent} from '../../shared/paginator/paginator.component';
+import {DropdownComponent, DropdownItem} from '../../shared/dropdown/dropdown.component';
 
 @Component({
     selector: 'app-task-list',
@@ -16,7 +17,8 @@ import {Paginator, PaginatorComponent} from '../../shared/paginator/paginator.co
         TaskModalComponent,
         DatePipe,
         MenuComponent,
-        PaginatorComponent
+        PaginatorComponent,
+        DropdownComponent
     ],
     templateUrl: './task-list.component.html',
     styleUrl: './task-list.component.sass'
@@ -35,6 +37,14 @@ export class TaskListComponent {
         { title: 'Delete', icon: 'delete', action: () => this.onDelete.emit(this.selectedTask) }
     ];
     orderBy: string = 'updatedAt';
+    sortingOptions: DropdownItem[] = [
+        { label: 'Name', value: 'name' },
+        { label: 'Created at', value: 'createdAt' },
+        { label: 'Updated at', value: 'updatedAt' },
+        { label: 'Due date', value: 'dueDate' },
+        { label: 'Status', value: 'status' }
+    ];
+
     paginator: Paginator = {
         minIndex: 0,
         maxIndex: 0

@@ -8,10 +8,14 @@
         </p>
     </div>
 
-    <button class="btn btn-outlined w-fit align-self-end" ripple (click)="taskModalComponent.show()">
-        <i class="material-symbols-outlined">add</i>
-        Create task
-    </button>
+    <div class="flex align-items-center justify-content-end gap-2">
+        <app-dropdown [items]="sortingOptions" label="Sort by" [value]="orderBy"
+                      (onChange)="orderBy = $event; sortTasks()"></app-dropdown>
+        <button class="btn btn-outlined w-fit" ripple (click)="taskModalComponent.show()">
+            <i class="material-symbols-outlined">add</i>
+            Create task
+        </button>
+    </div>
 </header>
 
 <div class="table-responsive">
@@ -28,7 +32,7 @@
             @for (task of tasks; track task.id; let index = $index) {
                 @if (index >= paginator.minIndex || index <= paginator.maxIndex) {
                     <tr (click)="selectedTask = task">
-                        <td>
+                        <td class="poppins-semibold">
                             <a href="javascript:void(0)" (click)="taskModalComponent.show(task)">
                                 {{ task.name }}
                             </a>

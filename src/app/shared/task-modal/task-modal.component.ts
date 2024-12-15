@@ -1,24 +1,26 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Output} from '@angular/core';
 import {ModalBaseComponent} from '../ModalBaseComponent';
-import {Task} from '../../../modules/project';
+import {Status, Task} from '../../../modules/project';
 import {globalUser} from '../../../constants/enviroment';
 import {RippleDirective} from '../ripple.directive';
 import {FormsModule} from '@angular/forms';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {Timestamp} from 'firebase/firestore';
 import {DatePipe, JsonPipe} from '@angular/common';
+import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
 
 @Component({
-  selector: 'app-task-modal',
-  standalone: true,
+    selector: 'app-task-modal',
+    standalone: true,
     imports: [
         RippleDirective,
         FormsModule,
         JsonPipe,
-        DatePipe
+        DatePipe,
+        DropdownComponent
     ],
-  templateUrl: './task-modal.component.html',
-  styleUrl: './task-modal.component.css'
+    templateUrl: './task-modal.component.html',
+    styleUrl: './task-modal.component.css'
 })
 export class TaskModalComponent extends ModalBaseComponent {
     @Output() onSave: EventEmitter<Task> = new EventEmitter();
@@ -26,6 +28,11 @@ export class TaskModalComponent extends ModalBaseComponent {
     private firebaseService = inject(FirebaseServiceService);
     private changeDetectorRef = inject(ChangeDetectorRef);
     task: Task = new Task();
+    statusOptions: DropdownItem[] = [
+        { label: 'Not started', value: Status.NOT_STARTED, icon: 'pause' },
+        { label: 'In progress', value: Status.IN_PROGRESS, icon: 'play_arrow' },
+        { label: 'Completed', value: Status.COMPLETED, icon: 'verified' },
+    ];
 
     public show(task?: Task) {
         if (task) {

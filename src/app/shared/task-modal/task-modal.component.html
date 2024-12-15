@@ -33,14 +33,25 @@
                               [(ngModel)]="task.description"></textarea>
                 </div>
 
-                <div class="form-control">
-                    <label for="dueDate">
-                        Due date
-                    </label>
+                <div class="flex align-items-start gap-3">
+                    <div class="form-control">
+                        <label for="dueDate">
+                            Due date
+                        </label>
 
-                    <input type="date" id="dueDate" name="dueDate"
-                           [(ngModel)]="task.dueDate" required/>
+                        <input type="date" id="dueDate" name="dueDate"
+                               [(ngModel)]="task.dueDate" required/>
+                    </div>
+                    <div class="form-control">
+                        <label for="dueDate">
+                            Status
+                        </label>
+
+                        <app-dropdown [items]="statusOptions" label="Sort by" [value]="task.status"
+                                      (onChange)="task.status = $event;"></app-dropdown>
+                    </div>
                 </div>
+
             </div>
 
             <footer class="modal-footer">
