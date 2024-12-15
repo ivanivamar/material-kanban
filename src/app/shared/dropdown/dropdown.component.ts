@@ -76,6 +76,9 @@ export class DropdownComponent {
     }
 
     getIconOfValue() {
+        if (this.icon.length > 0) {
+            return this.icon;
+        }
         if (this.value != null && this.value.length > 0) {
             let item = this.items.find(item => item.value == this.value);
             return item ? item.icon : '';
