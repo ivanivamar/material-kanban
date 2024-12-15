@@ -1,6 +1,6 @@
 <div class="paginator">
     <div class="flex align-items-center gap-2">
-        Rows per page: {{ rows }}
+        Rows per page: <app-dropdown [items]="rowsPerPageOptions" [label]="rows.toString()" [value]="rows" (onChange)="rows = $event"></app-dropdown>
     </div>
 
     <div class="flex align-items-center">

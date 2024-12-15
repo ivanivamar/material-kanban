@@ -1,11 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RippleDirective} from '../ripple.directive';
+import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
 
 @Component({
   selector: 'app-paginator',
   standalone: true,
     imports: [
-        RippleDirective
+        RippleDirective,
+        DropdownComponent
     ],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.css'
@@ -19,6 +21,12 @@ export class PaginatorComponent implements OnInit {
         minIndex: 0,
         maxIndex: 0
     }
+    rowsPerPageOptions: DropdownItem[] = [
+        { label: '5', value: 5 },
+        { label: '10', value: 10 },
+        { label: '20', value: 20 },
+        { label: '50', value: 50 },
+    ];
 
     ngOnInit() {
         this.paginator.minIndex = 0;
