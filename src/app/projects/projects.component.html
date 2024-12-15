@@ -1,3 +1,4 @@
-<main class="border-round-2xl surface p-3">
-
+<main class="panel p-3 px-4">
+    <app-task-list #taskListComponent [tasks]="selectedProject.tasks" (onSave)="saveProjectTask($event)"
+                   (onDelete)="deleteProjectTask($event)"></app-task-list>
 </main>

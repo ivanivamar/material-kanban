@@ -12,10 +12,16 @@
     color: white
     cursor: pointer
 
+    app-menu
+        display: none !important
+
     &:hover,
     &.active
         background-color: white
         color: black
+
+    &.active header app-menu
+        display: flex !important
 
     @media (max-width: 768px)
         width: calc(100% - 32px)

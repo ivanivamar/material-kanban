@@ -1,0 +1,60 @@
+.form-control
+    display: flex
+    flex-direction: column
+    gap: 2px
+    margin-bottom: 10px
+
+    &:last-child
+        margin-bottom: 0
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea
+    border: 1px solid $outline
+    padding: 12px 16px
+    border-radius: 6px
+    width: 100%
+    box-sizing: border-box
+    font-size: 16px
+    color: $on-surface
+    font-family: $font-family
+    font-weight: 400
+    transition: all 250ms cubic-bezier(0.1, 0.1, 0, 1)
+    resize: vertical
+
+    &:focus
+        border: 1px solid $primary
+        outline: none
+
+input[type="date"]
+    font-family: $font-family
+    font-size: 14px
+    font-weight: 400
+    letter-spacing: 0
+    line-height: 24px
+    display: flex
+    align-items: center
+    justify-content: start
+    background: transparent
+    text-align: start
+    outline: none
+    border-radius: 4px
+    position: relative
+    transition: all 250ms cubic-bezier(0.1, 0.1, 0, 1)
+    text-decoration: none
+    cursor: pointer
+    gap: 8px
+    padding: 8px 16px
+    height: 40px
+    width: fit-content
+    border: 1px solid $outline
+    color: $on-surface
+
+label
+    font-size: 16px
+    color: $on-surface
+    margin-bottom: 5px
+    display: block
+    font-weight: 500
+    text-transform: capitalize

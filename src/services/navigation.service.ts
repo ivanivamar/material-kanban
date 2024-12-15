@@ -12,11 +12,18 @@ export class NavigationService {
     private selectedProject = new BehaviorSubject<Project>(new Project());
     currentSelectedProject = this.selectedProject.asObservable();
 
+    private refresh = new BehaviorSubject<boolean>(false);
+    currentRefreshProjects = this.refresh.asObservable();
+
     updateOrigin(origin: any) {
         this.origin.next(origin);
     }
 
     updateSelectedProject(project: Project) {
         this.selectedProject.next(project);
+    }
+
+    refreshProjects(refresh: boolean) {
+        this.refresh.next(refresh);
     }
 }

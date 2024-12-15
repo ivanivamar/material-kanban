@@ -1,0 +1,57 @@
+<header class="flex flex-column md:flex-row justify-content-between mb-3 gap-2">
+    <div class="flex flex-column gap-1">
+        <h3 class="poppins-medium">
+            Task list
+        </h3>
+        <p class="on-surface-variant m-0 text-sm">
+            Manage your tasks and create new ones
+        </p>
+    </div>
+
+    <button class="btn btn-outlined w-fit align-self-end" ripple (click)="taskModalComponent.show()">
+        <i class="material-symbols-outlined">add</i>
+        Create task
+    </button>
+</header>
+
+<div class="table-responsive">
+    <table>
+        <thead>
+        <tr>
+            <th style="min-width: 250px">Task</th>
+            <th style="min-width: 150px">Due date</th>
+            <th style="min-width: 90px">Status</th>
+            <th style="min-width: 25px"></th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (task of tasks; track task.id; let index = $index) {
+                @if (index >= paginator.minIndex || index <= paginator.maxIndex) {
+                    <tr (click)="selectedTask = task">
+                        <td>
+                            <a href="javascript:void(0)" (click)="taskModalComponent.show(task)">
+                                {{ task.name }}
+                            </a>
+                        </td>
+                        <td>{{ task.dueDate | date : 'longDate' }}</td>
+                        <td>{{ task.status }}</td>
+                        <td>
+                            <app-menu class="flex justify-content-center" [items]="taskMenuItems"></app-menu>
+                        </td>
+                    </tr>
+                }
+            }
+
+            @if (tasks.length === 0) {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No tasks found
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <app-paginator [totalCount]="tasks.length" [rows]="10" (pageChange)="paginator = $event"></app-paginator>
+</div>
+
+<app-task-modal #taskModalComponent (onSave)="onSave.emit($event);"></app-task-modal>

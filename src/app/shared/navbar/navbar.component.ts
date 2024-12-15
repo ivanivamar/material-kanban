@@ -4,6 +4,10 @@ import {FirebaseAuthServiceService} from '../../../services/firebase-auth-servic
 import {RippleDirective} from '../ripple.directive';
 import {NavigationService} from '../../../services/navigation.service';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
+import {globalUser, setGlobalUser} from "../../../constants/enviroment";
+import {User} from 'firebase/auth';
+import {NgOptimizedImage} from '@angular/common';
+import {UserMenuComponent} from './user-menu/user-menu.component';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +16,9 @@ import {ProjectsListComponent} from './projects-list/projects-list.component';
         RouterLink,
         RouterLinkActive,
         RippleDirective,
-        ProjectsListComponent
+        ProjectsListComponent,
+        NgOptimizedImage,
+        UserMenuComponent
     ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -21,21 +27,18 @@ export class NavbarComponent implements OnInit {
     private firebaseAuthService = inject(FirebaseAuthServiceService);
     private navigationService = inject(NavigationService);
 
-    origin: any = null;
+    user: User | null = globalUser;
 
     ngOnInit() {
-        this.navigationService.currentOrigin.subscribe(origin => {
-            this.origin = origin;
+        this.firebaseAuthService.isLoggedIn().then(user => {
+            if (user) {
+                console.log(user);
+                this.user = user;
+            }
         });
     }
 
     updateSelectedProject(project: any) {
         this.navigationService.updateSelectedProject(project);
-    }
-
-    logout() {
-        this.firebaseAuthService.logout().then(r => {
-            window.location.reload();
-        })
     }
 }

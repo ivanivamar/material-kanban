@@ -1,13 +1,32 @@
-<div class="flex align-items-center gap-3 overflow-x-auto w-full pb-2"
-     style="min-width: 1px; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
-    @for (project of projects; track project.id) {
-        <div class="project-card" ripple [class.active]="selectedProject.id == project.id"
-             (click)="selectedProject = project; onSelectedProject.emit(project)">
-            <h3 class="poppins-medium">{{ project.name }}</h3>
+<div class="flex flex-column gap-3">
+    <header class="flex align-items-center justify-content-between">
+        <h2 class="poppins-medium text-4xl">
+            Projects
+        </h2>
 
-            <strong>
-                {{ project.tasks.length }} Task{{ project.tasks.length > 1 ? 's' : '' }}
-            </strong>
-        </div>
-    }
+        <button class="btn btn-filled" ripple (click)="projectModalComponent.show()">
+            <i class="material-symbols-outlined">add</i>
+            Create project
+        </button>
+    </header>
+
+    <div class="flex align-items-center gap-3 overflow-x-auto w-full pb-2"
+         style="min-width: 1px; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+        @for (project of projects; track project.id) {
+            <div class="project-card" ripple [class.active]="selectedProject.id == project.id"
+                 (click)="selectedProject = project; onSelectedProject.emit(project)">
+                <header class="flex align-items-start justify-content-between">
+                    <h3 class="poppins-medium">{{ project.name }}</h3>
+
+                    <app-menu [items]="projectMenuItems"></app-menu>
+                </header>
+
+                <strong>
+                    {{ project.tasks.length }} Task{{ project.tasks.length > 1 ? 's' : '' }}
+                </strong>
+            </div>
+        }
+    </div>
 </div>
+
+<app-project-modal #projectModalComponent (onSave)="getProjects()"></app-project-modal>

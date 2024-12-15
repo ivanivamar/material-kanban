@@ -1,4 +1,5 @@
 import {initializeApp} from 'firebase/app';
+import { User } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 export const firebaseConfig = {
@@ -13,6 +14,8 @@ export const firebaseConfig = {
 };
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export let globalUser = {
-    userId: ""
-};
+export let globalUser: User | null = null;
+// globalUser setter
+export function setGlobalUser(user: User) {
+    globalUser = user;
+}

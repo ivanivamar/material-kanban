@@ -1,0 +1,58 @@
+@if (showModal) {
+    <div class="modal-container">
+        <div class="overlay" (click)="close()"></div>
+        <form #taskForm="ngForm" (ngSubmit)="save()" class="modal modal-lg">
+            <header class="modal-header">
+                <div class="flex align-items-center gap-3">
+                    <div class="modal-icon">
+                        <i class="material-symbols-outlined">list_alt</i>
+                    </div>
+
+                    <strong class="text-lg">
+                        {{ edit ? 'Edit task' : 'New task' }}
+                    </strong>
+                </div>
+
+                <button class="btn-icon btn-text" type="button" ripple (click)="close()">
+                    <i class="material-symbols-outlined">close</i>
+                </button>
+            </header>
+
+            <div class="modal-body">
+                <div class="form-control">
+                    <label for="name">
+                        Title
+                    </label>
+                    <input type="text" id="name" name="name" [(ngModel)]="task.name" required/>
+                </div>
+                <div class="form-control">
+                    <label for="description">
+                        Description
+                    </label>
+                    <textarea type="text" style="min-height: 150px" id="description" name="description"
+                              [(ngModel)]="task.description"></textarea>
+                </div>
+
+                <div class="form-control">
+                    <label for="dueDate">
+                        Due date
+                    </label>
+
+                    <input type="date" id="dueDate" name="dueDate"
+                           [(ngModel)]="task.dueDate" required/>
+                </div>
+            </div>
+
+            <footer class="modal-footer">
+                <button class="btn btn-outlined" type="button" ripple (click)="close()">
+                    <i class="material-symbols-outlined">close</i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-filled" ripple [disabled]="!taskForm.form.valid">
+                    <i class="material-symbols-outlined">save</i>
+                    {{ edit ? 'Save changes' : 'Create task' }}
+                </button>
+            </footer>
+        </form>
+    </div>
+}

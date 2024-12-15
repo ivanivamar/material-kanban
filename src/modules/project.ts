@@ -1,10 +1,12 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Project {
     id: string;
     name: string;
     tasks: Task[];
     userId: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Task {
@@ -13,10 +15,10 @@ export interface Task {
     description: string;
     completed: boolean;
     status: Status;
-    dueDate: Date;
+    dueDate: string;
     subtasks: Subtask[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Subtask {
@@ -30,8 +32,8 @@ export class Project {
     name: string = '';
     userId: string = '';
     tasks: Task[] = [];
-    createdAt: Date = new Date();
-    updatedAt: Date = new Date();
+    createdAt: string = new Date().toString();
+    updatedAt: string = new Date().toString();
 }
 
 export class Task {
@@ -40,10 +42,10 @@ export class Task {
     description: string = '';
     completed: boolean = false;
     status: Status = Status.NOT_STARTED;
-    dueDate: Date = new Date();
+    dueDate: string = new Date().toString();
     subtasks: Subtask[] = [];
-    createdAt: Date = new Date();
-    updatedAt: Date = new Date();
+    createdAt: string = new Date().toString();
+    updatedAt: string = new Date().toString();
 }
 
 export class Subtask {

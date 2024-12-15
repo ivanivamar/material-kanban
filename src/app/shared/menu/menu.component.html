@@ -1,10 +1,10 @@
 <div class="menu">
-    <button class="btn-icon btn-text" ripple>
+    <button class="btn-icon btn-text" #menuBtn ripple>
         <i class="material-symbols-outlined">more_vert</i>
     </button>
 
     @if (showMenu) {
-        <div class="menu-content fadein">
+        <div class="menu-content fadein" #menuContent>
             @for (item of items; track item.title) {
                 <div class="menu-item" (click)="item.action()" ripple>
                     @if (item.icon) {

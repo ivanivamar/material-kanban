@@ -6,24 +6,20 @@
 
     .tab
         padding: 8px 24px
-        border-radius: 25px 25px 25px 25px
+        border-radius: 12px
         cursor: pointer
         display: flex
         align-items: center
         justify-content: center
         gap: 8px
-        position: relative
-        color: $on-surface
+        background-color: rgba(255, 255, 255, 0.2)
+        color: white
         font-weight: 500
         font-size: 16px
         height: 100%
-        transition: all 0.3s ease-in-out
-        overflow: hidden
+        transition: background-color 0.3s ease-in-out
 
-        &:hover
-            color: $primary-container
-
-        &.active,
-        &:hover
-            color: $on-primary-container
-            background-color: $primary-container
+        &:hover,
+        &.active
+            background-color: white
+            color: black

@@ -1,0 +1,24 @@
+<div class="paginator">
+    <div class="flex align-items-center gap-2">
+        Rows per page: {{ rows }}
+    </div>
+
+    <div class="flex align-items-center">
+        {{ paginator.minIndex }} - {{ paginator.maxIndex }} of {{ totalCount }}
+    </div>
+
+    <div class="flex align-items-center gap-3">
+        <button class="btn-icon btn-text" ripple (click)="firstPage()" [disabled]="isPreviousDisabled()">
+            <i class="material-symbols-outlined">first_page</i>
+        </button>
+        <button class="btn-icon btn-text" ripple (click)="previousPage()" [disabled]="isPreviousDisabled()">
+            <i class="material-symbols-outlined">chevron_left</i>
+        </button>
+        <button class="btn-icon btn-text" ripple (click)="nextPage()" [disabled]="isNextDisabled()">
+            <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="btn-icon btn-text" ripple (click)="lastPage()" [disabled]="isNextDisabled()">
+            <i class="material-symbols-outlined">last_page</i>
+        </button>
+    </div>
+</div>

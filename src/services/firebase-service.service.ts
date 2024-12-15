@@ -7,18 +7,17 @@ import {Project} from '../modules/project';
     providedIn: 'root'
 })
 export class FirebaseServiceService {
-    async getProjects(): Promise<any> {
+    async getProjects(uid: string): Promise<any> {
         const getProjectsByUserId = query(collection(db, 'projects'),
-            where('userId', '==', globalUser.userId),
+            where('userId', '==', uid),
             orderBy('updatedAt', 'desc'));
 
         const querySnapshot = await getDocs(getProjectsByUserId);
         const projects = querySnapshot.docs.map(doc => doc.data());
-        console.log("%cProjects", "color: green; font-size: 16px;", projects);
         return projects;
     }
 
-    async createProject(project: Project) {
+    async saveProject(project: Project) {
         await setDoc(doc(db, 'projects', project.id), project);
     }
 
