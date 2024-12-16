@@ -63,6 +63,13 @@ export class PaginatorComponent implements OnInit {
         this.pageChange.emit(this.paginator);
     }
 
+    onRowsChange() {
+        this.paginator.minIndex = 0;
+        this.paginator.maxIndex = this.rows;
+
+        this.pageChange.emit(this.paginator);
+    }
+
     isPreviousDisabled() {
         return this.paginator.minIndex === 0;
     }

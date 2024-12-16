@@ -42,11 +42,13 @@ export class MenuComponent {
                     let y = menuBtnRect.y + menuBtnRect.height;
                     let w = menuContentRect.width;
                     let h = menuContentRect.height;
+                    // check if the btn is on the top or bottom of the screen
+                    if (y + h > window.innerHeight) {
+                        y = menuBtnRect.y - h;
+                    }
 
                     if (this.position === 'left') {
                         x = menuBtnRect.x;
-                    } else if (this.position === 'center') {
-                        x = menuBtnRect.x - w / 2 + menuBtnRect.width / 2;
                     } else if (this.position === 'right') {
                         x = menuBtnRect.x - w + menuBtnRect.width;
                     } else {

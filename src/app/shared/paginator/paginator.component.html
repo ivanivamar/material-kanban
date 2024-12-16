@@ -1,10 +1,12 @@
 <div class="paginator">
     <div class="flex align-items-center gap-2">
-        Rows per page: <app-dropdown [items]="rowsPerPageOptions" [label]="rows.toString()" [value]="rows" (onChange)="rows = $event"></app-dropdown>
+        Rows per page:
+        <app-dropdown [items]="rowsPerPageOptions" [label]="rows.toString()" [value]="rows"
+                      (onChange)="rows = $event; onRowsChange()"></app-dropdown>
     </div>
 
     <div class="flex align-items-center">
-        {{ paginator.minIndex }} - {{ paginator.maxIndex }} of {{ totalCount }}
+        {{ paginator.minIndex + 1 }} - {{ paginator.maxIndex }} of {{ totalCount }}
     </div>
 
     <div class="flex align-items-center gap-3">

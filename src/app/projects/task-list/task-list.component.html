@@ -30,7 +30,7 @@
         </thead>
         <tbody>
             @for (task of tasks; track task.id; let index = $index) {
-                @if (index >= paginator.minIndex || index <= paginator.maxIndex) {
+                @if (index >= paginator.minIndex && index <= paginator.maxIndex) {
                     <tr (click)="selectedTask = task">
                         <td class="poppins-semibold">
                             <a href="javascript:void(0)" (click)="taskModalComponent.show(task)">
