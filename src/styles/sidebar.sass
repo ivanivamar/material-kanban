@@ -1,0 +1,40 @@
+aside
+    position: fixed
+    top: 65px
+    left: 0
+    bottom: 0
+    width: 250px
+    height: calc(100vh - 65px)
+    padding: 0 12px
+    margin-right: 16px
+
+    .sidebar-title
+        padding: 16px
+        font-size: 20px
+        font-weight: 400
+        color: $on-surface
+        line-height: 28px
+
+    .aside-link
+        border: 0
+        border-radius: 25px 25px 25px 25px
+        padding: 12px 16px
+        color: $on-surface
+        font-size: 16px
+        font-weight: 500
+        letter-spacing: 0.5px
+        display: flex
+        align-items: center
+        gap: 8px
+        cursor: pointer
+        transition: background-color 0.3s
+        text-decoration: none
+
+        &:hover,
+        &.active
+            background-color: $surface
+
+main
+    margin-left: 280px
+    margin-top: 24px
+    margin-right: 24px

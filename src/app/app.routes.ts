@@ -16,20 +16,20 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'projects',
+        path: 'projects/:id/summary',
         component: ProjectsComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },
     {
-        path: 'projects/:id',
+        path: 'projects/:id/board',
         component: ProjectsComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },
     {
-        path: 'projects/:project-id/task/:task-id',
-        component: TaskDetailsComponent,
+        path: 'projects/:id/list',
+        component: ProjectsComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },

@@ -4,12 +4,21 @@ import {NavigationService} from '../../services/navigation.service';
 import {Project, Task} from '../../modules/project';
 import {TaskListComponent} from './task-list/task-list.component';
 import {Timestamp} from 'firebase/firestore';
+import {ProjectSidebarComponent} from './project-sidebar/project-sidebar.component';
+import {NgSwitch, NgSwitchCase} from '@angular/common';
+import {ProjectSummaryComponent} from './project-summary/project-summary.component';
+import {ProjectBoardComponent} from './project-board/project-board.component';
 
 @Component({
     selector: 'app-projects',
     standalone: true,
     imports: [
-        TaskListComponent
+        TaskListComponent,
+        ProjectSidebarComponent,
+        NgSwitch,
+        ProjectSummaryComponent,
+        NgSwitchCase,
+        ProjectBoardComponent
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.sass',
@@ -20,6 +29,7 @@ export class ProjectsComponent implements OnInit {
     private firebaseService = inject(FirebaseServiceService);
     private navigationService = inject(NavigationService);
     selectedProject: Project = new Project();
+    currentUrlSection = 'summary';
 
     ngOnInit() {
         this.navigationService.updateOrigin('projects');
@@ -27,6 +37,10 @@ export class ProjectsComponent implements OnInit {
         this.navigationService.currentSelectedProject.subscribe(project => {
             this.selectedProject = project;
         });
+
+        if (location.pathname.split('/')[3]) {
+            this.currentUrlSection = location.pathname.split('/')[3];
+        }
     }
 
     saveProjectTask(task: Task) {

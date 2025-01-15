@@ -1,0 +1,21 @@
+<aside>
+    <h2 class="sidebar-title">
+        Planification
+    </h2>
+    <div class="divider"></div>
+
+    <div class="flex flex-column gap-3">
+        <a class="aside-link" ripple [routerLink]="['/projects/' + this.project.id + '/summary']" [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">dashboard</i>
+            Summary
+        </a>
+        <a class="aside-link" ripple [routerLink]="['/projects/' + this.project.id + '/board']" [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">calendar_view_week</i>
+            Board
+        </a>
+        <a class="aside-link" ripple [routerLink]="['/projects/' + this.project.id + '/list']" [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">list</i>
+            List
+        </a>
+    </div>
+</aside>

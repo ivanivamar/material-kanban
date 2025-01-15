@@ -5,7 +5,7 @@
                 {{ selectedProject.name }} ({{ selectedProject.code }})
             }
 
-            <i class="material-symbols-outlined">
+            <i class="material-symbols-rounded">
                 {{ showMenu ? 'arrow_drop_up' : 'arrow_drop_down' }}
             </i>
         </div>
@@ -14,14 +14,14 @@
             <div class="dropdown-content left-0 absolute">
                 @for (project of projects; track project.id) {
                     <div class="dropdown-item" ripple [class.active]="selectedProject.id == project.id"
-                         (click)="selectedProject = project">
+                         (click)="updateSelectedProject(project)">
                         {{ project.name }} ({{ project.code }})
                     </div>
                 }
                 <div class="divider"></div>
 
                 <div class="dropdown-item" ripple (click)="openProjectModal.emit()">
-                    <i class="material-symbols-outlined text-lg">add</i>
+                    <i class="material-symbols-rounded text-lg">add</i>
                     Create project
                 </div>
             </div>
