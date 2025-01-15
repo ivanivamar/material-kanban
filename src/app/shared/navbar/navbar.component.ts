@@ -4,10 +4,10 @@ import {FirebaseAuthServiceService} from '../../../services/firebase-auth-servic
 import {RippleDirective} from '../ripple.directive';
 import {NavigationService} from '../../../services/navigation.service';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
-import {globalUser, setGlobalUser} from "../../../constants/enviroment";
 import {User} from 'firebase/auth';
 import {NgOptimizedImage} from '@angular/common';
 import {UserMenuComponent} from './user-menu/user-menu.component';
+import {ProjectModalComponent} from '../project-modal/project-modal.component';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +18,8 @@ import {UserMenuComponent} from './user-menu/user-menu.component';
         RippleDirective,
         ProjectsListComponent,
         NgOptimizedImage,
-        UserMenuComponent
+        UserMenuComponent,
+        ProjectModalComponent
     ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -27,12 +28,18 @@ export class NavbarComponent implements OnInit {
     private firebaseAuthService = inject(FirebaseAuthServiceService);
     private navigationService = inject(NavigationService);
 
-    user: User | null = globalUser;
+    user: User | null = null;
 
     ngOnInit() {
         this.firebaseAuthService.isLoggedIn().then(user => {
             if (user) {
-                console.log(user);
+                // check if user is already in local storage
+                const localUser = localStorage.getItem('user');
+
+                if (!localUser) {
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+
                 this.user = user;
             }
         });

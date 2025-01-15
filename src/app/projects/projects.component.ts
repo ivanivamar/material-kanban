@@ -26,15 +26,13 @@ export class ProjectsComponent implements OnInit {
 
         this.navigationService.currentSelectedProject.subscribe(project => {
             this.selectedProject = project;
-            setTimeout(() => {
-                this.taskListComponent.refreshTasks();
-            }, 0);
         });
     }
 
     saveProjectTask(task: Task) {
         let input: Task = {
             id: task.id,
+            projectId: this.selectedProject.id,
             name: task.name,
             description: task.description,
             updatedAt: task.updatedAt,

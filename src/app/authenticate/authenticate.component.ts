@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FirebaseAuthServiceService} from '../../services/firebase-auth-service.service';
 import {Router} from '@angular/router';
 import {RippleDirective} from '../shared/ripple.directive';
-import {globalUser} from '../../constants/enviroment';
 
 @Component({
   selector: 'app-authenticate',
@@ -21,14 +20,18 @@ export class AuthenticateComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        if (globalUser?.uid) {
+        const localUser = localStorage.getItem('user');
+
+        if (localUser !== null) {
             this.router.navigate(['/projects']);
         }
     }
 
     login() {
         this.firebaseAuthService.googleLogin().then(r => {
-            this.router.navigate(['/projects']);
+            this.router.navigate(['/projects']).then(r => {
+                console.log(r);
+            });
         });
     }
 }

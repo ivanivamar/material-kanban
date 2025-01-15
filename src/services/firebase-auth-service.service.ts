@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {initializeApp} from 'firebase/app';
 import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth';
-import {app, globalUser, setGlobalUser} from '../constants/enviroment';
+import {app} from '../constants/enviroment';
 import {Router} from '@angular/router';
 
 @Injectable({
@@ -25,9 +25,6 @@ export class FirebaseAuthServiceService {
         return new Promise((resolve, reject) => {
             this.auth.onAuthStateChanged((user) => {
                 resolve(user);
-                if (user) {
-                    setGlobalUser(user);
-                }
             });
         });
     }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, where } from 'firebase/firestore';
-import {db, globalUser} from '../constants/enviroment';
+import {db} from '../constants/enviroment';
 import {Project} from '../modules/project';
 
 @Injectable({

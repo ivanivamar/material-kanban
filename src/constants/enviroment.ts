@@ -14,8 +14,3 @@ export const firebaseConfig = {
 };
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export let globalUser: User | null = null;
-// globalUser setter
-export function setGlobalUser(user: User) {
-    globalUser = user;
-}

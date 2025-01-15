@@ -4,10 +4,6 @@
         <form #projectForm="ngForm" (ngSubmit)="save()" class="modal modal-md">
             <header class="modal-header">
                 <div class="flex align-items-center gap-3">
-                    <div class="modal-icon">
-                        <i class="material-symbols-outlined">edit</i>
-                    </div>
-
                     <strong class="text-lg">
                         {{ edit ? 'Edit project' : 'New project' }}
                     </strong>
@@ -23,7 +19,15 @@
                     <label for="name">
                         Project name
                     </label>
-                    <input type="text" id="name" name="name" [(ngModel)]="project.name" required>
+                    <input type="text" id="name" name="name" [(ngModel)]="project.name" (ngModelChange)="generateProjectCode()" required>
+                    <div class="input-bar"></div>
+                </div>
+                <div class="form-control">
+                    <label for="code">
+                        Project code
+                    </label>
+                    <input type="text" id="code" name="code" [(ngModel)]="project.code" (ngModelChange)="project.code = project.code.toUpperCase()" required>
+                    <div class="input-bar"></div>
                 </div>
             </div>
 

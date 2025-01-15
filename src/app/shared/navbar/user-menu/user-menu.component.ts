@@ -1,5 +1,4 @@
 import {Component, ElementRef, inject, Input} from '@angular/core';
-import {globalUser} from "../../../../constants/enviroment";
 import {NgOptimizedImage} from "@angular/common";
 import {RippleDirective} from "../../ripple.directive";
 import {User} from 'firebase/auth';
@@ -20,7 +19,7 @@ import {MenuItem} from '../../menu/menu.component';
     styleUrl: './user-menu.component.css'
 })
 export class UserMenuComponent {
-    @Input() user: User | null = globalUser;
+    @Input() user: User | null = null;
     private firebaseAuthService = inject(FirebaseAuthServiceService);
 
     showMenu = false;

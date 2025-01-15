@@ -1,7 +1,6 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface Project {
     id: string;
+    code: string;
     name: string;
     tasks: Task[];
     userId: string;
@@ -11,20 +10,15 @@ export interface Project {
 
 export interface Task {
     id: string;
+    projectId: string;
     name: string;
     description: string;
     completed: boolean;
     status: Status;
     dueDate: string;
-    subtasks: Subtask[];
+    subtasks: Task[];
     createdAt: string;
     updatedAt: string;
-}
-
-export interface Subtask {
-    id: string;
-    description: string;
-    completed: boolean;
 }
 
 export class Project {
@@ -43,15 +37,9 @@ export class Task {
     completed: boolean = false;
     status: Status = Status.NOT_STARTED;
     dueDate: string = new Date().toString();
-    subtasks: Subtask[] = [];
+    subtasks: Task[] = [];
     createdAt: string = new Date().toString();
     updatedAt: string = new Date().toString();
-}
-
-export class Subtask {
-    id: string = '';
-    description: string = '';
-    completed: boolean = false;
 }
 
 export enum Status {

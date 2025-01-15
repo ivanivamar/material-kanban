@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, inject, Output} from '@angular/core';
 import {ModalBaseComponent} from '../ModalBaseComponent';
 import {Status, Task} from '../../../modules/project';
-import {globalUser} from '../../../constants/enviroment';
 import {RippleDirective} from '../ripple.directive';
 import {FormsModule} from '@angular/forms';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
-import {Timestamp} from 'firebase/firestore';
 import {DatePipe, JsonPipe} from '@angular/common';
 import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
 
@@ -15,8 +13,6 @@ import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
     imports: [
         RippleDirective,
         FormsModule,
-        JsonPipe,
-        DatePipe,
         DropdownComponent
     ],
     templateUrl: './task-modal.component.html',

@@ -1,32 +1,30 @@
-<div class="flex flex-column gap-3">
-    <header class="flex align-items-center justify-content-between">
-        <h2 class="poppins-medium text-4xl">
-            Projects
-        </h2>
+@if (projects.length > 0) {
+    <div class="dropdown">
+        <div class="dropbtn projects" ripple>
+            @if (selectedProject) {
+                {{ selectedProject.name }} ({{ selectedProject.code }})
+            }
 
-        <button class="btn btn-filled" ripple (click)="projectModalComponent.show()">
-            <i class="material-symbols-outlined">add</i>
-            Create project
-        </button>
-    </header>
+            <i class="material-symbols-outlined">
+                {{ showMenu ? 'arrow_drop_up' : 'arrow_drop_down' }}
+            </i>
+        </div>
 
-    <div class="flex align-items-center gap-3 overflow-x-auto w-full pb-2"
-         style="min-width: 1px; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
-        @for (project of projects; track project.id) {
-            <div class="project-card" ripple [class.active]="selectedProject.id == project.id"
-                 (click)="selectedProject = project; onSelectedProject.emit(project)">
-                <header class="flex align-items-start justify-content-between">
-                    <h3 class="poppins-medium">{{ project.name }}</h3>
+        @if (showMenu) {
+            <div class="dropdown-content left-0 absolute">
+                @for (project of projects; track project.id) {
+                    <div class="dropdown-item" ripple [class.active]="selectedProject.id == project.id"
+                         (click)="selectedProject = project">
+                        {{ project.name }} ({{ project.code }})
+                    </div>
+                }
+                <div class="divider"></div>
 
-                    <app-menu [items]="projectMenuItems"></app-menu>
-                </header>
-
-                <strong>
-                    {{ project.tasks.length }} Task{{ project.tasks.length > 1 ? 's' : '' }}
-                </strong>
+                <div class="dropdown-item" ripple (click)="openProjectModal.emit()">
+                    <i class="material-symbols-outlined text-lg">add</i>
+                    Create project
+                </div>
             </div>
         }
     </div>
-</div>
-
-<app-project-modal #projectModalComponent (onSave)="getProjects()"></app-project-modal>
+}

@@ -2,7 +2,6 @@ import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {ModalBaseComponent} from '../ModalBaseComponent';
 import {Project} from '../../../modules/project';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
-import {globalUser} from '../../../constants/enviroment';
 import {RippleDirective} from '../ripple.directive';
 import {FormsModule} from '@angular/forms';
 import {Timestamp} from 'firebase/firestore';
@@ -35,14 +34,19 @@ export class ProjectModalComponent extends ModalBaseComponent {
         this.showModal = true;
     }
 
+    generateProjectCode() {
+        this.project.code = this.project.name.toUpperCase().substring(0, 3);
+    }
+
     save() {
         let input: Project = {
             id: this.project.id,
+            code: this.project.name.toUpperCase().substring(0, 3),
             name: this.project.name,
             tasks: this.project.tasks,
             createdAt: this.project.createdAt,
             updatedAt: this.project.createdAt,
-            userId: globalUser!.uid
+            userId: this.project.userId
         }
         if (this.edit) {
             input.updatedAt = new Date().toString();
