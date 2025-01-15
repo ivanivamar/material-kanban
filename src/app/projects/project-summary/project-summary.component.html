@@ -1,0 +1,34 @@
+<h2>
+    Summary
+</h2>
+
+<div class="grid mt-3">
+    <div class="col-12 md:col-3">
+        <div class="card card-outlined select-none">
+            <span class="text-lg">
+                {{ getFinishedTasks() }} finished
+            </span>
+        </div>
+    </div>
+    <div class="col-12 md:col-3">
+        <div class="card card-outlined select-none">
+            <span class="text-lg">
+                {{ getUnfinishedTasks() }} unfinished
+            </span>
+        </div>
+    </div>
+    <div class="col-12 md:col-3">
+        <div class="card card-outlined select-none">
+            <span class="text-lg">
+                {{ project.tasks.length }} created
+            </span>
+        </div>
+    </div>
+    <div class="col-12 md:col-3">
+        <div class="card card-outlined select-none">
+            <span class="text-lg">
+                {{ getTasksWithDueDatePassed() }} overdue
+            </span>
+        </div>
+    </div>
+</div>

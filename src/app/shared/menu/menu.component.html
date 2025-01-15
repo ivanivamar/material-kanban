@@ -1,6 +1,6 @@
 <div class="menu">
     <button class="btn-icon btn-text" type="button" #menuBtn ripple>
-        <i class="material-symbols-outlined">more_vert</i>
+        <i class="material-symbols-rounded">more_vert</i>
     </button>
 
     @if (showMenu) {
@@ -8,7 +8,7 @@
             @for (item of items; track item.title) {
                 <div class="menu-item" (click)="item.action()" ripple>
                     @if (item.icon) {
-                        <i class="material-symbols-outlined text-xl">{{ item.icon }}</i>
+                        <i class="material-symbols-rounded text-xl">{{ item.icon }}</i>
                     }
                     {{ item.title }}
                 </div>

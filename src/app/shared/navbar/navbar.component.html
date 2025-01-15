@@ -1,14 +1,23 @@
 @if (user) {
     <nav class="py-2 px-3">
-        <div class="flex align-items-center gap-5">
+        <div class="flex align-items-center gap-4">
             <a class="logo-container gap-2" [routerLink]="['/']" [routerLinkActive]="'active'">
                 <img ngSrc="assets/images/logo.png" alt="Logo" height="177" width="193"/>
                 <h1 class="logo-text">Material Design</h1>
             </a>
 
             <app-projects-list [user]="user" (openProjectModal)="projectModalComponent.show()"></app-projects-list>
+
+            <button class="btn btn-filled" (click)="taskModalComponent.show()" ripple>
+                Create
+            </button>
+        </div>
+
+        <div class="flex align-items-center gap-5">
+            <app-user-menu [user]="user"></app-user-menu>
         </div>
     </nav>
 
     <app-project-modal #projectModalComponent></app-project-modal>
+    <app-task-modal #taskModalComponent></app-task-modal>
 }

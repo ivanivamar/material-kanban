@@ -1,1 +1,12 @@
+<app-project-sidebar [project]="selectedProject"></app-project-sidebar>
 
+<main>
+    @switch (currentUrlSection) {
+        @case ('summary') {
+            <app-project-summary [project]="selectedProject"></app-project-summary>
+        }
+        @case ('board') {
+            <app-project-board [project]="selectedProject"></app-project-board>
+        }
+    }
+</main>

@@ -1,17 +1,17 @@
 <div class="menu">
     <button class="btn-icon btn-text p-4" ripple>
         @if (user && user.photoURL) {
-            <img class="avatar border-circle" [src]="user.photoURL" width="42" height="42" [alt]="user.displayName">
+            <img class="avatar border-circle" [src]="user.photoURL" width="36" height="36" [alt]="user.displayName">
         } @else {
-            <i class="material-symbols-outlined">account_circle</i>
+            <i class="material-symbols-rounded">account_circle</i>
         }
     </button>
     @if (showMenu) {
-        <div class="menu-content fadein right-0">
+        <div class="menu-content fadein right-0" style="top: 58px;">
             @for (item of items; track item.title) {
                 <div class="menu-item" [class.border-top]="item.divider" (click)="item.action()" ripple>
                     @if (item.icon) {
-                        <i class="material-symbols-outlined text-xl">{{ item.icon }}</i>
+                        <i class="material-symbols-rounded text-xl">{{ item.icon }}</i>
                     }
                     {{ item.title }}
                 </div>

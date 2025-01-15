@@ -5,7 +5,7 @@
             <header class="modal-header">
                 <div class="flex align-items-center gap-3">
                     <div class="modal-icon">
-                        <i class="material-symbols-outlined">list_alt</i>
+                        <i class="material-symbols-rounded">list_alt</i>
                     </div>
 
                     <strong class="text-lg">
@@ -14,7 +14,7 @@
                 </div>
 
                 <button class="btn-icon btn-text" type="button" ripple (click)="close()">
-                    <i class="material-symbols-outlined">close</i>
+                    <i class="material-symbols-rounded">close</i>
                 </button>
             </header>
 
@@ -24,6 +24,7 @@
                         Title
                     </label>
                     <input type="text" id="name" name="name" [(ngModel)]="task.name" required/>
+                    <div class="input-bar"></div>
                 </div>
                 <div class="form-control">
                     <label for="description">
@@ -41,6 +42,7 @@
 
                         <input type="date" id="dueDate" name="dueDate"
                                [(ngModel)]="task.dueDate" required/>
+                        <div class="input-bar"></div>
                     </div>
                     <div class="form-control">
                         <label for="dueDate">
@@ -56,11 +58,11 @@
 
             <footer class="modal-footer">
                 <button class="btn btn-outlined" type="button" ripple (click)="close()">
-                    <i class="material-symbols-outlined">close</i>
+                    <i class="material-symbols-rounded">close</i>
                     Cancel
                 </button>
                 <button type="submit" class="btn btn-filled" ripple [disabled]="!taskForm.form.valid">
-                    <i class="material-symbols-outlined">save</i>
+                    <i class="material-symbols-rounded">save</i>
                     {{ edit ? 'Save changes' : 'Create task' }}
                 </button>
             </footer>

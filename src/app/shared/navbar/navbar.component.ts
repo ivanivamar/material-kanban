@@ -8,6 +8,7 @@ import {User} from 'firebase/auth';
 import {NgOptimizedImage} from '@angular/common';
 import {UserMenuComponent} from './user-menu/user-menu.component';
 import {ProjectModalComponent} from '../project-modal/project-modal.component';
+import {TaskModalComponent} from '../task-modal/task-modal.component';
 
 @Component({
   selector: 'app-navbar',
@@ -19,14 +20,14 @@ import {ProjectModalComponent} from '../project-modal/project-modal.component';
         ProjectsListComponent,
         NgOptimizedImage,
         UserMenuComponent,
-        ProjectModalComponent
+        ProjectModalComponent,
+        TaskModalComponent
     ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
     private firebaseAuthService = inject(FirebaseAuthServiceService);
-    private navigationService = inject(NavigationService);
 
     user: User | null = null;
 
@@ -43,9 +44,5 @@ export class NavbarComponent implements OnInit {
                 this.user = user;
             }
         });
-    }
-
-    updateSelectedProject(project: any) {
-        this.navigationService.updateSelectedProject(project);
     }
 }

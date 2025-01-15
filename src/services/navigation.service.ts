@@ -20,6 +20,9 @@ export class NavigationService {
     }
 
     updateSelectedProject(project: Project) {
+        if (project.id === '') {
+            return;
+        }
         this.selectedProject.next(project);
     }
 

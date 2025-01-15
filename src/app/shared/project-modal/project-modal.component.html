@@ -10,7 +10,7 @@
                 </div>
 
                 <button class="btn-icon btn-text" type="button" ripple (click)="close()">
-                    <i class="material-symbols-outlined">close</i>
+                    <i class="material-symbols-rounded">close</i>
                 </button>
             </header>
 
@@ -33,11 +33,11 @@
 
             <footer class="modal-footer">
                 <button class="btn btn-outlined" type="button" ripple (click)="close()">
-                    <i class="material-symbols-outlined">close</i>
+                    <i class="material-symbols-rounded">close</i>
                     Cancel
                 </button>
                 <button type="submit" class="btn btn-filled" ripple [disabled]="!projectForm.form.valid">
-                    <i class="material-symbols-outlined">save</i>
+                    <i class="material-symbols-rounded">save</i>
                     {{ edit ? 'Save changes' : 'Create project' }}
                 </button>
             </footer>
