@@ -9,7 +9,7 @@
             <header class="mb-3 flex align-items-center">
                 <i class="material-symbols-rounded mr-2 text-secondary bg-warning-light border-circle p-1">pause</i>
                 <h3 class="text-base">
-                    Not Started {{ notStartedTasks.length }}
+                    Not Started
                 </h3>
             </header>
             @for (task of notStartedTasks; track task.id) {
@@ -23,7 +23,7 @@
             <header class="mb-3 flex align-items-center">
                 <i class="material-symbols-rounded mr-2 bg-primary-light border-circle p-1">play_arrow</i>
                 <h3 class="text-base">
-                    In Progress {{ inProgressTasks.length }}
+                    In Progress
                 </h3>
             </header>
             @for (task of inProgressTasks; track task.id) {
@@ -37,7 +37,7 @@
             <header class="mb-3 flex align-items-center">
                 <i class="material-symbols-rounded mr-2 text-secondary bg-success-light border-circle p-1">check_circle</i>
                 <h3 class="text-base">
-                    Completed {{ completedTasks.length }}
+                    Completed
                 </h3>
             </header>
             @for (task of completedTasks; track task.id) {
