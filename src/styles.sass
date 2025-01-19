@@ -9,10 +9,10 @@ $font-family: "Readex Pro", sans-serif
 @import "styles/tabs"
 @import "styles/modal"
 @import "styles/menu"
-@import "styles/cards"
-@import "styles/table"
 @import "styles/input"
 @import "styles/paginator"
+@import "styles/cards"
+@import "styles/table"
 
 *
     box-sizing: border-box
@@ -56,12 +56,20 @@ body
 .text-danger
     color: $error !important
 
-.surface-dim
-    background-color: $surface-dim
-.surface
-    background-color: $surface
-.surface-bright
-    background-color: $surface-bright
+.bg-warning
+    background-color: $warning !important
+.bg-success
+    background-color: $success !important
+.bg-danger
+    background-color: $error !important
+
+.bg-warning-light
+    background-color: $warning-container !important
+.bg-success-light
+    background-color: $success-container !important
+.bg-danger-light
+    background-color: $error-container !important
+
 .surface-container-lowest
     background-color: $surface-container-lowest
 .surface-container-low
@@ -98,6 +106,14 @@ body
     border-top: 1px solid $outline
     width: 100%
     margin: 8px 0
+
+.p-panel-content
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+.p-card-body
+    padding: 12px !important
 
 ::-webkit-scrollbar
     width: 8px

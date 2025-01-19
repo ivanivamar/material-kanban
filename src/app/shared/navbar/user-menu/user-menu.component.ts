@@ -1,5 +1,4 @@
 import {Component, ElementRef, inject, Input} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
 import {RippleDirective} from "../../ripple.directive";
 import {User} from 'firebase/auth';
 import {FirebaseAuthServiceService} from '../../../../services/firebase-auth-service.service';
@@ -10,9 +9,7 @@ import {MenuItem} from '../../menu/menu.component';
         '(document:click)': 'toggleMenu($event)',
     },
     selector: 'app-user-menu',
-    standalone: true,
     imports: [
-        NgOptimizedImage,
         RippleDirective
     ],
     templateUrl: './user-menu.component.html',

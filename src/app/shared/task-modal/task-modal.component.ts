@@ -9,7 +9,6 @@ import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
 
 @Component({
     selector: 'app-task-modal',
-    standalone: true,
     imports: [
         RippleDirective,
         FormsModule,

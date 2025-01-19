@@ -7,14 +7,13 @@ import {FormsModule} from '@angular/forms';
 import {Timestamp} from 'firebase/firestore';
 
 @Component({
-  selector: 'app-project-modal',
-  standalone: true,
+    selector: 'app-project-modal',
     imports: [
         RippleDirective,
         FormsModule
     ],
-  templateUrl: './project-modal.component.html',
-  styleUrl: './project-modal.component.css'
+    templateUrl: './project-modal.component.html',
+    styleUrl: './project-modal.component.css'
 })
 export class ProjectModalComponent extends ModalBaseComponent {
     @Output() onSave: EventEmitter<void> = new EventEmitter();

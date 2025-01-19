@@ -1,3 +1,32 @@
-<h2>
-    Board
-</h2>
+<header class="main-header">
+    <h2>
+        Board
+    </h2>
+</header>
+
+<div class="grid mt-1" cdkDropListGroup>
+    <div class="col-12 md:col-4">
+        <p-panel header="Not Started" class="task-list" [id]="Status.NOT_STARTED" cdkDropList [cdkDropListData]="notStartedTasks"
+                 (cdkDropListDropped)="drop($event)">
+            @for (task of notStartedTasks; track task.id) {
+                <app-task-card [task]="task" cdkDrag></app-task-card>
+            }
+        </p-panel>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-panel header="In Progress" [id]="Status.IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks"
+             (cdkDropListDropped)="drop($event)">
+            @for (task of inProgressTasks; track task.id) {
+                <app-task-card [task]="task" cdkDrag></app-task-card>
+            }
+        </p-panel>
+    </div>
+    <div class="col-12 md:col-4">
+        <p-panel header="Completed" class="task-list" [id]="Status.COMPLETED" cdkDropList [cdkDropListData]="completedTasks"
+             (cdkDropListDropped)="drop($event)">
+            @for (task of completedTasks; track task.id) {
+                <app-task-card [task]="task" cdkDrag></app-task-card>
+            }
+        </p-panel>
+    </div>
+</div>

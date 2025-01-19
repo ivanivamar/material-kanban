@@ -17,8 +17,8 @@ aside
 
     .aside-link
         border: 0
-        border-radius: 25px 25px 25px 25px
-        padding: 12px 16px
+        border-radius: 4px
+        padding: 8px 12px
         color: $on-surface
         font-size: 16px
         font-weight: 500
@@ -29,12 +29,25 @@ aside
         cursor: pointer
         transition: background-color 0.3s
         text-decoration: none
+        position: relative
+
+        &::before
+            content: ''
+            position: absolute
+            top: 50%
+            left: 4px
+            transform: translateY(-50%) scale(0)
+            width: 4px
+            height: 78%
+            border-radius: 25px 25px 25px 25px
+            background-color: transparent
+            transition: all 0.3s ease-in-out
+            transform-origin: center
 
         &:hover,
         &.active
-            background-color: $surface
+            background-color: $surface-container-highest
 
-main
-    margin-left: 280px
-    margin-top: 24px
-    margin-right: 24px
+            &::before
+                background-color: $primary
+                transform: translateY(-50%) scale(1)

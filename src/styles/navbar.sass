@@ -26,33 +26,51 @@ nav
             font-size: 18px
             font-weight: 500
 
-    .btn.btn-text
-        color: $on-inverse-surface
-
-        &:hover
-            background-color: rgba(255, 255, 255, 0.2)
-
-        &:active
-            background-color: rgba(255, 255, 255, 0.3)
-
     .nav-link
         border-radius: 6px
         padding: 10px 14px
         text-decoration: none
-        color: $on-inverse-surface
-        background-color: rgba(255, 255, 255, 0.2)
+        color: $on-surface
+        background-color: transparent
         display: flex
         align-items: center
         justify-content: center
+        gap: 8px
         font-weight: 500
         font-size: 15px
         transition: all 0.2s ease-in-out
+        position: relative
 
-        &:hover,
+        &::before
+            content: ''
+            position: absolute
+            bottom: 0
+            left: 50%
+            transform: translateX(-50%) scale(0)
+            width: 50%
+            height: 3px
+            border-radius: 25px 25px 25px 25px
+            background-color: transparent
+            transition: all 0.3s ease-in-out
+            transform-origin: center
+
+        &:hover
+            background-color: $surface-container-highest
+            color: $primary
+
         &.active
-            background-color: white
-            color: $on-surface
+            color: $primary
+
+            &::before
+                background-color: $primary
+                transform: translateX(-50%) scale(1)
 
     @media (max-width: 768px)
         padding: 12px
         gap: 24px
+
+main
+    padding: 0 24px 24px
+
+    .main-header
+        padding: 16px 0

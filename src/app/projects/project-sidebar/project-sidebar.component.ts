@@ -5,7 +5,6 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
     selector: 'app-project-sidebar',
-    standalone: true,
     imports: [
         RippleDirective,
         RouterLink,

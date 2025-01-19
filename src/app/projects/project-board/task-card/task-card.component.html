@@ -1,0 +1,10 @@
+<p-card class="task-card outlined">
+    <header class="flex flex-column gap-2">
+        <p-tag class="w-fit" [value]="task.status" [severity]="getSeverity(task.status)"></p-tag>
+        <span class="text-sm poppins-regular">
+            {{ task.name }}
+        </span>
+    </header>
+
+    <div class="drag-placeholder" *cdkDragPlaceholder></div>
+</p-card>

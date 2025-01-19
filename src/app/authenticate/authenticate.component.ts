@@ -4,13 +4,12 @@ import {Router} from '@angular/router';
 import {RippleDirective} from '../shared/ripple.directive';
 
 @Component({
-  selector: 'app-authenticate',
-  standalone: true,
+    selector: 'app-authenticate',
     imports: [
         RippleDirective
     ],
-  templateUrl: './authenticate.component.html',
-  styleUrl: './authenticate.component.css'
+    templateUrl: './authenticate.component.html',
+    styleUrl: './authenticate.component.css'
 })
 export class AuthenticateComponent implements OnInit {
 

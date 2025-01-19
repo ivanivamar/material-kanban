@@ -6,7 +6,6 @@ import {RippleDirective} from '../ripple.directive';
         '(document:click)': 'toggleMenu($event)',
     },
     selector: 'app-menu',
-    standalone: true,
     imports: [
         RippleDirective
     ],
