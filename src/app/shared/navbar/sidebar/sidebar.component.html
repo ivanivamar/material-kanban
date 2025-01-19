@@ -1,0 +1,19 @@
+<p-drawer [(visible)]="showDrawer" header="Menu" (onHide)="showDrawer = false; onHideDrawer.emit()">
+    <div class="flex flex-column gap-2 sidebar">
+        <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/summary']"
+           [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">dashboard</i>
+            Summary
+        </a>
+        <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/board']"
+           [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">calendar_view_week</i>
+            Board
+        </a>
+        <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/list']"
+           [routerLinkActive]="'active'">
+            <i class="material-symbols-rounded">list</i>
+            List
+        </a>
+    </div>
+</p-drawer>

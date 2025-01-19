@@ -13,7 +13,6 @@ export interface Task {
     projectId: string;
     name: string;
     description: string;
-    completed: boolean;
     status: Status;
     dueDate: string;
     subtasks: Task[];
@@ -30,13 +29,12 @@ export class Project {
     updatedAt: string = new Date().toString();
 }
 
-export class Task {
+export class Task implements Task {
     id: string = '';
     name: string = '';
     description: string = '';
-    completed: boolean = false;
     status: Status = Status.NOT_STARTED;
-    dueDate: string = new Date().toString();
+    dueDate: string = '';
     subtasks: Task[] = [];
     createdAt: string = new Date().toString();
     updatedAt: string = new Date().toString();

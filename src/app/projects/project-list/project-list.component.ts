@@ -5,13 +5,15 @@ import {SortEvent} from 'primeng/api';
 import {Tag} from 'primeng/tag';
 import {DatePipe} from '@angular/common';
 import {NavigationService} from '../../../services/navigation.service';
+import {NavbarTaskModalComponent} from '../../shared/navbar/navbar-task-modal/navbar-task-modal.component';
 
 @Component({
     selector: 'app-project-list',
     imports: [
         TableModule,
         Tag,
-        DatePipe
+        DatePipe,
+        NavbarTaskModalComponent
     ],
     templateUrl: './project-list.component.html',
     styleUrl: './project-list.component.css'
@@ -30,7 +32,12 @@ export class ProjectListComponent implements OnInit {
         this.navigationService.currentSelectedProject.subscribe(project => {
             this.project = project;
             this.initialValue = [...this.project.tasks];
+            console.log(this.initialValue);
         });
+    }
+
+    refreshProjects() {
+        this.navigationService.refreshProjects(true);
     }
 
     customSort(event: SortEvent) {

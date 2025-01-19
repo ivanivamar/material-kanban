@@ -26,6 +26,12 @@ nav
             font-size: 18px
             font-weight: 500
 
+    @media (max-width: 768px)
+        padding: 12px
+        gap: 24px
+
+nav,
+.sidebar
     .nav-link
         border-radius: 6px
         padding: 10px 14px
@@ -44,11 +50,6 @@ nav
         &::before
             content: ''
             position: absolute
-            bottom: 0
-            left: 50%
-            transform: translateX(-50%) scale(0)
-            width: 50%
-            height: 3px
             border-radius: 25px 25px 25px 25px
             background-color: transparent
             transition: all 0.3s ease-in-out
@@ -63,11 +64,37 @@ nav
 
             &::before
                 background-color: $primary
+
+nav
+    .nav-link
+        &::before
+            bottom: 0
+            left: 50%
+            transform: translateX(-50%) scale(0)
+            width: 50%
+            height: 3px
+
+        &.active
+            &::before
                 transform: translateX(-50%) scale(1)
 
-    @media (max-width: 768px)
-        padding: 12px
-        gap: 24px
+.sidebar
+    .nav-link
+        justify-content: start
+
+        &::before
+            top: 50%
+            left: 4px
+            width: 3px
+            height: 50%
+            transform: translateY(-50%) scale(0)
+            border-radius: 25px 25px 25px 25px
+
+        &.active
+            background-color: $surface-container-highest
+
+            &::before
+                transform: translateY(-50%) scale(1)
 
 main
     padding: 0 24px 24px

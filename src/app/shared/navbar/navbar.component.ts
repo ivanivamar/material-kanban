@@ -12,6 +12,9 @@ import {Select, SelectChangeEvent} from 'primeng/select';
 import {Project} from '../../../modules/project';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {FormsModule} from '@angular/forms';
+import {Drawer} from 'primeng/drawer';
+import {SidebarComponent} from './sidebar/sidebar.component';
+import {NavbarTaskModalComponent} from './navbar-task-modal/navbar-task-modal.component';
 
 @Component({
     selector: 'app-navbar',
@@ -24,7 +27,10 @@ import {FormsModule} from '@angular/forms';
         ProjectModalComponent,
         TaskModalComponent,
         Select,
-        FormsModule
+        FormsModule,
+        Drawer,
+        SidebarComponent,
+        NavbarTaskModalComponent
     ],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.css'
@@ -39,6 +45,8 @@ export class NavbarComponent implements OnInit {
 
     projects: Project[] = [];
     selectedProject: Project | null = null;
+
+    showDrawer = false;
 
     constructor(
         private router: Router,
@@ -57,27 +65,35 @@ export class NavbarComponent implements OnInit {
 
                 this.user = user;
 
-                this.getProjects().then(() => {
-                    if (location.pathname.split('/')[2]) {
-                        this.selectedProject = this.projects.find(p => p.id === location.pathname.split('/')[2]) || new Project();
-                        this.navigationService.updateSelectedProject(this.selectedProject);
-                    } else {
-                        if (this.projects.length > 0) {
-                            this.selectedProject = this.projects[0];
-                            this.router.navigate([`/projects/${this.selectedProject.id}/summary`]);
-                        } else {
-                            this.selectedProject = new Project();
-                        }
-                    }
-                    this.loading = false;
-                });
+                this.manageProjects()
             }
+        });
+
+        this.navigationService.currentRefreshProjects.subscribe(() => {
+            this.manageProjects();
         });
     }
 
     async getProjects() {
         this.loading = true;
         this.projects = await this.firebaseService.getProjects(this.user!.uid);
+    }
+
+    manageProjects() {
+        this.getProjects().then(() => {
+            if (location.pathname.split('/')[2]) {
+                this.selectedProject = this.projects.find(p => p.id === location.pathname.split('/')[2]) || new Project();
+                this.navigationService.updateSelectedProject(this.selectedProject);
+            } else {
+                if (this.projects.length > 0) {
+                    this.selectedProject = this.projects[0];
+                    this.router.navigate([`/projects/${this.selectedProject.id}/summary`]);
+                } else {
+                    this.selectedProject = new Project();
+                }
+            }
+            this.loading = false;
+        });
     }
 
     updateSelectedProject(event: SelectChangeEvent) {

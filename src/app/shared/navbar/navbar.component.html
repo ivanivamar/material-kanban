@@ -1,37 +1,51 @@
 @if (user && !loading) {
     <nav class="py-2 px-3">
-        <div class="flex align-items-center gap-4">
-            <a class="logo-container gap-2" [routerLink]="['/']" [routerLinkActive]="'active'">
-                <img ngSrc="assets/images/logo.png" alt="Logo" height="177" width="193"/>
-                <h1 class="logo-text">Material Design</h1>
-            </a>
+        <div class="flex flex-column md:flex-row align-items-start md:align-items-center gap-2 md:gap-4">
+            <div class="flex align-items-center gap-2 md:gap-4">
+                <button class="flex md:hidden btn-icon btn-text" ripple (click)="showDrawer = !showDrawer">
+                    <i class="material-symbols-rounded">menu</i>
+                </button>
 
-            <p-select [options]="projects" [(ngModel)]="selectedProject" optionLabel="name" class="w-13rem" (onChange)="updateSelectedProject($event)">
-                <ng-template #footer>
-                    <div class="p-2 border-top">
-                        <button class="btn btn-text w-full" ripple>
-                            <i class="material-symbols-rounded">add</i>
-                            Create project
-                        </button>
-                    </div>
-                </ng-template>
-            </p-select>
+                <a class="logo-container gap-2" [routerLink]="['/']" [routerLinkActive]="'active'">
+                    <img ngSrc="assets/images/logo.png" alt="Logo" height="177" width="193"/>
+                    <h1 class="logo-text">Material Design</h1>
+                </a>
+            </div>
 
-            <button class="btn btn-filled" (click)="taskModalComponent.show()" ripple>
-                Create
-            </button>
+            <div class="flex align-items-center gap-2 md:gap-4">
+                <p-select [options]="projects" [(ngModel)]="selectedProject" optionLabel="name" class="w-13rem"
+                          (onChange)="updateSelectedProject($event)">
+                    <ng-template #footer>
+                        <div class="p-2 border-top">
+                            <button class="btn btn-text w-full" ripple>
+                                <i class="material-symbols-rounded">add</i>
+                                Create project
+                            </button>
+                        </div>
+                    </ng-template>
+                </p-select>
+
+                @if (selectedProject != null) {
+                    <button class="btn btn-filled" (click)="taskModalComponent.show(selectedProject)" ripple>
+                        Create
+                    </button>
+                }
+            </div>
 
             @if (selectedProject != null) {
-                <div class="flex align-items-center gap-2">
-                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/summary']" [routerLinkActive]="'active'">
+                <div class="hidden md:flex align-items-center gap-2">
+                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/summary']"
+                       [routerLinkActive]="'active'">
                         <i class="material-symbols-rounded">dashboard</i>
                         Summary
                     </a>
-                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/board']" [routerLinkActive]="'active'">
+                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/board']"
+                       [routerLinkActive]="'active'">
                         <i class="material-symbols-rounded">calendar_view_week</i>
                         Board
                     </a>
-                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/list']" [routerLinkActive]="'active'">
+                    <a class="nav-link" ripple [routerLink]="['/projects/' + this.selectedProject!.id + '/list']"
+                       [routerLinkActive]="'active'">
                         <i class="material-symbols-rounded">list</i>
                         List
                     </a>
@@ -44,6 +58,8 @@
         </div>
     </nav>
 
+    <app-sidebar [showDrawer]="showDrawer" [selectedProject]="selectedProject"
+                 (onHideDrawer)="showDrawer = false"></app-sidebar>
     <app-project-modal #projectModalComponent></app-project-modal>
-    <app-task-modal #taskModalComponent></app-task-modal>
+    <app-navbar-task-modal #taskModalComponent (onTaskCreated)="getProjects()"></app-navbar-task-modal>
 }
