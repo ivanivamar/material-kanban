@@ -1,31 +1,33 @@
-<h2>
-    Summary
-</h2>
+<header class="main-header">
+    <h2>
+        Summary
+    </h2>
+</header>
 
-<div class="grid mt-3">
+<div class="grid mt-2">
     <div class="col-12 md:col-3">
-        <p-card>
+        <p-card class="outlined">
             <ng-template #content>
                 <strong>{{ getFinishedTasks() }} finished</strong>
             </ng-template>
         </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <p-card>
+        <p-card class="outlined">
             <ng-template #content>
                 <strong>{{ getUnfinishedTasks() }} unfinished</strong>
             </ng-template>
         </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <p-card>
+        <p-card class="outlined">
             <ng-template #content>
                 <strong>{{ project.tasks.length }} created</strong>
             </ng-template>
         </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <p-card>
+        <p-card class="outlined">
             <ng-template #content>
                 <strong>{{ getTasksWithDueDatePassed() }} overdue</strong>
             </ng-template>

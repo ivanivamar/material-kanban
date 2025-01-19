@@ -3,13 +3,15 @@ import {Project, Status, Task} from '../../../modules/project';
 import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {TaskCardComponent} from './task-card/task-card.component';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
+import {Panel} from 'primeng/panel';
 
 @Component({
     selector: 'app-project-board',
     standalone: true,
     imports: [
         DragDropModule,
-        TaskCardComponent
+        TaskCardComponent,
+        Panel
     ],
     templateUrl: './project-board.component.html',
     styleUrl: './project-board.component.css'

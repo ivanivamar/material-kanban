@@ -11,6 +11,8 @@ $font-family: "Readex Pro", sans-serif
 @import "styles/menu"
 @import "styles/input"
 @import "styles/paginator"
+@import "styles/cards"
+@import "styles/table"
 
 *
     box-sizing: border-box
@@ -104,6 +106,14 @@ body
     border-top: 1px solid $outline
     width: 100%
     margin: 8px 0
+
+.p-panel-content
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+.p-card-body
+    padding: 12px !important
 
 ::-webkit-scrollbar
     width: 8px

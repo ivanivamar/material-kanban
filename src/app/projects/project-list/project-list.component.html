@@ -1,0 +1,44 @@
+<header class="main-header mb-2">
+    <h2>
+        Board
+    </h2>
+</header>
+
+<p-table
+    #table
+    selectionMode="single"
+    [(selection)]="selectedTask"
+    dataKey="id"
+    (onRowSelect)="onRowSelect($event)"
+    [value]="project.tasks"
+    [paginator]="true"
+    showGridlines
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (sortFunction)="customSort($event)" [customSort]="true">
+    <ng-template #header>
+        <tr>
+            <th pSortableColumn="name">
+                Name <p-sortIcon field="name" />
+            </th>
+            <th pSortableColumn="status">
+                Status <p-sortIcon field="status" />
+            </th>
+            <th pSortableColumn="dueDate">
+                Due date <p-sortIcon field="dueDate" />
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-task>
+        <tr [pSelectableRow]="task">
+            <td>{{ task.name }}</td>
+            <td>
+                <p-tag class="w-fit" [value]="task.status" [severity]="getSeverity(task.status)"></p-tag>
+            </td>
+            <td>
+                {{ task.dueDate | date: 'longDate' }}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

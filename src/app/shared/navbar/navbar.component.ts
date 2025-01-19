@@ -1,5 +1,5 @@
 import {Component, computed, inject, OnInit, signal, Signal} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {FirebaseAuthServiceService} from '../../../services/firebase-auth-service.service';
 import {RippleDirective} from '../ripple.directive';
 import {NavigationService} from '../../../services/navigation.service';
@@ -38,7 +38,12 @@ export class NavbarComponent implements OnInit {
     user: User | null = null;
 
     projects: Project[] = [];
-    selectedProject: Project = new Project();
+    selectedProject: Project | null = null;
+
+    constructor(
+        private router: Router,
+    ) {
+    }
 
     ngOnInit() {
         this.firebaseAuthService.isLoggedIn().then(user => {
@@ -59,8 +64,7 @@ export class NavbarComponent implements OnInit {
                     } else {
                         if (this.projects.length > 0) {
                             this.selectedProject = this.projects[0];
-                            // go to url
-                            window.location.href = `/projects/${this.selectedProject.id}/summary`;
+                            this.router.navigate([`/projects/${this.selectedProject.id}/summary`]);
                         } else {
                             this.selectedProject = new Project();
                         }
@@ -78,7 +82,6 @@ export class NavbarComponent implements OnInit {
 
     updateSelectedProject(event: SelectChangeEvent) {
         this.selectedProject = event.value;
-        // go to url
-        window.location.href = `/projects/${this.selectedProject.id}/summary`;
+        this.router.navigate([`/projects/${this.selectedProject!.id}/summary`]);
     }
 }

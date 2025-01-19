@@ -1,48 +1,32 @@
-<h2>
-    Board
-</h2>
+<header class="main-header">
+    <h2>
+        Board
+    </h2>
+</header>
 
-<div class="grid mt-5" cdkDropListGroup>
+<div class="grid mt-1" cdkDropListGroup>
     <div class="col-12 md:col-4">
-        <div class="card card-outlined task-list" [id]="Status.NOT_STARTED" cdkDropList [cdkDropListData]="notStartedTasks"
-             (cdkDropListDropped)="drop($event)">
-            <header class="mb-3 flex align-items-center">
-                <i class="material-symbols-rounded mr-2 text-secondary bg-warning-light border-circle p-1">pause</i>
-                <h3 class="text-base">
-                    Not Started
-                </h3>
-            </header>
+        <p-panel header="Not Started" class="task-list" [id]="Status.NOT_STARTED" cdkDropList [cdkDropListData]="notStartedTasks"
+                 (cdkDropListDropped)="drop($event)">
             @for (task of notStartedTasks; track task.id) {
                 <app-task-card [task]="task" cdkDrag></app-task-card>
             }
-        </div>
+        </p-panel>
     </div>
     <div class="col-12 md:col-4">
-        <div class="card card-outlined task-list" [id]="Status.IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks"
+        <p-panel header="In Progress" [id]="Status.IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks"
              (cdkDropListDropped)="drop($event)">
-            <header class="mb-3 flex align-items-center">
-                <i class="material-symbols-rounded mr-2 bg-primary-light border-circle p-1">play_arrow</i>
-                <h3 class="text-base">
-                    In Progress
-                </h3>
-            </header>
             @for (task of inProgressTasks; track task.id) {
                 <app-task-card [task]="task" cdkDrag></app-task-card>
             }
-        </div>
+        </p-panel>
     </div>
     <div class="col-12 md:col-4">
-        <div class="card card-outlined task-list" [id]="Status.COMPLETED" cdkDropList [cdkDropListData]="completedTasks"
+        <p-panel header="Completed" class="task-list" [id]="Status.COMPLETED" cdkDropList [cdkDropListData]="completedTasks"
              (cdkDropListDropped)="drop($event)">
-            <header class="mb-3 flex align-items-center">
-                <i class="material-symbols-rounded mr-2 text-secondary bg-success-light border-circle p-1">check_circle</i>
-                <h3 class="text-base">
-                    Completed
-                </h3>
-            </header>
             @for (task of completedTasks; track task.id) {
                 <app-task-card [task]="task" cdkDrag></app-task-card>
             }
-        </div>
+        </p-panel>
     </div>
 </div>

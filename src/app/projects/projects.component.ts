@@ -1,31 +1,35 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, ViewChild} from '@angular/core';
 import {FirebaseServiceService} from '../../services/firebase-service.service';
 import {NavigationService} from '../../services/navigation.service';
 import {Project, Task} from '../../modules/project';
 import {TaskListComponent} from './task-list/task-list.component';
-import {ProjectSidebarComponent} from './project-sidebar/project-sidebar.component';
 import {ProjectSummaryComponent} from './project-summary/project-summary.component';
 import {ProjectBoardComponent} from './project-board/project-board.component';
+import {ProjectListComponent} from './project-list/project-list.component';
+import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
     selector: 'app-projects',
     imports: [
-        ProjectSidebarComponent,
         ProjectSummaryComponent,
-        ProjectBoardComponent
+        ProjectBoardComponent,
+        ProjectListComponent,
+        ProgressSpinner
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.sass',
     providers: [FirebaseServiceService]
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements AfterViewInit {
     @ViewChild(TaskListComponent) taskListComponent!: TaskListComponent;
     private firebaseService = inject(FirebaseServiceService);
     private navigationService = inject(NavigationService);
-    selectedProject: Project = new Project();
+
+    loading = true;
+    selectedProject: Project | null = null;
     currentUrlSection = 'summary';
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.navigationService.updateOrigin('projects');
 
         this.navigationService.currentSelectedProject.subscribe(project => {
@@ -35,9 +39,10 @@ export class ProjectsComponent implements OnInit {
         if (location.pathname.split('/')[3]) {
             this.currentUrlSection = location.pathname.split('/')[3];
         }
+        this.loading = false;
     }
 
-    saveProjectTask(task: Task) {
+    /*saveProjectTask(task: Task) {
         let input: Task = {
             id: task.id,
             projectId: this.selectedProject.id,
@@ -75,5 +80,5 @@ export class ProjectsComponent implements OnInit {
         this.firebaseService.saveProject(this.selectedProject).then(() => {
             this.navigationService.refreshProjects(true);
         });
-    }
+    }*/
 }

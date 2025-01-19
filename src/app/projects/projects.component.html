@@ -1,12 +1,19 @@
-<app-project-sidebar [project]="selectedProject"></app-project-sidebar>
-
-<main>
-    @switch (currentUrlSection) {
-        @case ('summary') {
-            <app-project-summary [project]="selectedProject"></app-project-summary>
-        }
-        @case ('board') {
-            <app-project-board [project]="selectedProject"></app-project-board>
-        }
+@defer {
+    @if (selectedProject != null) {
+        <main>
+            @switch (currentUrlSection) {
+                @case ('summary') {
+                    <app-project-summary [project]="selectedProject"></app-project-summary>
+                }
+                @case ('board') {
+                    <app-project-board [project]="selectedProject"></app-project-board>
+                }
+                @case ('list') {
+                    <app-project-list [project]="selectedProject"></app-project-list>
+                }
+            }
+        </main>
     }
-</main>
+} @loading {
+    <p-progress-spinner ariaLabel="loading"/>
+}
