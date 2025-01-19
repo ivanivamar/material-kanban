@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {Project, Status} from '../../../modules/project';
 import {Card} from 'primeng/card';
+import {NavigationService} from '../../../services/navigation.service';
 
 @Component({
     selector: 'app-project-summary',
@@ -10,9 +11,16 @@ import {Card} from 'primeng/card';
     templateUrl: './project-summary.component.html',
     styleUrl: './project-summary.component.css'
 })
-export class ProjectSummaryComponent {
-    @Input() project: Project = new Project();
+export class ProjectSummaryComponent implements OnInit {
+    private navigationService = inject(NavigationService);
 
+    project: Project = new Project();
+
+    ngOnInit() {
+        this.navigationService.currentSelectedProject.subscribe(project => {
+            this.project = project;
+        });
+    }
 
     getFinishedTasks(): number {
         return this.project.tasks.filter(task => task.status == Status.COMPLETED).length;

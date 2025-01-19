@@ -82,6 +82,9 @@ export class NavbarComponent implements OnInit {
 
     updateSelectedProject(event: SelectChangeEvent) {
         this.selectedProject = event.value;
-        this.router.navigate([`/projects/${this.selectedProject!.id}/summary`]);
+        // get current project tab
+        const currentTab = location.pathname.split('/')[3];
+        this.router.navigate([`/projects/${this.selectedProject!.id}/${currentTab}`]);
+        this.navigationService.updateSelectedProject(this.selectedProject!);
     }
 }

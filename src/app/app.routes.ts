@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import {FirebaseAuthServiceService} from '../services/firebase-auth-service.service';
 import {AuthenticateComponent} from './authenticate/authenticate.component';
-import {ProjectsComponent} from './projects/projects.component';
-import {TaskDetailsComponent} from './projects/task-details/task-details.component';
+import {ProjectSummaryComponent} from './projects/project-summary/project-summary.component';
+import {ProjectBoardComponent} from './projects/project-board/project-board.component';
+import {ProjectListComponent} from './projects/project-list/project-list.component';
 
 export const routes: Routes = [
     {
@@ -12,24 +13,24 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'projects',
+        redirectTo: 'projects/:id/summary',
         pathMatch: 'full'
     },
     {
         path: 'projects/:id/summary',
-        component: ProjectsComponent,
+        component: ProjectSummaryComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },
     {
         path: 'projects/:id/board',
-        component: ProjectsComponent,
+        component: ProjectBoardComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },
     {
         path: 'projects/:id/list',
-        component: ProjectsComponent,
+        component: ProjectListComponent,
         pathMatch: 'full',
         canActivate: [FirebaseAuthServiceService]
     },

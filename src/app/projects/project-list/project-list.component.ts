@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, Input, OnInit, ViewChild} from '@angular/core';
 import {Project, Task} from '../../../modules/project';
 import {Table, TableModule} from 'primeng/table';
 import {SortEvent} from 'primeng/api';
 import {Tag} from 'primeng/tag';
 import {DatePipe} from '@angular/common';
+import {NavigationService} from '../../../services/navigation.service';
 
 @Component({
     selector: 'app-project-list',
@@ -17,14 +18,19 @@ import {DatePipe} from '@angular/common';
 })
 export class ProjectListComponent implements OnInit {
     @ViewChild('table') table!: Table;
-    @Input() project: Project = new Project();
+    private navigationService = inject(NavigationService);
+
+    project: Project = new Project();
 
     isSorted: boolean | null = null;
     initialValue: Task[] = [];
     selectedTask: Task | null = null;
 
     ngOnInit() {
-        this.initialValue = [...this.project.tasks];
+        this.navigationService.currentSelectedProject.subscribe(project => {
+            this.project = project;
+            this.initialValue = [...this.project.tasks];
+        });
     }
 
     customSort(event: SortEvent) {
@@ -39,9 +45,6 @@ export class ProjectListComponent implements OnInit {
             this.project.tasks = [...this.initialValue];
             this.table.reset();
         }
-        console.log(this.isSorted);
-        console.log(this.project.tasks);
-        console.log(this.initialValue);
     }
 
     sortTableData(event: any) {

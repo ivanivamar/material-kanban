@@ -9,7 +9,7 @@
             <p-select [options]="projects" [(ngModel)]="selectedProject" optionLabel="name" class="w-13rem" (onChange)="updateSelectedProject($event)">
                 <ng-template #footer>
                     <div class="p-2 border-top">
-                        <button class="btn btn-text w-full">
+                        <button class="btn btn-text w-full" ripple>
                             <i class="material-symbols-rounded">add</i>
                             Create project
                         </button>

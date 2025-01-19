@@ -4,6 +4,7 @@ import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem} from '@
 import {TaskCardComponent} from './task-card/task-card.component';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {Panel} from 'primeng/panel';
+import {NavigationService} from '../../../services/navigation.service';
 
 @Component({
     selector: 'app-project-board',
@@ -17,10 +18,10 @@ import {Panel} from 'primeng/panel';
     styleUrl: './project-board.component.css'
 })
 export class ProjectBoardComponent implements OnInit {
-    @Input() project: Project = new Project();
-
     private firebaseService: FirebaseServiceService = inject(FirebaseServiceService);
+    private navigationService = inject(NavigationService);
 
+    project: Project = new Project();
     notStartedTasks: Task[] = [];
     inProgressTasks: Task[] = [];
     completedTasks: Task[] = [];
@@ -28,9 +29,12 @@ export class ProjectBoardComponent implements OnInit {
     protected readonly Status = Status;
 
     ngOnInit() {
-        this.notStartedTasks = this.project.tasks.filter(task => task.status === Status.NOT_STARTED);
-        this.inProgressTasks = this.project.tasks.filter(task => task.status === Status.IN_PROGRESS);
-        this.completedTasks = this.project.tasks.filter(task => task.status === Status.COMPLETED);
+        this.navigationService.currentSelectedProject.subscribe(project => {
+            this.project = project;
+            this.notStartedTasks = this.project.tasks.filter(task => task.status === Status.NOT_STARTED);
+            this.inProgressTasks = this.project.tasks.filter(task => task.status === Status.IN_PROGRESS);
+            this.completedTasks = this.project.tasks.filter(task => task.status === Status.COMPLETED);
+        });
     }
 
     drop(event: CdkDragDrop<Task[]>) {
