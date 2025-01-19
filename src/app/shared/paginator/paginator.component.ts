@@ -3,14 +3,13 @@ import {RippleDirective} from '../ripple.directive';
 import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
 
 @Component({
-  selector: 'app-paginator',
-  standalone: true,
+    selector: 'app-paginator',
     imports: [
         RippleDirective,
         DropdownComponent
     ],
-  templateUrl: './paginator.component.html',
-  styleUrl: './paginator.component.css'
+    templateUrl: './paginator.component.html',
+    styleUrl: './paginator.component.css'
 })
 export class PaginatorComponent implements OnInit {
     @Input() totalCount = 0;

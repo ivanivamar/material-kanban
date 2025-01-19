@@ -3,7 +3,6 @@ import {Project} from '../../../modules/project';
 
 @Component({
     selector: 'app-project-board',
-    standalone: true,
     imports: [],
     templateUrl: './project-board.component.html',
     styleUrl: './project-board.component.css'

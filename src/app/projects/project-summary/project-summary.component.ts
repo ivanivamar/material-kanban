@@ -1,12 +1,14 @@
 import {Component, Input} from '@angular/core';
 import {Project, Status} from '../../../modules/project';
+import {Card} from 'primeng/card';
 
 @Component({
-  selector: 'app-project-summary',
-  standalone: true,
-  imports: [],
-  templateUrl: './project-summary.component.html',
-  styleUrl: './project-summary.component.css'
+    selector: 'app-project-summary',
+    imports: [
+        Card
+    ],
+    templateUrl: './project-summary.component.html',
+    styleUrl: './project-summary.component.css'
 })
 export class ProjectSummaryComponent {
     @Input() project: Project = new Project();

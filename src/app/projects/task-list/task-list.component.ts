@@ -11,7 +11,6 @@ import {DropdownComponent, DropdownItem} from '../../shared/dropdown/dropdown.co
 
 @Component({
     selector: 'app-task-list',
-    standalone: true,
     imports: [
         RippleDirective,
         TaskModalComponent,

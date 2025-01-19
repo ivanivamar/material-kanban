@@ -4,31 +4,31 @@
 
 <div class="grid mt-3">
     <div class="col-12 md:col-3">
-        <div class="card card-outlined select-none">
-            <span class="text-lg">
-                {{ getFinishedTasks() }} finished
-            </span>
-        </div>
+        <p-card>
+            <ng-template #content>
+                <strong>{{ getFinishedTasks() }} finished</strong>
+            </ng-template>
+        </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <div class="card card-outlined select-none">
-            <span class="text-lg">
-                {{ getUnfinishedTasks() }} unfinished
-            </span>
-        </div>
+        <p-card>
+            <ng-template #content>
+                <strong>{{ getUnfinishedTasks() }} unfinished</strong>
+            </ng-template>
+        </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <div class="card card-outlined select-none">
-            <span class="text-lg">
-                {{ project.tasks.length }} created
-            </span>
-        </div>
+        <p-card>
+            <ng-template #content>
+                <strong>{{ project.tasks.length }} created</strong>
+            </ng-template>
+        </p-card>
     </div>
     <div class="col-12 md:col-3">
-        <div class="card card-outlined select-none">
-            <span class="text-lg">
-                {{ getTasksWithDueDatePassed() }} overdue
-            </span>
-        </div>
+        <p-card>
+            <ng-template #content>
+                <strong>{{ getTasksWithDueDatePassed() }} overdue</strong>
+            </ng-template>
+        </p-card>
     </div>
 </div>

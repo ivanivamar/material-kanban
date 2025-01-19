@@ -3,21 +3,15 @@ import {FirebaseServiceService} from '../../services/firebase-service.service';
 import {NavigationService} from '../../services/navigation.service';
 import {Project, Task} from '../../modules/project';
 import {TaskListComponent} from './task-list/task-list.component';
-import {Timestamp} from 'firebase/firestore';
 import {ProjectSidebarComponent} from './project-sidebar/project-sidebar.component';
-import {NgSwitch, NgSwitchCase} from '@angular/common';
 import {ProjectSummaryComponent} from './project-summary/project-summary.component';
 import {ProjectBoardComponent} from './project-board/project-board.component';
 
 @Component({
     selector: 'app-projects',
-    standalone: true,
     imports: [
-        TaskListComponent,
         ProjectSidebarComponent,
-        NgSwitch,
         ProjectSummaryComponent,
-        NgSwitchCase,
         ProjectBoardComponent
     ],
     templateUrl: './projects.component.html',

@@ -1,4 +1,4 @@
-@if (user) {
+@if (user && !loading) {
     <nav class="py-2 px-3">
         <div class="flex align-items-center gap-4">
             <a class="logo-container gap-2" [routerLink]="['/']" [routerLinkActive]="'active'">
@@ -6,7 +6,7 @@
                 <h1 class="logo-text">Material Design</h1>
             </a>
 
-            <app-projects-list [user]="user" (openProjectModal)="projectModalComponent.show()"></app-projects-list>
+            <p-select [options]="projects" [(ngModel)]="selectedProject" optionLabel="name" (onChange)="updateSelectedProject($event)"></p-select>
 
             <button class="btn btn-filled" (click)="taskModalComponent.show()" ripple>
                 Create
