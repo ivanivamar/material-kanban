@@ -1,71 +1,91 @@
-@if (showModal) {
-    <div class="modal-container">
-        <div class="overlay" (click)="close()"></div>
-        <form #taskForm="ngForm" (ngSubmit)="save()" class="modal modal-lg">
-            <header class="modal-header">
-                <div class="flex align-items-center gap-3">
-                    <div class="modal-icon">
-                        <i class="material-symbols-rounded">list_alt</i>
-                    </div>
-
-                    <strong class="text-lg">
-                        {{ edit ? 'Edit task' : 'New task' }}
-                    </strong>
-                </div>
-
-                <button class="btn-icon btn-text" type="button" ripple (click)="close()">
-                    <i class="material-symbols-rounded">close</i>
-                </button>
-            </header>
-
-            <div class="modal-body">
-                <div class="form-control">
-                    <label for="name">
-                        Title
-                    </label>
-                    <input type="text" id="name" name="name" [(ngModel)]="task.name" required/>
-                    <div class="input-bar"></div>
-                </div>
-                <div class="form-control">
-                    <label for="description">
-                        Description
-                    </label>
-                    <textarea type="text" style="min-height: 150px" id="description" name="description"
-                              [(ngModel)]="task.description"></textarea>
-                </div>
-
-                <div class="flex align-items-start gap-3">
-                    <div class="form-control">
-                        <label for="dueDate">
-                            Due date
-                        </label>
-
-                        <input type="date" id="dueDate" name="dueDate"
-                               [(ngModel)]="task.dueDate" required/>
-                        <div class="input-bar"></div>
-                    </div>
-                    <div class="form-control">
-                        <label for="dueDate">
-                            Status
-                        </label>
-
-                        <app-dropdown [items]="statusOptions" label="Sort by" [value]="task.status"
-                                      (onChange)="task.status = $event;"></app-dropdown>
-                    </div>
-                </div>
-
+<p-dialog
+    header="Task"
+    [modal]="true"
+    [dismissableMask]="true"
+    [(visible)]="showModal"
+    [position]="'top'"
+    [breakpoints]="{ '1940px': '65vw', '1240px': '90vw', '768px': '100vw' }"
+    [style]="{ width: '90%' }"
+    [draggable]="false">
+    <ng-template #header>
+        <div class="w-full flex align-items-center justify-content-end gap-3 mr-2">
+            <button class="btn-icon btn-text" (click)="deleteTask.emit(task)">
+                <i class="material-symbols-rounded text-danger">delete</i>
+            </button>
+        </div>
+    </ng-template>
+    <div class="grid">
+        <div class="col-12 md:col-8">
+            <div style="position: relative; left: -12px;">
+                <p-inplace [closable]="true">
+                    <ng-template #display>
+                        <span class="poppins-semibold text-xl">
+                            {{ task.name }}
+                        </span>
+                    </ng-template>
+                    <ng-template #content>
+                        <input pInputText id="summary" name="summary" class="w-full" [(ngModel)]="task.name"
+                               autocomplete="off"
+                               required/>
+                    </ng-template>
+                    <ng-template #closeicon>
+                        <i class="material-symbols-rounded">check</i>
+                    </ng-template>
+                </p-inplace>
             </div>
 
-            <footer class="modal-footer">
-                <button class="btn btn-outlined" type="button" ripple (click)="close()">
-                    <i class="material-symbols-rounded">close</i>
-                    Cancel
-                </button>
-                <button type="submit" class="btn btn-filled" ripple [disabled]="!taskForm.form.valid">
-                    <i class="material-symbols-rounded">save</i>
-                    {{ edit ? 'Save changes' : 'Create task' }}
-                </button>
-            </footer>
-        </form>
+            <div class="mt-3 flex flex-column gap-1">
+                <label for="description" class="poppins-semibold">Description</label>
+                <p-inplace [closable]="true">
+                    <ng-template #display>
+                        @if (task.description.trim().length === 0) {
+                            <span>
+                                Edit description
+                            </span>
+                        } @else {
+                            <span [innerHTML]="task.description"></span>
+                        }
+                    </ng-template>
+                    <ng-template #content>
+                        <p-editor id="description" [id]="'description'" [name]="'description'" [(ngModel)]="task.description"
+                                  [style]="{ height: '150px' }"/>
+                        <div class="w-full flex align-items-center gap-2 mt-2">
+                        </div>
+                    </ng-template>
+                    <ng-template #closeicon>
+                        <i class="material-symbols-rounded">save</i>
+                        Save
+                    </ng-template>
+                </p-inplace>
+            </div>
+        </div>
+        <div class="col-12 md:col-4">
+            <p-select id="status" [name]="'status'" appendTo="body" [options]="statusArray" [(ngModel)]="task.status"
+                      class="w-full mb-3" [required]="true"></p-select>
+
+            <p-accordion value="0">
+                <p-accordion-panel value="0">
+                    <p-accordion-header>Details</p-accordion-header>
+                    <p-accordion-content>
+                        <div class="flex align-items-center gap-3">
+                            <label for="dueDate" class="poppins-semibold">
+                                Due date
+                            </label>
+                            <p-datePicker appendTo="body" [showButtonBar]="true" id="dueDate" [name]="'dueDate'"
+                                          [showIcon]="true" size="small" [firstDayOfWeek]="1"
+                                          [(ngModel)]="dueDate"></p-datePicker>
+                        </div>
+                    </p-accordion-content>
+                </p-accordion-panel>
+            </p-accordion>
+        </div>
     </div>
-}
+    <ng-template #footer>
+        <div class="flex justify-content-end">
+            <button class="btn btn-filled" ripple type="submit" (click)="save()">
+                <i class="material-symbols-rounded">save</i>
+                Create
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,5 +1,5 @@
-<p-dialog header="Task" [modal]="false" [(visible)]="showModal" [position]="'bottomright'" [style]="{ width: '30rem' }">
-
+<p-dialog header="Task" [modal]="false" [(visible)]="showModal" [position]="'bottomright'" [style]="{ width: '30rem' }"
+          [draggable]="false">
     <ng-template #header>
         <h3 class="poppins-medium">Create task</h3>
     </ng-template>
@@ -23,17 +23,18 @@
                     <label for="dueDate" class="poppins-semibold">Due date</label>
                     <p-datePicker appendTo="body" [showButtonBar]="true" id="dueDate" [name]="'dueDate'"
                                   [showIcon]="true"
-                                  [(ngModel)]="task.dueDate"></p-datePicker>
+                                  [(ngModel)]="dueDate"></p-datePicker>
                 </div>
             </div>
         </div>
         <div class="flex flex-column gap-1 mb-4">
             <label for="summary" class="poppins-semibold">Summary</label>
-            <input pInputText id="summary" name="summary" class="w-full" autocomplete="off" required />
+            <input pInputText id="summary" name="summary" class="w-full" [(ngModel)]="task.name" autocomplete="off"
+                   required/>
         </div>
         <div class="flex flex-column gap-1 mb-4">
-            <label for="summary" class="poppins-semibold">Summary</label>
-            <p-editor [id]="'description'" [name]="'description'" [(ngModel)]="task.description"
+            <label for="description" class="poppins-semibold">Description</label>
+            <p-editor id="description" [id]="'description'" [name]="'description'" [(ngModel)]="task.description"
                       [style]="{ height: '150px' }"/>
         </div>
     </form>

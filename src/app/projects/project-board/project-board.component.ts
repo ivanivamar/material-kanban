@@ -5,6 +5,7 @@ import {TaskCardComponent} from './task-card/task-card.component';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {Panel} from 'primeng/panel';
 import {NavigationService} from '../../../services/navigation.service';
+import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 
 @Component({
     selector: 'app-project-board',
@@ -12,7 +13,8 @@ import {NavigationService} from '../../../services/navigation.service';
     imports: [
         DragDropModule,
         TaskCardComponent,
-        Panel
+        Panel,
+        TaskModalComponent
     ],
     templateUrl: './project-board.component.html',
     styleUrl: './project-board.component.css'
@@ -54,5 +56,9 @@ export class ProjectBoardComponent implements OnInit {
         }
 
         this.firebaseService.saveProject(this.project);
+    }
+
+    refreshProjects() {
+        this.navigationService.refreshProjects(true);
     }
 }

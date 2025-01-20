@@ -51,6 +51,7 @@ export class NavbarTaskModalComponent implements OnInit {
             value: Status.COMPLETED
         }
     ];
+    dueDate: Date = new Date();
 
     async ngOnInit() {
         const user: User = JSON.parse(localStorage.getItem('user') || '{}');
@@ -61,9 +62,11 @@ export class NavbarTaskModalComponent implements OnInit {
         this.selectedProject = project;
         this.showModal = true;
         if (task) {
-            console.log(task);
             this.task = task;
-            this.task.dueDate = '';
+            if (task.projectId !== project.id) {
+                this.selectedProject = this.projects.find(project => project.id === task.projectId) || new Project();
+            }
+            this.dueDate = new Date(task.dueDate);
         }
     }
 
@@ -73,15 +76,17 @@ export class NavbarTaskModalComponent implements OnInit {
             projectId: this.selectedProject?.id || '',
             name: this.task.name,
             description: this.task.description,
-            dueDate: this.task.dueDate.toString(),
+            dueDate: this.dueDate.toString(),
             status: this.task.status,
             subtasks: this.task.subtasks,
             createdAt: new Date().toString(),
             updatedAt: new Date().toString()
         };
+        console.log(taskInput);
 
         // check if the project has this task
-        if (this.selectedProject.tasks.find(task => task.id === taskInput.id)) {
+        const tempTask = this.selectedProject.tasks.find(task => task.id === taskInput.id);
+        if (tempTask !== undefined) {
             this.selectedProject.tasks = this.selectedProject.tasks.map(task => {
                 if (task.id === taskInput.id) {
                     return taskInput;

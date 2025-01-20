@@ -9,7 +9,7 @@
         <p-panel header="Not Started" class="task-list" [id]="Status.NOT_STARTED" cdkDropList [cdkDropListData]="notStartedTasks"
                  (cdkDropListDropped)="drop($event)">
             @for (task of notStartedTasks; track task.id) {
-                <app-task-card [task]="task" cdkDrag></app-task-card>
+                <app-task-card [task]="task" cdkDrag (click)="taskModalComponent.show(task)"></app-task-card>
             }
         </p-panel>
     </div>
@@ -17,7 +17,7 @@
         <p-panel header="In Progress" [id]="Status.IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks"
              (cdkDropListDropped)="drop($event)">
             @for (task of inProgressTasks; track task.id) {
-                <app-task-card [task]="task" cdkDrag></app-task-card>
+                <app-task-card [task]="task" cdkDrag (click)="taskModalComponent.show(task)"></app-task-card>
             }
         </p-panel>
     </div>
@@ -25,8 +25,10 @@
         <p-panel header="Completed" class="task-list" [id]="Status.COMPLETED" cdkDropList [cdkDropListData]="completedTasks"
              (cdkDropListDropped)="drop($event)">
             @for (task of completedTasks; track task.id) {
-                <app-task-card [task]="task" cdkDrag></app-task-card>
+                <app-task-card [task]="task" cdkDrag (click)="taskModalComponent.show(task)"></app-task-card>
             }
         </p-panel>
     </div>
 </div>
+
+<app-task-modal #taskModalComponent (onTaskCreated)="refreshProjects()"></app-task-modal>

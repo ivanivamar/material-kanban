@@ -1,61 +1,79 @@
 import {ChangeDetectorRef, Component, EventEmitter, inject, Output} from '@angular/core';
 import {ModalBaseComponent} from '../ModalBaseComponent';
-import {Status, Task} from '../../../modules/project';
+import {Project, Status, Task} from '../../../modules/project';
 import {RippleDirective} from '../ripple.directive';
 import {FormsModule} from '@angular/forms';
 import {FirebaseServiceService} from '../../../services/firebase-service.service';
 import {DatePipe, JsonPipe} from '@angular/common';
 import {DropdownComponent, DropdownItem} from '../dropdown/dropdown.component';
+import {DatePicker} from 'primeng/datepicker';
+import {Dialog} from 'primeng/dialog';
+import {Editor} from 'primeng/editor';
+import {InputText} from 'primeng/inputtext';
+import {Select} from 'primeng/select';
+import {Inplace} from 'primeng/inplace';
+import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
 
 @Component({
     selector: 'app-task-modal',
     imports: [
         RippleDirective,
         FormsModule,
-        DropdownComponent
+        DropdownComponent,
+        DatePicker,
+        Dialog,
+        Editor,
+        InputText,
+        Select,
+        Inplace,
+        Accordion,
+        AccordionPanel,
+        AccordionHeader,
+        AccordionContent
     ],
     templateUrl: './task-modal.component.html',
     styleUrl: './task-modal.component.css'
 })
-export class TaskModalComponent extends ModalBaseComponent {
-    @Output() onSave: EventEmitter<Task> = new EventEmitter();
-
+export class TaskModalComponent {
     private firebaseService = inject(FirebaseServiceService);
-    private changeDetectorRef = inject(ChangeDetectorRef);
-    task: Task = new Task();
-    statusOptions: DropdownItem[] = [
-        { label: 'Not started', value: Status.NOT_STARTED, icon: 'pause' },
-        { label: 'In progress', value: Status.IN_PROGRESS, icon: 'play_arrow' },
-        { label: 'Completed', value: Status.COMPLETED, icon: 'verified' },
-    ];
 
-    public show(task?: Task) {
-        if (task) {
-            this.task = JSON.parse(JSON.stringify(task));
-            this.edit = true;
-        } else {
-            this.task.createdAt = new Date().toString();
-            this.task.updatedAt = new Date().toString();
-            this.task.dueDate = new Date().toString();
-            this.task.id = this.firebaseService.generateId();
+    @Output() onTaskCreated = new EventEmitter<Task>();
+    @Output() deleteTask = new EventEmitter<Task>();
+
+    showModal = false;
+    projects: Project[] = [];
+    selectedProject: Project = new Project();
+    task: Task = new Task();
+    statusArray = [
+        {
+            label: 'Not Started',
+            value: Status.NOT_STARTED
+        },
+        {
+            label: 'In Progress',
+            value: Status.IN_PROGRESS
+        },
+        {
+            label: 'Completed',
+            value: Status.COMPLETED
         }
+    ];
+    dueDate: Date = new Date();
+
+    public show(task: Task) {
+        this.task = JSON.parse(JSON.stringify(task));
+        this.dueDate = new Date(this.task.dueDate);
         this.showModal = true;
-        // detect changes
-        this.changeDetectorRef.detectChanges();
     }
 
     save() {
-        if (this.edit) {
-            this.task.updatedAt = new Date().toString();
-        }
-
-        this.onSave.emit(this.task);
+        this.task.updatedAt = new Date().toString();
+        this.onTaskCreated.emit(this.task);
         this.close();
     }
 
     close(): void {
         this.showModal = false;
         this.task = new Task();
-        this.edit = false;
     }
 }
