@@ -1,0 +1,286 @@
+.mask
+    position: relative
+    z-index: 1
+    background-color: transparent
+
+    &::before
+        content: ""
+        position: absolute
+        inset: 0
+        z-index: -1
+        -webkit-mask-size: contain
+        mask-size: contain
+        -webkit-mask-repeat: no-repeat
+        mask-repeat: no-repeat
+        -webkit-mask-position: center
+        mask-position: center
+        background-color: inherit
+
+    &.mask-circle
+        &::before
+            -webkit-mask-image: url('../assets/shapes/circle.svg')
+            mask-image: url('../assets/shapes/circle.svg')
+
+    &.mask-square
+        &::before
+            -webkit-mask-image: url('../assets/shapes/square.svg')
+            mask-image: url('../assets/shapes/square.svg')
+
+    &.mask-slanted
+        &::before
+            -webkit-mask-image: url('../assets/shapes/slanted.svg')
+            mask-image: url('../assets/shapes/slanted.svg')
+
+    &.mask-arch
+        &::before
+            -webkit-mask-image: url('../assets/shapes/flower.svg')
+            mask-image: url('../assets/shapes/flower.svg')
+
+    &.mask-semicircle
+        &::before
+            -webkit-mask-image: url('../assets/shapes/semicircle.svg')
+            mask-image: url('../assets/shapes/semicircle.svg')
+
+    &.mask-oval
+        &::before
+            -webkit-mask-image: url('../assets/shapes/oval.svg')
+            mask-image: url('../assets/shapes/oval.svg')
+
+
+    &.mask-pill
+        &::before
+            -webkit-mask-image: url('../assets/shapes/pill.svg')
+            mask-image: url('../assets/shapes/pill.svg')
+
+    &.mask-triangle
+        &::before
+            -webkit-mask-image: url('../assets/shapes/triangle.svg')
+            mask-image: url('../assets/shapes/triangle.svg')
+
+    &.mask-arrow
+        &::before
+            -webkit-mask-image: url('../assets/shapes/arrow.svg')
+            mask-image: url('../assets/shapes/arrow.svg')
+
+    &.mask-fan
+        &::before
+            -webkit-mask-image: url('../assets/shapes/fan.svg')
+            mask-image: url('../assets/shapes/fan.svg')
+
+    &.mask-diamond
+        &::before
+            -webkit-mask-image: url('../assets/shapes/diamond.svg')
+            mask-image: url('../assets/shapes/diamond.svg')
+
+    &.mask-clamshell
+        &::before
+            -webkit-mask-image: url('../assets/shapes/clamshell.svg')
+            mask-image: url('../assets/shapes/clamshell.svg')
+
+    &.mask-pentagon
+        &::before
+            -webkit-mask-image: url('../assets/shapes/pentagon.svg')
+            mask-image: url('../assets/shapes/pentagon.svg')
+
+    &.mask-gem
+        &::before
+            -webkit-mask-image: url('../assets/shapes/gem.svg')
+            mask-image: url('../assets/shapes/gem.svg')
+
+    &.mask-very-sunny
+        &::before
+            -webkit-mask-image: url('../assets/shapes/very-sunny.svg')
+            mask-image: url('../assets/shapes/very-sunny.svg')
+
+    &.mask-sunny
+        &::before
+            -webkit-mask-image: url('../assets/shapes/sunny.svg')
+            mask-image: url('../assets/shapes/sunny.svg')
+
+    &.mask-4-sided-cookie
+        &::before
+            -webkit-mask-image: url('../assets/shapes/4-sided-cookie.svg')
+            mask-image: url('../assets/shapes/4-sided-cookie.svg')
+
+    &.mask-6-sided-cookie
+        &::before
+            -webkit-mask-image: url('../assets/shapes/6-sided-cookie.svg')
+            mask-image: url('../assets/shapes/6-sided-cookie.svg')
+
+    &.mask-7-sided-cookie
+        &::before
+            -webkit-mask-image: url('../assets/shapes/7-sided-cookie.svg')
+            mask-image: url('../assets/shapes/7-sided-cookie.svg')
+
+    &.mask-9-sided-cookie
+        &::before
+            -webkit-mask-image: url('../assets/shapes/9-sided-cookie.svg')
+            mask-image: url('../assets/shapes/9-sided-cookie.svg')
+
+    &.mask-12-sided-cookie
+        &::before
+            -webkit-mask-image: url('../assets/shapes/12-sided-cookie.svg')
+            mask-image: url('../assets/shapes/12-sided-cookie.svg')
+
+    &.mask-4-leaf-clover
+        &::before
+            -webkit-mask-image: url('../assets/shapes/4-leaf-clover.svg')
+            mask-image: url('../assets/shapes/4-leaf-clover.svg')
+
+    &.mask-8-leaf-clover
+        &::before
+            -webkit-mask-image: url('../assets/shapes/8-leaf-clover.svg')
+            mask-image: url('../assets/shapes/8-leaf-clover.svg')
+
+    &.mask-burst
+        &::before
+            -webkit-mask-image: url('../assets/shapes/burst.svg')
+            mask-image: url('../assets/shapes/burst.svg')
+
+    &.mask-soft-burst
+        &::before
+            -webkit-mask-image: url('../assets/shapes/soft-burst.svg')
+            mask-image: url('../assets/shapes/soft-burst.svg')
+
+    &.mask-boom
+        &::before
+            -webkit-mask-image: url('../assets/shapes/boom.svg')
+            mask-image: url('../assets/shapes/boom.svg')
+
+    &.mask-soft-boom
+        &::before
+            -webkit-mask-image: url('../assets/shapes/soft-boom.svg')
+            mask-image: url('../assets/shapes/soft-boom.svg')
+
+    &.mask-flower
+        &::before
+            -webkit-mask-image: url('../assets/shapes/flower.svg')
+            mask-image: url('../assets/shapes/flower.svg')
+
+    &.mask-puffy
+        &::before
+            -webkit-mask-image: url('../assets/shapes/puffy.svg')
+            mask-image: url('../assets/shapes/puffy.svg')
+
+    &.mask-puffy-diamond
+        &::before
+            -webkit-mask-image: url('../assets/shapes/puffy-diamond.svg')
+            mask-image: url('../assets/shapes/puffy-diamond.svg')
+
+    &.mask-ghost
+        &::before
+            -webkit-mask-image: url('../assets/shapes/ghost.svg')
+            mask-image: url('../assets/shapes/ghost.svg')
+
+    &.mask-pixel-circle
+        &::before
+            -webkit-mask-image: url('../assets/shapes/pixel-circle.svg')
+            mask-image: url('../assets/shapes/pixel-circle.svg')
+
+    &.mask-pixel-triangle
+        &::before
+            -webkit-mask-image: url('../assets/shapes/pixel-triangle.svg')
+            mask-image: url('../assets/shapes/pixel-triangle.svg')
+
+    &.mask-bun
+        &::before
+            -webkit-mask-image: url('../assets/shapes/bun.svg')
+            mask-image: url('../assets/shapes/bun.svg')
+
+    &.mask-heart
+        &::before
+            -webkit-mask-image: url('../assets/shapes/heart.svg')
+            mask-image: url('../assets/shapes/heart.svg')
+
+    // Colors
+    &.mask-red
+        &::before
+            background-color: #ff4d4d
+
+    &.mask-blue
+        &::before
+            background-color: #4d79ff
+
+    // Animations
+    &.mask-spin::before
+        animation: slow-spin 20s linear infinite
+
+    &.mask-bounce::before
+        animation: bounce-in-out 0.4s ease-in-out
+
+.mask-loader
+    color: white
+    display: flex
+    align-items: center
+    justify-content: center
+    overflow: hidden
+    z-index: 9999999999
+    position: absolute
+    top: calc(50% - 75px)
+    left: calc(50% - 75px)
+    height: 150px
+    width: 150px
+    border-radius: 50%
+    background-color: #C7B3FC
+    animation: loading-shape-rotate 1.5s linear infinite
+
+    &::before
+        height: 90px
+        width: 90px
+        content: ""
+        inset: 0
+        z-index: -1
+        -webkit-mask-size: contain
+        mask-size: contain
+        -webkit-mask-repeat: no-repeat
+        mask-repeat: no-repeat
+        -webkit-mask-position: center
+        mask-position: center
+        background-color: #4E3B7A
+        animation: loading-animation 4s infinite steps(4)
+
+@keyframes slow-spin
+    from
+        transform: rotate(0deg)
+    to
+        transform: rotate(360deg)
+
+@keyframes bounce-in-out
+    0%, 100%
+        transform: scale(1) translateY(0)
+    50%
+        transform: scale(1.1) translateY(0)
+
+@keyframes loading-animation
+    0%,
+    24%
+        -webkit-mask-image: url('../assets/shapes/pill.svg')
+        mask-image: url('../assets/shapes/pill.svg')
+
+    25%,
+    49%
+        -webkit-mask-image: url('../assets/shapes/6-sided-cookie.svg')
+        mask-image: url('../assets/shapes/6-sided-cookie.svg')
+    50%,
+    74%
+        -webkit-mask-image: url('../assets/shapes/oval.svg')
+        mask-image: url('../assets/shapes/oval.svg')
+    75%,
+    100%
+        -webkit-mask-image: url('../assets/shapes/12-sided-cookie.svg')
+        mask-image: url('../assets/shapes/12-sided-cookie.svg')
+
+@keyframes loading-shape-rotate
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
+
+
+@keyframes spin
+    from
+        transform: rotate(0deg)
+
+    to
+        transform: rotate(360deg)
+
